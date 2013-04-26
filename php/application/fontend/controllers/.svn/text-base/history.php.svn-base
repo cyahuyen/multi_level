@@ -1,0 +1,279 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class History extends CI_Controller {
+
+    var $user_id;
+    var $name;
+    var $active;
+    var $user;
+    var $data;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('ion_auth');
+        $this->load->library('session');
+        $this->load->library('form_validation');
+        $this->load->database();
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $this->lang->load('history');
+        $this->load->library('pagination');
+        $this->load->library('document');
+        $this->load->model('transaction_model', '', TRUE);
+        $this->load->model('user_model', '', TRUE);
+
+        if ((!$this->session->userdata('user_logged')) || (!$this->ion_auth->logged_in())) {
+            redirect('login/index/', 'refresh');
+        }
+        $this->user_id = 0 + $this->session->userdata('user_logged');
+
+        $this->user = $this->user_model->getUser($this->user_id);
+
+        $this->data['acc_number'] = $this->user->account_number;
+        $this->data['acc_name'] = $this->user->username;
+        $this->data['first_name'] = $this->user->first_name;
+        $this->data['last_name'] = $this->user->last_name;
+    }
+
+    public function index() {
+
+        $this->data['transaction_title'] = $this->lang->line('transaction_title');
+        $this->data['text_note'] = $this->lang->line('text_note');
+        $this->data['text_date_range'] = $this->lang->line('text_date_range');
+        $this->data['text_show_add'] = $this->lang->line('text_show_add');
+        $this->data['text_enter_format'] = $this->lang->line('text_enter_format');
+        $this->data['text_currency'] = $this->lang->line('text_currency');
+        $this->data['text_source'] = $this->lang->line('text_source');
+        $this->data['text_direction'] = $this->lang->line('text_direction');
+        $this->data['text_account'] = $this->lang->line('text_account');
+        $this->data['text_amount'] = $this->lang->line('text_amount');
+        $this->data['text_memo'] = $this->lang->line('text_memo');
+        $this->data['text_merchant'] = $this->lang->line('text_merchant');
+        $this->data['text_if_note'] = $this->lang->line('text_if_note');
+        $this->data['text_bath'] = $this->lang->line('text_bath');
+        $this->data['button_search_transa'] = $this->lang->line('button_search_transa');
+
+        $this->data['text_title'] = $this->lang->line('text_title');
+        $this->data['text_notice1'] = $this->lang->line('text_notice1');
+        $this->data['text_date'] = $this->lang->line('text_date');
+        $this->data['text_source'] = $this->lang->line('text_source');
+        $this->data['text_destination'] = $this->lang->line('text_destination');
+        $this->data['text_batch'] = $this->lang->line('text_batch');
+        $this->data['text_currency'] = $this->lang->line('text_currency');
+        $this->data['text_amount'] = $this->lang->line('text_amount');
+        $this->data['text_please'] = $this->lang->line('text_please');
+        $this->data['text_enter_code'] = $this->lang->line('text_enter_code');
+        $this->data['text_notice2'] = $this->lang->line('text_notice2');
+        $this->data['button_search'] = $this->lang->line('button_search');
+        $this->data['colum_date'] = $this->lang->line('colum_date');
+        $this->data['colum_bath'] = $this->lang->line('colum_bath');
+        $this->data['colum_from'] = $this->lang->line('colum_from');
+        $this->data['colum_to'] = $this->lang->line('colum_to');
+        $this->data['colum_amount'] = $this->lang->line('colum_amount');
+        $this->data['colum_fee'] = $this->lang->line('colum_fee');
+        $this->data['colum_currency'] = $this->lang->line('colum_currency');
+        $this->data['text_view'] = $this->lang->line('text_view');
+        $this->data['colum_action'] = $this->lang->line('colum_action');
+        $this->data['button_new_search'] = $this->lang->line('button_new_search');
+        $this->data['text_no_transfer'] = $this->lang->line('text_no_transfer');
+
+        $this->form_validation->set_rules('filter_from_date', 'lang:error_from_date', 'required|trim|xss_clean');
+        $this->form_validation->set_rules('filter_to_date', 'lang:error_to_date', 'required|trim|xss_clean');
+
+        $this->load->model('currencies_model', '', TRUE);
+
+        $currencies = $this->currencies_model->getCurrencies(1);
+
+        $this->data['currencies'] = array();
+        foreach ($currencies as $currencie) {
+
+            $this->data['currencies'][] = array(
+                'code' => $currencie->code,
+                'title' => $currencie->title,
+            );
+        }
+
+        $post = $this->input->post();
+
+        $p = $this->uri->segment(4);
+        if (isset($p)) {
+            $page = $p;
+        } else {
+            $page = 1;
+        }
+
+        if (isset($post['filter_from_date'])) {
+            $filter_from_date = $post['filter_from_date'];
+        } else {
+            $filter_from_date = '';
+        }
+        if (isset($post['filter_to_date'])) {
+            $filter_to_date = $post['filter_to_date'];
+        } else {
+            $filter_to_date = '';
+        }
+
+        if (isset($post['transaction_currency'])) {
+            $transaction_currency = $post['transaction_currency'];
+        } else {
+            $transaction_currency = '';
+        }
+        if (isset($post['to_account'])) {
+            $to_account = $post['to_account'];
+        } else {
+            $to_account = '';
+        }
+        if (isset($post['batch_number'])) {
+            $batch_number = $post['batch_number'];
+        } else {
+            $batch_number = '';
+        }
+        if (isset($post['amount'])) {
+            $amount = $post['amount'];
+        } else {
+            $amount = '';
+        }
+
+
+        if (($this->form_validation->run() == TRUE) && ($this->input->post('filter_from_date') || $this->input->post('filter_to_date') || $this->input->post('batch_number') || $this->input->post('to_account'))) {
+            $data = array(
+                'filter_from_date' => $filter_from_date,
+                'filter_to_date' => $filter_to_date,
+                'to_account' => $to_account,
+                'batch_number' => $batch_number,
+                'amount' => $amount,
+                'start' => ($page - 1) * 5,
+                'limit' => 5
+            );
+            $total_transfer = $this->transaction_model->totalTransfer($this->user_id, $data);
+
+            $transfers = $this->transaction_model->getTransfers($this->user_id, $data);
+
+            $this->data['transfers'] = array();
+            foreach ($transfers as $transfer) {
+                if ($transfer->transaction_id) {
+                    $view = site_url('history/view/' . $transfer->transaction_id);
+                }
+                $this->data['transfers'][] = array(
+                    'transaction_id' => $transfer->transaction_id,
+                    'batch_number' => $transfer->batch_number,
+                    'amount' => $transfer->amount,
+                    'transaction_time' => date(frontend_date_format . ' ' . frontend_time_format, strtotime($transfer->transaction_time)),
+                    'transaction_memo' => $transfer->transaction_memo,
+                    'from_account' => $transfer->from_account,
+                    'to_account' => $transfer->to_account,
+                    'transaction_currency' => $transfer->transaction_currency,
+                    'amount_text' => $transfer->amount_text,
+                    'fee' => $transfer->fee,
+                    'view' => $view,
+                );
+            }
+            $pagination = $this->pagination;
+            $pagination->total = $total_transfer;
+            $pagination->page = $page;
+            $pagination->limit = 5;
+            $pagination->url = site_url('history/index/' . '{page}');
+
+            $this->data['pagination'] = $pagination->render();
+
+
+            $this->data['main_content'] = 'history/list.php';
+
+            $this->load->view('frontend_user', $this->data);
+        } else {
+
+            $this->data['main_content'] = 'history/index.php';
+
+            $this->load->view('frontend_user', $this->data);
+        }
+    }
+
+    public function view() {
+
+        $this->data['colum_date'] = $this->lang->line('colum_date');
+        $this->data['colum_bath'] = $this->lang->line('colum_bath');
+        $this->data['colum_from'] = $this->lang->line('colum_from');
+        $this->data['colum_to'] = $this->lang->line('colum_to');
+        $this->data['text_batch_number'] = $this->lang->line('text_batch_number');
+        $this->data['text_status'] = $this->lang->line('text_status');
+        $this->data['text_memo'] = $this->lang->line('text_memo');
+        $this->data['button_close'] = $this->lang->line('button_close');
+
+        if ($this->uri->segment(4)) {
+            $transfer_info = $this->transaction_model->getTransfer($this->uri->segment(4));
+            $this->data['transaction_id'] = $transfer_info->transaction_id;
+            $this->data['batch_number'] = $transfer_info->batch_number;
+            $this->data['transaction_time'] = date(frontend_date_format . ' ' . frontend_time_format, strtotime($transfer_info->transaction_time));
+            $this->data['from_account'] = $transfer_info->from_account;
+            $this->data['to_account'] = $transfer_info->to_account;
+            $this->data['transaction_status'] = $transfer_info->transaction_status;
+            $this->data['transaction_memo'] = $transfer_info->transaction_memo;
+            $this->load->view('history/view', $this->data);
+        }
+    }
+
+    function valid_date($str) {
+        //match the format of the date
+        if (preg_match("/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/", $str, $parts)) {
+            //check weather the date is valid of not
+            if (checkdate($parts[2], $parts[3], $parts[1]))
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+    public function check_account($an) {
+        if (!$this->user_model->check_acc_num($an)) {
+            $this->form_validation->set_message('check_account', "The user profile not found. Please try again.");
+            return FALSE;
+        } else
+        if ($an === $this->user->account_number) {
+            $this->form_validation->set_message('check_account', "You can't transfer money to yourself.");
+            return FALSE;
+        }
+        else
+            return TRUE;
+    }
+
+    function check_key($k) {
+        $this->load->model('user_model', '', TRUE);
+
+        if (!$this->user_model->check_key($this->user_id, $k)) {
+            $this->form_validation->set_message('check_key', "The Master Key is not valid. Please try again.");
+
+            return FALSE;
+        } else {
+            //$this->session->set_flashdata('message',"Your account number has been successfully sent to $em");
+            return TRUE;
+        }
+    }
+
+    function _get_csrf_nonce() {
+        $this->load->helper('string');
+        $key = random_string('alnum', 8);
+        $value = random_string('alnum', 20);
+        $this->session->set_flashdata('csrfkey', $key);
+        $this->session->set_flashdata('csrfvalue', $value);
+
+        return array($key => $value);
+    }
+
+    function _valid_csrf_nonce() {
+        $c = $this->session->flashdata('csrfkey');
+        if (($c !== FALSE) && ($this->input->post($c) == $c)) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+}
+
+/* End of file login.php */
+/* Location: ./application/controllers/login.php */

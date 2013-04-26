@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config
+END
+pagination.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/pagination.php
+END
+migration.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/migration.php
+END
+doctypes.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/doctypes.php
+END
+recaptcha.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/recaptcha.php
+END
+database.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/database.php
+END
+config.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/config.php
+END
+ion_auth.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/ion_auth.php
+END
+autoload.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/autoload.php
+END
+foreign_chars.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/foreign_chars.php
+END
+mimes.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/mimes.php
+END
+constants.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/constants.php
+END
+form_validation.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/form_validation.php
+END
+user_agents.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/user_agents.php
+END
+routes.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/routes.php
+END
+profiler.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/profiler.php
+END
+language.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/language.php
+END
+hooks.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/hooks.php
+END
+index.html
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/index.html
+END
+smileys.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/config/smileys.php
+END

@@ -1,0 +1,438 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Settings extends CI_Controller {
+
+    var $id;
+    var $data;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('form_validation');
+        $this->load->database();
+        $this->load->library('ion_auth');
+        $this->load->helper('form');
+        $this->load->library('session');
+        $this->load->library('document');
+        $this->load->helper('url');
+        $this->lang->load('settings');
+        $this->load->library('encryption');
+        $this->load->library('recaptcha');
+        $this->lang->load('recaptcha');
+        $this->load->model('logs_model', '', TRUE);
+        $this->load->model('user_model', '', TRUE);
+        $this->load->model('balance_model', '', TRUE);
+        if ((!$this->session->userdata('user_logged')) || (!$this->ion_auth->logged_in())) {
+            redirect('login/index/', 'refresh');
+        }
+        $this->user_id = 0 + $this->session->userdata('user_logged');
+
+        $this->user = $this->user_model->getUser($this->user_id);
+
+        $this->data['acc_number'] = $this->user->account_number;
+        $this->data['acc_name'] = $this->user->username;
+        $this->data['first_name'] = $this->user->first_name;
+        $this->data['last_name'] = $this->user->last_name;
+
+        $this->data['tab_summary'] = $this->lang->line('tab_summary');
+        $this->data['tab_personal'] = $this->lang->line('tab_personal');
+        $this->data['tab_quick'] = $this->lang->line('tab_quick');
+        $this->data['tab_setting'] = $this->lang->line('tab_setting');
+    }
+
+    public function changeloginpin() {
+        $this->document->setTitle($this->lang->line('changepin_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['changepin_title'] = $this->lang->line('changepin_title');
+        $this->data['text_notice'] = $this->lang->line('text_notice');
+        $this->data['text_new_pin'] = $this->lang->line('text_new_pin');
+        $this->data['text_pin_confirm'] = $this->lang->line('text_pin_confirm');
+        $this->data['text_master'] = $this->lang->line('text_master');
+        $this->data['text_3digit'] = $this->lang->line('text_3digit');
+        $this->data['button_submit'] = $this->lang->line('button_submit');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+
+        $this->form_validation->set_rules('login_pin', 'Login Pin', 'required|trim|xss_clean|numeric|min_length[5]|max_length[5]');
+        $this->form_validation->set_rules('login_pin2', 'Second Login Pin', 'required|numeric|trim|matches[login_pin]');
+        $this->form_validation->set_rules('master_key', 'Master key', 'required|trim|xss_clean|numeric|exact_length[3]|callback_check_key');
+
+        $post = $this->input->post();
+        if (isset($post['login_pin'])) {
+            $login_pin = $post['login_pin'];
+        } else {
+            $login_pin = '';
+        }
+        if ($this->form_validation->run() == TRUE) {
+            $data = array(
+                'login_pin' => $login_pin,
+            );
+            $this->user_model->update($this->user_id, $data);
+            $logs = array(
+                'account_number' => $this->session->userdata('account_number'),
+                'date_creater' => gmdate('Y-m-d H:i:s', $this->session->userdata('last_activity')),
+                'description' => 'Changed Login Pin',
+                'ip_address' => $this->session->userdata('ip_address'),
+            );
+
+            $this->logs_model->save($logs);
+            $this->data['message'] = $this->lang->line('notice_change');
+            $this->data['main_content'] = 'settings/changepin.php';
+            $this->load->view('frontend_user', $this->data);
+        } else {
+            $this->data['main_content'] = 'settings/changepin.php';
+            $this->load->view('frontend_user', $this->data);
+        }
+    }
+
+    public function changepassword() {
+        $this->document->setTitle($this->lang->line('changepass_title'));
+        $this->data['title'] = $this->document->getTitle();
+        $this->data['changepass_title'] = $this->lang->line('changepass_title');
+        $this->data['text_notice'] = $this->lang->line('text_notice');
+        $this->data['text_new_password'] = $this->lang->line('text_new_password');
+        $this->data['text_password_confirm'] = $this->lang->line('text_password_confirm');
+        $this->data['text_master'] = $this->lang->line('text_master');
+        $this->data['text_3digit'] = $this->lang->line('text_3digit');
+        $this->data['button_submit'] = $this->lang->line('button_submit');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+
+        $this->form_validation->set_rules('password', 'Password', 'required|trim|xss_clean|min_length[6]');
+        $this->form_validation->set_rules('password2', 'Second Password', 'required|trim|matches[password]');
+        $this->form_validation->set_rules('master_key', 'Master key', 'required|trim|xss_clean|numeric|exact_length[3]|callback_check_key');
+
+        $post = $this->input->post();
+        if (isset($post['password'])) {
+            $password = $post['password'];
+        } else {
+            $password = '';
+        }
+        if ($this->form_validation->run() == TRUE) {
+            $data = array(
+                'password' => $this->encryption->encrypt_password($password),
+            );
+            $this->user_model->update($this->user_id, $data);
+            $logs = array(
+                'account_number' => $this->session->userdata('account_number'),
+                'date_creater' => gmdate('Y-m-d H:i:s', $this->session->userdata('last_activity')),
+                'description' => 'Changed Login Password',
+                'ip_address' => $this->session->userdata('ip_address'),
+            );
+
+            $this->logs_model->save($logs);
+            $this->data['message'] = $this->lang->line('notice_change');
+            $this->data['main_content'] = 'settings/changepass.php';
+            $this->load->view('frontend_user', $this->data);
+        } else {
+            $this->data['main_content'] = 'settings/changepass.php';
+            $this->load->view('frontend_user', $this->data);
+        }
+    }
+
+    public function changemasterkey() {
+        $this->document->setTitle($this->lang->line('changemaster_title'));
+        $this->data['title'] = $this->document->getTitle();
+        $this->data['changemaster_title'] = $this->lang->line('changemaster_title');
+        $this->data['text_notice'] = $this->lang->line('text_notice');
+        $this->data['text_new_master'] = $this->lang->line('text_new_master');
+        $this->data['text_master_confirm'] = $this->lang->line('text_master_confirm');
+        $this->data['text_master'] = $this->lang->line('text_master');
+        $this->data['text_3digit'] = $this->lang->line('text_3digit');
+        $this->data['button_submit'] = $this->lang->line('button_submit');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+
+        $this->form_validation->set_rules('master_key', 'Master key', 'required|trim|numeric|xss_clean|exact_length[3]');
+        $this->form_validation->set_rules('master_key2', 'Second Master key', 'required|numeric|trim|matches[master_key]');
+        $this->form_validation->set_rules('master_key_very', 'Master key', 'required|trim|xss_clean|numeric|exact_length[3]|callback_check_key');
+
+        $post = $this->input->post();
+        if (isset($post['master_key'])) {
+            $master_key = $post['master_key'];
+        } else {
+            $master_key = '';
+        }
+        if ($this->form_validation->run() == TRUE) {
+            $data = array(
+                'master_key' => $master_key,
+            );
+            $this->user_model->update($this->user_id, $data);
+            $logs = array(
+                'account_number' => $this->session->userdata('account_number'),
+                'date_creater' => gmdate('Y-m-d H:i:s', $this->session->userdata('last_activity')),
+                'description' => 'Changed Login Master Key',
+                'ip_address' => $this->session->userdata('ip_address'),
+            );
+
+            $this->logs_model->save($logs);
+            $this->data['message'] = $this->lang->line('notice_change');
+            $this->data['main_content'] = 'settings/changemaster.php';
+            $this->load->view('frontend_user', $this->data);
+        } else {
+            $this->data['main_content'] = 'settings/changemaster.php';
+            $this->load->view('frontend_user', $this->data);
+        }
+    }
+
+    public function changewelcome() {
+        $this->document->setTitle($this->lang->line('change_welcome'));
+        $this->data['title'] = $this->document->getTitle();
+        $this->data['change_welcome'] = $this->lang->line('change_welcome');
+        $this->data['text_notice'] = $this->lang->line('text_notice');
+        $this->data['text_welcome_mess'] = $this->lang->line('text_welcome_mess');
+        $this->data['text_master'] = $this->lang->line('text_master');
+        $this->data['text_3digit'] = $this->lang->line('text_3digit');
+        $this->data['button_submit'] = $this->lang->line('button_submit');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+
+        $this->form_validation->set_rules('welcome_message', 'Master key', 'required|trim|alpha_dash_space|xss_clean|min_length[10]');
+        $this->form_validation->set_rules('master_key', 'Master key', 'required|trim|xss_clean|numeric|exact_length[3]|callback_check_key');
+
+        $post = $this->input->post();
+        if (isset($post['welcome_message'])) {
+            $this->data['welcome_message'] = $post['welcome_message'];
+        } elseif (!empty($this->user->welcome_message)) {
+            $this->data['welcome_message'] = $this->user->welcome_message;
+        } else {
+            $this->data['welcome_message'] = '';
+        }
+        if ($this->form_validation->run() == TRUE) {
+            $data = array(
+                'welcome_message' => $this->data['welcome_message'],
+            );
+            $this->user_model->update($this->user_id, $data);
+            $logs = array(
+                'account_number' => $this->session->userdata('account_number'),
+                'date_creater' => gmdate('Y-m-d H:i:s', $this->session->userdata('last_activity')),
+                'description' => 'Changed Login Welcome Messeges',
+                'ip_address' => $this->session->userdata('ip_address'),
+            );
+
+            $this->logs_model->save($logs);
+            $this->data['message'] = $this->lang->line('notice_change');
+            $this->data['main_content'] = 'settings/changewelcome.php';
+            $this->load->view('frontend_user', $this->data);
+        } else {
+            $this->data['main_content'] = 'settings/changewelcome.php';
+            $this->load->view('frontend_user', $this->data);
+        }
+    }
+
+    public function publicinfo() {
+
+        $this->document->setTitle($this->lang->line('text_info_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+        $this->data['text_info_title'] = $this->lang->line('text_info_title');
+
+        $this->data['button_submit'] = $this->lang->line('button_submit');
+
+        $this->data['text_acc_name'] = $this->lang->line('text_acc_name');
+        $this->data['text_type'] = $this->lang->line('text_type');
+        $this->data['text_sign_date'] = $this->lang->line('text_sign_date');
+        $this->data['text_first'] = $this->lang->line('text_first');
+        $this->data['text_last'] = $this->lang->line('text_last');
+        $this->data['text_company'] = $this->lang->line('text_company');
+        $this->data['text_phone'] = $this->lang->line('text_phone');
+        $this->data['text_mobile'] = $this->lang->line('text_mobile');
+        $this->data['text_address'] = $this->lang->line('text_address');
+        $this->data['text_city'] = $this->lang->line('text_city');
+        $this->data['text_state'] = $this->lang->line('text_state');
+        $this->data['text_country'] = $this->lang->line('text_country');
+        $this->data['text_zip_code'] = $this->lang->line('text_zip_code');
+        $this->data['text_email'] = $this->lang->line('text_email');
+        $this->data['text_infor'] = $this->lang->line('text_infor');
+        $this->data['text_hidden'] = $this->lang->line('text_hidden');
+        $this->data['text_account_info'] = $this->lang->line('text_account_info');
+        $this->data['text_presonal'] = $this->lang->line('text_presonal');
+        $this->data['text_contact'] = $this->lang->line('text_contact');
+        $this->data['text_electronic'] = $this->lang->line('text_electronic');
+
+        $balaces = $this->balance_model->getBalaceByUser($this->user_id);
+
+        $this->data['blances'] = array();
+        foreach ($balaces as $balace) {
+            $this->data['blances'][] = array(
+                'currency_code' => $balace->currency_code,
+                'balance' => $balace->balance,
+                'published' => $balace->published,
+                'text_blance' => sprintf($this->lang->line('text_balance'), $balace->currency_code),
+            );
+        }
+        $user_info = $this->user_model->getAccountNumber($this->data['acc_number']);
+        $this->data['id'] = $user_info->id;
+        $this->data['account_number'] = $user_info->account_number;
+        $this->data['username'] = $user_info->username;
+        $this->data['account_type'] = $user_info->account_type;
+        $this->data['created_on'] = gmdate('Y-m-d H:i:s', $user_info->created_on);
+        $this->data['first_name'] = $user_info->first_name;
+        $this->data['last_name'] = $user_info->last_name;
+        $this->data['email'] = $user_info->email;
+        $this->data['company'] = $user_info->company;
+        $this->data['phone'] = $user_info->phone;
+        $this->data['mobile'] = $user_info->mobile;
+        $this->data['address'] = $user_info->address;
+        $this->data['city'] = $user_info->city;
+        $this->data['state'] = $user_info->state;
+        $this->data['country'] = $user_info->country;
+        $this->data['postcode'] = $user_info->postcode;
+        $this->data['additional_infor'] = $user_info->additional_infor;
+
+        $user_publishs = $this->user_model->getUserPublished($this->user_id);
+
+        $posts = $this->input->post();
+
+        if ($posts) {
+            $this->data['first_name_published'] = $this->input->post('first_name_published');
+            $this->data['last_name_published'] = $this->input->post('last_name_published');
+            $this->data['company_published'] = $this->input->post('company_published');
+            $this->data['phone_published'] = $this->input->post('phone_published');
+            $this->data['mobile_published'] = $this->input->post('mobile_published');
+            $this->data['address_published'] = $this->input->post('address_published');
+            $this->data['city_published'] = $this->input->post('city_published');
+            $this->data['country_published'] = $this->input->post('country_published');
+            $this->data['states_published'] = $this->input->post('states_published');
+            $this->data['postcode_published'] = $this->input->post('postcode_published');
+            $this->data['infor_published'] = $this->input->post('infor_published');
+            $this->data['email_published'] = $this->input->post('email_published');
+        } elseif (!empty($user_publishs)) {
+            $this->data['first_name_published'] = $user_publishs->first_name_published;
+            $this->data['last_name_published'] = $user_publishs->last_name_published;
+            $this->data['company_published'] = $user_publishs->company_published;
+            $this->data['phone_published'] = $user_publishs->phone_published;
+            $this->data['mobile_published'] = $user_publishs->mobile_published;
+            $this->data['address_published'] = $user_publishs->address_published;
+            $this->data['city_published'] = $user_publishs->city_published;
+            $this->data['country_published'] = $user_publishs->country_published;
+            $this->data['states_published'] = $user_publishs->states_published;
+            $this->data['postcode_published'] = $user_publishs->postcode_published;
+            $this->data['infor_published'] = $user_publishs->infor_published;
+            $this->data['email_published'] = $user_publishs->email_published;
+        } else {
+            $this->data['first_name_published'] = '';
+            $this->data['last_name_published'] = '';
+            $this->data['company_published'] = '';
+            $this->data['phone_published'] = '';
+            $this->data['mobile_published'] = '';
+            $this->data['address_published'] = '';
+            $this->data['city_published'] = '';
+            $this->data['country_published'] = '';
+            $this->data['states_published'] = '';
+            $this->data['postcode_published'] = '';
+            $this->data['infor_published'] = '';
+            $this->data['email_published'] = '';
+        }
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $data = array(
+                'first_name_published' => $this->data['first_name_published'],
+                'last_name_published' => $this->data['last_name_published'],
+                'company_published' => $this->data['company_published'],
+                'phone_published' => $this->data['phone_published'],
+                'mobile_published' => $this->data['mobile_published'],
+                'address_published' => $this->data['address_published'],
+                'city_published' => $this->data['city_published'],
+                'country_published' => $this->data['country_published'],
+                'states_published' => $this->data['states_published'],
+                'postcode_published' => $this->data['postcode_published'],
+                'infor_published' => $this->data['infor_published'],
+                'email_published' => $this->data['email_published'],
+            );
+            $update_publish = $this->user_model->check_user_publish($this->user_id);
+            if (!$update_publish) {
+                $this->user_model->save_publish($this->user_id, $data);
+            } else {
+                $this->user_model->update_publish($this->user_id, $data);
+            }
+
+            foreach ($balaces as $balace) {
+                $posts['balance'][$balace->currency_code] = !empty($posts['balance'][$balace->currency_code]) ? $posts['balance'][$balace->currency_code] : 0;
+            }
+            if ($balaces) {
+                $this->balance_model->updatePublish($this->user_id, $posts);
+            }
+        }
+        $this->data['main_content'] = 'settings/info.php';
+
+        $this->load->view('frontend_user', $this->data);
+    }
+
+    public function ipsecurity() {
+
+        $this->document->setTitle($this->lang->line('text_info_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+        $this->data['text_info_title'] = $this->lang->line('text_info_title');
+
+        $this->data['text_master'] = $this->lang->line('text_master');
+        $this->data['text_3digit'] = $this->lang->line('text_3digit');
+
+        $this->data['button_submit'] = $this->lang->line('button_submit');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+
+        $setting_sercuritys = $this->user_model->getUserSettings($this->user_id);
+
+        $posts = $this->input->post();
+        if ($posts) {
+            $this->data['ip_sercurity'] = $this->input->post('ip_sercurity');
+            $this->data['remember'] = $this->input->post('remember');
+            $this->data['payment_mothed'] = $this->input->post('payment_mothed');
+        } elseif (!empty($user_publishs)) {
+            $this->data['ip_sercurity'] = $setting_sercuritys->ip_sercurity;
+            $this->data['remember'] = $setting_sercuritys->remember;
+            $this->data['payment_mothed'] = $setting_sercuritys->payment_mothed;
+        } else {
+            $this->data['ip_sercurity'] = '';
+            $this->data['remember'] = '';
+            $this->data['payment_mothed'] = '';
+        }
+        $this->form_validation->set_rules('master_key', 'Master key', 'required|trim|xss_clean|numeric|exact_length[3]|callback_check_key');
+
+        if (($this->input->server('REQUEST_METHOD') === 'POST') && ($this->form_validation->run() == TRUE)) {
+            $data = array(
+                'ip_sercurity' => $this->data['ip_sercurity'],
+                'remember' => $this->data['remember'],
+                'payment_mothed' => $this->data['payment_mothed'],
+            );
+            $update_publish = $this->user_model->check_setting_publish($this->user_id);
+            if (!$update_publish) {
+                $this->user_model->save_publish_setting($this->user_id, $data);
+            } else {
+                $this->user_model->update_publish_setting($this->user_id, $data);
+            }
+            $logs = array(
+                'account_number' => $this->session->userdata('account_number'),
+                'date_creater' => gmdate('Y-m-d H:i:s', $this->session->userdata('last_activity')),
+                'description' => 'Update Sercurity Settings',
+                'ip_address' => $this->session->userdata('ip_address'),
+            );
+
+            $this->logs_model->save($logs);
+            $this->data['main_content'] = 'settings/sercurity.php';
+            $this->load->view('frontend_user', $this->data);
+        }
+        $this->data['main_content'] = 'settings/sercurity.php';
+
+        $this->load->view('frontend_user', $this->data);
+    }
+
+    function check_acc_num($acc_number) {
+        if (!$this->user_model->check_acc_num($acc_number)) {
+            $this->form_validation->set_message('check_acc_num', "The Account Number doesn't correspond to this account. Please enter Account that you used for account registration and try again.");
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    function check_key($key) {
+        if (!$this->user_model->check_key($this->user_id, $key)) {
+            $this->form_validation->set_message('check_key', "The Master Key is not valid. Please try again.");
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+}

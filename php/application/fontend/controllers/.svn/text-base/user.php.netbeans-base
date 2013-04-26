@@ -1,0 +1,560 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class User extends CI_Controller {
+
+    var $ac = '';
+    var $acc_number = '';
+    var $email = '';
+    var $tables = '';
+    var $store_salt = false;
+    var $salt_length = 10;
+    var $identity_column = 'email';
+    var $language_id = 0;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('ion_auth');
+        $this->load->library('session');
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $this->load->config('ion_auth', TRUE);
+        $this->load->database();
+        $this->load->library('encryption');
+        $this->load->model('user_model', '', TRUE);
+        $this->load->library('recaptcha');
+        $this->lang->load('recaptcha');
+        $this->lang->load('user');
+        $this->lang->load('ion_auth');
+        $this->load->helper('string');
+        $this->load->helper('language');
+        $this->load->library('email');
+        $this->load->library('document');
+
+        //initialize db tables data
+        $this->tables = $this->config->item('tables', 'ion_auth');
+
+        //initialize data
+        $this->identity_column = $this->config->item('identity', 'ion_auth');
+        $this->store_salt = $this->config->item('store_salt', 'ion_auth');
+        $this->salt_length = $this->config->item('salt_length', 'ion_auth');
+    }
+
+    public function index() {
+        $this->document->setTitle($this->lang->line('site_title'));
+
+        $data['title'] = $this->document->getTitle();
+
+        $data['text_reg_1'] = $this->lang->line('text_reg_1');
+        $data['text_notice'] = $this->lang->line('text_notice');
+        $data['text_notice2'] = $this->lang->line('text_notice2');
+        $data['headding_title'] = $this->lang->line('headding_title');
+        $data['text_fn'] = $this->lang->line('text_fn');
+        $data['text_ln'] = $this->lang->line('text_ln');
+        $data['text_acc_name'] = $this->lang->line('text_acc_name');
+        $data['text_email'] = $this->lang->line('text_email');
+        $data['text_re_email'] = $this->lang->line('text_re_email');
+        $data['text_security_ques'] = $this->lang->line('text_security_ques');
+        $data['text_security'] = $this->lang->line('text_security');
+        $data['text_pin_pass'] = $this->lang->line('text_pin_pass');
+        $data['text_answer'] = $this->lang->line('text_answer');
+        $data['text_personal'] = $this->lang->line('text_personal');
+        $data['text_function'] = $this->lang->line('text_function');
+        $data['text_enable_api_text'] = $this->lang->line('text_enable_api_text');
+        $data['text_disable_api'] = $this->lang->line('text_disable_api');
+        $data['text_anable_api'] = $this->lang->line('text_anable_api');
+        $data['text_captch'] = $this->lang->line('text_captch');
+        $data['text_notice3'] = $this->lang->line('text_notice3');
+        $data['text_agree'] = $this->lang->line('text_agree');
+        $data['text_master'] = $this->lang->line('text_master');
+        $data['text_password'] = $this->lang->line('text_password');
+        $data['text_login_pin'] = $this->lang->line('text_login_pin');
+        $data['reg2_title'] = $this->lang->line('reg2_title');
+        $data['reg2_notice1'] = $this->lang->line('reg2_notice1');
+        $data['reg2_notice2'] = $this->lang->line('reg2_notice2');
+        $data['reg2_notice3'] = $this->lang->line('reg2_notice3');
+        $data['reg2_notice4'] = $this->lang->line('reg2_notice4');
+        $data['reg2_notice5'] = $this->lang->line('reg2_notice5');
+        $data['reg2_please'] = $this->lang->line('reg2_please');
+        $data['reg2_login'] = $this->lang->line('reg2_login');
+        $data['reg2_notice6'] = $this->lang->line('reg2_notice6');
+        $data['text_select'] = $this->lang->line('text_select');
+        $data['button_agree'] = $this->lang->line('button_agree');
+        $data['button_disagree'] = $this->lang->line('button_disagree');
+
+        $this->load->model('question_model', '', TRUE);
+
+        $questions = $this->question_model->getQuesions($this->lang->lang_id());
+
+        $data['questions'] = array();
+
+        foreach ($questions as $question) {
+            $data['questions'][] = array(
+                'question_id' => $question->question_id,
+                'question' => $question->question,
+            );
+        }
+        $this->_set_rules();
+        $this->form_validation->set_rules('recaptcha_response_field', 'lang:recaptcha_field_name', 'required|callback_check_captcha');
+        $this->form_validation->set_rules('question_id', 'Quesstion', 'required|callback_question_validate');
+
+        $data['recaptcha'] = $this->recaptcha->get_html();
+
+        if ($this->form_validation->run() == FALSE) {
+            $data['main_content'] = 'login/reg_step1.php';
+            $this->load->view('home', $data);
+        } else {
+
+
+            $password = random_string('alnum', 10);
+            $login_pin = random_string('numeric', 5);
+            $master_key = random_string('numeric', 3);
+
+            $question = $this->question_model->getQuestion($this->input->post('question_id'), $this->lang->lang_id());
+            do {
+                $account_number = random_string('numeric', 8);
+                $ok = $this->user_model->check_acc_num($account_number);
+            } while ($ok);
+
+            $email = $this->input->post('email', TRUE);
+
+            $data = array(
+                'first_name' => $this->input->post('first_name', TRUE),
+                'last_name' => $this->input->post('last_name', TRUE),
+                'username' => $this->input->post('acc_name', TRUE),
+                'email' => $email,
+                'security_question' => $question->question,
+                'security_answer' => $this->input->post('answer', TRUE),
+                'welcome_message' => $this->input->post('mess', TRUE),
+                'password' => $password,
+                'login_pin' => $login_pin,
+                'master_key' => $master_key,
+                'account_number' => $account_number,
+            );
+
+
+            //======================= Send Email ====================================
+            $question = $question->question;
+            $answer = $this->input->post('answer', TRUE);
+            $language_id = $this->lang->lang_id();
+            $email_templates = $this->user_model->getEmailTemplates('register_user', $language_id);
+
+            $message = $email_templates->content;
+            eval("\$message=\"$message\";");
+
+            $this->email->clear();
+            $this->email->set_newline("\r\n");
+            $config = array(
+                'mailtype' => 'html',
+                'charset' => 'utf-8'
+            );
+
+            $this->email->initialize($config);
+            $this->email->from(email_send_noreply);
+            $this->email->to($email);
+            $this->email->subject($email_templates->title);
+            $this->email->message(html_entity_decode($message));
+
+            if ($this->email->send() == TRUE) {
+                $this->session->set_flashdata('a_email', 1);
+            } else {
+                $this->session->set_flashdata('a_email', 0);
+            }
+            //==========================End send mail====================
+            //additional data		
+            $user_data = array('first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'security_question' => $data['security_question'],
+                'security_answer' => $data['security_answer'],
+                'welcome_message' => $data['welcome_message'],
+                'password' => $password,
+                'login_pin' => $login_pin,
+                'master_key' => $master_key,
+                'account_number' => $account_number,
+                'active' => 2, // is new user need to update information
+            );
+            $this->ion_auth->register($data['username'], $password, $email, $user_data);
+
+            $this->document->setTitle($this->lang->line('reg2_title'));
+
+            $data['title'] = $this->document->getTitle();
+
+            $data['reg2_title'] = $this->lang->line('reg2_title');
+            $data['reg2_notice1'] = $this->lang->line('reg2_notice1');
+            $data['reg2_notice2'] = $this->lang->line('reg2_notice2');
+            $data['reg2_notice3'] = $this->lang->line('reg2_notice3');
+            $data['reg2_notice4'] = $this->lang->line('reg2_notice4');
+            $data['reg2_notice5'] = $this->lang->line('reg2_notice5');
+            $data['text_password'] = $this->lang->line('text_password');
+            $data['text_login_pin'] = $this->lang->line('text_login_pin');
+            $data['text_master'] = $this->lang->line('text_master');
+            $data['text_security'] = $this->lang->line('text_security');
+            $data['text_answer'] = $this->lang->line('text_answer');
+            $data['reg2_please'] = $this->lang->line('reg2_please');
+            $data['reg2_login'] = $this->lang->line('reg2_login');
+            $data['reg2_notice6'] = $this->lang->line('reg2_notice6');
+
+            $data['main_content'] = 'login/reg_step2.php';
+            $this->load->view('home', $data);
+        }
+    }
+
+    public function reset_account() {
+        $this->document->setTitle($this->lang->line('renum_title'));
+
+        $data['title'] = $this->document->getTitle();
+
+        $data['renum_title'] = $this->lang->line('renum_title');
+        $data['renum_notice1'] = $this->lang->line('renum_notice1');
+        $data['renum_notice2'] = $this->lang->line('renum_notice2');
+        $data['renum_notice3'] = $this->lang->line('renum_notice3');
+        $data['renum_acc_info'] = $this->lang->line('renum_acc_info');
+        $data['renum_your_mail'] = $this->lang->line('renum_your_mail');
+        $data['renum_enter_code'] = $this->lang->line('renum_enter_code');
+        $data['renum_note'] = $this->lang->line('renum_note');
+        $data['renum_notice4'] = $this->lang->line('renum_notice4');
+        $data['button_agree'] = $this->lang->line('button_agree');
+        $data['button_disagree'] = $this->lang->line('button_disagree');
+
+        $step = 0 + $this->input->post('step', TRUE);
+        $this->form_validation->set_rules('email', 'E-mail', 'required|xss_clean|valid_email|max_length[64]|callback_check_email');
+        $this->form_validation->set_message('valid_email', 'The %s field must contain a valid email address.');
+        $this->form_validation->set_rules('recaptcha_response_field', 'lang:recaptcha_field_name', 'required|callback_check_captcha');
+
+        $data['recaptcha'] = $this->recaptcha->get_html();
+
+        if ($step == 1 && $this->form_validation->run()) {
+            $email = $this->input->post('email', TRUE);
+            $data['main_content'] = 'login/reset_account.php';
+            $user_email = $this->user_model->getEmmail($email);
+            if ($user_email === false) {
+                $data['message'] = $this->lang->line('renum_mess_email');
+                $this->load->view('home', $data);
+            } else {
+
+                //======================= Send Email ====================================
+                $name = $user_email->first_name . ' ' . $user_email->last_name;
+                $account_number = $user_email->account_number;
+                $language_id = $this->lang->lang_id();
+
+                $email_templates = $this->user_model->getEmailTemplates('reset_account_number', $language_id);
+
+                $message = $email_templates->content;
+                eval("\$message=\"$message\";");
+
+                $this->email->clear();
+                $this->email->set_newline("\r\n");
+                $config = array(
+                    'mailtype' => 'html',
+                    'charset' => 'utf-8'
+                );
+
+                $this->email->initialize($config);
+                $this->email->from(email_send_noreply);
+                $this->email->to($email);
+                $this->email->subject($email_templates->title);
+                $this->email->message(html_entity_decode($message));
+
+                if ($this->email->send() == TRUE) {
+                    $data['message'] = "Your account number has been successfully sent to $email";
+                } else {
+                    $data['message'] = "The system can not send email.";
+                }
+                $this->load->view('home', $data);
+                //==========================End send mail====================
+            }
+        } else {
+            $data['main_content'] = 'login/reset_account.php';
+            $this->load->view('home', $data);
+        }
+    }
+
+    public function reset_password() {
+        $this->document->setTitle($this->lang->line('repass_title'));
+
+        $data['title'] = $this->document->getTitle();
+
+        $data['repass_title'] = $this->lang->line('repass_title');
+        $data['repass_notice1'] = $this->lang->line('repass_notice1');
+        $data['renum_notice2'] = $this->lang->line('renum_notice2');
+        $data['renum_notice3'] = $this->lang->line('renum_notice3');
+        $data['repass_acc_number'] = $this->lang->line('repass_acc_number');
+        $data['repass_email'] = $this->lang->line('repass_email');
+        $data['renum_enter_code'] = $this->lang->line('renum_enter_code');
+        $data['renum_note'] = $this->lang->line('renum_note');
+        $data['button_send_code'] = $this->lang->line('button_send_code');
+        $data['button_verify'] = $this->lang->line('button_verify');
+        $data['button_verify_code'] = $this->lang->line('button_verify_code');
+        $data['res2_title'] = $this->lang->line('res2_title');
+        $data['res2_account'] = $this->lang->line('res2_account');
+        $data['res2_mail'] = $this->lang->line('res2_mail');
+        $data['res2_resetcode'] = $this->lang->line('res2_resetcode');
+        $data['res2_fn'] = $this->lang->line('res2_fn');
+        $data['res3_title'] = $this->lang->line('res3_title');
+        $data['res3_notice'] = $this->lang->line('res3_notice');
+        $data['res3_new_pass'] = $this->lang->line('res3_new_pass');
+        $data['res3_confirm'] = $this->lang->line('res3_confirm');
+        $data['res3_pin'] = $this->lang->line('res3_pin');
+        $data['res3_con_pin'] = $this->lang->line('res3_con_pin');
+        $data['res3_master'] = $this->lang->line('res3_master');
+        $data['res3_con_master'] = $this->lang->line('res3_con_master');
+        $data['renum_note'] = $this->lang->line('renum_note');
+        $data['button_change'] = $this->lang->line('button_change');
+
+        $step = 0 + $this->input->post('step', TRUE);
+        if ($step <= 1) {
+            $this->acc_number = 0 + $this->input->post('acc_number', TRUE);
+            $this->form_validation->set_rules('email', 'E-mail', 'required|xss_clean|valid_email|max_length[64]|callback_check_emailnum');
+            $this->form_validation->set_message('valid_email', 'The %s field must contain a valid email address.');
+            $this->form_validation->set_rules('acc_number', 'Account Number', 'required|trim|xss_clean|numeric|exact_length[8]');
+            $this->form_validation->set_rules('recaptcha_response_field', 'lang:recaptcha_field_name', 'required|callback_check_captcha');
+
+            $data['recaptcha'] = $this->recaptcha->get_html();
+
+            if ($this->form_validation->run() == FALSE) {
+                $data['main_content'] = 'login/reset_pass_step1.php';
+                $this->load->view('home', $data);
+            } else {
+
+                $email = $this->input->post('email', TRUE);
+
+                $user_email = $this->user_model->getEmmail($email);
+
+                $id = $user_email->id;
+
+                $data['forget_code'] = random_string('numeric', 10);
+                $data['acc_number'] = $user_email->account_number;
+                $data['email'] = $email;
+                $data['first_name'] = $user_email->first_name;
+                $data['security_question'] = $user_email->security_question;
+
+                $this->session->set_flashdata('step', 2);
+
+                $data['main_content'] = 'login/reset_pass_step2.php';
+
+                $this->user_model->update($id, array('forgotten_password_code' => $data['forget_code']));
+
+                //======================= Send Email ====================================
+                $name = $user_email->first_name . ' ' . $user_email->last_name;
+                $forget_code = $data['forget_code'];
+                $language_id = $this->lang->lang_id();
+
+                $email_templates = $this->user_model->getEmailTemplates('reset_code', $language_id);
+
+                $message = $email_templates->content;
+                eval("\$message=\"$message\";");
+
+                $this->email->clear();
+                $this->email->set_newline("\r\n");
+                $config = array(
+                    'mailtype' => 'html',
+                    'charset' => 'utf-8'
+                );
+
+                $this->email->initialize($config);
+                $this->email->from(email_send_noreply);
+                $this->email->to($email);
+                $this->email->subject($email_templates->title);
+                $this->email->message(html_entity_decode($message));
+
+                if ($this->email->send() == TRUE) {
+                    $data['message'] = "Your account login reset code has been successfully sent to $email";
+                } else {
+                    $data['message'] = "The system can not send email.";
+                }
+                $this->load->view('home', $data);
+                //==========================End send mail====================
+            }
+        } else if ($step == 2) {
+            $email = $this->input->post('email', TRUE);
+            $acc_number = $this->input->post('acc_number', TRUE);
+
+            $this->acc_number = $acc_number;
+
+            $this->email = $email;
+
+            $user_email = $this->user_model->getEmmail($email);
+
+            $id = $user_email->id;
+
+            $fp = $user_email->forgotten_password_code;
+
+            $data['acc_number'] = $acc_number;
+
+            $data['email'] = $email;
+
+            $data['first_name'] = $user_email->first_name;
+
+            $data['security_question'] = $user_email->security_question;
+
+            $this->form_validation->set_rules('reset_code', 'Reset Code', 'required|trim|xss_clean|numeric|exact_length[10]|callback_check_resetcode');
+            $this->form_validation->set_rules('answer', 'Question', 'required|trim|xss_clean|specical_chars|max_length[50]|callback_check_answer');
+            $this->form_validation->set_rules('first_name', 'First Name', 'required|trim|xss_clean|alpha_dash_space|max_length[50]|callback_check_fname');
+
+            if ($this->form_validation->run() == FALSE) {
+                $data['main_content'] = 'login/reset_pass_step2.php';
+
+                $this->load->view('home', $data);
+            } else {
+                $data['main_content'] = 'login/reset_pass_step3.php';
+
+                $this->load->view('home', $data);
+            }
+        } else if ($step == 3) {
+
+            $data['email'] = $this->input->post('email', TRUE);
+            $data['acc_number'] = $this->input->post('acc_number', TRUE);
+
+            $this->acc_number = $data['acc_number'];
+            $this->email = $data['email'];
+
+            $email_user = $this->user_model->getEmmail($data['email']);
+
+            $id = $email_user->id;
+
+            $this->form_validation->set_rules('password', 'Password', 'required|trim|xss_clean|min_length[6]');
+            $this->form_validation->set_rules('password2', 'Second Password', 'required|trim|matches[password]');
+            $this->form_validation->set_rules('login_pin', 'Login PIN', 'required|trim|xss_clean|numeric|exact_length[5]');
+            $this->form_validation->set_rules('login_pin2', 'Second Login PIN', 'required|trim|xss_clean|numeric|matches[login_pin]');
+            $this->form_validation->set_rules('master_key', 'Master Key', 'required|trim|xss_clean|numeric|exact_length[3]');
+            $this->form_validation->set_rules('master_key2', 'Second Master Key', 'required|trim|xss_clean|numeric|matches[master_key]');
+
+            if ($this->form_validation->run() == FALSE) {
+                $data['main_content'] = 'login/reset_pass_step3.php';
+
+                $this->load->view('home', $data);
+            } else {
+                $new_pass = $this->input->post('password', TRUE);
+
+                $password = $this->encryption->encrypt_password($new_pass);
+                $login_pin = $this->input->post('login_pin', TRUE);
+                $master_key = $this->input->post('master_key', TRUE);
+
+                $update_data = array('password' => $password,
+                    'login_pin' => $login_pin,
+                    'master_key' => $master_key,
+                );
+
+                $this->user_model->update($id, $update_data);
+
+                $data['reg4_title'] = $this->lang->line('reg4_title');
+
+                $data['reg4_mess'] = $this->lang->line('reg4_mess');
+
+                $data['main_content'] = 'login/reset_pass_step4.php';
+
+                $this->load->view('home', $data);
+            }
+        }
+        else
+            redirect('user/index/', 'refresh');
+    }
+
+    function _set_rules() {
+        $this->form_validation->set_rules('first_name', 'First Name', 'required|trim|specical_chars|xss_clean|max_length[50]');
+        $this->form_validation->set_rules('last_name', 'Last Name', 'trim|xss_clean|specical_chars|max_length[50]');
+        $this->form_validation->set_rules('acc_name', 'Account Name', 'required|trim|xss_clean|check_user|max_length[64]');
+        $this->form_validation->set_rules('email', 'Email', 'required|xss_clean|valid_email|max_length[64]|is_unique[users.email]');
+        $this->form_validation->set_rules('email2', 'Re-Email', 'required|trim|xss_clean|matches[email]');
+        $this->form_validation->set_rules('answer', 'Answer', 'required|trim|xss_clean|specical_chars|max_length[250]');
+        $this->form_validation->set_message('is_unique', 'This e-mail is already registered in our system. Please use a different one.');
+        $this->form_validation->set_rules('mess', 'Personal welcome message', 'required|specical_chars|trim|xss_clean|max_length[250]');
+        $this->form_validation->set_message('required', '* Required field cannot be left blank.');
+        $this->form_validation->set_message('valid_email', 'The %s field must contain a valid email address.');
+        $this->form_validation->set_message('matches', "E-mail you have entered doesn't match first e-mail. Please enter same e-mail in both fields.");
+        $this->form_validation->set_message('isset', '* required');
+        $this->form_validation->set_message('valid_date', 'date format is not valid. dd-mm-yyyy');
+    }
+
+    function check_emailnum($email) {
+        if (!$this->user_model->check_email_acc($email, $this->acc_number)) {
+            $this->form_validation->set_message('check_emailnum', "The e-mail doesn't correspond to this account. Please enter e-mail that you used for account registration and try again.");
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    public function check_fname($first_name) {
+        if (!$this->user_model->check_more($this->email, 'first_name', $first_name)) {
+            $this->form_validation->set_message('check_fname', "Account information is not valid.");
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    public function check_answer($answer) {
+        if (!$this->user_model->check_more($this->email, 'security_answer', $answer)) {
+            $this->form_validation->set_message('check_answer', "The question answer doesn't match one you entered during registration. Please check your information and try again.");
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    public function check_resetcode($code) {
+        if (!$this->user_model->check_reset($this->email, $code)) {
+            $this->form_validation->set_message('check_resetcode', "The reset code doesn't match one sent to you. Please check your information and try again.");
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    public function check_email($email) {
+        if (!$this->user_model->check_email($email)) {
+            $this->form_validation->set_message('check_email', 'No account is registered for this e-mail. Please verify that you have entered correct e-mail.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    function valid_date($str) {
+        //match the format of the date
+        if (preg_match("/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/", $str, $parts)) {
+            //check weather the date is valid of not
+            if (checkdate($parts[2], $parts[1], $parts[3]))
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+    function check_sqd($v) {
+        if ($v == 0) {
+            $this->form_validation->set_message('check_sqd', '* Required field cannot be left blank. Please pick one.');
+            return false;
+        } else { // user picked something
+            return true;
+        }
+    }
+
+    function question_validate($selectValue) {
+        // 'none' is the first option and the text says something like "-Choose one-"
+        if ($selectValue == 'none') {
+            $this->form_validation->set_message('question_validate', 'Please select the quesstion of user that you want.');
+            return false;
+        } else { // user picked something
+            return true;
+        }
+    }
+
+    function check_captcha($val) {
+
+        if ($this->recaptcha->check_answer($this->input->ip_address(), $this->input->post('recaptcha_challenge_field'), $val)) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('check_captcha', $this->lang->line('recaptcha_incorrect_response'));
+            return FALSE;
+        }
+    }
+
+}
+

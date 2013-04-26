@@ -1,0 +1,112 @@
+<div class="simplebox grid740">
+    <div class="titleh"><h3><?php echo $headding_title; ?></h3> <a id="showAdditional" href="javascript:void(0)" class="st-button"><?php echo $button_search; ?></a></div>
+    <?php echo form_open('transfer/index/', array('id' => 'sign-up-form')); ?>
+    <div class="body">
+        <div id="advancedSearch" style="display:none;"> 
+            <div class="st-form-line">
+                <span class="st-labeltext"><?php echo $text_from_date; ?></span> 
+                <input type="text" name="filter_from_date" id="datepicker" class="datepicker-input" style="width:180px;" value="<?php echo set_value('filter_from_date'); ?>" />
+            </div>
+            <div class="st-form-line">
+                <span class="st-labeltext"><?php echo $text_to_date; ?></span> 
+                <input type="text" name="filter_to_date" id="datepicker2" class="datepicker-input" style="width:180px;" value="<?php echo set_value('filter_to_date'); ?>"/>
+            </div>
+            <div class="st-form-line">
+                <span class="st-labeltext"><?php echo $text_batch_number; ?></span>  
+                <input id="filter_batch_number" name="filter_batch_number" type="text" value="<?php echo set_value('filter_batch_number'); ?>" /> 
+            </div>
+            <div class="st-form-line">
+                <span class="st-labeltext"><?php echo $text_from_account; ?></span> 
+                <input id="filter_from_account" name="filter_from_account" type="text" value="<?php echo set_value('filter_from_account'); ?>" />
+            </div>
+            <div class="st-form-line">
+                <span class="st-labeltext"><?php echo $text_to_account; ?></span> 
+                <input id="filter_to_account" name="filter_to_account" type="text" value="<?php echo set_value('filter_to_account'); ?>" />
+            </div>
+            <div class="button-box">
+                <input name="Submit" type="submit" value="<?php echo $button_search; ?>" class="st-button"> 
+            </div>
+        </div>
+        <div class="st-form-view">
+            <div id="view"></div>
+        </div>
+    </div>
+    <?php echo form_close(); ?>     
+    <table id="myTable" class="tablesorter"> 
+        <thead> 
+            <tr> 
+                <th><?php echo $colum_date; ?></th> 
+                <th><?php echo $colum_bath; ?></th> 
+                <th><?php echo $colum_from; ?></th> 
+                <th><?php echo $colum_to; ?></th>
+                <th><?php echo $colum_amount; ?></th> 
+                <th><?php echo $colum_fee; ?></th> 
+                <th><?php echo $colum_currency; ?></th> 
+                <th><?php echo $colum_action; ?></th> 
+            </tr> 
+        </thead> 
+        <?php if ($transfers) { ?>
+            <tbody> 
+                <?php foreach ($transfers as $transfer) { ?>
+                    <tr> 
+                        <td style="text-align: center;"><?php echo $transfer['transaction_time']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['batch_number']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['from_account']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['to_account']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['amount']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['fee']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['transaction_currency']; ?></td>
+                        <td><a id="button-view" href="javascript:void(0)"  onclick="changeView('<?php echo $transfer['transaction_id']; ?>')"><?php echo $text_view; ?></a>  | <?php echo $text_prosess; ?></td> 
+                    </tr> 
+                <?php } ?>
+            </tbody> 
+        <?php } ?>
+    </table>
+    <div class="pagination"><?php echo $pagination; ?></div>
+
+</div>
+<!-- END TABLE -->
+<script type="text/javascript">
+    function changeView(id){
+        $.ajax({
+            url: '<?php echo site_url('transfer/view/'); ?>/'+id,
+            type: 'get',
+            dataType: 'HTML',
+            success: function(msg) {
+                $('#view').html(msg)
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    $(function() {
+        $( "#datepicker" ).datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function() {
+        $( "#datepicker2" ).datepicker({
+            dateFormat: 'yy-mm-dd '
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#button-close').live('click',function(){
+            $('#view').hide();
+            $('#showAdditional').show();
+        })
+        $('#button-view').live('click',function(){
+            $('#view').show();    
+            $('#showAdditional').hide();
+            $('#advancedSearch').hide(); 
+        })
+        $('#showAdditional').live('click',function(){ 
+            $('#view').hide();
+            $('#advancedSearch').show();            
+            $('#showAdditional').hide();
+        })
+    });
+</script>

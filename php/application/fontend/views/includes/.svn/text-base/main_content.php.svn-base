@@ -1,0 +1,52 @@
+<div class="one-third">
+    <h4><?php echo $quick_payment; ?></h4>		
+    <p>
+        <?php echo $quick_content; ?><a href="<?php echo site_url('user/index/'); ?>"> <b><?php echo $text_join; ?></b></a>
+    </p>		
+</div>
+<div class="one-third-big last">
+    <h4><?php echo $text_already; ?></h4>
+    <br>
+    <p align="center">
+        <a href="<?php echo site_url('login/index/'); ?>" class="button big round green"><?php echo $text_signin; ?></a>
+    </p>
+    <br>
+    <p><?php echo $text_fast; ?></p>
+</div>
+
+<div class="one-third">
+    <h4><?php echo $text_private; ?></h4>
+    <p><?php echo $text_unique; ?></p>
+    <p><?php echo $text_making_payment; ?></p>
+</div>
+
+<div class="one-third-big last">
+    <h4><?php echo $text_active_security; ?></h4>
+    <p><?php echo $text_stop_account; ?></p><br><br>
+</div>
+
+<div class="one-third">
+    <h4><?php echo $text_live_chat; ?></h4>
+    <p><?php echo $text_have_question; ?></p>
+</div>
+
+<div class="one-third-big last">
+    <h4><?php echo $text_private_mess; ?></h4>
+    <p><?php echo $text_sending_payment; ?></p>
+
+    <p><?php echo $text_email_mess; ?></p>
+    <br><br>
+</div>
+
+<div class="one-third">
+    <h4><?php echo $text_fees_no; ?></h4>
+    <p><?php echo $text_low_fee; ?></p>
+    <p><?php echo $text_no_charge; ?></p>
+</div>
+
+<div class="one-third-big last">
+    <h4><?php echo $text_api; ?></h4>
+    <p><?php echo $text_most_advanced; ?></p>
+</div>
+
+

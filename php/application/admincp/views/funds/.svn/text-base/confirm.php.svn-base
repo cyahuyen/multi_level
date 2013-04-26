@@ -1,0 +1,50 @@
+<div class="st-form-view">
+    <div id="view">
+        <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">       
+            <div id="show-detail">
+                <input type="hidden" name="token" value="<?php echo $token; ?>" />
+                <div class="form-info">
+                    <span class="st-labeltext"><?php echo $text_name; ?></span> 
+                    <input type="hidden" name="username" value="<?php echo $username; ?>">
+                    <?php echo $username; ?>
+                </div>
+                <div class="form-info">
+                    <span class="st-labeltext"><?php echo $text_first; ?></span>
+                    <input type="hidden" name="first_name" value="<?php echo $first_name; ?>">
+                    <?php echo $first_name; ?>
+                </div>
+                <div class="form-info">
+                    <span class="st-labeltext"><?php echo $text_last; ?></span> 
+                    <input type="hidden" name="last_name" value="<?php echo $last_name; ?>">
+                    <?php echo $last_name; ?>
+                </div>
+                <div class="form-info">
+                    <span class="st-labeltext"><?php echo $text_number; ?></span> 
+                    <input type="hidden" name="account_number" value="<?php echo $account_number; ?>">
+                    <?php echo $account_number; ?>
+                </div>
+                <div class="form-info">
+                    <span class="st-labeltext"><?php echo $text_currency; ?></span>
+                    <input type="hidden" name="code" value="<?php echo $code; ?>">
+                    <?php echo $code; ?>
+                </div>
+                <div class="form-info">
+                    <span class="st-labeltext"><?php echo $text_amount; ?></span> 
+                    <input type="hidden" name="amount" value="<?php echo $amount; ?>">
+                    <?php echo $amount; ?>
+                </div>
+
+                <div class="form-info">
+                    <span class="st-labeltext"><?php echo $text_memo; ?></span> 
+                    <?php echo $memo; ?>
+                    <input type="hidden" name="memo" value="<?php echo $memo; ?>">
+                </div>
+                <div style="padding: 15px;">
+                    <div class="button-box">
+                        <a onclick="$('#form').submit();" class="st-button"><?php echo $button_confirm; ?></a>
+                    </div>
+                </div>
+            </div
+        </form>
+    </div>
+</div>

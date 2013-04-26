@@ -1,0 +1,398 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Transfer extends CI_Controller {
+
+    var $user_id;
+    var $name;
+    var $active;
+    var $user;
+    var $data;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('ion_auth');
+        $this->load->library('session');
+        $this->load->library('form_validation');
+        $this->load->database();
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $this->load->library('document');
+        $this->lang->load('transfer');
+        $this->load->model('currencies_model', '', TRUE);
+        $this->load->model('balance_model', '', TRUE);
+        $this->load->model('transaction_model', '', TRUE);
+        $this->load->model('user_model', '', TRUE);
+        $this->load->helper('currency');
+        $this->load->model('logs_model', '', TRUE);
+
+        if (!$this->session->userdata('user_logged')) {
+            redirect('login/index/', 'refresh');
+        }
+
+        $this->user_id = 0 + $this->session->userdata('user_logged');
+
+        $this->user = $this->user_model->getUser($this->user_id);
+
+        $this->data['acc_number'] = $this->user->account_number;
+        $this->data['acc_name'] = $this->user->username;
+        $this->data['first_name'] = $this->user->first_name;
+        $this->data['last_name'] = $this->user->last_name;
+
+
+        $this->active = $this->user->active;
+    }
+
+    public function index() {
+
+        $this->document->setTitle($this->lang->line('transfer_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+        $this->data['transfer_title'] = $this->lang->line('transfer_title');
+        $this->data['text_notes'] = $this->lang->line('text_notes');
+        $this->data['text_note2'] = $this->lang->line('text_note2');
+        $this->data['headding_title'] = $this->lang->line('headding_title');
+        $this->data['text_mode'] = $this->lang->line('text_mode');
+        $this->data['text_account'] = $this->lang->line('text_account');
+        $this->data['text_currency'] = $this->lang->line('text_currency');
+        $this->data['text_to_account'] = $this->lang->line('text_to_account');
+        $this->data['text_amount'] = $this->lang->line('text_amount');
+        $this->data['text_memo'] = $this->lang->line('text_memo');
+        $this->data['text_private'] = sprintf($this->lang->line('text_private'), PRIVATE_PAYMENT_CURRENCY, PRIVATE_PAYMENT_FEE);
+        $this->data['text_private2'] = $this->lang->line('text_private2');
+        $this->data['text_master'] = $this->lang->line('text_master');
+        $this->data['text_3digit'] = $this->lang->line('text_3digit');
+        $this->data['text_from_account'] = $this->lang->line('text_from_account');
+        $this->data['text_fee_private'] = $this->lang->line('text_fee_private');
+        $this->data['text_fee_transfer'] = $this->lang->line('text_fee_transfer');
+        $this->data['text_comfirm_title'] = $this->lang->line('text_comfirm_title');
+        $this->data['text_note_comfirm_head'] = $this->lang->line('text_note_comfirm_head');
+        $this->data['text_notice_comfirm'] = $this->lang->line('text_notice_comfirm');
+        $this->data['button_preview'] = $this->lang->line('button_preview');
+        $this->data['button_confirm'] = $this->lang->line('button_confirm');
+        $this->data['button_change'] = $this->lang->line('button_change');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+
+        $this->load->model('groups_model', '', TRUE);
+
+        $user = $this->user_model->getUser($this->user_id);
+
+        $user_group = $this->groups_model->getGroups();
+
+        $this->data['acc_number_from'] = $this->user->account_number;
+        $this->data['acc_name_from'] = $this->user->username;
+
+        $this->data['account_type'] = $user_group[$this->user->group_id];
+
+        $this->data['created_on'] = gmdate('Y/m/d H:i:s', $user->created_on);
+
+        $currencies = $this->currencies_model->getCurrencies(1);
+
+        foreach ($currencies as $currencie) {
+            $this->data['curencys']["{$currencie->currencies_id}"] = $currencie->title . '(' . $currencie->symbol_left . $this->balance_model->getBalaceById($this->user->id, $currencie->code) . $currencie->symbol_right . ')';
+        }
+        //Account number you have entered is in wrong format. It must consist of one letter followed by 3 to 7 digit number. Please try again.		 
+        $this->form_validation->set_rules('acc_number_to', 'Account Number', 'required|trim|xss_clean|numeric|exact_length[8]|callback_check_account');
+        $this->form_validation->set_rules('amount', 'Amount', 'required|trim|xss_clean|numeric'); //decimal			 		
+        $this->form_validation->set_rules('master_key', 'Master key', 'required|trim|xss_clean|numeric|exact_length[3]|callback_check_key');
+        if ($this->form_validation->run() == FALSE) {
+
+            $this->data['main_content'] = 'transfer/transfer.php';
+            $this->load->view('frontend_user', $this->data);
+        } else {
+            $this->data['acc_number_to'] = $this->input->post('acc_number_to');
+
+            $currencys_id = $this->input->post('currency_id');
+            $currencys = $this->currencies_model->getCrrencieById($currencys_id);
+            $this->data['s_right'] = $currencys->symbol_right;
+            $this->data['s_left'] = $currencys->symbol_left;
+            $this->data['code'] = $currencys->code;
+
+            $user_to = $this->user_model->getAccountNumber($this->data['acc_number_to']);
+
+            $this->data['acc_number_to'] = $user_to->account_number;
+            $this->data['acc_name_to'] = $user_to->username;
+            $this->data['amount'] = (float) ($this->input->post('amount'));
+            $this->data['memo'] = $this->input->post('memo');
+            $this->data['private_payment'] = $this->input->post('private_payment');
+
+            if ($this->data['private_payment']) {
+                $fee = PRIVATE_PAYMENT_FEE;
+            } else {
+                $fee = 0;
+            }
+
+            $this->data['fee_transfer'] = $currencys->fee;
+            $this->data['fee'] = $fee;
+            $balance = $this->balance_model->getBalaceById($this->user_id, $currencys->code);
+            //Check balance balance >= fee + amout
+            if ($balance < $fee + $this->data['amount']) {
+                $this->data['message'] = 'Insufficient balance to complete the operation. Please input difference amount.';
+                $this->data['main_content'] = 'transfer/transfer.php';
+                $this->load->view('frontend_user', $this->data);
+            } else {
+                $this->data['token'] = random_string('numeric', 16);
+                $this->data['main_content'] = 'transfer/transfer2.php';
+                $this->load->view('frontend_user', $this->data);
+            }
+        }
+    }
+
+    function confirm() {
+
+        $token = $this->input->post('token');
+
+        if (strlen($token) == 16) {
+            //Your transfer was successful! Thank you for choosing CyaCash!
+            $this->data['acc_number_to'] = $this->input->post('acc_number_to');
+
+            $user_to = $this->user_model->getAccountNumber($this->data['acc_number_to']);
+
+            $this->data['acc_name_to'] = $user_to->username;
+
+            $amount = (float) ($this->input->post('amount'));
+            $fee = (float) ($this->input->post('fee'));
+
+            $this->data['amount'] = $amount;
+            $this->data['fee'] = $fee;
+            $this->data['memo'] = $this->input->post('memo');
+            $this->data['private_payment'] = $this->input->post('private_payment');
+            $this->data['code'] = $this->input->post('code');
+
+            $currencys = $this->currencies_model->getByCode($this->data['code']);
+            $this->data['s_right'] = $currencys->symbol_right;
+            $this->data['s_left'] = $currencys->symbol_left;
+
+
+            $dec = $currencys->decimal_places;
+            $dec_sepa = $currencys->decimal_point;
+            $thou_sepa = $currencys->thousands_point;
+            $s_left = $currencys->symbol_left;
+            $s_right = $currencys->symbol_right;
+            //-------------------- Upadate balance -------------------------
+            $blance = $this->balance_model->getBalaceById($this->user_id, $this->data['code']);
+            $balance_now = $blance - $amount - $fee - $currencys->fee;
+            if ($balance_now < 0) {
+                $this->session->set_flashdata('message', 'Insufficient balance to complete the operation. Please input difference amount.');
+                redirect('transfer/index/', 'refresh');
+                exit;
+            }
+
+            $date_transfer = date("Y-m-d H:i:s");
+
+            $ok = $this->balance_model->update($this->user_id, $this->data['code'], array('balance' => $balance_now, 'last_updated' => $date_transfer));
+
+            if ($ok) {
+                do {
+                    $batch = random_string('numeric', 14);
+                    $good = $this->transaction_model->check_batch($batch);
+                } while ($good);
+
+                $data['batch_number'] = $batch;
+                $data['from_userid'] = $this->user_id;
+                $data['to_userid'] = $user_to->id;
+                $data['amount'] = $amount;
+                $data['transaction_time'] = $date_transfer;
+                $data['transaction_memo'] = $this->data['memo'];
+                $data['from_account'] = $this->data['acc_number'];
+                $data['to_account'] = $this->data['acc_number_to'];
+                $data['transaction_status'] = 'active';
+                $data['transaction_currency'] = $this->data['code'];
+                $data['amount_text'] = format_currency($amount, $dec, $dec_sepa, $thou_sepa, $s_left, $s_right);
+                $data['fee'] = $fee;
+
+                if ($fee > 0) {
+                    $data['fee_text'] = 'Private Payment';
+                } else {
+                    $data['fee_text'] = '';
+                }
+                $transaction_id = $this->transaction_model->save($data);
+                if ($transaction_id > 0) {
+                    $blance_user = $this->balance_model->getBalaceById($user_to->id, $this->data['code']);
+                    if ($blance_user) {
+                        $ok2 = $this->balance_model->update($user_to->id, $this->data['code'], array('balance' => $blance_user + $amount, 'last_updated' => $date_transfer));
+                        if ($ok2)
+                            $this->transaction_model->update($transaction_id, array('transaction_status' => 'completed'));
+                    }
+                    else {
+                        $id2 = $this->balance_model->save(array(
+                            'user_id' => $user_to->id,
+                            'currency_code' => $this->data['code'],
+                            'balance' => $amount,
+                            'last_updated' => $date_transfer)
+                        );
+                        if ($id2 > 0)
+                            $this->transaction_model->update($transaction_id, array('transaction_status' => 'completed'));
+                    }
+                }
+                $blance_admin = $this->balance_model->getBalaceById(1, $this->data['code']);
+                if ($blance_admin) {
+                    $update_balance_admin = $this->balance_model->update(1, $this->data['code'], array('balance' => $blance_admin + $currencys->fee, 'last_updated' => $date_transfer));
+                } else {
+                    $save_balance_admin = $this->balance_model->save(array(
+                        'user_id' => 1,
+                        'currency_code' => $this->data['code'],
+                        'balance' => $currencys->fee,
+                        'last_updated' => $date_transfer)
+                    );
+                }
+                //======================= Send Email to FROM  ====================================
+                $name = $this->user->first_name . ' ' . $this->user->last_name;
+                $to_user = $this->data['acc_number_to'];
+                $memo = $data['transaction_memo'];
+                $language_id = $this->lang->lang_id();
+                $email_templates = $this->user_model->getEmailTemplates('transfer_from_user', $language_id);
+
+                $message = $email_templates->content;
+                eval("\$message=\"$message\";");
+
+                $this->email->clear();
+                $this->email->set_newline("\r\n");
+                $config = array(
+                    'mailtype' => 'html',
+                    'charset' => 'utf-8'
+                );
+                $this->email->initialize($config);
+                $this->email->from(email_send_noreply);
+                $this->email->to($this->user->email);
+                $this->email->subject($email_templates->title);
+                $this->email->message(html_entity_decode($message));
+
+                if ($this->email->send() == TRUE) {
+                    $this->session->set_flashdata('a_email', 1);
+                } else {
+                    $this->session->set_flashdata('a_email', 0);
+                }
+                //==========================End send mail====================
+            }
+            //======================= Send Email to User  ====================================
+            $account_number = $this->data['acc_number'];
+            $memo = $data['transaction_memo'];
+            $language_id = $this->lang->lang_id();
+            $email_templates = $this->user_model->getEmailTemplates('transfer_to_user', $language_id);
+
+            $message = $email_templates->content;
+            eval("\$message=\"$message\";");
+
+            $this->email->clear();
+            $this->email->set_newline("\r\n");
+            $config = array(
+                'mailtype' => 'html',
+                'charset' => 'utf-8'
+            );
+            $this->email->initialize($config);
+            $this->email->from(email_send_noreply);
+            $this->email->to($this->user->email);
+            $this->email->subject($email_templates->title);
+            $this->email->message(html_entity_decode($message));
+
+            if ($this->email->send() == TRUE) {
+                $this->session->set_flashdata('a_email', 1);
+            } else {
+                $this->session->set_flashdata('a_email', 0);
+            }
+            //==========================End send mail====================
+
+            $this->session->set_flashdata('token', random_string('numeric', 16));
+            $this->session->set_flashdata('acc_number_to', $this->data['acc_number_to']);
+            $this->session->set_flashdata('acc_name_to', $this->data['acc_name_to']);
+            $this->session->set_flashdata('amount', $s_left . $amount . $s_right);
+            $this->session->set_flashdata('fee', $s_left . $fee . $s_right);
+            $this->session->set_flashdata('memo', $this->data['memo']);
+            $this->session->set_flashdata('private_payment', $this->data['private_payment']);
+            $logs = array(
+                'account_number' => $this->session->userdata('account_number'),
+                'date_creater' => gmdate('Y-m-d H:i:s', $this->session->userdata('last_activity')),
+                'description' => 'Transfer Success',
+                'ip_address' => $this->session->userdata('ip_address'),
+            );
+            $this->logs_model->save($logs);
+
+            redirect('transfer/succeed/', 'refresh');
+        } else
+            redirect('transfer/index/', 'refresh');
+    }
+
+    function succeed() {
+
+        $this->document->setTitle($this->lang->line('transfer_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['text_mode'] = $this->lang->line('text_mode');
+        $this->data['text_account'] = $this->lang->line('text_account');
+        $this->data['text_currency'] = $this->lang->line('text_currency');
+        $this->data['text_to_account'] = $this->lang->line('text_to_account');
+        $this->data['text_amount'] = $this->lang->line('text_amount');
+        $this->data['text_memo'] = $this->lang->line('text_memo');
+        $this->data['text_private'] = $this->lang->line('text_private');
+        $this->data['text_master'] = $this->lang->line('text_master');
+        $this->data['text_3digit'] = $this->lang->line('text_3digit');
+        $this->data['button_preview'] = $this->lang->line('button_preview');
+        $this->data['text_from_account'] = $this->lang->line('text_from_account');
+        $this->data['text_fee'] = $this->lang->line('text_fee');
+        $this->data['text_new_transfer'] = $this->lang->line('text_new_transfer');
+
+        $token = $this->session->flashdata('token');
+
+        if (strlen($token) == 16 && $this->session->flashdata('acc_number_to')) {
+            $this->data['acc_number_to'] = $this->session->flashdata('acc_number_to');
+            $this->data['acc_name_to'] = $this->session->flashdata('acc_name_to');
+
+            $this->data['amount'] = $this->session->flashdata('amount');
+            $this->data['fee'] = $this->session->flashdata('fee');
+
+            $this->data['memo'] = $this->session->flashdata('memo');
+            $this->data['private_payment'] = $this->session->flashdata('private_payment');
+
+            $this->data['main_content'] = 'transfer/transfer3.php';
+            $this->load->view('frontend_user', $this->data);
+        }
+        else
+            redirect('transfer/index/', 'refresh');
+    }
+
+    public function check_account($an) {
+        if (!$this->user_model->check_acc_num($an)) {
+            $this->form_validation->set_message('check_account', "The user profile not found. Please try again.");
+            return FALSE;
+        } else
+        if ($an === $this->user->account_number) {
+            $this->form_validation->set_message('check_account', "You can't transfer money to yourself.");
+            return FALSE;
+        }
+        else
+            return TRUE;
+    }
+
+    function check_key($key) {
+        if (!$this->user_model->check_key($this->user_id, $key)) {
+            $this->form_validation->set_message('check_key', "The Master Key is not valid. Please try again.");
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    function _get_csrf_nonce() {
+        $this->load->helper('string');
+        $key = random_string('alnum', 8);
+        $value = random_string('alnum', 20);
+        $this->session->set_flashdata('csrfkey', $key);
+        $this->session->set_flashdata('csrfvalue', $value);
+
+        return array($key => $value);
+    }
+
+    function _valid_csrf_nonce() {
+        $c = $this->input->post($this->session->flashdata('csrfkey'));
+        if ($c !== FALSE && $c == $this->session->flashdata('csrfvalue')) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+}

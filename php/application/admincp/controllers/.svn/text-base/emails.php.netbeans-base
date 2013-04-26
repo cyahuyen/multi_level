@@ -1,0 +1,243 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Emails extends CI_Controller {
+
+    var $email_id;
+    var $code;
+    var $data;
+    private $error = array();
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('session');
+        $this->load->library('ion_auth');
+        $this->load->library('document');
+        $this->load->library('form_validation');
+        $this->load->database();
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $this->load->library('pagination');
+        $this->lang->load('emails');
+        $this->load->model('emails_model', '', TRUE);
+        $this->load->model('language_model', '', TRUE);
+        
+        $this->load->library('user_login');
+        $module_name = $this->router->fetch_class();
+        $action_name = $this->router->fetch_method();
+
+        if (!$this->user_login->hasPermission($module_name, $action_name)) {
+            $this->session->set_flashdata('permission', 'You do not have permission to access this page, please refer to your system administrator.');
+            redirect('home');
+        }
+        if ((!$this->session->userdata('admin_logged')) || (!$this->ion_auth->logged_in())) {
+            redirect('login/index/', 'refresh');
+        }
+    }
+
+    public function index() {
+
+        $p = $this->uri->segment(3);
+        if (isset($p)) {
+            $page = $this->uri->segment(3);
+        } else {
+            $page = 1;
+        }
+
+        $this->document->setTitle($this->lang->line('headding_title'));
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['headding_title'] = $this->lang->line('headding_title');
+        $this->data['colum_code'] = $this->lang->line('colum_code');
+        $this->data['colum_title'] = $this->lang->line('colum_title');
+        $this->data['colum_action'] = $this->lang->line('colum_action');
+
+        $session = $this->session->flashdata('message');
+        if (isset($session)) {
+            $this->data['success'] = $session;
+        } else {
+            $this->data['success'] = '';
+        }
+
+        $total_emails = $this->emails_model->totalEmails();
+
+        $data = array(
+            'start' => ($page - 1) * 5,
+            'limit' => 5
+        );
+
+        $emails = $this->emails_model->getEmails($data);
+
+        $this->data['emails'] = array();
+
+        $this->data['add_new'] = site_url('emails/insert');
+        $this->data['delete'] = site_url('emails/delete');
+
+        foreach ($emails as $email) {
+            if ($email->email_id) {
+                $edit = site_url('emails/update/' . $email->email_id);
+            }
+            $this->data['add_new'] = site_url('emails/insert');
+
+            $this->data['emails'][] = array(
+                'email_id' => $email->email_id,
+                'title' => $email->title,
+                'code' => $email->email_key,
+                'edit' => $edit,
+                'selected' => isset($this->input->post['selected']) && in_array($email->email_id, $this->input->post['selected']),
+            );
+        }
+
+        $pagination = $this->pagination;
+        $pagination->total = $total_emails;
+        $pagination->page = $page;
+        $pagination->limit = 5;
+        $pagination->url = site_url('emails/index/' . '{page}');
+
+        $this->data['pagination'] = $pagination->render();
+
+        $this->data['main_content'] = 'emails/index.php';
+
+        $this->load->view('main_board', $this->data);
+    }
+
+    public function insert() {
+
+        if (($this->input->server('REQUEST_METHOD') === 'POST') && $this->validateForm()) {
+
+            $this->emails_model->save($this->input->post());
+
+            $this->session->set_flashdata('message', $this->lang->line('text_success'));
+
+            redirect('emails/index');
+        }
+        $this->getForm();
+    }
+
+    public function update() {
+
+        if (($this->input->server('REQUEST_METHOD') === 'POST') && $this->validateForm()) {
+
+            $this->emails_model->update($this->uri->segment(3), $this->input->post());
+
+            $this->session->set_flashdata('message', $this->lang->line('text_success'));
+
+            redirect('emails/index');
+        }
+        $this->getForm();
+    }
+
+    public function delete() {
+        $select = $this->input->post('selected');
+        if (!empty($select)) {
+            foreach ($select as $id) {
+                $this->emails_model->delete($id);
+                $this->session->set_flashdata('message', $this->lang->line('text_success'));
+            }
+        } else {
+            $this->session->set_flashdata('message', $this->lang->line('text_no_check'));
+        }
+        redirect('emails');
+    }
+
+    public function getForm() {
+
+        $this->document->setTitle($this->lang->line('headding_title'));
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['email_title'] = $this->lang->line('email_title');
+        $this->data['text_title'] = $this->lang->line('text_title');
+        $this->data['text_code'] = $this->lang->line('text_code');
+        $this->data['text_content'] = $this->lang->line('text_content');
+        $this->data['tab_general'] = $this->lang->line('tab_general');
+        $this->data['tab_data'] = $this->lang->line('tab_data');
+        $this->data['button_save'] = $this->lang->line('button_save');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+
+        $posts = $this->input->post();
+
+        $id = $this->uri->segment(3);
+
+        if ($id) {
+            $this->data['action'] = site_url('emails/update/' . $id);
+        } else {
+            $this->data['action'] = site_url('emails/insert');
+        }
+
+        if (!empty($this->error['title'])) {
+            $this->data['error_title'] = $this->error['title'];
+        } else {
+            $this->data['error_title'] = array();
+        }
+
+
+        $this->data['cancel'] = site_url('emails/index');
+
+        $this->data['languages'] = $this->language_model->getLangs();
+
+        if (isset($id) && ( $this->input->server('REQUEST_METHOD') != 'POST')) {
+            $email_info = $this->emails_model->getEmail($id);
+        }
+        if (isset($posts['email_description'])) {
+            $this->data['email_description'] = $this->input->post('email_description');
+        } elseif (isset($id)) {
+            $descriptions = $this->emails_model->getEmailDescription($id);
+            foreach ($descriptions as $description) {
+                $this->data['email_description'][$description['language_id']] = $description;
+            }
+        } else {
+            $this->data['email_description'] = array();
+        }
+        if (isset($posts['email_key'])) {
+            $this->data['email_key'] = $posts['email_key'];
+        } elseif ($id) {
+            $this->data['email_key'] = $email_info->email_key;
+        } else {
+            $this->data['email_key'] = '';
+        }
+
+        $this->data['main_content'] = 'emails/form.php';
+
+        $this->load->view('main_board', $this->data);
+    }
+
+    private function validateForm() {
+        if ($this->uri->segment(3)) {
+            if ($this->input->post('old_key') != $this->input->post('email_key')) {
+                $this->form_validation->set_rules('email_key', 'lang:error_code', 'required|trim|xss_clean|callback_check_code');
+            }
+            $this->form_validation->set_rules('check_validate', 'check value', 'trim');
+            foreach ($this->input->post('email_description') as $language_id => $value) {
+                if (empty($value['title'])) {
+                    $langname = $this->language_model->getLanguage($language_id);
+                    $this->error['title'][$language_id] = sprintf($this->lang->line('error_title'), $langname->language_name);
+                }
+            }
+        } else {
+            $this->form_validation->set_rules('email_key', 'lang:error_code', 'required|trim|xss_clean');
+            foreach ($this->input->post('email_description') as $language_id => $value) {
+                if (empty($value['title'])) {
+                    $langname = $this->language_model->getLanguage($language_id);
+                    $this->error['title'][$language_id] = sprintf($this->lang->line('error_title'), $langname->language_name);
+                }
+            }
+        }
+        if (!$this->error && $this->form_validation->run() == TRUE) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function check_code($code) {
+        if ($this->emails_model->check_code($code)) {
+            $this->form_validation->set_message('check_code', 'Code already. Please add new code');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+}

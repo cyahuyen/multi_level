@@ -1,0 +1,55 @@
+<?php
+
+class Faqs_Model extends CI_Model {
+
+    private $tbl = 'faqs';
+    private $id = 'faqs_id';
+    private $faq_des = 'faqs_description';
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    public function getFaqs($language_id) {
+        $sql = 'SELECT f.sort_order,f.status,fd.* FROM ' . $this->tbl . ' as f';
+
+        $sql .=' LEFT JOIN faqs_description as fd ON f.faqs_id=fd.faqs_id';
+
+        $sql .='  WHERE fd.language_id=' . (int) $language_id . ' AND f.status=1 GROUP BY fd.faqs_id ';
+
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    function totalfaqs() {
+        return $this->db->count_all_results($this->tbl);
+    }
+
+    function getFaq($id) {
+        $r = $this->db->get_where($this->tbl, array($this->id => $id))->result();
+        if ($r) {
+            return $r[0];
+        }
+        else
+            return false;
+    }
+
+    function getfaqDescription($id) {
+        $data = $this->db->get_where($this->faq_des, array($this->id => $id))->result();
+        $dataList = array();
+        if ($data) {
+            foreach ($data as $result) {
+                $results['language_id'] = $result->language_id;
+                $results['name'] = $result->name;
+                $results['description'] = $result->description;
+                $dataList[] = $results;
+            }
+            return $dataList;
+        }
+        else
+            return false;
+    }
+
+}
+

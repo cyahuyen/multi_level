@@ -1,0 +1,107 @@
+<h4 class="color_red"><?php echo $text_info_title; ?></h4>
+<div class="simple-notice"><?php echo $text_notice1; ?></div>
+
+<?php echo form_open('services/info/', array('id' => 'sign-up-form')); ?>
+<fieldset>
+    <label><span class="required">*</span><?php echo $text_acc_number; ?> </label>
+    <input type="text" name="account_number" id="account_number" value="<?php echo set_value('account_number'); ?>" class="text requiredField"/>
+    <?php echo form_error('account_number', "<div class='simple-alert'>", '</div>'); ?>
+</fieldset>
+<fieldset>
+    <h6><?php echo $text_enter_code; ?></h6>
+    <p><?php echo $text_notice2; ?></p>
+    <?php echo form_error('recaptcha_response_field', "<div class='simple-alert'>", '</div>'); ?>
+    <div id="img_captcha">
+        <?php echo $recaptcha; ?>
+    </div>
+</fieldset> 
+<p>
+<fieldset>
+    <input name="submit" id="button-search" value="<?php echo $button_search; ?>" class="button small orange" type="submit"/>
+</fieldset>
+</p>
+<?php echo form_close(); ?>
+<?php if (!empty($account_number)) { ?>
+    <table id="info-user">
+        <tr>
+            <td colspan="2" class="headding"><?php echo $text_account_info; ?></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_acc_name; ?></td>
+            <td><span class="enabled"><?php echo $username; ?></span></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_type; ?></td>
+            <td><span class="enabled"><?php echo $account_type; ?></span></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_sign_date; ?></td>
+            <td><span class="enabled"><?php echo $created_on; ?></span></td>
+        </tr>
+        <?php if ($blances) { ?>
+            <?php foreach ($blances as $blance) { ?>
+                <tr>
+                    <td class="label"><?php echo $blance['text_balance']; ?></td>
+                    <td><span class="<?php echo (($blance['published'] == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($blance['published'] == 1) ? $blance['balance'] : $text_hidden; ?></span></td>
+                </tr>
+            <?php } ?>
+        <?php } ?>
+        <tr>
+            <td colspan="2" class="headding"><?php echo $text_presonal; ?></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_first; ?></td>
+            <td><span class="<?php echo (($first_name_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($first_name_published == 1) ? $first_name : $text_hidden; ?></span></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_last; ?></td>
+            <td><span class="<?php echo (($last_name_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($last_name_published == 1) ? $last_name : $text_hidden; ?></span></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_company; ?></td>
+            <td><span class="<?php echo (($company_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($company_published == 1) ? $company : $text_hidden; ?></span></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_phone; ?></td>
+            <td><span class="<?php echo (($phone_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($phone_published == 1) ? $phone : $text_hidden; ?></span></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_mobile; ?></td>
+            <td><span class="<?php echo (($mobile_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($mobile_published == 1) ? $mobile : $text_hidden; ?></span></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="headding"><?php echo $text_contact; ?></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_address; ?></td>
+            <td><span class="<?php echo (($address_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($address_published == 1) ? $address : $text_hidden; ?></span></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_city; ?></td>
+            <td><span class="<?php echo (($city_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($city_published == 1) ? $city : $text_hidden; ?></span></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_country; ?></td>
+            <td><span class="<?php echo (($country_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($country_published == 1) ? $country : $text_hidden; ?></span></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_state; ?></td>
+            <td><span class="<?php echo (($states_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($states_published == 1) ? $state : $text_hidden; ?></span></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_zip_code; ?></td>
+            <td><span class="<?php echo (($postcode_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($postcode_published == 1) ? $postcode : $text_hidden; ?></span></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_infor; ?></td>
+            <td><span class="<?php echo (($infor_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($infor_published == 1) ? $additional_infor : $text_hidden; ?></span></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="headding"><?php echo $text_electronic; ?></td>
+        </tr>
+        <tr>
+            <td class="label"><?php echo $text_email; ?></td>
+            <td><span class="<?php echo (($email_published == 1) ? 'enabled' : 'disabled'); ?>"><?php echo ($email_published == 1) ? $email : $text_hidden; ?></span></td>
+        </tr>
+    </table>
+<?php } ?>

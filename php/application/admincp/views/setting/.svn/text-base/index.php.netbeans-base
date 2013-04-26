@@ -1,0 +1,112 @@
+<div class="simplebox grid740">
+    <input type="hidden" name="hd_group" id="hd_group" value="<?php echo $default_group; ?>"/>
+    <input type="hidden" name="hd_page" id="hd_page" value="1"/>
+    <div class="titleh">
+        <h3><?php echo $setting_title; ?></h3> 
+        <div id="head-tab" style="position: absolute;right: 10px;top: 5px;">
+            <span class="st-labeltext"><?php echo $text_config; ?></span>	
+            <select name="group_id" class="uniform" id="group_id">
+                <?php foreach ($setting_groups as $setting_group) { ?>
+                    <?php if (!empty($default_group) && $setting_group['configuration_group_id'] == $default_group) { ?>
+                        <option value="<?php echo $setting_group['configuration_group_id']; ?>" selected="selected"><?php echo $setting_group['configuration_group_title']; ?></option>
+                    <?php } else { ?>
+                        <option value="<?php echo $setting_group['configuration_group_id']; ?>"><?php echo $setting_group['configuration_group_title']; ?></option>
+                    <?php } ?>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+    <div class="body">
+        <div class="st-form-view">
+            <div id="view"></div>
+        </div>
+    </div>  
+    <div id="list-setting"></div>
+
+</div>
+<!-- END TABLE -->
+<script type="text/javascript">
+    function changeView(id){
+        $(".simple-tips").hide();
+        $.ajax({
+            url: '<?php echo site_url('setting/edit/'); ?>/'+id,
+            type: 'get',
+            dataType: 'HTML',
+            success: function(msg) {
+                $('#view').html(msg)
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#button-close').live('click',function(){
+            $('#view').hide();
+        })
+        $('#button-view').live('click',function(){
+            $('#view').show();    
+        })
+
+    });
+</script>
+<script type="text/javascript"><!--
+    function changeEdit(id){        
+        $.ajax({
+            url: '<?php echo site_url('setting/edit'); ?>/'+id,
+            type: 'post',
+            dataType: 'json',
+            data: $('#form_setting').serialize(),
+            success: function(json) {
+                if (json.success) {
+                    $('#view').after('<div class="simple-tips"><ul><li>'+ json.success +  '</li></ul></div>');
+                    $('#view').hide();
+                    var group = $('#hd_group').val();
+                    var page = $('#hd_page').val();
+                    $('#list-setting').load('<?php echo site_url('setting/listSetting'); ?>/'+group+'/'+page);
+                }	
+            }
+        });
+    };
+    //--></script> 
+<script type="text/javascript">
+    function loadSetting(id, page){
+        $.ajax({
+            type: 'post',
+            dataType: 'HTML',
+            url: '<?php echo site_url('setting/listSetting'); ?>/'+id+'/'+page,
+            success: function(msg) {
+                $('#list-setting').html(msg);
+                $('#hd_group').val(id);
+                $('#hd_page').val(page);
+            }
+        });
+        
+    }    
+    $(document).ready(function(){ 
+        loadSetting(0);
+        $('#group_id').change(function(){
+            var id = $('#group_id').val();
+            loadSetting(id, 1);
+        });
+    });
+    
+</script>
+<script type="text/javascript">
+    //    $(document).ready(function(){ 
+    //        $('#group_id').change(function(){
+    //            var id = $('#group_id').val();
+    //            var page = 1 ;
+    //            $.ajax({
+    //                type: "post",
+    //                url: '<?php echo site_url('setting/listSetting'); ?>/'+id+'/'+page, 
+    //                dataType : "HTML",
+    //                success: function(msg)
+    //                {  
+    //                    $('#list-setting').html(msg);
+    //                }
+    //            });
+    // 
+    //        });
+    //    });
+    
+</script>

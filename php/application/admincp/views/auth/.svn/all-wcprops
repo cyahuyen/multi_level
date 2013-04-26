@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth
+END
+create_user.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/create_user.php
+END
+forgot_password.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/forgot_password.php
+END
+edit_user.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/edit_user.php
+END
+reset_password.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/reset_password.php
+END
+change_password.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/change_password.php
+END
+deactivate_user.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/deactivate_user.php
+END
+index.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/index.php
+END
+login.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/login.php
+END

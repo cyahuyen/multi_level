@@ -1,0 +1,229 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Faq extends CI_Controller {
+
+    var $faqs_id;
+    var $data;
+    private $error = array();
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('ion_auth');
+        $this->load->library('session');
+        $this->load->library('document');
+        $this->load->library('form_validation');
+        $this->load->database();
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $this->lang->load('faq');
+        $this->load->library('pagination');
+        $this->load->model('faq_model', '', TRUE);
+        $this->load->model('language_model', '', TRUE);
+        $posts = $this->input->post();
+        $this->load->library('user_login');
+        $module_name = $this->router->fetch_class();
+        $action_name = $this->router->fetch_method();
+
+        if (!$this->user_login->hasPermission($module_name, $action_name)) {
+            $this->session->set_flashdata('permission', 'You do not have permission to access this page, please refer to your system administrator.');
+            redirect('home');
+        }
+        if ((!$this->session->userdata('admin_logged')) || (!$this->ion_auth->logged_in())) {
+            redirect('login/index/', 'refresh');
+        }
+    }
+
+    public function index() {
+        $p = $this->uri->segment(3);
+        if (isset($p)) {
+            $page = $this->uri->segment(3);
+        } else {
+            $page = 1;
+        }
+
+        $this->document->setTitle($this->lang->line('headding_title'));
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['headding_title'] = $this->lang->line('headding_title');
+        $this->data['colum_name'] = $this->lang->line('colum_name');
+        $this->data['colum_sort'] = $this->lang->line('colum_sort');
+        $this->data['colum_status'] = $this->lang->line('colum_status');
+        $this->data['colum_action'] = $this->lang->line('colum_action');
+
+        $this->data['button_delete'] = $this->lang->line('button_delete');
+        $this->data['button_edit'] = $this->lang->line('button_edit');
+        $this->data['button_insert'] = $this->lang->line('button_insert');
+
+        $data = array(
+            'start' => ($page - 1) * 5,
+            'limit' => 5
+        );
+
+        $total_faqs = $this->faq_model->totalFaqs();
+
+        $faqs = $this->faq_model->getFaqs($data);
+
+        $this->data['add_new'] = site_url('faq/insert');
+
+        $this->data['delete'] = site_url('faq/delete');
+
+        $this->data['faqs'] = array();
+
+        $session = $this->session->flashdata('message');
+        if (isset($session)) {
+            $this->data['success'] = $session;
+        } else {
+            $this->data['success'] = '';
+        }
+        foreach ($faqs as $faq) {
+            if ($faq->faqs_id) {
+                $edit = site_url('faq/update/' . $faq->faqs_id);
+            }
+            $this->data['add_new'] = site_url('faq/insert');
+
+            $this->data['faqs'][] = array(
+                'faqs_id' => $faq->faqs_id,
+                'name' => $faq->name,
+                'status' => $faq->status ? $this->lang->line('text_enabled') : $this->lang->line('text_disabled'),
+                'sort_order' => $faq->sort_order,
+                'edit' => $edit,
+                'selected' => isset($this->input->post['selected']) && in_array($faq->faqs_id, $this->input->post['selected']),
+            );
+        }
+        $pagination = $this->pagination;
+        $pagination->total = $total_faqs;
+        $pagination->page = $page;
+        $pagination->limit = 5;
+        $pagination->url = site_url('faq/index/' . '{page}');
+
+        $this->data['pagination'] = $pagination->render();
+
+        $this->data['main_content'] = 'faq/index.php';
+
+        $this->load->view('main_board', $this->data);
+    }
+
+    public function insert() {
+
+        if (($this->input->server('REQUEST_METHOD') === 'POST') && $this->validateForm()) {
+
+            $this->faq_model->save($this->input->post());
+
+            $this->session->set_flashdata('message', $this->lang->line('text_success'));
+
+            redirect('faq/index');
+        }
+        $this->getForm();
+    }
+
+    public function update() {
+
+        if (($this->input->server('REQUEST_METHOD') === 'POST') && $this->validateForm()) {
+
+            $this->faq_model->update($this->uri->segment(3), $this->input->post());
+
+            $this->session->set_flashdata('message', $this->lang->line('text_success'));
+
+            redirect('faq/index');
+        }
+        $this->getForm();
+    }
+
+    public function delete() {
+        $select = $this->input->post('selected');
+        if (!empty($select)) {
+            foreach ($select as $id) {
+                $this->faq_model->delete($id);
+                $this->session->set_flashdata('message', $this->lang->line('text_success'));
+            }
+        } else {
+            $this->session->set_flashdata('message', $this->lang->line('text_no_check'));
+        }
+        redirect('faq');
+    }
+
+    public function getForm() {
+
+        $this->document->setTitle($this->lang->line('headding_title'));
+        $this->data['title'] = $this->document->getTitle();
+        $this->data['faq_title'] = $this->lang->line('faq_title');
+        $this->data['text_title'] = $this->lang->line('text_title');
+        $this->data['text_des'] = $this->lang->line('text_des');
+        $this->data['text_status'] = $this->lang->line('text_status');
+        $this->data['text_order'] = $this->lang->line('text_order');
+        $this->data['text_enabled'] = $this->lang->line('text_enabled');
+        $this->data['text_disabled'] = $this->lang->line('text_disabled');
+        $this->data['button_save'] = $this->lang->line('button_save');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+        $this->data['tab_general'] = $this->lang->line('tab_general');
+        $this->data['tab_data'] = $this->lang->line('tab_data');
+
+        $id = $this->uri->segment(3);
+
+        if ($id) {
+            $this->data['action'] = site_url('faq/update/' . $id);
+        } else {
+            $this->data['action'] = site_url('faq/insert');
+        }
+        if (!empty($this->error['name'])) {
+            $this->data['error_name'] = $this->error['name'];
+        } else {
+            $this->data['error_name'] = array();
+        }
+
+        $this->data['cancel'] = site_url('faq/index');
+
+        $this->data['languages'] = $this->language_model->getLangs();
+
+        if (isset($id) && ( $this->input->server('REQUEST_METHOD') != 'POST')) {
+            $faq_info = $this->faq_model->getfaq($id);
+        }
+
+        if (isset($posts['faq_description'])) {
+            $this->data['faq_description'] = $posts['faq_description'];
+        } elseif ($id) {
+            $descriptions = $this->faq_model->getfaqDescription($id);
+            foreach ($descriptions as $description) {
+                $this->data['faq_description'][$description['language_id']] = $description;
+            }
+        } else {
+            $this->data['faq_description'] = array();
+        }
+
+        if (isset($posts['sort_order'])) {
+            $this->data['sort_order'] = $posts['sort_order'];
+        } elseif (!empty($faq_info)) {
+            $this->data['sort_order'] = $faq_info->sort_order;
+        } else {
+            $this->data['sort_order'] = '';
+        }
+        if (isset($posts['status'])) {
+            $this->data['status'] = $posts['faq'];
+        } elseif (!empty($faq_info)) {
+            $this->data['status'] = $faq_info->status;
+        } else {
+            $this->data['status'] = '';
+        }
+        $this->data['main_content'] = 'faq/form.php';
+
+        $this->load->view('main_board', $this->data);
+    }
+
+    private function validateForm() {
+        foreach ($this->input->post('faq_description') as $language_id => $value) {
+            if (empty($value['name'])) {
+                $langname = $this->language_model->getLanguage($language_id);
+                $this->error['name'][$language_id] = sprintf($this->lang->line('error_name'), $langname->language_name);
+            }
+        }
+        if (!$this->error) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+}

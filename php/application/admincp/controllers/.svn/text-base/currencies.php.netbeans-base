@@ -1,0 +1,302 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Currencies extends CI_Controller {
+
+    var $currency_id;
+    var $name;
+    var $active;
+    var $data;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('session');
+        $this->load->library('ion_auth');
+        $this->load->library('form_validation');
+        $this->load->database();
+        $this->load->helper('form');
+        $this->load->library('document');
+        $this->load->helper('url');
+        $this->load->library('pagination');
+        $this->lang->load('currencies');
+        $this->load->model('currencies_model', '', TRUE);
+        $posts = $this->input->post();
+        $this->load->library('user_login');
+        $module_name = $this->router->fetch_class();
+        $action_name = $this->router->fetch_method();
+
+        if (!$this->user_login->hasPermission($module_name, $action_name)) {
+            $this->session->set_flashdata('permission', 'You do not have permission to access this page, please refer to your system administrator.');
+            redirect('home');
+        }
+        if ((!$this->session->userdata('admin_logged')) || (!$this->ion_auth->logged_in())) {
+            redirect('login/index/', 'refresh');
+        }
+    }
+
+    public function index() {
+
+        $this->document->setTitle($this->lang->line('currencies_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $p = $this->uri->segment(3);
+        if (isset($p)) {
+            $page = $this->uri->segment(3);
+        } else {
+            $page = 1;
+        }
+
+        $this->data['headding_title'] = $this->lang->line('headding_title');
+        $this->data['colum_name'] = $this->lang->line('colum_name');
+        $this->data['colum_code'] = $this->lang->line('colum_code');
+        $this->data['colum_symbol'] = $this->lang->line('colum_symbol');
+        $this->data['colum_status'] = $this->lang->line('colum_status');
+        $this->data['colum_action'] = $this->lang->line('colum_action');
+
+        $session = $this->session->flashdata('message');
+        if (isset($session)) {
+            $this->data['success'] = $session;
+        } else {
+            $this->data['success'] = '';
+        }
+
+        $total_currencies = $this->currencies_model->totalCurrencies();
+
+        $data = array(
+            'start' => ($page - 1) * 5,
+            'limit' => 5
+        );
+
+        $currencies = $this->currencies_model->getCurrencies($data);
+
+        $this->data['currencies'] = array();
+
+        $this->data['delete'] = site_url('currencies/delete');
+
+        $this->data['add_new'] = site_url('currencies/insert');
+        foreach ($currencies as $currencie) {
+            if ($currencie->currencies_id) {
+                $edit = site_url('currencies/update/' . $currencie->currencies_id);
+            }
+            if (empty($currencie->symbol_left)) {
+                $symbol = $currencie->symbol_right;
+            } else {
+                $symbol = $currencie->symbol_left;
+            }
+
+            $this->data['currencies'][] = array(
+                'currencies_id' => $currencie->currencies_id,
+                'title' => $currencie->title,
+                'code' => $currencie->code,
+                'symbol' => $symbol,
+                'status' => $currencie->status ? $this->lang->line('text_enabled') : $this->lang->line('text_disabled'),
+                'edit' => $edit,
+                'selected' => isset($posts['selected']) && in_array($currencie->currencies_id, $posts['selected']),
+            );
+        }
+
+        $pagination = $this->pagination;
+        $pagination->total = $total_currencies;
+        $pagination->page = $page;
+        $pagination->limit = 5;
+        $pagination->url = site_url('currencies/index/' . '{page}');
+
+        $this->data['pagination'] = $pagination->render();
+
+        $this->data['main_content'] = 'currencies/index.php';
+
+        $this->load->view('main_board', $this->data);
+    }
+
+    public function insert() {
+        if (($this->input->server('REQUEST_METHOD') === 'POST') && $this->validateForm()) {
+
+            $this->currencies_model->save($this->input->post());
+
+            $this->session->set_flashdata('message', $this->lang->line('text_success'));
+
+            redirect('currencies/index');
+        }
+        $this->getForm();
+    }
+
+    public function update() {
+
+        if (($this->input->server('REQUEST_METHOD') === 'POST') && $this->validateForm()) {
+
+            $this->currencies_model->update($this->uri->segment(3), $this->input->post());
+
+            $this->session->set_flashdata('message', $this->lang->line('text_success'));
+
+            redirect('currencies/index');
+        }
+        $this->getForm();
+    }
+
+    public function getForm() {
+
+        $this->document->setTitle($this->lang->line('currencies_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['currencies_title'] = $this->lang->line('currencies_title');
+        $this->data['text_name'] = $this->lang->line('text_name');
+        $this->data['text_code'] = $this->lang->line('text_code');
+        $this->data['text_symbol_left'] = $this->lang->line('text_symbol_left');
+        $this->data['text_symbol_right'] = $this->lang->line('text_symbol_right');
+        $this->data['text_decimal_point'] = $this->lang->line('text_decimal_point');
+        $this->data['text_thousands_point'] = $this->lang->line('text_thousands_point');
+        $this->data['text_decimal_places'] = $this->lang->line('text_decimal_places');
+        $this->data['text_value'] = $this->lang->line('text_value');
+        $this->data['text_fee'] = $this->lang->line('text_fee');
+        $this->data['text_exam'] = $this->lang->line('text_exam');
+        $this->data['text_status'] = $this->lang->line('text_status');
+        $this->data['text_sort_order'] = $this->lang->line('text_sort_order');
+        $this->data['text_enabled'] = $this->lang->line('text_enabled');
+        $this->data['text_disabled'] = $this->lang->line('text_disabled');
+        $this->data['button_save'] = $this->lang->line('button_save');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+
+        $id = $this->uri->segment(3);
+
+        if ($id) {
+            $this->data['action'] = site_url('currencies/update/' . $id);
+        } else {
+            $this->data['action'] = site_url('currencies/insert');
+        }
+
+        $this->data['cancel'] = site_url('currencies/index');
+
+        if (isset($id) && ( $this->input->server('REQUEST_METHOD') != 'POST')) {
+            $currencie_info = $this->currencies_model->getCurrencie($id);
+        }
+
+        if (isset($posts['title'])) {
+            $this->data['title'] = $posts['title'];
+        } elseif (!empty($currencie_info)) {
+            $this->data['title'] = $currencie_info->title;
+        } else {
+            $this->data['title'] = '';
+        }
+        if (isset($posts['code'])) {
+            $this->data['code'] = $posts['code'];
+        } elseif (!empty($currencie_info)) {
+            $this->data['code'] = $currencie_info->code;
+        } else {
+            $this->data['code'] = '';
+        }
+        if (isset($posts['symbol_left'])) {
+            $this->data['symbol_left'] = $posts['symbol_left'];
+        } elseif (!empty($currencie_info)) {
+            $this->data['symbol_left'] = $currencie_info->symbol_left;
+        } else {
+            $this->data['symbol_left'] = '';
+        }
+        if (isset($posts['symbol_right'])) {
+            $this->data['symbol_right'] = $posts['symbol_right'];
+        } elseif (!empty($currencie_info)) {
+            $this->data['symbol_right'] = $currencie_info->symbol_right;
+        } else {
+            $this->data['symbol_right'] = '';
+        }
+        if (isset($posts['decimal_point'])) {
+            $this->data['decimal_point'] = $posts['decimal_point'];
+        } elseif (!empty($currencie_info)) {
+            $this->data['decimal_point'] = $currencie_info->decimal_point;
+        } else {
+            $this->data['decimal_point'] = '';
+        }
+        if (isset($posts['thousands_point'])) {
+            $this->data['thousands_point'] = $posts['thousands_point'];
+        } elseif (!empty($currencie_info)) {
+            $this->data['thousands_point'] = $currencie_info->thousands_point;
+        } else {
+            $this->data['thousands_point'] = '';
+        }
+        if (isset($posts['decimal_places'])) {
+            $this->data['decimal_places'] = $posts['decimal_places'];
+        } elseif (!empty($currencie_info)) {
+            $this->data['decimal_places'] = $currencie_info->decimal_places;
+        } else {
+            $this->data['decimal_places'] = '';
+        }
+        if (isset($posts['value'])) {
+            $this->data['value'] = $posts['value'];
+        } elseif (!empty($currencie_info)) {
+            $this->data['value'] = $currencie_info->value;
+        } else {
+            $this->data['value'] = '';
+        }
+        if (isset($posts['sort_order'])) {
+            $this->data['sort_order'] = $posts['sort_order'];
+        } elseif (!empty($currencie_info)) {
+            $this->data['sort_order'] = $currencie_info->sort_order;
+        } else {
+            $this->data['sort_order'] = '';
+        }
+        if (isset($posts['status'])) {
+            $this->data['status'] = $posts['status'];
+        } elseif (!empty($currencie_info)) {
+            $this->data['status'] = $currencie_info->status;
+        } else {
+            $this->data['status'] = 0;
+        }
+        if (isset($posts['fee'])) {
+            $this->data['fee'] = $posts['fee'];
+        } elseif (!empty($currencie_info)) {
+            $this->data['fee'] = $currencie_info->fee;
+        } else {
+            $this->data['fee'] = '';
+        }
+
+        $this->data['main_content'] = 'currencies/form.php';
+
+        $this->load->view('main_board', $this->data);
+    }
+
+    public function delete() {
+        $select = $this->input->post('selected');
+        if (!empty($select)) {
+            foreach ($select as $id) {
+                $this->currencies_model->delete($id);
+                $this->session->set_flashdata('message', $this->lang->line('text_success'));
+            }
+        } else {
+            $this->session->set_flashdata('message', $this->lang->line('text_no_check'));
+        }
+        redirect('currencies');
+    }
+
+    private function validateForm() {
+        if ($this->uri->segment(3)) {
+            $this->form_validation->set_rules('title', 'lang:error_name', 'required|trim|xss_clean|min_length[3]');
+            if ($this->input->post('old_code') != $this->input->post('code')) {
+                $this->form_validation->set_rules('code', 'lang:error_code', 'required|trim|xss_clean|min_length[2]|max_length[5]|callback_check_code');
+            }
+            $this->form_validation->set_rules('fee', 'lang:error_fee', 'required|trim|xss_clean|numeric');
+        } else {
+            $this->form_validation->set_rules('title', 'lang:error_name', 'required|trim|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('code', 'lang:error_code', 'required|trim|xss_clean|min_length[2]|max_length[5]|callback_check_code');
+            $this->form_validation->set_rules('fee', 'lang:error_fee', 'required|trim|xss_clean|numeric');
+        }
+
+        if ($this->form_validation->run() == TRUE) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function check_code($code) {
+        if ($this->currencies_model->check_code($code)) {
+            $this->form_validation->set_message('check_code', 'Code already. Please add new code');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+}

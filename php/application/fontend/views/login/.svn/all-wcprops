@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login
+END
+reg_step1.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/reg_step1.php
+END
+reg_step2.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/reg_step2.php
+END
+reg_step3.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/reg_step3.php
+END
+reset_account.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/reset_account.php
+END
+login_step01.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/login_step01.php
+END
+reset_pass_step1.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/reset_pass_step1.php
+END
+login_step02.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/login_step02.php
+END
+reset_pass_step2.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/reset_pass_step2.php
+END
+login_step03.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/login_step03.php
+END
+reset_pass_step3.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/reset_pass_step3.php
+END
+login_step04.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/login_step04.php
+END
+reset_pass_step4.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/eglobalcash/!svn/ver/141/code/application/fontend/views/login/reset_pass_step4.php
+END

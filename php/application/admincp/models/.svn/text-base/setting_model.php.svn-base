@@ -1,0 +1,70 @@
+<?php
+
+class Setting_Model extends CI_Model {
+
+    private $tbl = 'configuration';
+    private $tbl_group = 'configuration_group';
+    private $id = 'configuration_id';
+    private $id_group = 'configuration_group_id';
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    function getSettings($group, $data = array()) {
+        $sql = 'SELECT * FROM ' . $this->tbl;
+
+        $sql.=" WHERE configuration_group_id=" . (int) $group . " ORDER BY sort_order ASC";
+
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
+            }
+
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
+
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
+        }
+
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    function getSettingGroups() {
+        $sql = 'SELECT * FROM ' . $this->tbl_group;
+
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    function totalSettings($group) {
+        $this->db->where('configuration_group_id', $group);
+        $this->db->from('configuration');
+        $count = $this->db->count_all_results();
+        return $count;
+    }
+
+    function getSetting($id) {
+        $data = $this->db->get_where($this->tbl, array($this->id => $id))->result();
+        if ($data) {
+            return $data[0];
+        }
+        else
+            return false;
+    }
+
+    function update($id, $data) {
+        $this->db->query("UPDATE " . $this->tbl . " SET configuration_value='" . $data['configuration_value'] . "',last_modified=NOW() WHERE configuration_id='" . (int) $id . "'");
+    }
+
+    function delete($id) {
+        $this->db->where($this->id, $id);
+
+        $this->db->delete($this->tbl);
+    }
+
+}

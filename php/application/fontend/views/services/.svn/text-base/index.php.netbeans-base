@@ -1,0 +1,22 @@
+<div id="services">
+    <h4 class="color_red"><?php echo $headding_title; ?></h4>
+
+    <h5><?php echo $text_welcome; ?></h5>
+
+    <h6><a href="<?php echo site_url('/' . $this->lang->lang() . '/services/info'); ?>"><?php echo $text_info; ?></a> <?php echo $text_info_des; ?></h6><br />
+
+
+    <h6><a href="<?php echo site_url('/' . $this->lang->lang() . '/user/reset_account'); ?>"><?php echo $text_remind; ?></a><?php echo $text_remind_des; ?></h6><br />
+
+
+    <h6><a href="<?php echo site_url('/' . $this->lang->lang() . '/services/block'); ?>"><?php echo $text_block; ?></a><?php echo $text_block_des; ?></h6><br />
+
+
+    <h6><a href="<?php echo site_url('/' . $this->lang->lang() . '/user/reset_password'); ?>"><?php echo $text_reset; ?></a><?php echo $text_reset_des; ?></h6><br />
+
+
+    <h6><a href="<?php echo site_url('/' . $this->lang->lang() . '/services/search'); ?>"><?php echo $text_search; ?></a><?php echo $text_search_des; ?></h6><br />
+
+
+    <h6><a href="<?php echo site_url('/' . $this->lang->lang() . '/paymentform'); ?>"><?php echo $text_payment; ?></a><?php echo $text_payment_des; ?></h6><br />
+</div>

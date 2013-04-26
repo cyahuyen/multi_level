@@ -1,0 +1,93 @@
+<?php
+
+class User_model extends CI_Model {
+
+    private $tbl = 'users';
+    private $id = 'id';
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    function check_email($email) {
+        $query = $this->db->get_where($this->tbl, array('email' => $email))->result();
+
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function check_acc_num($account_number) {
+        $query = $this->db->get_where($this->tbl, array('account_number' => $account_number))->result();
+
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function getAccountNumber($acc_number) {
+        $r = $this->db->get_where($this->tbl, array('account_number' => $acc_number))->result();
+        if ($r) {
+            return $r[0];
+        }
+        else
+            return false;
+    }
+
+    public function getUsers($data = array()) {
+        $sql = 'SELECT * FROM ' . $this->tbl;
+
+        $sql .= " WHERE 1=1";
+
+        if (!empty($data['filter_account_number'])) {
+            $sql .= " AND account_number= '" . $data['filter_account_number'] . "'";
+        }
+        if (!empty($data['filter_name'])) {
+            $sql .= " AND username LIKE '%" . $data['filter_name'] . "%' OR first_name LIKE '%" . $data['filter_name'] . "%' OR last_name LIKE '%" . $data['filter_name'] . "%'";
+        }
+
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
+            }
+
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
+
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
+        }
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    function totalUsers() {
+        return $this->db->count_all_results($this->tbl);
+    }
+
+    function getUser($id) {
+        $r = $this->db->get_where($this->tbl, array($this->id => $id))->result();
+        if ($r) {
+            return $r[0];
+        }
+        else
+            return false;
+    }
+
+    function update($id, $data) {
+        $this->db->query("UPDATE " . $this->tbl . " SET email='" . $data['email'] . "',first_name='" . $data['first_name'] . "',last_name='" . $data['last_name'] . "',phone='" . $data['phone'] . "',mobile='" . $data['mobile'] . "',company='" . $data['company'] . "' WHERE id='" . (int) $id . "'");
+    }
+
+    function delete($id) {
+        $this->db->where($this->id, $id);
+
+        $this->db->delete($this->tbl);
+    }
+
+}
+

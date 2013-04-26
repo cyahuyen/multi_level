@@ -1,0 +1,92 @@
+<?php
+
+class Question_Model extends CI_Model {
+
+    private $tbl = 'question';
+    private $id = 'question_id';
+    private $question_des = 'question_description';
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    public function getQuestions($data = array()) {
+        $sql = 'SELECT q.sort_order,q.status,qd.* FROM ' . $this->tbl . ' as q';
+
+        $sql .=' LEFT JOIN question_description as qd ON q.question_id=qd.question_id GROUP BY question_id';
+
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
+            }
+
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
+
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
+        }
+
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    function totalQuestions() {
+        return $this->db->count_all_results($this->tbl);
+    }
+
+    function getQuestion($id) {
+        $r = $this->db->get_where($this->tbl, array($this->id => $id))->result();
+        if ($r) {
+            return $r[0];
+        }
+        else
+            return false;
+    }
+
+    function getQuestionDescription($id) {
+        $data = $this->db->get_where($this->question_des, array($this->id => $id))->result();
+        $dataList = array();
+        if ($data) {
+            foreach ($data as $result) {
+                $results['language_id'] = $result->language_id;
+                $results['question'] = $result->question;
+                $dataList[] = $results;
+            }
+            return $dataList;
+        }
+        else
+            return false;
+    }
+
+    function save($data) {
+
+        $this->db->query("INSERT INTO question SET status='" . $data['status'] . "',sort_order='" . $data['sort_order'] . "'");
+
+        $id = $this->db->insert_id();
+
+        foreach ($data['question_description'] as $language_id => $value) {
+            $this->db->query("INSERT INTO question_description SET question_id = '" . (int) $id . "', language_id = '" . (int) $language_id . "', question = '" . html_escape($value['question']) . "'");
+        }
+
+        return $this->db->insert_id();
+    }
+
+    function update($id, $data) {
+        $this->db->query("UPDATE question SET status='" . $data['status'] . "',sort_order='" . $data['sort_order'] . "' WHERE question_id = '" . (int) $id . "'");
+
+        $this->db->query("DELETE FROM question_description WHERE question_id = '" . (int) $id . "'");
+
+        foreach ($data['question_description'] as $language_id => $value) {
+            $this->db->query("INSERT INTO question_description SET question_id = '" . (int) $id . "', language_id = '" . (int) $language_id . "', question = '" . html_escape($value['question']) . "'");
+        }
+    }
+
+    function delete($id) {
+        $this->db->query("DELETE FROM " . $this->tbl . " WHERE question_id='" . (int) $id . "' ");
+        $this->db->query("DELETE FROM " . $this->question_des . " WHERE question_id='" . (int) $id . "'");
+    }
+
+}
+

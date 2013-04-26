@@ -1,0 +1,34 @@
+<?php
+
+class Question_model extends CI_Model {
+
+    private $tbl = 'question';
+    private $id = 'question_id';
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    public function getQuesions($language_id) {
+        $sql = "SELECT q.sort_order,q.status,qd.* FROM " . $this->tbl . " as q";
+
+        $sql .=" LEFT JOIN question_description as qd ON q.question_id=qd.question_id";
+
+        $sql .= " WHERE status=1 AND language_id='" . (int) $language_id . "'  GROUP BY question_id ";
+
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    function getQuestion($id, $language_id) {
+        $sql = "SELECT qd.question FROM " . $this->tbl . " as q LEFT JOIN question_description as qd ON q.question_id=qd.question_id WHERE q.question_id='" . (int) $id . "' AND qd.language_id='" . (int) $language_id . "'";
+        $query = $this->db->query($sql)->result();
+        if ($query) {
+            return $query[0];
+        }
+        else
+            return false;
+    }
+
+}

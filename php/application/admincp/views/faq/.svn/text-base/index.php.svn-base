@@ -1,0 +1,51 @@
+<div class="simplebox grid740">
+    <?php if ($success) { ?>
+        <div class="simple-tips">
+            <ul>
+                <li><?php echo $success; ?></li>
+            </ul>
+            <a href="#" class="close tips" title="Close">close</a>
+        </div>
+    <?php } ?>
+    <div class="titleh"><h3><?php echo $headding_title; ?></h3>
+        <div class="shortcuts-icons">
+            <a href="<?php echo $add_new; ?>" class="button-green"><?php echo $button_insert; ?></a>
+            <a onclick="$('form').submit();" class="button-green"><?php echo $button_delete; ?></a>
+        </div>
+    </div>
+    <table id="myTable" class="tablesorter"> 
+        <thead> 
+            <tr> 
+                <th>#</th> 
+                <th><?php echo $colum_name; ?></th> 
+                <th><?php echo $colum_status; ?></th>
+                <th><?php echo $colum_sort; ?></th> 
+                <th><?php echo $colum_action; ?></th>
+            </tr> 
+        </thead> 
+        <?php if ($faqs) { ?>
+            <tbody> 
+            <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form">
+                <?php foreach ($faqs as $faq) { ?>
+                    <tr> 
+                        <td>
+                            <?php if ($faq['selected']) { ?>
+                                <input type="checkbox" name="selected[]" value="<?php echo $faq['faqs_id']; ?>" checked="checked" />
+                            <?php } else { ?>
+                                <input type="checkbox" name="selected[]" value="<?php echo $faq['faqs_id']; ?>" />
+                            <?php } ?>
+                        </td> 
+                        <td><?php echo $faq['name']; ?></td> 
+                        <td><?php echo $faq['status']; ?></td> 
+                        <td><?php echo $faq['sort_order']; ?></td> 
+                        <td><a href="<?php echo $faq['edit']; ?>"><?php echo $button_edit; ?></a></td> 
+                    </tr> 
+                <?php } ?>
+            </form>
+            </tbody> 
+        <?php } ?>
+    </table>
+    <div class="pagination"><?php echo $pagination; ?></div>
+
+</div>
+<!-- END TABLE -->

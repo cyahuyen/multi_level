@@ -1,0 +1,34 @@
+<div class="simplebox grid740">
+    <?php if ($success) { ?>
+        <div class="simple-tips">
+            <ul>
+                <li><?php echo $success; ?></li>
+            </ul>
+            <a href="#" class="close tips" title="Close">close</a>
+        </div>
+    <?php } ?>
+    <div class="titleh"><h3><?php echo $headding_title; ?></h3></div>
+    <table id="myTable" class="tablesorter"> 
+        <thead> 
+            <tr> 
+                <th><?php echo $colum_name; ?></th> 
+                <th><?php echo $colum_code; ?></th>
+                <th><?php echo $colum_fee; ?></th>
+                <th><?php echo $colum_action; ?></th> 
+            </tr> 
+        </thead> 
+        <?php if ($fees) { ?>
+            <tbody> 
+                <?php foreach ($fees as $fee) { ?>
+                    <tr> 
+                        <td><?php echo $fee['title']; ?></td> 
+                        <td><?php echo $fee['code']; ?></td> 
+                        <td><?php echo $fee['fee']; ?></td> 
+                        <td><a href="<?php echo $fee['edit']; ?>">[ Edit ]</a></td> 
+                    </tr> 
+                <?php } ?>
+            <?php } ?>
+    </table>
+    <div class="pagination"><?php echo $pagination; ?></div>
+</div>
+<!-- END TABLE -->

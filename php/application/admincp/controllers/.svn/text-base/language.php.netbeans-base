@@ -1,0 +1,450 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Language extends CI_Controller {
+
+    var $language_id;
+    var $language_name;
+    var $language_status;
+    var $language;
+    var $data;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('ion_auth');
+        $this->load->library('session');
+        $this->load->library('form_validation');
+        $this->load->database();
+        $this->load->helper('form');
+        $this->load->library('document');
+        $this->load->helper('url');
+        $this->load->helper('xml');
+        $this->load->helper('file');
+        $this->lang->load('language');
+        $this->load->library('pagination');
+        $this->load->model('language_model', '', TRUE);
+        $this->load->library('user_login');
+        $module_name = $this->router->fetch_class();
+        $action_name = $this->router->fetch_method();
+
+        if (!$this->user_login->hasPermission($module_name, $action_name)) {
+            $this->session->set_flashdata('permission', 'You do not have permission to access this page, please refer to your system administrator.');
+            redirect('home');
+        }
+
+        if ((!$this->session->userdata('admin_logged')) || (!$this->ion_auth->logged_in())) {
+            redirect('login/index/', 'refresh');
+        }
+    }
+
+    public function index() {
+        $p = $this->uri->segment(3);
+        if (isset($p)) {
+            $page = $this->uri->segment(3);
+        } else {
+            $page = 1;
+        }
+
+        $this->document->setTitle($this->lang->line('headding_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['headding_title'] = $this->lang->line('headding_title');
+        $this->data['colum_name'] = $this->lang->line('colum_name');
+        $this->data['colum_code'] = $this->lang->line('colum_code');
+        $this->data['colum_icon'] = $this->lang->line('colum_icon');
+        $this->data['colum_status'] = $this->lang->line('colum_status');
+        $this->data['colum_action'] = $this->lang->line('colum_action');
+        $this->data['button_delete'] = $this->lang->line('button_delete');
+        $this->data['button_edit'] = $this->lang->line('button_edit');
+        $this->data['button_insert'] = $this->lang->line('button_insert');
+        $this->data['button_general'] = $this->lang->line('button_general');
+
+        $data = array(
+            'start' => ($page - 1) * 5,
+            'limit' => 5
+        );
+
+        $total_languages = $this->language_model->totalLanguages();
+
+        $languages = $this->language_model->getLanguages($data);
+
+        $this->data['add_new'] = site_url('language/insert');
+
+        $this->data['delete'] = site_url('language/delete');
+
+        $this->data['general'] = site_url('language/general');
+
+        $this->data['languages'] = array();
+
+        $session = $this->session->flashdata('message');
+        if (isset($session)) {
+            $this->data['success'] = $session;
+        } else {
+            $this->data['success'] = '';
+        }
+
+        foreach ($languages as $language) {
+            if ($language->language_id) {
+                $edit = site_url('language/update/' . $language->language_id);
+            }
+
+            $this->data['languages'][] = array(
+                'language_id' => $language->language_id,
+                'language_name' => $language->language_name,
+                'language_code' => $language->language_code,
+                'language_image' => $language->language_image,
+                'language_status' => $language->language_status,
+                'is_default' => $language->is_default,
+                'edit' => $edit,
+                'selected' => isset($this->input->post['selected']) && in_array($language->language_id, $this->input->post['selected']),
+            );
+        }
+        $pagination = $this->pagination;
+        $pagination->total = $total_languages;
+        $pagination->page = $page;
+        $pagination->limit = 5;
+        $pagination->url = site_url('language/index/' . '{page}');
+
+        $this->data['pagination'] = $pagination->render();
+
+        $this->data['main_content'] = 'language/index.php';
+
+        $this->load->view('main_board', $this->data);
+    }
+
+    public function insert() {
+
+        $this->document->setTitle($this->lang->line('add_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['add_title'] = $this->lang->line('add_title');
+        $this->data['text_name'] = $this->lang->line('text_name');
+        $this->data['text_code'] = $this->lang->line('text_code');
+        $this->data['text_icon'] = $this->lang->line('text_icon');
+        $this->data['text_direction'] = $this->lang->line('text_direction');
+        $this->data['text_status'] = $this->lang->line('text_status');
+        $this->data['text_order'] = $this->lang->line('text_order');
+        $this->data['text_enabled'] = $this->lang->line('text_enabled');
+        $this->data['text_disabled'] = $this->lang->line('text_disabled');
+        $this->data['button_save'] = $this->lang->line('button_save');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+        $this->data['text_default'] = $this->lang->line('text_default');
+
+        $posts = $this->input->post();
+        if (isset($posts['language_name'])) {
+            $language_name = $posts['language_name'];
+        } else {
+            $language_name = '';
+        }
+        if (isset($posts['language_code'])) {
+            $language_code = $posts['language_code'];
+        } else {
+            $language_code = '';
+        }
+        if (isset($posts['language_image'])) {
+            $language_image = $posts['language_image'];
+        } else {
+            $language_image = '';
+        }
+        if (isset($posts['language_directory'])) {
+            $language_directory = $posts['language_directory'];
+        } else {
+            $language_directory = '';
+        }
+        if (isset($posts['sort_order'])) {
+            $sort_order = $posts['sort_order'];
+        } else {
+            $sort_order = '';
+        }
+        if (isset($posts['status'])) {
+            $status = $posts['status'];
+        } else {
+            $status = 1;
+        }
+        if (isset($posts['is_default'])) {
+            $is_default_form = $posts['is_default'];
+        } else {
+            $is_default_form = 0;
+        }
+
+
+        $this->data['action'] = site_url('language/insert');
+
+        $this->data['cancel'] = site_url('language/index');
+
+        $this->form_validation->set_rules('language_name', 'lang:error_name', 'required|trim|xss_clean|min_length[2]|max_length[30]');
+        $this->form_validation->set_rules('language_code', 'lang:error_code', 'required|trim|xss_clean|min_length[2]|max_length[5]');
+        $this->form_validation->set_rules('language_image', 'lang:error_image', 'required|trim|xss_clean');
+        $this->form_validation->set_rules('language_directory', 'lang:error_directory', 'required|trim|xss_clean|max_length[100]');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->data['main_content'] = 'language/add.php';
+            $this->load->view('main_board', $this->data);
+        } else {
+            $data = array(
+                'language_name' => $language_name,
+                'language_code' => $language_code,
+                'language_image' => $language_image,
+                'language_directory' => $language_directory,
+                'sort_order' => $sort_order,
+                'language_status' => $status,
+                'is_default' => $is_default_form,
+            );
+
+            // get default language
+            $is_default = $this->language_model->getDefault();
+            $default_id = $is_default->language_id;
+
+            //update default language
+            if ($is_default_form == 1) {
+                $data_default = array(
+                    'is_default' => 0,
+                );
+                $this->language_model->updateDefault($data_default);
+            }
+
+
+
+            // save language
+            $id = $this->language_model->save($data);
+
+            // Update language to Email template
+            $emails = $this->language_model->getEmails($default_id);
+
+            foreach ($emails as $email) {
+                $email_id = $email->email_id;
+                $title = $email->title;
+                $content = $email->content;
+
+                $dataemail = array(
+                    'email_id' => $email_id,
+                    'title' => $title,
+                    'language_id' => $id,
+                    'content' => $content,
+                );
+
+                $this->language_model->saveEmail($dataemail);
+            }
+
+            // Update language to Faqs
+            $faqs = $this->language_model->getFaqs($default_id);
+
+            foreach ($faqs as $faq) {
+                $faqs_id = $faq->faqs_id;
+                $name = $faq->name;
+                $description = $faq->description;
+
+                $datafaq = array(
+                    'faqs_id' => $faqs_id,
+                    'name' => $name,
+                    'language_id' => $id,
+                    'description' => $description,
+                );
+
+                $this->language_model->saveFaq($datafaq);
+            }
+
+            // Update language to Question
+            $questions = $this->language_model->getQuestions($default_id);
+
+            foreach ($questions as $question) {
+                $question_id = $question->question_id;
+                $question = $question->question;
+
+                $dataques = array(
+                    'question_id' => $question_id,
+                    'language_id' => $id,
+                    'question' => $question,
+                );
+
+                $this->language_model->saveQuestion($dataques);
+            }
+
+            //general language xml
+            $dom = xml_dom();
+            $languages_xml = xml_add_child($dom, 'languages');
+            $languages = $this->language_model->getLangs();
+            foreach ($languages as $language) {
+                $item = xml_add_child($languages_xml, 'item');
+                xml_add_child($item, 'code', $language->language_code);
+                xml_add_child($item, 'folder', $language->language_directory);
+                xml_add_child($item, 'default', $language->is_default);
+                xml_add_child($item, 'language_id', $language->language_id);
+            }
+            $file_xml = FRONTPATH . 'language/languages.xml';
+            delete_files($file_xml);
+            $fp = fopen($file_xml, 'w');
+            fclose($fp);
+            $mess_xml = '';
+            if (!write_file($file_xml, xml_print($dom, true), 'r+')) {
+                $mess_xml = 'Unable to write the language file. Plz use Genreral function.';
+            }
+            $this->session->set_flashdata('message', $this->lang->line('text_success') . '<br>' . $mess_xml);
+            redirect('language/index');
+        }
+    }
+
+    public function update() {
+
+        $this->document->setTitle($this->lang->line('add_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['add_title'] = $this->lang->line('add_title');
+        $this->data['text_name'] = $this->lang->line('text_name');
+        $this->data['text_code'] = $this->lang->line('text_code');
+        $this->data['text_icon'] = $this->lang->line('text_icon');
+        $this->data['text_direction'] = $this->lang->line('text_direction');
+        $this->data['text_status'] = $this->lang->line('text_status');
+        $this->data['text_order'] = $this->lang->line('text_order');
+        $this->data['text_enabled'] = $this->lang->line('text_enabled');
+        $this->data['text_disabled'] = $this->lang->line('text_disabled');
+        $this->data['text_default'] = $this->lang->line('text_default');
+        $this->data['button_save'] = $this->lang->line('button_save');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+
+        $id = $this->uri->segment(3);
+
+        $this->data['action'] = site_url('language/update/' . $id);
+
+        $this->data['cancel'] = site_url('language/index');
+
+        $language_info = $this->language_model->getLanguage($id);
+
+        $posts = $this->input->post();
+
+        if ($posts) {
+            $this->data['language_name'] = $posts['language_name'];
+            $this->data['language_code'] = $posts['language_code'];
+            $this->data['language_image'] = $posts['language_image'];
+            $this->data['language_directory'] = $posts['language_directory'];
+            $this->data['sort_order'] = $posts['sort_order'];
+            if (!empty($posts['status'])) {
+                $this->data['language_status'] = $posts['status'];
+            } else {
+                $this->data['language_status'] = 0;
+            }
+            if ($posts['is_default']) {
+                $this->data['is_default'] = $posts['is_default'];
+            } else {
+                $this->data['is_default'] = 0;
+            }
+            $this->form_validation->set_rules('language_name', 'lang:error_name', 'required|trim|xss_clean|min_length[2]|max_length[30]');
+            $this->form_validation->set_rules('language_code', 'lang:error_code', 'required|trim|xss_clean|min_length[2]|max_length[5]');
+            $this->form_validation->set_rules('language_image', 'lang:error_image', 'required|trim|xss_clean');
+            $this->form_validation->set_rules('language_directory', 'lang:error_directory', 'required|trim|xss_clean|max_length[100]');
+        } else {
+            $this->data['language_name'] = $language_info->language_name;
+            $this->data['language_code'] = $language_info->language_code;
+            $this->data['language_image'] = $language_info->language_image;
+            $this->data['language_directory'] = $language_info->language_directory;
+            $this->data['sort_order'] = $language_info->sort_order;
+            $this->data['language_status'] = $language_info->language_status;
+            $this->data['is_default'] = $language_info->is_default;
+        }
+        if ($this->form_validation->run() == FALSE) {
+            $this->data['main_content'] = 'language/edit.php';
+            $this->load->view('main_board', $this->data);
+        } else {
+            $data = array(
+                'language_name' => $this->data['language_name'],
+                'language_code' => $this->data['language_code'],
+                'language_image' => $this->data['language_image'],
+                'language_directory' => $this->data['language_directory'],
+                'sort_order' => $this->data['sort_order'],
+                'language_status' => $this->data['language_status'],
+                'is_default' => $this->data['is_default'],
+            );
+            if ($this->data['is_default'] == 1) {
+                $default = array(
+                    'is_default' => 0,
+                );
+                $this->language_model->updateDefault($default);
+            }
+            $this->language_model->update($id, $data);
+            //general language xml
+            $dom = xml_dom();
+            $languages_xml = xml_add_child($dom, 'languages');
+            $languages = $this->language_model->getLangs();
+            foreach ($languages as $language) {
+                $item = xml_add_child($languages_xml, 'item');
+                xml_add_child($item, 'code', $language->language_code);
+                xml_add_child($item, 'folder', $language->language_directory);
+                xml_add_child($item, 'default', $language->is_default);
+                xml_add_child($item, 'language_id', $language->language_id);
+            }
+            $file_xml = FRONTPATH . 'language/languages.xml';
+            delete_files($file_xml);
+            $fp = fopen($file_xml, 'w');
+            fclose($fp);
+            $mess_xml = '';
+            if (!write_file($file_xml, xml_print($dom, true), 'r+')) {
+                $mess_xml = 'Unable to write the language file. Plz use Genreral function.';
+            }
+            $this->session->set_flashdata('message', $this->lang->line('text_success') . '<br>' . $mess_xml);
+            redirect('language/index');
+        }
+    }
+
+    public function delete() {
+        $select = $this->input->post('selected');
+        $check_default = $this->language_model->getDefault(1);
+        $is_default = $check_default->language_id;
+        if (!empty($select)) {
+            foreach ($select as $id) {
+                if ($id == $is_default) {
+                    $this->session->set_flashdata('message', $this->lang->line('text_notdelete'));
+                    redirect('language');
+                }
+                $this->language_model->delete($id);
+                //general language xml
+                $dom = xml_dom();
+                $languages_xml = xml_add_child($dom, 'languages');
+                $languages = $this->language_model->getLangs();
+                foreach ($languages as $language) {
+                    $item = xml_add_child($languages_xml, 'item');
+                    xml_add_child($item, 'code', $language->language_code);
+                    xml_add_child($item, 'folder', $language->language_directory);
+                    xml_add_child($item, 'default', $language->is_default);
+                    xml_add_child($item, 'language_id', $language->language_id);
+                }
+                $file_xml = FRONTPATH . 'language/languages.xml';
+                delete_files($file_xml);
+                $fp = fopen($file_xml, 'w');
+                fclose($fp);
+                $mess_xml = '';
+                if (!write_file($file_xml, xml_print($dom, true), 'r+')) {
+                    $mess_xml = 'Unable to write the language file. Plz use Genreral function.';
+                }
+                $this->session->set_flashdata('message', $this->lang->line('text_success') . '<br>' . $mess_xml);
+            }
+        } else {
+            $this->session->set_flashdata('message', $this->lang->line('text_no_check'));
+        }
+        redirect('language');
+    }
+
+    public function general() {
+        //general language xml
+        $dom = xml_dom();
+        $languages_xml = xml_add_child($dom, 'languages');
+        $languages = $this->language_model->getLangs();
+        foreach ($languages as $language) {
+            $item = xml_add_child($languages_xml, 'item');
+            xml_add_child($item, 'code', $language->language_code);
+            xml_add_child($item, 'folder', $language->language_directory);
+            xml_add_child($item, 'default', $language->is_default);
+            xml_add_child($item, 'language_id', $language->language_id);
+        }
+        $file_xml = FRONTPATH . 'language/languages.xml';
+        delete_files($file_xml);
+        $fp = fopen($file_xml, 'w');
+        fclose($fp);
+        redirect('language');
+    }
+
+}

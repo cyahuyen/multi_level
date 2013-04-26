@@ -1,0 +1,32 @@
+<!-- START SIMPLE FORM -->
+<div class="simplebox grid740">
+    <div class="titleh">
+        <h3><?php echo $fee_title; ?></h3>
+    </div>
+    <div class="body">
+        <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form2" name="form2">
+            <div class="st-form-line">	
+                <span class="st-labeltext"><?php echo $text_name; ?></span>	
+                <?php echo $title; ?>
+                <div class="clear"></div>
+            </div>
+
+            <div class="st-form-line">	
+                <span class="st-labeltext"><?php echo $text_code; ?></span>	
+                <?php echo $code; ?>
+                <div class="clear"></div>
+            </div>
+            <div class="st-form-line">	
+                <span class="st-labeltext"><?php echo $text_fee; ?></span>	
+                <input name="fee" type="text" class="st-forminput" id="fee" style="width:200px" value="<?php echo set_value('fee', $fee); ?>" /><span class="st-form-error">* <?php echo form_error('fee'); ?></span>
+                <?php echo $text_exam; ?>
+                <div class="clear"></div>
+            </div>
+            <div class="button-box">
+                <input type="submit" name="button" id="submit" value="<?php echo $button_save; ?>" class="st-button"/>
+                <a href="<?php echo $cancel; ?>" class="st-clear"><?php echo $button_cancel; ?></a>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- END SIMPLE FORM -->

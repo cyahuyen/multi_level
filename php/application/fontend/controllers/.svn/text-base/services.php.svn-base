@@ -1,0 +1,376 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Services extends CI_Controller {
+
+    var $transaction_id;
+    var $data;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('form_validation');
+        $this->load->database();
+        $this->load->helper('form');
+        $this->load->library('document');
+        $this->load->helper('url');
+        $this->load->library('pagination');
+        $this->lang->load('services');
+        $this->load->library('recaptcha');
+        $this->lang->load('recaptcha');
+        $this->load->model('transaction_model', '', TRUE);
+        $this->load->model('user_model', '', TRUE);
+        $this->load->model('balance_model', '', TRUE);
+    }
+
+    public function index() {
+
+        $this->document->setTitle($this->lang->line('headding_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+        $this->data['headding_title'] = $this->lang->line('headding_title');
+        $this->data['text_welcome'] = $this->lang->line('text_welcome');
+        $this->data['text_info'] = $this->lang->line('text_info');
+        $this->data['text_info_des'] = $this->lang->line('text_info_des');
+        $this->data['text_remind'] = $this->lang->line('text_remind');
+        $this->data['text_remind_des'] = $this->lang->line('text_remind_des');
+        $this->data['text_block'] = $this->lang->line('text_block');
+        $this->data['text_block_des'] = $this->lang->line('text_block_des');
+        $this->data['text_reset'] = $this->lang->line('text_reset');
+        $this->data['text_reset_des'] = $this->lang->line('text_reset_des');
+        $this->data['text_search'] = $this->lang->line('text_search');
+        $this->data['text_search_des'] = $this->lang->line('text_search_des');
+        $this->data['text_payment'] = $this->lang->line('text_payment');
+        $this->data['text_payment_des'] = $this->lang->line('text_payment_des');
+
+        $this->data['main_content'] = 'services/index.php';
+
+        $this->load->view('home', $this->data);
+    }
+
+    public function search() {
+        $this->document->setTitle($this->lang->line('text_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+        $this->data['text_title'] = $this->lang->line('text_title');
+        $this->data['text_notice1'] = $this->lang->line('text_notice1');
+        $this->data['text_date'] = $this->lang->line('text_date');
+        $this->data['text_source'] = $this->lang->line('text_source');
+        $this->data['text_destination'] = $this->lang->line('text_destination');
+        $this->data['text_batch'] = $this->lang->line('text_batch');
+        $this->data['text_currency'] = $this->lang->line('text_currency');
+        $this->data['text_amount'] = $this->lang->line('text_amount');
+        $this->data['text_please'] = $this->lang->line('text_please');
+        $this->data['text_enter_code'] = $this->lang->line('text_enter_code');
+        $this->data['text_notice2'] = $this->lang->line('text_notice2');
+        $this->data['button_search'] = $this->lang->line('button_search');
+        $this->data['colum_date'] = $this->lang->line('colum_date');
+        $this->data['colum_bath'] = $this->lang->line('colum_bath');
+        $this->data['colum_from'] = $this->lang->line('colum_from');
+        $this->data['colum_to'] = $this->lang->line('colum_to');
+        $this->data['colum_amount'] = $this->lang->line('colum_amount');
+        $this->data['colum_fee'] = $this->lang->line('colum_fee');
+        $this->data['colum_currency'] = $this->lang->line('colum_currency');
+        $this->data['text_view'] = $this->lang->line('text_view');
+        $this->data['colum_action'] = $this->lang->line('colum_action');
+        $this->data['button_new_search'] = $this->lang->line('button_new_search');
+        $this->data['text_no_transfer'] = $this->lang->line('text_no_transfer');
+
+        $this->form_validation->set_rules('recaptcha_response_field', 'lang:recaptcha_field_name', 'required|callback_check_captcha');
+
+        $this->form_validation->set_rules('transaction_time', 'lang:error_date', 'required|trim|xss_clean');
+        $this->form_validation->set_rules('from_account', 'lang:error_from', 'required|trim|xss_clean');
+        $this->form_validation->set_rules('to_account', 'lang:error_to', 'required|trim|numeric|xss_clean|min_length[6]');
+        $this->form_validation->set_rules('batch_number', 'lang:error_batch', 'required|trim|xss_clean|numeric|min_length[8]');
+        $this->form_validation->set_rules('amount', 'lang:error_amount', 'required|trim|numeric|xss_clean');
+        $this->data['recaptcha'] = $this->recaptcha->get_html();
+
+        $this->load->model('currencies_model', '', TRUE);
+
+        $currencies = $this->currencies_model->getCurrencies(1);
+
+        $this->data['currencies'] = array();
+        foreach ($currencies as $currencie) {
+
+            $this->data['currencies'][] = array(
+                'code' => $currencie->code,
+                'title' => $currencie->title,
+            );
+        }
+
+        $post = $this->input->post();
+
+        if (isset($post['transaction_currency'])) {
+            $transaction_currency = $post['transaction_currency'];
+        } else {
+            $transaction_currency = '';
+        }
+
+        if (isset($post['transaction_time'])) {
+            $transaction_time = $post['transaction_time'];
+        } else {
+            $transaction_time = '';
+        }
+        if (isset($post['from_account'])) {
+            $from_account = $post['from_account'];
+        } else {
+            $from_account = '';
+        }
+        if (isset($post['to_account'])) {
+            $to_account = $post['to_account'];
+        } else {
+            $to_account = '';
+        }
+        if (isset($post['batch_number'])) {
+            $batch_number = $post['batch_number'];
+        } else {
+            $batch_number = '';
+        }
+        if (isset($post['amount'])) {
+            $amount = $post['amount'];
+        } else {
+            $amount = '';
+        }
+        if (($this->form_validation->run() == TRUE) && ($this->input->post('transaction_time') && $this->input->post('from_account') && $this->input->post('to_account') && $this->input->post('batch_number') && $this->input->post('amount'))) {
+            $data = array(
+                'transaction_currency' => $transaction_currency,
+                'transaction_time' => $transaction_time,
+                'from_account' => $from_account,
+                'to_account' => $to_account,
+                'batch_number' => $batch_number,
+                'amount' => $amount,
+            );
+            $transfers = $this->transaction_model->getTransfers($data);
+
+            $this->data['transfers'] = array();
+            foreach ($transfers as $transfer) {
+                if ($transfer->transaction_id) {
+                    $view = site_url('transfer/view/' . $transfer->transaction_id);
+                }
+                $this->data['transfers'][] = array(
+                    'transaction_id' => $transfer->transaction_id,
+                    'batch_number' => $transfer->batch_number,
+                    'amount' => $transfer->amount,
+                    'transaction_time' => $transfer->transaction_time,
+                    'transaction_memo' => $transfer->transaction_memo,
+                    'from_account' => $transfer->from_account,
+                    'to_account' => $transfer->to_account,
+                    'transaction_currency' => $transfer->transaction_currency,
+                    'amount_text' => $transfer->amount_text,
+                    'fee' => $transfer->fee,
+                    'view' => $view,
+                );
+            }
+            $this->data['main_content'] = 'services/list.php';
+
+            $this->load->view('home', $this->data);
+        } else {
+
+            $this->data['main_content'] = 'services/search.php';
+
+            $this->load->view('home', $this->data);
+        }
+    }
+
+    public function info() {
+
+        $this->document->setTitle($this->lang->line('text_info_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['text_info_title'] = $this->lang->line('text_info_title');
+        $this->data['text_acc_number'] = $this->lang->line('text_acc_number');
+        $this->data['text_enter_code'] = $this->lang->line('text_enter_code');
+        $this->data['text_notice1'] = $this->lang->line('text_notice1');
+        $this->data['text_notice2'] = $this->lang->line('text_notice2');
+        $this->data['button_search'] = $this->lang->line('button_search');
+
+        $this->form_validation->set_rules('recaptcha_response_field', 'lang:recaptcha_field_name', 'required|callback_check_captcha');
+
+        $this->form_validation->set_rules('account_number', 'lang:error_account', 'required|trim|xss_clean|numeric|max_length[8]|callback_check_acc_num');
+
+        $this->data['recaptcha'] = $this->recaptcha->get_html();
+
+        $post = $this->input->post();
+
+        $this->data['account_number'] = '';
+
+        if (isset($post['account_number'])) {
+            $account_number = $post['account_number'];
+        } else {
+            $account_number = '';
+        }
+
+        if (($this->form_validation->run() == TRUE) && ($this->input->post('account_number'))) {
+            $this->data['text_acc_name'] = $this->lang->line('text_acc_name');
+            $this->data['text_type'] = $this->lang->line('text_type');
+            $this->data['text_sign_date'] = $this->lang->line('text_sign_date');
+            $this->data['text_first'] = $this->lang->line('text_first');
+            $this->data['text_last'] = $this->lang->line('text_last');
+            $this->data['text_company'] = $this->lang->line('text_company');
+            $this->data['text_phone'] = $this->lang->line('text_phone');
+            $this->data['text_mobile'] = $this->lang->line('text_mobile');
+            $this->data['text_address'] = $this->lang->line('text_address');
+            $this->data['text_city'] = $this->lang->line('text_city');
+            $this->data['text_state'] = $this->lang->line('text_state');
+            $this->data['text_country'] = $this->lang->line('text_country');
+            $this->data['text_zip_code'] = $this->lang->line('text_zip_code');
+            $this->data['text_email'] = $this->lang->line('text_email');
+            $this->data['text_infor'] = $this->lang->line('text_infor');
+            $this->data['text_hidden'] = $this->lang->line('text_hidden');
+            $this->data['text_usd'] = $this->lang->line('text_usd');
+            $this->data['text_euro'] = $this->lang->line('text_euro');
+            $this->data['text_gold'] = $this->lang->line('text_gold');
+            $this->data['text_account_info'] = $this->lang->line('text_account_info');
+            $this->data['text_presonal'] = $this->lang->line('text_presonal');
+            $this->data['text_contact'] = $this->lang->line('text_contact');
+            $this->data['text_electronic'] = $this->lang->line('text_electronic');
+
+
+            $user_info = $this->user_model->getAccountNumber($account_number);
+
+            $user_publishs = $this->user_model->getUserPublished($user_info->id);
+
+            $balaces = $this->balance_model->getBalaceByUser($user_info->id);
+
+            $this->data['blances'] = array();
+            foreach ($balaces as $balace) {
+                $this->data['blances'][] = array(
+                    'currency_code' => $balace->currency_code,
+                    'balance' => $balace->balance,
+                    'published' => $balace->published,
+                    'text_balance' => sprintf($this->lang->line('text_balance'), $balace->currency_code),
+                );
+            }
+
+            $this->data['id'] = $user_info->id;
+            $this->data['account_number'] = $user_info->account_number;
+            $this->data['username'] = $user_info->username;
+            $this->data['account_type'] = $user_info->account_type;
+            $this->data['created_on'] = gmdate('Y-m-d H:i:s', $user_info->created_on);
+            $this->data['first_name'] = $user_info->first_name;
+            $this->data['last_name'] = $user_info->last_name;
+            $this->data['email'] = $user_info->email;
+            $this->data['company'] = $user_info->company;
+            $this->data['phone'] = $user_info->phone;
+            $this->data['mobile'] = $user_info->mobile;
+            $this->data['address'] = $user_info->address;
+            $this->data['city'] = $user_info->city;
+            $this->data['state'] = $user_info->state;
+            $this->data['country'] = $user_info->country;
+            $this->data['postcode'] = $user_info->postcode;
+            $this->data['additional_infor'] = $user_info->additional_infor;
+
+            $this->data['first_name_published'] = $user_publishs->first_name_published;
+            $this->data['last_name_published'] = $user_publishs->last_name_published;
+            $this->data['company_published'] = $user_publishs->company_published;
+            $this->data['phone_published'] = $user_publishs->phone_published;
+            $this->data['mobile_published'] = $user_publishs->mobile_published;
+            $this->data['address_published'] = $user_publishs->address_published;
+            $this->data['city_published'] = $user_publishs->city_published;
+            $this->data['country_published'] = $user_publishs->country_published;
+            $this->data['states_published'] = $user_publishs->states_published;
+            $this->data['postcode_published'] = $user_publishs->postcode_published;
+            $this->data['infor_published'] = $user_publishs->infor_published;
+            $this->data['email_published'] = $user_publishs->email_published;
+
+            $this->data['main_content'] = 'services/info.php';
+
+            $this->load->view('home', $this->data);
+        } else {
+
+            $this->data['main_content'] = 'services/info.php';
+
+            $this->load->view('home', $this->data);
+        }
+    }
+
+    public function block() {
+
+        $this->document->setTitle($this->lang->line('block_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['block_title'] = $this->lang->line('block_title');
+        $this->data['block_notice1'] = $this->lang->line('block_notice1');
+        $this->data['text_notice1'] = $this->lang->line('text_notice1');
+        $this->data['block_notice2'] = $this->lang->line('block_notice2');
+        $this->data['block_email'] = $this->lang->line('block_email');
+        $this->data['block_contry'] = $this->lang->line('block_contry');
+        $this->data['block_date'] = $this->lang->line('block_date');
+        $this->data['block_pay'] = $this->lang->line('block_pay');
+        $this->data['block_key'] = $this->lang->line('block_key');
+
+        $this->form_validation->set_rules('recaptcha_response_field', 'lang:recaptcha_field_name', 'required|callback_check_captcha');
+
+        $this->form_validation->set_rules('account_number', 'lang:error_account', 'required|trim|xss_clean|numeric|max_length[8]|callback_check_acc_num');
+
+        $this->data['recaptcha'] = $this->recaptcha->get_html();
+
+        $post = $this->input->post();
+
+        $this->data['account_number'] = '';
+
+        if (isset($post['account_number'])) {
+            $account_number = $post['account_number'];
+        } else {
+            $account_number = '';
+        }
+
+        if (($this->form_validation->run() == TRUE) && ($this->input->post('account_number'))) {
+
+            $this->data['main_content'] = 'services/block.php';
+
+            $this->load->view('home', $this->data);
+        } else {
+
+            $this->data['main_content'] = 'services/block.php';
+
+            $this->load->view('home', $this->data);
+        }
+    }
+
+    public function view() {
+
+        $this->data['colum_date'] = $this->lang->line('colum_date');
+        $this->data['colum_bath'] = $this->lang->line('colum_bath');
+        $this->data['colum_from'] = $this->lang->line('colum_from');
+        $this->data['colum_to'] = $this->lang->line('colum_to');
+        $this->data['text_batch_number'] = $this->lang->line('text_batch_number');
+        $this->data['text_status'] = $this->lang->line('text_status');
+        $this->data['text_memo'] = $this->lang->line('text_memo');
+        $this->data['button_close'] = $this->lang->line('button_close');
+
+        if ($this->uri->segment(4)) {
+            $transfer_info = $this->transaction_model->getTransfer($this->uri->segment(4));
+            $this->data['transaction_id'] = $transfer_info->transaction_id;
+            $this->data['batch_number'] = $transfer_info->batch_number;
+            $this->data['transaction_time'] = $transfer_info->transaction_time;
+            $this->data['from_account'] = $transfer_info->from_account;
+            $this->data['to_account'] = $transfer_info->to_account;
+            $this->data['transaction_status'] = $transfer_info->transaction_status;
+            $this->data['transaction_memo'] = $transfer_info->transaction_memo;
+            $this->load->view('services/view', $this->data);
+        }
+    }
+
+    function check_captcha($val) {
+        if ($this->recaptcha->check_answer($this->input->ip_address(), $this->input->post('recaptcha_challenge_field'), $val)) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('check_captcha', $this->lang->line('recaptcha_incorrect_response'));
+            return FALSE;
+        }
+    }
+
+    function check_acc_num($acc_number) {
+        if (!$this->user_model->check_acc_num($acc_number)) {
+            $this->form_validation->set_message('check_acc_num', "The Account Number doesn't correspond to this account. Please enter Account that you used for account registration and try again.");
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+}

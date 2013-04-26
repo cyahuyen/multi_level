@@ -1,0 +1,8 @@
+<?php
+
+$lang['alpha_dash_space']   = "The %s field may only contain alpha-numeric characters, underscores, and dashes and space.";
+
+
+
+/* End of file form_validation_lang.php */
+/* Location: ./system/language/english/form_validation_lang.php */

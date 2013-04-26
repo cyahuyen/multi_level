@@ -1,0 +1,57 @@
+<?php
+
+class Balance_model extends CI_Model {
+
+    private $tbl = 'user_balance';
+    private $id = 'user_id';
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    function getBalaceById($id, $code) {
+        $sql = $this->db->get_where($this->tbl, array('user_id' => $id, 'currency_code' => $code))->result();
+        if ($sql)
+            return (float) ($sql[0]->balance);
+        else {
+            return 0;
+        }
+    }
+
+    function addCode($data) {
+        $this->db->insert($this->tbl, $data);
+
+        return $this->db->insert_id();
+    }
+
+    function updateCode($id, $code, $data) {
+        $this->db->where($this->id, $id);
+
+        $this->db->where('currency_code', $code);
+
+        return $this->db->update($this->tbl, $data);
+    }
+
+    function getUserID($id) {
+        $sql = $this->db->get_where($this->tbl, array('user_id' => $id))->result();
+        if ($sql) {
+            return $sql[0];
+        }
+        else
+            return false;
+    }
+
+    function save($data) {
+        $this->db->insert($this->tbl, $data);
+
+        return $this->db->insert_id();
+    }
+
+    function update($id, $code, $data) {
+        $this->db->where($this->id, $id);
+
+        $this->db->where('currency_code', $code);
+
+        return $this->db->update($this->tbl, $data);
+    }
+}

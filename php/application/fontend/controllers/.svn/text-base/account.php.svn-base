@@ -1,0 +1,542 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Account extends CI_Controller {
+
+    var $user_id;
+    var $name;
+    var $active;
+    var $user;
+    var $data;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('ion_auth');
+        $this->load->library('session');
+        $this->load->library('form_validation');
+        $this->load->database();
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $this->lang->load('account');
+        $this->load->library('document');
+        $this->load->library('Pagination');
+        $this->load->model('logs_model', '', TRUE);
+        $this->load->model('zone_model', '', TRUE);
+
+        if ((!$this->session->userdata('user_logged')) || (!$this->ion_auth->logged_in())) {
+            redirect('login/index/', 'refresh');
+        }
+
+        $this->user_id = 0 + $this->session->userdata('user_logged');
+
+        $this->load->model('user_model', '', TRUE);
+        $this->user = $this->user_model->getUser($this->user_id);
+
+        $this->data['acc_number'] = $this->user->account_number;
+        $this->data['acc_name'] = $this->user->username;
+        $this->data['first_name'] = $this->user->first_name;
+        $this->data['last_name'] = $this->user->last_name;
+
+        $this->data['tab_summary'] = $this->lang->line('tab_summary');
+        $this->data['tab_personal'] = $this->lang->line('tab_personal');
+        $this->data['tab_quick'] = $this->lang->line('tab_quick');
+        $this->data['tab_setting'] = $this->lang->line('tab_setting');
+
+        $this->active = $this->user->active;
+    }
+
+    public function index() {
+        $this->document->setTitle($this->lang->line('account_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        if ($this->active == 2) {
+            //update information
+            redirect('account/acc_infor/', 'refresh');
+        } else {
+            $this->data['account_title'] = $this->lang->line('account_title');
+            $this->data['heading_title'] = $this->lang->line('heading_title');
+            $this->data['text_acc_number'] = $this->lang->line('text_acc_number');
+            $this->data['text_acc_name'] = $this->lang->line('text_acc_name');
+            $this->data['text_acc_type'] = $this->lang->line('text_acc_type');
+            $this->data['text_create_on'] = $this->lang->line('text_create_on');
+            $this->data['text_balances'] = $this->lang->line('text_balances');
+            $this->data['history_title'] = $this->lang->line('history_title');
+
+            $this->load->model('groups_model', '', TRUE);
+
+            $user = $this->user_model->getUser($this->user_id);
+
+            $user_group = $this->groups_model->getGroups();
+
+            $this->data['acc_number'] = $this->user->account_number;
+
+            $this->data['acc_name'] = $this->user->username;
+
+            $this->data['account_type'] = $user_group[$this->user->group_id];
+
+            $this->data['created_on'] = gmdate(frontend_date_format . ' ' . frontend_time_format, $user->created_on);
+
+            $this->load->model('currencies_model', '', TRUE);
+
+            $this->load->model('balance_model', '', TRUE);
+
+            $currencies = $this->currencies_model->getCurrencies(1);
+
+            foreach ($currencies as $currencie) {
+                $curency["title"] = $currencie->title;
+                $curency["blance"] = $this->balance_model->getBalaceById($this->user->id, $currencie->code);
+
+                $curency = array(
+                    "title" => $currencie->title,
+                    "blance" => $currencie->symbol_left . $this->balance_model->getBalaceById($this->user->id, $currencie->code) . $currencie->symbol_right,
+                );
+
+                $this->data['blances'][] = (object) $curency;
+            }
+            $this->data['main_content'] = 'account/summary.php';
+
+            $this->load->view('frontend_user', $this->data);
+        }
+    }
+
+    public function acc_infor() {
+
+        $this->document->setTitle($this->lang->line('reg3_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['reg3_title'] = $this->lang->line('reg3_title');
+        $this->data['text_notification'] = $this->lang->line('text_notification');
+        $this->data['text_address'] = $this->lang->line('text_address');
+        $this->data['text_country'] = $this->lang->line('text_country');
+        $this->data['text_city'] = $this->lang->line('text_city');
+        $this->data['text_state'] = $this->lang->line('text_state');
+        $this->data['text_zip_code'] = $this->lang->line('text_zip_code');
+        $this->data['text_dob'] = $this->lang->line('text_dob');
+        $this->data['text_phone'] = $this->lang->line('text_phone');
+        $this->data['text_mobile'] = $this->lang->line('text_mobile');
+        $this->data['text_company'] = $this->lang->line('text_company');
+        $this->data['text_format_date'] = $this->lang->line('text_format_date');
+        $this->data['text_statistical'] = $this->lang->line('text_statistical');
+        $this->data['text_will_be_for'] = $this->lang->line('text_will_be_for');
+        $this->data['text_occupation'] = $this->lang->line('text_occupation');
+        $this->data['text_master'] = $this->lang->line('text_master');
+        $this->data['reg3_your_account'] = $this->lang->line('reg3_your_account');
+        $this->data['text_contact'] = $this->lang->line('text_contact');
+        $this->data['reg3_used'] = $this->lang->line('reg3_used');
+        $this->data['reg3_area'] = $this->lang->line('reg3_area');
+        $this->data['reg3_game'] = $this->lang->line('reg3_game');
+        $this->data['reg3_sales'] = $this->lang->line('reg3_sales');
+        $this->data['reg3_non_commercial'] = $this->lang->line('reg3_non_commercial');
+        $this->data['reg3_commercial'] = $this->lang->line('reg3_commercial');
+        $this->data['reg3_forex'] = $this->lang->line('reg3_forex');
+        $this->data['reg3_choose'] = $this->lang->line('reg3_choose');
+        $this->data['reg3_manager'] = $this->lang->line('reg3_manager');
+        $this->data['reg3_it'] = $this->lang->line('reg3_it');
+        $this->data['reg3_professional'] = $this->lang->line('reg3_professional');
+        $this->data['reg3_admin'] = $this->lang->line('reg3_admin');
+        $this->data['reg3_sale'] = $this->lang->line('reg3_sale');
+        $this->data['reg3_support'] = $this->lang->line('reg3_support');
+        $this->data['reg3_manufacture'] = $this->lang->line('reg3_manufacture');
+        $this->data['reg3_employ'] = $this->lang->line('reg3_employ');
+        $this->data['reg3_student'] = $this->lang->line('reg3_student');
+        $this->data['reg3_retired'] = $this->lang->line('reg3_retired');
+        $this->data['reg3_other'] = $this->lang->line('reg3_other');
+
+        if ($this->active == 2) {
+            $this->data['countries'] = $this->zone_model->getCountries();
+            $this->form_validation->set_rules('address', 'Address', 'required|alpha_dash_space|trim|xss_clean');
+            $this->form_validation->set_rules('city', 'City', 'required|trim|alpha_dash_space|xss_clean');
+            $this->form_validation->set_rules('country_id', 'Country', 'required|trim|xss_clean');
+            $this->form_validation->set_rules('city_id', 'State/Region', 'required|trim|xss_clean');
+            $this->form_validation->set_rules('postcode', 'Zip/Postal Code', 'required|trim|xss_clean');
+            $this->form_validation->set_rules('dob', 'Date of Birth', 'required|trim|xss_clean|callback_valid_date');
+            $this->form_validation->set_message('valid_date', 'date format is not valid. yyyy-mm-dd');
+            $this->form_validation->set_rules('phone', 'Phone', 'required|trim|alpha_dash_space|xss_clean|numeric');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->data['main_content'] = 'login/reg_step3.php';
+
+                $this->data['csrf'] = $this->_get_csrf_nonce();
+
+                $this->load->view('frontend_user', $this->data);
+            } else {
+                $code_phone = $this->input->post('code_phone', TRUE);
+
+                $phone = $code_phone . '-' . $this->input->post('phone', TRUE);
+
+                $code_mobile = $this->input->post('code_mobile', TRUE);
+
+                $mobile = $this->input->post('mobile', TRUE);
+
+                if (($mobile !== '') && ($mobile !== NULL)) {
+                    $mobile = $code_mobile . '-' . $this->input->post('mobile', TRUE);
+                }
+
+                $data = array(
+                    'address' => $this->input->post('address', TRUE),
+                    'city' => $this->input->post('city', TRUE),
+                    'country' => $this->input->post('country_id', TRUE),
+                    'state' => $this->input->post('city_id', TRUE),
+                    'postcode' => $this->input->post('postcode', TRUE),
+                    'dob' => $this->input->post('dob', TRUE),
+                    'phone' => $phone,
+                    'mobile' => $mobile,
+                    'company' => $this->input->post('company', TRUE),
+                    'active' => 1,
+                );
+
+                $this->user_model->update($this->user_id, $data);
+
+                redirect('account/index/', 'refresh');
+            }
+        }
+        else
+            redirect('account/index/', 'refresh');
+    }
+
+    public function profile() {
+        $this->document->setTitle($this->lang->line('profile_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        if ($this->active == 2) {
+            redirect('account/acc_infor/', 'refresh');
+        } else {
+            $this->form_validation->set_rules('master_key', 'Master key', 'required|trim|xss_clean|numeric|exact_length[3]|callback_check_key');
+
+            if ($this->form_validation->run() == FALSE) {
+
+                $this->data['csrf'] = $this->_get_csrf_nonce(); //token
+
+                $this->data['main_content'] = 'account/profile.php';
+
+                $this->data['profile_title'] = $this->lang->line('profile_title');
+                $this->data['text_description'] = $this->lang->line('text_description');
+                $this->data['text_master'] = $this->lang->line('text_master');
+                $this->data['text_3digit'] = $this->lang->line('text_3digit');
+
+                $this->load->view('frontend_user', $this->data);
+            } else {
+                $this->session->set_flashdata('profile', 2);
+
+                redirect('account/personal_infor/', 'refresh');
+            }
+        }
+    }
+
+    public function personal_infor() {
+        $p = 0 + $this->session->flashdata('profile');
+        $this->load->helper('string');
+
+        $cs = '' . $this->input->post('csrf');
+
+        if ($p == 2 || (strlen($cs) == 20)) {
+            $this->document->setTitle($this->lang->line('profile_title'));
+
+            $this->data['title'] = $this->document->getTitle();
+
+            $this->data['profile_title'] = $this->lang->line('profile_title');
+            $this->data['text_notification'] = $this->lang->line('text_notification');
+            $this->data['text_personal_info'] = $this->lang->line('text_personal_info');
+            $this->data['text_first_name'] = $this->lang->line('text_first_name');
+            $this->data['text_last_name'] = $this->lang->line('text_last_name');
+            $this->data['text_account_name'] = $this->lang->line('text_account_name');
+            $this->data['text_phone'] = $this->lang->line('text_phone');
+            $this->data['text_mobile'] = $this->lang->line('text_mobile');
+            $this->data['text_company'] = $this->lang->line('text_company');
+            $this->data['text_contact'] = $this->lang->line('text_contact');
+            $this->data['text_address'] = $this->lang->line('text_address');
+            $this->data['text_city'] = $this->lang->line('text_city');
+            $this->data['text_country'] = $this->lang->line('text_country');
+            $this->data['text_state'] = $this->lang->line('text_state');
+            $this->data['text_zip_code'] = $this->lang->line('text_zip_code');
+            $this->data['text_additional'] = $this->lang->line('text_additional');
+            $this->data['text_statistical'] = $this->lang->line('text_statistical');
+            $this->data['text_will_be_for'] = $this->lang->line('text_will_be_for');
+            $this->data['text_occupation'] = $this->lang->line('text_occupation');
+            $this->data['reg3_used'] = $this->lang->line('reg3_used');
+            $this->data['reg3_area'] = $this->lang->line('reg3_area');
+            $this->data['reg3_game'] = $this->lang->line('reg3_game');
+            $this->data['reg3_sales'] = $this->lang->line('reg3_sales');
+            $this->data['reg3_non_commercial'] = $this->lang->line('reg3_non_commercial');
+            $this->data['reg3_commercial'] = $this->lang->line('reg3_commercial');
+            $this->data['reg3_forex'] = $this->lang->line('reg3_forex');
+            $this->data['reg3_choose'] = $this->lang->line('reg3_choose');
+            $this->data['reg3_manager'] = $this->lang->line('reg3_manager');
+            $this->data['reg3_it'] = $this->lang->line('reg3_it');
+            $this->data['reg3_professional'] = $this->lang->line('reg3_professional');
+            $this->data['reg3_admin'] = $this->lang->line('reg3_admin');
+            $this->data['reg3_sale'] = $this->lang->line('reg3_sale');
+            $this->data['reg3_support'] = $this->lang->line('reg3_support');
+            $this->data['reg3_manufacture'] = $this->lang->line('reg3_manufacture');
+            $this->data['reg3_employ'] = $this->lang->line('reg3_employ');
+            $this->data['reg3_student'] = $this->lang->line('reg3_student');
+            $this->data['reg3_retired'] = $this->lang->line('reg3_retired');
+            $this->data['reg3_other'] = $this->lang->line('reg3_other');
+            $this->data['text_master'] = $this->lang->line('text_master');
+            $this->data['text_3digit'] = $this->lang->line('text_3digit');
+
+            $this->data['countries'] = $this->zone_model->getCountries();
+            $this->data['countries'][0] = '-- Select Country --';
+
+            $this->data['csrf'] = random_string('alnum', 20); // $this->_get_csrf_nonce();
+
+            $u = $this->user_model->getUser($this->user_id);
+
+            $this->data['acc_number'] = $this->user->account_number;
+            $this->data['first_name'] = $this->user->first_name;
+            $this->data['last_name'] = $this->user->last_name;
+
+            if ($p == 2) {
+                $this->data['username'] = $this->user->username;
+                $phone = explode("-", $this->user->phone);
+                $this->data['code_phone'] = $phone[0];
+                $this->data['phone'] = $phone[1];
+                $this->data['city'] = $this->user->city;
+                $this->data['company'] = $this->user->company;
+                $this->data['address'] = $this->user->address;
+                $this->data['c_id'] = $this->user->country;
+                $this->data['cities'] = $this->zone_model->getCities($this->data['c_id']);
+                $this->data['cities'][0] = '-- State/Region --';
+                $this->data['city_id'] = $this->user->state;
+                $this->data['additional_infor'] = $this->user->additional_infor;
+                $this->data['postcode'] = $this->user->postcode;
+            } else {
+                $this->data['city'] = $this->input->post('city');
+                $this->data['username'] = $this->input->post('username');
+                $this->data['code_phone'] = $this->input->post('code_phone');
+                $this->data['phone'] = $this->input->post('phone');
+                $this->data['company'] = $this->input->post('company');
+                $this->data['address'] = $this->input->post('address');
+                $this->data['postcode'] = $this->input->post('postcode');
+                $this->data['c_id'] = $this->input->post('country_id');
+                $this->data['cities'] = $this->zone_model->getCities($this->data['c_id']);
+                $this->data['cities'][0] = '-- State/Region --';
+                $this->data['city_id'] = $this->input->post('city_id');
+                $this->data['additional_infor'] = $this->input->post('additional_infor');
+            }
+            $this->form_validation->set_rules('address', 'Address', 'required|trim|alpha_dash_space|xss_clean');
+            $this->form_validation->set_rules('city', 'City', 'required|trim|xss_clean');
+            $this->form_validation->set_rules('country_id', 'Country', 'required|trim|xss_clean');
+            $this->form_validation->set_rules('city_id', 'State/Region', 'required|trim|xss_clean');
+            $this->form_validation->set_rules('postcode', 'Zip/Postal Code', 'required|trim|alpha_dash_space|xss_clean');
+            $this->form_validation->set_rules('phone', 'Phone', 'required|trim|xss_clean|numeric');
+            $this->form_validation->set_rules('master_key', 'Master key', 'required|trim|xss_clean|numeric|exact_length[3]|callback_check_key');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->data['main_content'] = 'account/personal_info.php';
+                $this->load->view('frontend_user', $this->data);
+            } else {
+                $phone = $this->data['code_phone'] . '-' . $this->data['phone'];
+
+                $code_mobile = $this->input->post('code_mobile', TRUE);
+
+                $mobile = $this->input->post('mobile', TRUE);
+
+                if (($mobile !== '') && ($mobile !== NULL)) {
+                    $mobile = $code_mobile . '-' . $this->input->post('mobile', TRUE);
+                }
+
+                $data = array(
+                    'username' => $this->data['username'],
+                    'address' => $this->data['address'],
+                    'phone' => $phone,
+                    'mobile' => $mobile,
+                    'city' => $this->data['city'],
+                    'country' => $this->data['c_id'],
+                    'state' => $this->data['city_id'],
+                    'postcode' => $this->data['postcode'],
+                    'company' => $this->data['company'],
+                    'additional_infor' => $this->data['additional_infor'],);
+
+                $this->user_model->update($this->user_id, $data);
+
+                $logs = array(
+                    'account_number' => $this->session->userdata('account_number'),
+                    'date_creater' => gmdate('Y-m-d H:i:s', $this->session->userdata('last_activity')),
+                    'description' => 'Update Profile',
+                    'ip_address' => $this->session->userdata('ip_address'),
+                );
+
+                $this->logs_model->save($logs);
+                $this->session->set_flashdata('profile', 2);
+                $this->data['message'] = 'Your changes have been successfully saved.';
+                $this->data['main_content'] = 'account/personal_info.php';
+                $this->load->view('frontend_user', $this->data);
+            }
+        } else {
+            redirect('account/profile/', 'refresh');
+        }
+    }
+
+    public function settings() {
+
+        $this->document->setTitle($this->lang->line('setting_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['setting_title'] = $this->lang->line('setting_title');
+        $this->data['text_notification'] = $this->lang->line('text_notification');
+        $this->data['text_security'] = $this->lang->line('text_security');
+        $this->data['text_change_pin'] = $this->lang->line('text_change_pin');
+        $this->data['text_change_pass'] = $this->lang->line('text_change_pass');
+        $this->data['text_change_master'] = $this->lang->line('text_change_master');
+        $this->data['text_change_welcom'] = $this->lang->line('text_change_welcom');
+        $this->data['text_change_public'] = $this->lang->line('text_change_public');
+        $this->data['text_change_security'] = $this->lang->line('text_change_security');
+        $this->data['text_autho_device'] = $this->lang->line('text_autho_device');
+        $this->data['text_disable_business'] = $this->lang->line('text_disable_business');
+        $this->data['text_common_setting'] = $this->lang->line('text_common_setting');
+        $this->data['text_note'] = $this->lang->line('text_note');
+        $this->data['text_email_incoming'] = $this->lang->line('text_email_incoming');
+        $this->data['text_email_outgoing'] = $this->lang->line('text_email_outgoing');
+        $this->data['text_imcoming_mess'] = $this->lang->line('text_imcoming_mess');
+        $this->data['text_accept_private'] = $this->lang->line('text_accept_private');
+        $this->data['text_remember_master'] = $this->lang->line('text_remember_master');
+        $this->data['text_master'] = $this->lang->line('text_master');
+        $this->data['text_3digit'] = $this->lang->line('text_3digit');
+
+        $setting_sercuritys = $this->user_model->getUserSettings($this->user_id);
+
+        $posts = $this->input->post();
+        if ($posts) {
+            $this->data['email_incoming_transfer'] = $this->input->post('email_incoming_transfer');
+            $this->data['email_outgoing_transfer'] = $this->input->post('email_outgoing_transfer');
+            $this->data['private_incoming'] = $this->input->post('private_incoming');
+            $this->data['incoming_messages'] = $this->input->post('incoming_messages');
+            $this->data['master_key'] = $this->input->post('master_key');
+        } elseif (!empty($setting_sercuritys)) {
+            $this->data['email_incoming_transfer'] = $setting_sercuritys->email_incoming_transfer;
+            $this->data['email_outgoing_transfer'] = $setting_sercuritys->email_outgoing_transfer;
+            $this->data['private_incoming'] = $setting_sercuritys->private_incoming;
+            $this->data['incoming_messages'] = $setting_sercuritys->incoming_messages;
+            $this->data['master_key'] = $setting_sercuritys->master_key;
+        } else {
+            $this->data['email_incoming_transfer'] = '';
+            $this->data['email_outgoing_transfer'] = '';
+            $this->data['private_incoming'] = '';
+            $this->data['incoming_messages'] = '';
+            $this->data['master_key'] = '';
+        }
+
+        $this->form_validation->set_rules('master_key_very', 'Master key', 'required|trim|xss_clean|numeric|exact_length[3]|callback_check_key');
+
+        if (($this->input->server('REQUEST_METHOD') === 'POST') && ($this->form_validation->run() == TRUE)) {
+            $data = array(
+                'email_incoming_transfer' => $this->data['email_incoming_transfer'],
+                'email_outgoing_transfer' => $this->data['email_outgoing_transfer'],
+                'private_incoming' => $this->data['private_incoming'],
+                'incoming_messages' => $this->data['incoming_messages'],
+                'master_key' => $this->data['master_key'],
+            );
+            $update_publish = $this->user_model->check_setting_publish($this->user_id);
+            if (!$update_publish) {
+                $this->user_model->save_publish_setting($this->user_id, $data);
+            } else {
+                $this->user_model->update_publish_setting($this->user_id, $data);
+            }
+            $logs = array(
+                'account_number' => $this->session->userdata('account_number'),
+                'date_creater' => gmdate('Y-m-d H:i:s', $this->session->userdata('last_activity')),
+                'description' => 'Update Settings',
+                'ip_address' => $this->session->userdata('ip_address'),
+            );
+
+            $this->logs_model->save($logs);
+            $this->data['main_content'] = 'account/settings.php';
+            $this->load->view('frontend_user', $this->data);
+        }
+        $this->data['main_content'] = 'account/settings.php';
+        $this->load->view('frontend_user', $this->data);
+    }
+
+    public function logs_user() {
+
+        $this->data['text_ip'] = $this->lang->line('text_ip');
+        $this->data['text_action'] = $this->lang->line('text_action');
+        $this->data['text_time'] = $this->lang->line('text_time');
+        $p = $this->uri->segment(4);
+        if (isset($p) && is_numeric($p)) {
+            $page = $p;
+        } else {
+            $page = 1;
+        }
+
+        $data = array(
+            'account_number' => $this->user->account_number,
+            'start' => ($page - 1) * 5,
+            'limit' => 5
+        );
+        $total_setting = $this->user_model->totalHistorys($data);
+
+        $log_users = $this->user_model->getHistorys($data);
+
+        $this->data['log_users'] = array();
+        foreach ($log_users as $log_user) {
+            $this->data['log_users'][] = array(
+                'ip_address' => $log_user->ip_address,
+                'description' => $log_user->description,
+                'date_creater' => date(frontend_date_format . ' ' . frontend_time_format, strtotime($log_user->date_creater)),
+            );
+        }
+        $pagination = $this->pagination;
+        $pagination->total = $total_setting;
+        $pagination->page = $page;
+        $pagination->limit = 5;
+        $pagination->url = 'javascript:loadSetting({page});';
+
+        $this->data['pagination'] = $pagination->render();
+
+        $this->load->view('account/log_user', $this->data);
+    }
+
+    // date_validation callback
+    function valid_date($str) {
+        //match the format of the date
+        if (preg_match("/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/", $str, $parts)) {
+            //check weather the date is valid of not
+            if (checkdate($parts[2], $parts[3], $parts[1]))
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+    function check_key($key) {
+        $this->load->model('user_model', '', TRUE);
+
+        if (!$this->user_model->check_key($this->user_id, $key)) {
+            $this->form_validation->set_message('check_key', "The Master Key is not valid. Please try again.");
+
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    function _get_csrf_nonce() {
+        $this->load->helper('string');
+        $key = random_string('alnum', 8);
+        $value = random_string('alnum', 20);
+        $this->session->set_flashdata('csrfkey', $key);
+        $this->session->set_flashdata('csrfvalue', $value);
+
+        return array($key => $value);
+    }
+
+    function _valid_csrf_nonce() {
+        $c = $this->session->flashdata('csrfkey');
+        if (($c !== FALSE) && ($this->input->post($c) == $c)) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+}

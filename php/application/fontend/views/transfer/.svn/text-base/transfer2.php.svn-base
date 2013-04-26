@@ -1,0 +1,66 @@
+<h4 class="color_red"><?php echo $text_comfirm_title; ?></h4>
+
+<p><?php echo $text_note_comfirm_head; ?></p>
+
+<?php if (isset($message) and ($message != '')) echo "<div class='simple-info'>$message</div>"; ?>
+<?php echo form_open('transfer/confirm/', array('id' => 'sign-up-form')); ?>
+<input type="hidden" name="step" value="<?php echo (isset($step) ? $step : 0); ?>" />
+<div class="horizontal-line-small"></div>
+<h5><?php echo $headding_title; ?></h5>
+<?php echo form_hidden('code', $code); ?> 
+<fieldset>
+    <label><?php echo $text_mode; ?></label><?php echo form_hidden('token', $token); ?>    
+    <label class="coloredB"><?php echo $text_amount; ?></label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_from_account; ?></label><?php echo form_hidden('acc_number_from', $acc_number_from); ?>
+    <?php echo form_hidden('acc_name_from', $acc_name_from); ?>
+    <label class="coloredB"><?php echo $acc_number_from; ?> (<?php echo $acc_name_from; ?>)</label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_to_account; ?></label><?php echo form_hidden('acc_number_to', $acc_number_to); ?>
+    <?php echo form_hidden('acc_name_to', $acc_name_to); ?>   
+    <label class="coloredB"><?php echo $acc_number_to; ?> (<?php echo $acc_name_to; ?>)</label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_amount; ?></label><?php echo form_hidden('amount', $amount); ?>     
+    <label class="coloredB"><?php echo $s_left . $amount . $s_right; ?></label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_fee_private; ?></label><?php echo form_hidden('fee', $fee); ?>    
+    <label class="coloredB"><?php echo $s_left . $fee . $s_right; ?></label>
+</fieldset>
+<fieldset>
+    <label><?php echo $text_fee_transfer; ?></label><?php echo form_hidden('fee', $fee); ?>    
+    <label class="coloredB"><?php echo $s_left . $fee_transfer . $s_right; ?></label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_memo; ?></label><?php echo form_hidden('memo', $memo); ?>    
+    <label class="coloredB"><?php echo $memo; ?></label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_private2; ?></label><?php echo form_hidden('private_payment', $private_payment); ?>    
+    <label class="coloredB"><?php
+    if ($private_payment) {
+        echo 'Yes';
+    } else {
+        echo 'No';
+    }
+    ?></label>
+</fieldset>
+<br />   
+<fieldset>
+    <input name="Confirm" value="<?php echo $button_confirm; ?>" class="button small orange Mysubmitted" type="submit"/>
+    <a href="<?php echo site_url('transfer/index'); ?>" class="button small orange Mysubmitted"/><?php echo $button_change; ?></a>
+<a href="<?php echo site_url('account/index'); ?>" class="button small orange Mysubmitted"/><?php echo $button_cancel; ?></a>
+</fieldset>
+<?php echo form_close();
+?>
+<br />
+<div class="simple-notice"> <?php echo $text_notice_comfirm; ?></div>

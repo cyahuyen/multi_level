@@ -1,0 +1,1 @@
+<p class="welcome">Welcome <?php echo $first_name.' '.$last_name;?>! You are now logged in to <?php echo $acc_number;?> (<?php echo $acc_name;?>) <a href="<?php echo site_url('auth/logout');?>" class="Logout">Logout</a></p>

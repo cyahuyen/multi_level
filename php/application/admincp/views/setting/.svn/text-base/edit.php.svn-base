@@ -1,0 +1,21 @@
+<?php echo form_open('setting/edit', array('id' => 'form_setting')); ?>
+<div id="show-detail">
+    <div class="form-info">
+        <span class="st-labeltext"><?php echo $text_title; ?></span> 
+        <?php echo $configuration_title; ?>
+    </div>
+    <div class="form-info">
+        <span class="st-labeltext"><?php echo $text_des; ?></span> 
+        <?php echo $configuration_description; ?>
+    </div>
+    <div class="form-info">
+        <span class="st-labeltext"><?php echo $text_value; ?></span> 
+        <?php echo $value_field; ?>
+    </div>
+</div>
+<div class="form-info">
+    <a onclick="changeEdit(('<?php echo $configuration_id; ?>'))" class="st-button" id="button-save"><?php echo $button_save; ?></a>
+    <a href="javascript:void(0)" id="button-close" class="st-button"><?php echo $button_close; ?></a>
+</div>
+<?php echo form_close(); ?>  
+

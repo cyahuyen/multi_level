@@ -1,0 +1,72 @@
+<div id="history"> <h3  class="color_red"><?php echo $transaction_title; ?></h3>
+    <?php if (isset($message) and ($message != '')) echo "<div class='simple-error'>$message</div>"; ?>
+    <p><?php echo $text_note; ?></p>
+
+    <?php echo form_open('history/index/', array('id' => 'sign-up-form')); ?>
+    <div id="search">
+        <fieldset>
+            <label><?php echo $text_date_range; ?></label>
+            <input id="datepicker" name="filter_from_date" title="Date from" type="text" value="<?php echo set_value('filter_from_date'); ?>"> 
+            <input id="datepicker2" name="filter_to_date" title="Date to" type="text" value="<?php echo set_value('filter_to_date'); ?>"> 
+            <a id="showAdditional" href="#"><?php echo $text_show_add; ?></a>
+            <?php echo form_error('filter_from_date', '<div class="simple-alert">', '</div>'); ?> 
+            <?php echo form_error('filter_to_date', '<div class="simple-alert">', '</div>'); ?> 
+        </fieldset>
+        <fieldset>
+            <label>&nbsp;</label>
+            <p><?php echo $text_enter_format; ?></p>
+        </fieldset>
+        <input id="Advanced" name="Advanced" type="hidden" value="False" />
+        <div id="advancedSearch" style="display:none;"> 
+            <fieldset><label><?php echo $text_currency; ?> </label> 
+                <select name="transaction_currency" id="transaction_currency">
+                    <?php if ($currencies) { ?>
+                        <?php foreach ($currencies as $currencie) { ?>
+                            <option value="<?php echo $currencie['code']; ?>"><?php echo $currencie['title']; ?></option>
+                        <?php } ?>
+                    <?php } ?>
+                </select>
+            </fieldset>
+            <fieldset><label><?php echo $text_account; ?> </label> 
+                <input id="to_account" name="to_account" type="text" value="" />
+            </fieldset>
+            <fieldset><label><?php echo $text_amount; ?> </label> 
+                <input id="amount" name="amount" type="text" value="" />
+            </fieldset>
+            <fieldset><label><?php echo $text_memo; ?></label> 
+                <input id="transaction_memo" name="transaction_memo" type="text" value="" /> 
+            </fieldset>
+            <span class="info"><?php echo $text_if_note; ?></span> 
+            <fieldset><label><?php echo $text_bath; ?></label> 
+                <input id="batch_number" name="batch_number" type="text" value="<?php echo set_value('batch_number'); ?>" />
+            </fieldset>
+
+        </div> 
+
+        <input name="Submit" type="submit" value="<?php echo $button_search_transa; ?>" class="button small round dark-blue"> 
+
+    </div>
+    <?php echo form_close(); ?>     
+</div> 
+<script type="text/javascript">
+    $(document).ready(function() {
+        //ajaxPostOnSubmit();
+        //ajaxPagerClick("#listPlaceHolder");
+        additionalFieldsSwitch("Show additional fields", "Hide additional fields");
+        //transactionDetailsSwitch("View", "Hide"); 
+    }); 
+</script>
+<script type="text/javascript">
+    $(function() {
+        $("#datepicker").datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function() {
+        $("#datepicker2").datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+    });
+</script>

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/email
+END
+new_password.tpl.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/email/new_password.tpl.php
+END
+activate.tpl.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/email/activate.tpl.php
+END
+forgot_password.tpl.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/eglobalcash/!svn/ver/141/code/application/admincp/views/auth/email/forgot_password.tpl.php
+END

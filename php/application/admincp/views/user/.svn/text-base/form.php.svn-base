@@ -1,0 +1,47 @@
+<!-- START SIMPLE FORM -->
+<div class="simplebox grid740">
+    <div class="titleh">
+        <h3><?php echo $user_title; ?></h3>
+    </div>
+    <div class="body">
+        <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
+            <div class="st-form-line">	
+                <span class="st-labeltext"><?php echo $text_email; ?></span>	
+                <input name="email" type="text" class="st-error-input" id="email" style="width:300px" value="<?php echo set_value('email', $email); ?>" /><span class="st-form-error">* <?php echo form_error('email'); ?></span>
+                <input type="hidden" name="old_email" value="<?php echo $email; ?>">
+                <div class="clear"></div>
+            </div>
+
+            <div class="st-form-line">	
+                <span class="st-labeltext"><?php echo $text_fn; ?></span>	
+                <input name="first_name" type="text" class="st-forminput" id="first_name" style="width:300px" value="<?php echo set_value('first_name', $first_name); ?>" />
+                <div class="clear"></div>
+            </div>
+            <div class="st-form-line">	
+                <span class="st-labeltext"><?php echo $text_ln; ?></span>	
+                <input name="last_name" type="text" class="st-forminput" id="last_name" style="width:300px" value="<?php echo set_value('last_name', $last_name); ?>" />
+                <div class="clear"></div>
+            </div>
+            <div class="st-form-line">	
+                <span class="st-labeltext"><?php echo $text_company; ?></span>	
+                <input name="company" type="text" class="st-forminput" id="company" style="width:300px" value="<?php echo set_value('company', $company); ?>" />
+                <div class="clear"></div>
+            </div>
+            <div class="st-form-line">	
+                <span class="st-labeltext"><?php echo $text_phone; ?></span>	
+                <input name="phone" type="text" class="st-forminput" id="phone" style="width:300px" value="<?php echo set_value('phone', $phone); ?>" />
+                <div class="clear"></div>
+            </div>
+            <div class="st-form-line">	
+                <span class="st-labeltext"><?php echo $text_mobile; ?></span>	
+                <input name="mobile" type="text" class="st-forminput" id="mobile" style="width:300px" value="<?php echo set_value('mobile', $mobile); ?>" />
+                <div class="clear"></div>
+            </div>
+            <div class="button-box">
+                <input type="submit" name="button" id="submit" value="<?php echo $button_save; ?>" class="st-button"/>
+                <a href="<?php echo $cancel; ?>" class="st-clear"><?php echo $button_cancel; ?></a>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- END SIMPLE FORM -->

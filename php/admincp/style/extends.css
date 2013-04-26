@@ -1,0 +1,83 @@
+.pagination {
+    border-top: 1px solid #DDDDDD;
+    display: inline-block;
+    width: 100%;
+    padding-top: 6px;
+}
+.pagination .links {
+    float: left;
+    padding-top: 6px;
+}
+.pagination .links a {
+    border: 1px solid #DDDDDD;
+    padding: 4px 10px;
+    font-size: 12px;
+    text-decoration: none;
+    color: #A3A3A3;
+}
+.pagination .links b {
+    border: 1px solid #269BC6;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: normal;
+    text-decoration: none;
+    color: #269BC6;
+    background: #FFFFFF;
+}
+.pagination .results {
+    float: right;
+    padding-top: 6px;
+    font-size: 12px;
+}
+
+#show-detail {
+    background:#f0f5f4;
+    margin: 10px;
+    border-radius: 5px;
+    height: auto;
+    overflow: hidden;
+}
+#show-detail2 {
+    margin: 10px;
+    border-radius: 5px;
+    height: auto;
+    overflow: hidden;
+}
+#show-detail2 h4 {
+    padding: 10px 10px 10px 20px;
+}
+#show-detail2 table tbody tr td {
+    padding: 5px;
+}
+#show-detail2 table tbody tr td table{
+    background: #F0F5F4;
+}
+#button-small {
+    float: left;
+}
+.form-info {
+    display: block;
+    padding: 10px 20px;
+}
+
+#showAdditional {
+    float: right;
+    top: 5px;
+    position: absolute;
+    right: 7px;
+}
+.st-form-view {
+    display: block;
+    border-bottom: 1px solid #E5E5E5;
+    padding: 1px;
+}
+#view-user {
+    width: 100%;
+}
+#view-user .detail-user {
+    font-weight: bold;
+    color: black;
+}
+#view-user td {
+    line-height: 30px;
+}

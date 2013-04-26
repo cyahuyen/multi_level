@@ -1,0 +1,45 @@
+<h4 class="color_red">Transfer Succeed</h4>
+<?php if (isset($message) and ($message != '')) echo "<div class='simple-info'>$message</div>"; ?>
+
+<div class="horizontal-line-small"></div>
+<fieldset>
+    <label><?php echo $text_mode; ?></label>   
+    <label class="coloredB"><?php echo $text_amount; ?></label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_from_account; ?></label>
+    <label class="coloredB"><?php echo $acc_number; ?> (<?php echo $acc_name; ?>)</label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_to_account; ?></label> 
+    <label class="coloredB"><?php echo $acc_number_to; ?> (<?php echo $acc_name_to; ?>)</label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_amount; ?></label>    
+    <label class="coloredB"><?php echo $amount; ?></label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_fee; ?></label>   
+    <label class="coloredB"><?php echo $fee; ?></label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_memo; ?></label>    
+    <label class="coloredB"><?php echo $memo; ?></label>
+</fieldset>
+
+<fieldset>
+    <label><?php echo $text_private; ?></label>    
+    <label class="coloredB"><?php echo $private_payment ? 'Yes' : 'No'; ?></label>
+</fieldset>
+<br />
+
+<fieldset>
+    <a href="<?php echo site_url('transfer/index'); ?>" class="button small orange Mysubmitted"/><?php echo $text_new_transfer; ?></a>
+</fieldset>    
+
+<br />

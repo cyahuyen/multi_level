@@ -1,0 +1,146 @@
+<?php
+
+class Language_model extends CI_Model {
+
+    private $tbl = 'languages';
+    private $id = 'language_id';
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    function check_email($email) {
+        $query = $this->db->get_where($this->tbl, array('email' => $email))->result();
+
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getLanguages($data = array()) {
+        $sql = 'SELECT * FROM ' . $this->tbl;
+
+        $sql .= " WHERE 1=1";
+
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
+            }
+
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
+
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
+        }
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    public function getLangs() {
+        $sql = 'SELECT * FROM ' . $this->tbl;
+
+        $sql .= " WHERE language_status=1 order by sort_order desc";
+
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    function totalLanguages() {
+        return $this->db->count_all_results($this->tbl);
+    }
+
+    function getLanguage($id) {
+        $r = $this->db->get_where($this->tbl, array($this->id => $id))->result();
+        if ($r) {
+            return $r[0];
+        }
+        else
+            return false;
+    }
+
+    function getDefault($id = 1) {        
+        $r = $this->db->get_where($this->tbl, array('is_default' => $id))->result();
+        if ($r) {
+            return $r[0];
+        }
+        else
+            return false;
+    }
+
+    function save($data) {
+        $this->db->insert($this->tbl, $data);
+
+        return $this->db->insert_id();
+    }
+
+    function update($id, $data) {
+        $this->db->where($this->id, $id);
+
+        $this->db->update($this->tbl, $data);
+    }
+
+    function updateDefault($data) {
+        $this->db->update($this->tbl, $data);
+    }
+
+    function delete($id) {
+        $this->db->where($this->id, $id);
+
+        $this->db->delete($this->tbl);
+    }
+
+    //Email template
+    function getEmails($lang_id) {
+        $sql = "SELECT * FROM emails_description WHERE language_id='" . (int) $lang_id . "'";
+
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    function saveEmail($data) {
+
+        $this->db->insert('emails_description', $data);
+
+        return $this->db->insert_id();
+    }
+
+    // Faq add mutilang
+    function getFaqs($lang_id) {
+        $sql = "SELECT * FROM faqs_description WHERE language_id='" . (int) $lang_id . "'";
+
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    function saveFaq($data) {
+
+        $this->db->insert('faqs_description', $data);
+
+        return $this->db->insert_id();
+    }
+
+    // Question add mutilang
+    function getQuestions($lang_id) {
+        $sql = "SELECT * FROM question_description WHERE language_id='" . (int) $lang_id . "'";
+
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    function saveQuestion($data) {
+
+        $this->db->insert('question_description', $data);
+
+        return $this->db->insert_id();
+    }
+
+}
+

@@ -1,0 +1,108 @@
+<?php
+
+class Transfer_model extends CI_Model {
+
+    private $tbl = 'transactions';
+    private $id = 'transaction_id';
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    function check_bath($bath) {
+        $query = $this->db->get_where($this->tbl, array('batch_number' => $bath))->result();
+
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function getTransfers($data = array()) {
+        $sql = 'SELECT * FROM ' . $this->tbl;
+
+        $sql .= " WHERE 1=1";
+
+        if (!empty($data['filter_from_date'])) {
+            $sql .= " AND DATE_FORMAT(transaction_time, '%Y-%m-%d') >= '" . $data['filter_from_date'] . "'";
+        }
+        if (!empty($data['filter_to_date'])) {
+            $sql .= " AND DATE_FORMAT(transaction_time, '%Y-%m-%d') <= '" . $data['filter_to_date'] . "'";
+        }
+        if (!empty($data['filter_batch_number'])) {
+            $sql .= " AND batch_number = '" . $data['filter_batch_number'] . "'";
+        }
+        if (!empty($data['filter_from_account'])) {
+            $sql .= " AND from_account = '" . $data['filter_from_account'] . "'";
+        }
+        if (!empty($data['filter_to_account'])) {
+            $sql .= " AND to_account = '" . $data['filter_to_account'] . "'";
+        }
+        $sql .=" ORDER BY transaction_time DESC";
+
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
+            }
+
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
+
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
+        }
+
+        $data = $this->db->query($sql)->result();
+
+        return $data;
+    }
+
+    function totalTransfer($data = array()) {
+        $sql = 'SELECT COUNT(transaction_id) as count FROM ' . $this->tbl;
+
+        $sql .= " WHERE 1=1";
+
+        if (!empty($data['filter_from_date'])) {
+            $sql .= " AND DATE_FORMAT(transaction_time, '%Y-%m-%d') >= '" . $data['filter_from_date'] . "'";
+        }
+        if (!empty($data['filter_to_date'])) {
+            $sql .= " AND DATE_FORMAT(transaction_time, '%Y-%m-%d') <= '" . $data['filter_to_date'] . "'";
+        }
+        if (!empty($data['filter_batch_number'])) {
+            $sql .= " AND batch_number = '" . $data['filter_batch_number'] . "'";
+        }
+        if (!empty($data['filter_from_account'])) {
+            $sql .= " AND from_account = '" . $data['filter_from_account'] . "'";
+        }
+        if (!empty($data['filter_to_account'])) {
+            $sql .= " AND to_account = '" . $data['filter_to_account'] . "'";
+        }
+
+        $result = $this->db->query($sql)->result();
+
+        return $result[0]->count;
+    }
+
+    function getTransfer($id) {
+        $data = $this->db->get_where($this->tbl, array($this->id => $id))->result();
+        if ($data) {
+            return $data[0];
+        }
+        else
+            return false;
+    }
+
+    function save($data) {
+        $this->db->insert($this->tbl, $data);
+
+        return $this->db->insert_id();
+    }
+
+    function update($id, $data) {
+        $this->db->where($this->id, $id);
+
+        return $this->db->update($this->tbl, $data);
+    }
+
+}

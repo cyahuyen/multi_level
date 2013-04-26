@@ -1,0 +1,48 @@
+<?php $this->lang->load('home'); ?>
+<div class="one-third">	
+    <div class="">
+        <h4><?php echo $this->lang->line('service_featured'); ?></h4>
+        <p>
+            <a href="#">arketiva.com</a> - Popular Forex company!
+        </p>
+        <p>
+            <a href="#">Instaforex.com</a> -  Award winning forex.
+        </p>
+        <p>
+            <a href="#">Masterforex.org</a> - Award winning forex.
+        </p>
+    </div>
+</div>
+
+<div class="one-third">	
+    <div class="">
+        <h4><?php echo $this->lang->line('service_exchange'); ?></h4>
+        <p>
+            <a href="#">wm-center.com</a> (English, Russian) — Fast and reliable
+        </p>
+        <p>
+            <a href="#">e-Naira.com</a> (English) — Reputable exchanger.
+        </p>
+        <p>
+            <a href="#">ExchangeZone.com</a> (English)
+        </p>
+    </div>
+</div>
+
+<div class="one-third last">
+    <div class="">
+        <h4><?php echo $this->lang->line('service_wholesale'); ?></h4>
+        <p>
+            <a href="#">aeCardOne.com</a> - uthorized reseller, official debit card provider
+        </p>
+        <p>
+            <a href="#">Ebuygold.com</a> -  Authorized wholesaler.
+        </p>
+        <p>
+            <a href="#">SwiftExchanger.com</a> - Official Cyacash merchant wholesaler.
+        </p>
+    </div>
+</div>
+<div class="horizontal-line">
+</div>
+

@@ -1,0 +1,47 @@
+<div class="simplebox grid740">
+    <?php if ($success) { ?>
+        <div class="simple-tips">
+            <ul>
+                <li><?php echo $success; ?></li>
+            </ul>
+            <a href="#" class="close tips" title="Close">close</a>
+        </div>
+    <?php } ?>
+    <div class="titleh"><h3><?php echo $headding_title; ?></h3>
+        <div class="shortcuts-icons">
+            <a href="<?php echo $add_new; ?>" class="button-green">Insert</a>
+            <a onclick="$('form').submit();" class="button-green">Delete</a>
+        </div>
+    </div>
+    <table id="myTable" class="tablesorter"> 
+        <thead> 
+            <tr> 
+                <th>#</th> 
+                <th><?php echo $colum_title; ?></th>
+                <th><?php echo $colum_code; ?></th>
+                <th><?php echo $colum_action; ?></th> 
+            </tr> 
+        </thead> 
+        <?php if ($emails) { ?>
+            <tbody> 
+            <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form">
+                <?php foreach ($emails as $email) { ?>
+                    <tr> 
+                        <td style="text-align: center;">
+                            <?php if ($email['selected']) { ?>
+                                <input type="checkbox" name="selected[]" value="<?php echo $email['email_id']; ?>" checked="checked" />
+                            <?php } else { ?>
+                                <input type="checkbox" name="selected[]" value="<?php echo $email['email_id']; ?>" />
+                            <?php } ?>
+                        </td>
+                        <td><?php echo $email['title']; ?></td> 
+                        <td><?php echo $email['code']; ?></td> 
+                        <td><a href="<?php echo $email['edit']; ?>">[ Edit ]</a></td> 
+                    </tr> 
+                <?php } ?>
+            </form>
+        <?php } ?>
+    </table>
+    <div class="pagination"><?php echo $pagination; ?></div>
+</div>
+<!-- END TABLE -->

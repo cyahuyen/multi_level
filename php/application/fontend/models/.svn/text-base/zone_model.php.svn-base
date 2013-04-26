@@ -1,0 +1,51 @@
+<?php
+
+class Zone_Model extends CI_Model {
+
+    private $tbl = 'zones';
+    private $id = 'id';
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    function getCities($country = null) {
+        $this->db->select('id, city_name');
+
+        if ($country != NULL) {
+            $this->db->where('country_id', $country);
+        }
+
+        $query = $this->db->get($this->tbl);
+
+        $data = array();
+
+        if ($query->result()) {
+            foreach ($query->result() as $country) {
+                $data[$country->id] = $country->city_name;
+            }
+            return $data;
+        } else {
+            return FALSE;
+        }
+    }
+
+    function getCountries() {
+        $this->db->select('id, country_name');
+
+        $query = $this->db->get('countries');
+
+        $data = array();
+
+        if ($query->result()) {
+            foreach ($query->result() as $country) {
+                $data[$country->id] = $country->country_name;
+            }
+            return $data;
+        } else {
+            return FALSE;
+        }
+    }
+
+}
+

@@ -1,0 +1,65 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head> <title>Liberty Reserve – largest payment processor and money transfer system. Liberty Reserve serves millions since 2002 - Login </title> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="Keywords" content="private, digital
+              currency,ecurrency,e-currency,payment system, payment processor,payment
+              gateway,api,merchant,merchant payment solution,online
+              banking,money,transfer,finance service,payment service,safely store
+              funds,buy,sell,exchange,forex,casino,sports betting,poker,on-line" />
+        <meta name="Description" content="Oldest, safest and most popular
+              payment processor operating in Costa Rica and serving millions all
+              around a world. Store your funds privately in gold, Euro or USD. Use Liberty
+              Reserve in on-line casinos, poker rooms, sports betting, forex or in any
+              other on-line store." />
+        <meta name="Title" content="Liberty Reserve Homepage" scheme="" />
+        <meta name="SearchTitle" content="Liberty Reserve Homepage"
+              scheme="" />
+        <meta name="SearchDescription" content="Liberty Reserve Homepage"
+              scheme="" />
+        <link href="https://libertyreserve.s3.amazonaws.com/content/v1.0.1338/themes/white/site.css" rel="stylesheet" type="text/css" />
+        <link href="https://libertyreserve.s3.amazonaws.com/content/v1.0.1338/favicon.ico" rel="icon" type="image/x-icon" />
+        <link href="https://libertyreserve.s3.amazonaws.com/content/v1.0.1338/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    </head>
+    <body> <div id="header"> <div id="hmenu">
+                <a href="http://www.libertyreserve.com/" class="l"></a>
+                <ul> <li><a href="http://www.libertyreserve.com/" class="h"></a></li> <li> <a href="/en/registration">Create Account</a> </li> <li> <a class="s" href="/en/login">Login</a> </li> <li> <a class="g" href="http://www.libertyreserve.com/en/libertyguard">Get protected by LibertyGuard</a> </li>
+                </ul> </div> <div id="hqlinks"> <a class="r" href="/en/reporterror">Report an error</a>
+                <ul> <li class="en"> <a href="/en/login">Eng</a></li>
+                </ul> </div> </div> <div id="side"> <div id="smenu">
+                <ul> <li><a href="http://www.libertyreserve.com/en/libertyguard">LibertyGuard</a></li> <li><a href="http://www.libertyreserve.com/en/services">Services</a><span>new!</span></li> <li><a href="http://www.libertyreserve.com/en/fees">Service Fees</a></li> <li><a href="http://www.libertyreserve.com/en/exchangers">Buy/Sell LR</a></li> <li><a href="http://www.libertyreserve.com/en/merchants">Merchants</a></li> <li><a href="http://www.libertyreserve.com/en/home/downloads">Downloads</a></li> <li><a class="s" href="http://www.libertyreserve.com/en/home/consumeralert">Consumer Alert</a></li> <li><a href="http://blog.libertyreserve.com/" class="l" title="To open page in a new tab press Ctrl and click on the link"></a></li>
+                </ul> </div> <div id="sqlinks">
+                <ul> <li> <a class="q" href="/en/contactus"> </a></li> <li> <a href="http://www.libertyreserve.com/en/help/sciapiguides">SCI/API Guides</a></li> <li> <a href="http://www.libertyreserve.com/en/help/faq">FAQ</a></li>
+                </ul>
+                <a href="https://trustsealinfo.verisign.com/splash?form_file=fdf/splash.fdf&amp;dn=www.libertyreserve.com&amp;lang=en" class="ver"></a>
+                <a href="http://www.verisign.com/verisign-trust-seal" class="ato">ABOUT TRUST ONLINE</a> </div> <div id="truste"> <a href="https://privacy-policy.truste.com/click-with-confidence/wps/en/www.libertyreserve.com"> <img src="https://privacy-policy.truste.com/certified-seal/wps/en/www.libertyreserve.com/seal.png"
+                                                                                                                                                                                                        alt="" /> </a> </div> </div> <div id="content"> <div id="placeholder">
+                <div id="authenticate"> <h1>Login: Step 1 </h1> <p>You are now on the login page of your Liberty Reserve account. Please provide your login details to see your custom welcome message and to continue login process. </p> <form action="/en/login?ReturnUrl=%2fen%2ftransfer" method="post"> <p> <label for="AccountNumber">Account Number <a href="/en/services/remind" tabindex="9">(forgot it?)</a></label> <input autocomplete="off" id="AccountNumber" maxlength="30" name="AccountNumber" type="text" value="U4832340" /> <span class="input"> <input checked="checked" id="RememberMe" name="RememberMe" tabindex="9" type="checkbox" value="true" /><input name="RememberMe" type="hidden" value="false" /> <label for="RememberMe">remember my account on this computer (not recommended for public computers)</label></span> </p> <p> <label for="Password">Password <a href="/en/reset" tabindex="9">(forgot it?)</a></label> <input autocomplete="off" id="Password" maxlength="60" name="Password" type="password" value="" /> </p>
+                        <p> <span class="fullkeyboard" style="display:none;"> <span> <b class="key1">1!</b> <b class="key2">2@</b> <b class="key3">3#</b> <b class="key4">4$</b> <b class="key5">5%</b> <b class="key6">6^</b> <b class="key7">7&amp;</b> <b class="key8">8*</b> <b class="key9">9(</b> <b class="key0">0)</b> <b class="keyDush">-_</b> <b class="keyEqual">=+</b> <b id="back" class="keyBack">Back</b> </span> <span> <b class="keyq">qQ</b> <b class="keyw">wW</b> <b class="keye">eE</b> <b class="keyr">rR</b> <b class="keyt">tT</b> <b class="keyy">yY</b> <b class="keyu">uU</b> <b class="keyi">iI</b> <b class="keyo">oO</b> <b class="keyp">pP</b> <b class="keyLeftBracket">[{</b> <b class="keyRightBracket">]}</b> </span> <span> <b id="capslock" class="keyCapsLock">Caps Lock</b> <b class="keya">aA</b> <b class="keys">sS</b> <b class="keyd">dD</b> <b class="keyf">fF</b> <b class="keyg">gG</b> <b class="keyh">hH</b> <b class="keyj">jJ</b> <b class="keyk">kK</b> <b class="keyl">lL</b> <b class="keyColon">;:</b> <b class="keyQuotes">'&quot;</b> </span> <span> <b id="shift" class="keyShift">Shift</b> <b class="keyz">zZ</b> <b class="keyx">xX</b> <b class="keyc">cC</b> <b class="keyv">vV</b> <b class="keyb">bB</b> <b class="keyn">nN</b> <b class="keym">mM</b> <b class="keyComma">,></b> <b class="keyDot">.<</b> <b class="keyQuestion">?/</b> <b class="keyBar">|\</b> </span> <span> <b class="keySpace">&nbsp;&nbsp;</b> <b id="clear" class="keyClear">Clear</b> </span> </span>
+                        </p>
+                        <p> <b>Enter the code (turing number) shown on the image</b>
+                        </p>
+                        <p>(Note: If you cannot read the numbers, click on it <noscript>or reload the page</noscript> to generate a new  one):
+                        </p>
+                        <p class="bg1"> <label for="turingnumber"> <img id="captcha" src="/captcha.jpg" alt="If you cannot read the code, click on it to generate a new one" title="If you cannot read the code, click on it to generate a new one" /> </label> <span class="input"> <input autocomplete="off" id="turingnumber" maxlength="4" name="turingnumber" type="text" value="" /> </span>
+                        </p> <p class="bg2"> <input name="Next" type="submit" value="Next" autocomplete="off" /> <input name="Cancel" type="submit" value="Cancel" autocomplete="off" /> <input name="__RequestVerificationToken" type="hidden" value="xDv/T7N37KE1sa24bRBQeQmXxJOco+GM2d++73LT++N21UEIRMa7n5P/4jOaw5TYHFkVXJJ824qq8Aw7iEHne1MY8msBeUB16/HeW2Cgbns0VOSTp3+5qKPsoRIb1l6jK7xImK/T8jbMQq3JYkT5NghFVEo6NTVDsS+SYAWYG9y5DYSb4GeHZuz7iZi87wYY8VD4eA==" /> </p> </form> <div class="r"> <p>Do not have account yet? </p> <a href="/en/registration">Please register</a> </div>
+                </div> </div> </div> <div id="footer">
+            <p>© 2002 — 2012 <span>Liberty Reserve S.A. All rights reserved. <!--
+                    1.0.1338.2159 [3/15/2012 12:38 PM]
+                    --> </span>
+            </p>
+            <ul> <li> <a href="http://www.libertyreserve.com/en/home/corporate">Corporate</a> </li> <li>|</li> <li> <a href="http://www.libertyreserve.com/en/home/termsofservice">Terms of Service</a> </li> <li>|</li> <li> <a href="http://www.libertyreserve.com/en/home/privacypolicy">Privacy Policy</a> </li> <li>|</li> <li> <a href="http://www.libertyreserve.com/en/home/amlpolicy">AML Policy</a> </li> <li>|</li> <li> <a class="q" href="/en/contactus">Contact Us</a></li>
+            </ul> </div>
+        <script type="text/javascript">var dangerousStringMessage = 'You have entered forbidden symbols.'
+        </script>
+        <script src="https://libertyreserve.s3.amazonaws.com/content/v1.0.1338/scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+        <script src="https://libertyreserve.s3.amazonaws.com/content/v1.0.1338/scripts/core.js" type="text/javascript"></script>
+        <script src="https://libertyreserve.s3.amazonaws.com/content/v1.0.1338/scripts/autofill.js" type="text/javascript"></script>
+        <script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">if (typeof _gat != "undefined") {var pageTracker = _gat._getTracker("UA-2468425-1");pageTracker._trackPageview(); }
+        </script>
+        <script type="text/javascript">validateDangerousString = false;disableContinueButton();$(document).ready(function () {ajaxPostOnSubmit();reloadCaptcha();enableContinueButton();loginPinKeyboard();fullKeyboard("#authenticate", "#Password");filterResponseCode();filterLongPinCode();customField("#AccountDestinationId", "#CustomAccountDestination");customField("#CustomerOccupationId", "#CustomCustomerOccupation"); ajaxRefreshAction = function() { disableContinueButton(); showKeyboard(); } });
+        </script>
+    </body>
+</html>

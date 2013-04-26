@@ -1,0 +1,65 @@
+<h4 class="color_red"><?php echo $text_title; ?></h4>
+<div class="simple-notice"><?php echo $text_notice1; ?></div>
+
+<?php echo form_open('services/search/', array('id' => 'sign-up-form')); ?>
+<fieldset>
+    <label><span class="required">*</span><?php echo $text_currency; ?> </label>
+    <select name="transaction_currency" id="transaction_currency">
+        <?php if ($currencies) { ?>
+            <?php foreach ($currencies as $currencie) { ?>
+                <option value="<?php echo $currencie['code']; ?>"><?php echo $currencie['title']; ?></option>
+            <?php } ?>
+        <?php } ?>
+    </select>
+</fieldset>
+<?php echo form_error('transaction_currency', '<div class="simple-alert">', '</div>'); ?>  
+
+<fieldset>
+    <label><span class="required">*</span><?php echo $text_date; ?> </label>
+    <input type="text" name="transaction_time" id="datepicker" value="<?php echo set_value('transaction_time'); ?>" class="text requiredField"/>
+    <span><?php echo $text_please; ?></span>
+</fieldset>
+<?php echo form_error('transaction_time', '<div class="simple-alert">', '</div>'); ?>  
+
+<fieldset>
+    <label><span class="required">*</span><?php echo $text_source; ?></label>
+    <input type="text" name="from_account" id="from_account" value="<?php echo set_value('from_account'); ?>" class="text requiredField"/>
+</fieldset>
+<?php echo form_error('from_account', '<div class="simple-alert">', '</div>'); ?>
+
+<fieldset>
+    <label><span class="required">*</span><?php echo $text_destination; ?></label>
+    <input type="text" name="to_account" id="to_account" value="<?php echo set_value('to_account'); ?>" class="text requiredField email"/>
+</fieldset>
+<?php echo form_error('to_account', '<div class="simple-alert">', '</div>'); ?>
+
+<fieldset>
+    <label><span class="required">*</span><?php echo $text_batch; ?></label>
+    <input type="text" name="batch_number" id="batch_number" value="<?php echo set_value('batch_number'); ?>" class="text requiredField email"/>
+</fieldset>
+<?php echo form_error('batch_number', '<div class="simple-alert">', '</div>'); ?>   
+<fieldset>
+    <label><span class="required">*</span><?php echo $text_amount; ?></label>
+    <input type="text" name="amount" id="amount" value="<?php echo set_value('amount'); ?>" class="text requiredField email"/>
+</fieldset>
+<?php echo form_error('amount', '<div class="simple-alert">', '</div>'); ?>   
+<fieldset>
+    <h6><?php echo $text_enter_code; ?></h6>
+    <p><?php echo $text_notice2; ?></p>
+    <?php echo form_error('recaptcha_response_field', "<div class='simple-alert'>", '</div>'); ?>
+    <div id="img_captcha">
+        <?php echo $recaptcha; ?>
+    </div>
+</fieldset>   								
+<fieldset>
+    <input name="submit" id="button-search" value="<?php echo $button_search; ?>" class="button small orange" type="submit"/>
+</fieldset>    
+<?php echo form_close(); ?>
+
+<script type="text/javascript">
+    $(function() {
+        $("#datepicker").datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+    });
+</script>

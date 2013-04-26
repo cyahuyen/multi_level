@@ -1,0 +1,19 @@
+<?php
+
+class Logs_Model extends CI_Model {
+
+    private $tbl = 'security_log';
+    private $id = 'log_id';
+
+    function __construct() {
+        parent::__construct();
+    }
+    
+    function save($data) {
+        $this->db->insert($this->tbl, $data);
+
+        return $this->db->insert_id();
+    }
+
+}
+

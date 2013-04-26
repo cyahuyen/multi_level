@@ -1,0 +1,67 @@
+<div class="st-form-view">
+    <div id="view"></div>
+</div>
+<?php if ($transfers) { ?>
+    <table id="myTable" class="tablesorter"> 
+        <thead> 
+            <tr> 
+                <th><?php echo $colum_date; ?></th> 
+                <th><?php echo $colum_bath; ?></th> 
+                <th><?php echo $colum_from; ?></th> 
+                <th><?php echo $colum_to; ?></th>
+                <th><?php echo $colum_amount; ?></th> 
+                <th><?php echo $colum_fee; ?></th> 
+                <th><?php echo $colum_currency; ?></th> 
+                <th><?php echo $colum_action; ?></th> 
+            </tr> 
+        </thead> 
+        <?php if ($transfers) { ?>
+            <tbody> 
+                <?php foreach ($transfers as $transfer) { ?>
+                    <tr> 
+                        <td style="text-align: center;"><?php echo $transfer['transaction_time']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['batch_number']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['from_account']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['to_account']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['amount']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['fee']; ?></td>
+                        <td style="text-align: center;"><?php echo $transfer['transaction_currency']; ?></td>
+                        <td><a id="button-view" href="javascript:void(0)"  onclick="changeView('<?php echo $transfer['transaction_id']; ?>')"><?php echo $text_view; ?></a></td> 
+                    </tr> 
+                <?php } ?>
+            </tbody> 
+        <?php } ?>
+    </table>
+    <fieldset>
+        <a href="<?php echo site_url('history/'); ?>" class="button small orange"><?php echo $button_new_search; ?></a>
+    </fieldset> 
+<?php } else { ?>
+    <fieldset style="text-align: center;">
+        <?php echo $text_no_transfer; ?>
+    </fieldset> 
+    <fieldset>
+        <a href="<?php echo site_url('history/'); ?>" class="button small orange"><?php echo $button_new_search; ?></a>
+    </fieldset> 
+<?php } ?>
+<script type="text/javascript">
+    function changeView(id){
+        $.ajax({
+            url: '<?php echo site_url('history/view/'); ?>/'+id,
+            type: 'get',
+            dataType: 'HTML',
+            success: function(msg) {
+                $('#view').html(msg)
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#button-close').live('click',function(){
+            $('#view').hide();
+        })
+        $('#button-view').live('click',function(){
+            $('#view').show();    
+        })
+    });
+</script>

@@ -1,0 +1,123 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Permission extends CI_Controller {
+
+    var $id;
+    var $user;
+    var $data;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('ion_auth');
+        $this->load->library('session');
+        $this->load->library('form_validation');
+        $this->load->database();
+        $this->load->library('document');
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $this->lang->load('permission');
+        $this->load->model('permission_model', '', TRUE);
+
+        $this->load->library('user_login');
+        $module_name = $this->router->fetch_class();
+        $action_name = $this->router->fetch_method();
+
+        if (!$this->user_login->hasPermission($module_name, $action_name)) {
+            $this->session->set_flashdata('permission', 'You do not have permission to access this page, please refer to your system administrator.');
+            redirect('home');
+        }
+
+        if ((!$this->session->userdata('admin_logged')) || (!$this->ion_auth->logged_in())) {
+            redirect('login/index/', 'refresh');
+        }
+    }
+
+    public function index() {
+        $this->document->setTitle($this->lang->line('headding_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['headding_title'] = $this->lang->line('headding_title');
+        $this->data['colum_name'] = $this->lang->line('colum_name');
+        $this->data['colum_action'] = $this->lang->line('colum_action');
+
+        $session = $this->session->flashdata('message');
+        if (isset($session)) {
+            $this->data['success'] = $session;
+        } else {
+            $this->data['success'] = '';
+        }
+        $groups = $this->permission_model->getGroups();
+        $this->data['groups'] = array();
+
+        foreach ($groups as $group) {
+            $edit = site_url('permission/update/' . $group['group_id']);
+            $this->data['groups'][] = array(
+                'group_id' => $group['group_id'],
+                'name' => $group['name'],
+                'edit' => $edit,
+            );
+        }
+        $this->data['main_content'] = 'permission/index.php';
+
+        $this->load->view('main_board', $this->data);
+    }
+
+    public function update() {
+        if (($this->input->server('REQUEST_METHOD') === 'POST')) {
+            $this->permission_model->update($this->uri->segment(3), $this->input->post());
+            $this->session->set_flashdata('message', $this->lang->line('text_success'));
+            redirect('permission/index');
+        }
+        $this->getForm();
+    }
+
+    public function getForm() {
+
+        $this->document->setTitle($this->lang->line('headding_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+
+        $this->data['headding_title'] = $this->lang->line('headding_title');
+        $this->data['text_module'] = $this->lang->line('text_module');
+        $this->data['colum_action'] = $this->lang->line('colum_action');
+        $this->data['colum_module'] = $this->lang->line('colum_module');
+        $this->data['button_save'] = $this->lang->line('button_save');
+        $this->data['button_cancel'] = $this->lang->line('button_cancel');
+
+        $this->data['action'] = site_url('permission/update/' . $this->uri->segment(3));
+
+        $this->data['cancel'] = site_url('permission/index');
+
+        $modules = $this->permission_model->getModules();
+
+        $this->data['modules'] = array();
+
+        foreach ($modules as $module) {
+            $this->data['modules'][] = array(
+                'id' => $module['id'],
+                'modules' => $module['modules'],
+                'actions' => explode(',', $module['actions']),
+            );
+        }
+        if (($this->uri->segment(3)) && ($this->input->server('REQUEST_METHOD') != 'POST')) {
+            $group_permission = $this->permission_model->getPermission($this->uri->segment(3));
+        }
+        $posts = $this->input->post();
+        if ($posts['actions']) {
+            $this->data['permission'] = $this->input->post('actions');
+        } elseif (isset($group_permission['permission'])) {
+            $this->data['permission'] = $group_permission['permission'];
+        } else {
+            $this->data['permission'] = array();
+        }
+
+        $this->data['main_content'] = 'permission/form.php';
+
+        $this->load->view('main_board', $this->data);
+    }
+
+}

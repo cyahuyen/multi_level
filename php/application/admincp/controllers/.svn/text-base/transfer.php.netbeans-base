@@ -1,0 +1,220 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Transfer extends CI_Controller {
+
+    var $transaction_id;
+    var $name;
+    var $active;
+    var $data;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->library('session');
+        $this->load->library('ion_auth');
+        $this->load->library('form_validation');
+        $this->load->database();
+        $this->load->helper('form');
+        $this->load->library('document');
+        $this->load->helper('url');
+        $this->load->library('pagination');
+        $this->lang->load('transfer');
+        $this->load->model('transfer_model', '', TRUE);
+        $this->load->library('user_login');
+        $module_name = $this->router->fetch_class();
+        $action_name = $this->router->fetch_method();
+
+        if (!$this->user_login->hasPermission($module_name, $action_name)) {
+            $this->session->set_flashdata('permission', 'You do not have permission to access this page, please refer to your system administrator.');
+            redirect('home');
+        }
+
+        if ((!$this->session->userdata('admin_logged')) || (!$this->ion_auth->logged_in())) {
+            redirect('login/index/', 'refresh');
+        }
+    }
+
+    public function index() {
+
+        $url = '';
+
+        $p = $this->uri->segment(3);
+        if (isset($p)) {
+            $page = $p;
+        } else {
+            $page = 1;
+        }
+
+        $this->document->setTitle($this->lang->line('headding_title'));
+
+        $this->data['title'] = $this->document->getTitle();
+        $this->data['headding_title'] = $this->lang->line('headding_title');
+        $this->data['colum_date'] = $this->lang->line('colum_date');
+        $this->data['colum_bath'] = $this->lang->line('colum_bath');
+        $this->data['colum_from'] = $this->lang->line('colum_from');
+        $this->data['colum_to'] = $this->lang->line('colum_to');
+        $this->data['colum_amount'] = $this->lang->line('colum_amount');
+        $this->data['colum_fee'] = $this->lang->line('colum_fee');
+        $this->data['colum_currency'] = $this->lang->line('colum_currency');
+        $this->data['text_view'] = $this->lang->line('text_view');
+        $this->data['text_prosess'] = $this->lang->line('text_prosess');
+        $this->data['colum_action'] = $this->lang->line('colum_action');
+        $this->data['text_from_date'] = $this->lang->line('text_from_date');
+        $this->data['text_to_date'] = $this->lang->line('text_to_date');
+        $this->data['text_batch_number'] = $this->lang->line('text_batch_number');
+        $this->data['text_from_account'] = $this->lang->line('text_from_account');
+        $this->data['text_to_account'] = $this->lang->line('text_to_account');
+        $this->data['button_search'] = $this->lang->line('button_search');
+        $this->data['button_hiden_search'] = $this->lang->line('button_hiden_search');
+
+        $post = $this->input->post();
+        if (isset($post['filter_from_date'])) {
+            $filter_from_date = $post['filter_from_date'];
+        } else {
+            $filter_from_date = '';
+        }
+        if (isset($post['filter_to_date'])) {
+            $filter_to_date = $post['filter_to_date'];
+        } else {
+            $filter_to_date = '';
+        }
+        if (isset($post['filter_batch_number'])) {
+            $filter_batch_number = $post['filter_batch_number'];
+        } else {
+            $filter_batch_number = '';
+        }
+        if (isset($post['filter_from_account'])) {
+            $filter_from_account = $post['filter_from_account'];
+        } else {
+            $filter_from_account = '';
+        }
+        if (isset($post['filter_to_account'])) {
+            $filter_to_account = $post['filter_to_account'];
+        } else {
+            $filter_to_account = '';
+        }
+
+        if ($this->input->post('filter_from_date') || $this->input->post('filter_batch_number') || $this->input->post('filter_from_account') || $this->input->post('filter_to_account') || $this->input->post('filter_to_date')) {
+
+            $data = array(
+                'filter_from_date' => $filter_from_date,
+                'filter_to_date' => $filter_to_date,
+                'filter_batch_number' => $filter_batch_number,
+                'filter_from_account' => $filter_from_account,
+                'filter_to_account' => $filter_to_account,
+                'start' => ($page - 1) * 5,
+                'limit' => 5
+            );
+            $total_transfer = $this->transfer_model->totalTransfer($data);
+
+            $transfers = $this->transfer_model->getTransfers($data);
+
+            $this->data['transfers'] = array();
+
+
+            foreach ($transfers as $transfer) {
+                if ($transfer->transaction_id) {
+                    $view = site_url('transfer/view/' . $transfer->transaction_id);
+                }
+                $this->data['transfers'][] = array(
+                    'transaction_id' => $transfer->transaction_id,
+                    'batch_number' => $transfer->batch_number,
+                    'amount' => $transfer->amount,
+                    'transaction_time' => $transfer->transaction_time,
+                    'transaction_memo' => $transfer->transaction_memo,
+                    'from_account' => $transfer->from_account,
+                    'to_account' => $transfer->to_account,
+                    'transaction_currency' => $transfer->transaction_currency,
+                    'amount_text' => $transfer->amount_text,
+                    'fee' => $transfer->fee,
+                    'view' => $view,
+                );
+            }
+
+            $pagination = $this->pagination;
+            $pagination->total = $total_transfer;
+            $pagination->page = $page;
+            $pagination->limit = 5;
+            $pagination->url = site_url('transfer/index/' . '{page}');
+
+            $this->data['pagination'] = $pagination->render();
+
+            $this->data['main_content'] = 'transfer/index.php';
+
+            $this->load->view('main_board', $this->data);
+        } else {
+            $total_transfer = $this->transfer_model->totalTransfer();
+
+            $data = array(
+                'start' => ($page - 1) * 5,
+                'limit' => 5
+            );
+
+            $transfers = $this->transfer_model->getTransfers($data);
+
+            $this->data['transfers'] = array();
+
+            foreach ($transfers as $transfer) {
+                if ($transfer->transaction_id) {
+                    $view = site_url('transfer/view/' . $transfer->transaction_id);
+                }
+                $this->data['transfers'][] = array(
+                    'transaction_id' => $transfer->transaction_id,
+                    'batch_number' => $transfer->batch_number,
+                    'amount' => $transfer->amount,
+                    'transaction_time' => $transfer->transaction_time,
+                    'transaction_memo' => $transfer->transaction_memo,
+                    'from_account' => $transfer->from_account,
+                    'to_account' => $transfer->to_account,
+                    'transaction_currency' => $transfer->transaction_currency,
+                    'amount_text' => $transfer->amount_text,
+                    'fee' => $transfer->fee,
+                    'view' => $view,
+                );
+            }
+
+            $pagination = $this->pagination;
+            $pagination->total = $total_transfer;
+            $pagination->page = $page;
+            $pagination->limit = 5;
+            $pagination->url = site_url('transfer/index/' . '{page}');
+
+            $this->data['pagination'] = $pagination->render();
+
+            $this->data['main_content'] = 'transfer/index.php';
+
+            $this->load->view('main_board', $this->data);
+        }
+    }
+
+    public function view() {
+        $this->data['colum_date'] = $this->lang->line('colum_date');
+        $this->data['colum_bath'] = $this->lang->line('colum_bath');
+        $this->data['colum_from'] = $this->lang->line('colum_from');
+        $this->data['colum_to'] = $this->lang->line('colum_to');
+        $this->data['text_batch_number'] = $this->lang->line('text_batch_number');
+        $this->data['text_status'] = $this->lang->line('text_status');
+        $this->data['text_memo'] = $this->lang->line('text_memo');
+        $this->data['button_close'] = $this->lang->line('button_close');
+
+        $id = $this->uri->segment(3);
+
+        if ($id) {
+
+            $transfer_info = $this->transfer_model->getTransfer($id);
+
+            $this->data['transaction_id'] = $transfer_info->transaction_id;
+            $this->data['batch_number'] = $transfer_info->batch_number;
+            $this->data['transaction_time'] = $transfer_info->transaction_time;
+            $this->data['from_account'] = $transfer_info->from_account;
+            $this->data['to_account'] = $transfer_info->to_account;
+            $this->data['transaction_status'] = $transfer_info->transaction_status;
+            $this->data['transaction_memo'] = $transfer_info->transaction_memo;
+
+            $this->load->view('transfer/view', $this->data);
+        }
+    }
+
+}
