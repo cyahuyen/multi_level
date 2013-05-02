@@ -16,42 +16,48 @@ class Authentication extends MY_Controller {
     }
 
     public function index() {
-        $this->navigation->loadSigninView();
+        $this->data['title'] = 'Sign-in';
+        $this->data['main_content'] = 'authentication/index';
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+            $validationErrors = array();
+
+            /* check username val */
+            if ($username == null || trim($username) == "")
+                $validationErrors["username"] = "Sign-in name is required for sign-in authentication";
+
+            /* check password val */
+            if ($password == null || trim($password) == "") {
+                $this->data['usermessage'] = array('error', 'darkred', 'Password is required for sign-in authentication', 'Please see below');
+                $validationErrors["password"] = "Password is required for sign-in authentication";
+            }
+
+            if (count($validationErrors) == 0) {
+                $usersForCreds = $this->user->verifySignin($username, $password);
+                if (empty($usersForCreds)) {
+                    $this->data['usermessage'] = array('error', 'darkred', 'Sign-in name / password could not be verified', 'Please see below');
+                    $validationErrors["username"] = "Sign-in name / password could not be verified";
+                } else {
+                    foreach ($usersForCreds[0] as $key => $data) {
+                        $sessiondata[$key] = $data;
+                    }
+                    $this->session->set_userdata(array('user' => $sessiondata));
+                    if($sessiondata['permission'] == 'administrator')
+                        redirect (site_url('admin'));
+                    redirect(site_url('home'));
+                }
+            }
+            $this->data['fielderrors'] = $validationErrors;
+        }
+
+
+        $this->load->View('signin', $this->data);
     }
 
     public function signin() {
-        $username = $this->input->post('username');
-        $password = $this->input->post('password');
-
-        $validationErrors = array();
-
-        /* check username val */
-        if ($username == null || trim($username) == "")
-            $validationErrors["username"] = "Sign-in name is required for sign-in authentication";
-
-        /* check password val */
-        if ($password == null || trim($password) == ""){
-            $data['usermessage'] = array('error', 'darkred', 'Password is required for sign-in authentication', 'Please see below');
-            $validationErrors["password"] = "Password is required for sign-in authentication";
-        }
-            
-
-        /* verify username/password */
-        if (count($validationErrors) == 0) {
-            $usersForCreds = $this->user->verifySignin($username, $password);
-            if (empty($usersForCreds)) {
-                $data['usermessage'] = array('error', 'darkred', 'Sign-in name / password could not be verified', 'Please see below');
-                $validationErrors["username"] = "Sign-in name / password could not be verified";
-            } else {
-                foreach ($usersForCreds[0] as $key => $data) {
-                    $sessiondata[$key] = $data;
-                }
-                $this->session->set_userdata($sessiondata);
-                redirect(site_url('home'));
-            }
-        }
-        $data['fielderrors'] = $validationErrors;
-        $this->navigation->loadSigninView($data);
+        
     }
 
     public function signout() {
