@@ -1,84 +1,57 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
 /**
  * Provides interface methods for user authentication
  * @author	Dean Gleeson <dean.gleeson@pragmaticsystems.com.au>
  * @date	21/04/2012
  */
-class Authentication extends MY_Controller 
-{
+class Authentication extends MY_Controller {
 
-    function __construct() 
-    {
-    	parent::__construct();
-		$this->load->model('user_model', 'user');
+    function __construct() {
+        parent::__construct();
+        $this->load->model('user_model', 'user');
     }
 
-    public function index() 
-    {
+    public function index() {
         $this->navigation->loadSigninView();
     }
 
-    public function signin() 
-    {
-    	$username = $this->input->post('username');
-    	$password = $this->input->post('password');
-    	
-    	$validationErrors = array();
-    	
-    	/* check username val */
-    	if ($username == null || trim($username) == "")
-    		$validationErrors["username"] = "Sign-in name is required for sign-in authentication";
+    public function signin() {
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
 
-    	/* check password val */
-    	if ($password == null || trim($password) == "")
-    		$validationErrors["password"] = "Password is required for sign-in authentication";
+        $validationErrors = array();
 
-    	/* verify username/password */
-    	if (count($validationErrors) == 0) 
-    	{
-    		$usersForCreds = $this->user->verifySignin($username, $password);
-    		if ($usersForCreds->num_rows() != 1) 
-    		{
-    			$validationErrors["username"] = "Sign-in name / password could not be verified";
-    		} 
-    		else 
-    		{
-    			foreach ($usersForCreds->result() as $row) 
-    			{
-    				$usertype = $row->usertype;
-    				$id = $row->id;
-    				$username = $row->username;
-    				$password = $row->password;
-    				$personname = $row->fullname;
-    				$email = $row->password;
-    			}
-    			$sessiondata = array(
-    					'usertype' => $usertype,
-    					'userid' => $id,
-    					'username' => $username,
-    					'password' => $password,
-    					'personname' => $personname,
-    					'email' => $email,
-    					'is_logged_in' => true
-    			);
-    			$this->session->set_userdata($sessiondata);
-    		}
-    	}
-    	
-    	if (count($validationErrors) == 0)
-        {
-        	$data['user'] = $this->user->getSessionUserDetails();
-    		$this->navigation->loadHomeView($data);
-    	}
-    	else 
-    	{
-    		$this->navigation->loadSigninView(array(
-    				'usermessage' => array('error', 'darkred', 'Sign-in unsuccessful', 'Sign-in name / password could not be verified'),
-    				'fielderrors' => $validationErrors
-    		));
-    	}
-    	
+        /* check username val */
+        if ($username == null || trim($username) == "")
+            $validationErrors["username"] = "Sign-in name is required for sign-in authentication";
+
+        /* check password val */
+        if ($password == null || trim($password) == ""){
+            $data['usermessage'] = array('error', 'darkred', 'Password is required for sign-in authentication', 'Please see below');
+            $validationErrors["password"] = "Password is required for sign-in authentication";
+        }
+            
+
+        /* verify username/password */
+        if (count($validationErrors) == 0) {
+            $usersForCreds = $this->user->verifySignin($username, $password);
+            if (empty($usersForCreds)) {
+                $data['usermessage'] = array('error', 'darkred', 'Sign-in name / password could not be verified', 'Please see below');
+                $validationErrors["username"] = "Sign-in name / password could not be verified";
+            } else {
+                foreach ($usersForCreds[0] as $key => $data) {
+                    $sessiondata[$key] = $data;
+                }
+                $this->session->set_userdata($sessiondata);
+                redirect(site_url('home'));
+            }
+        }
+        $data['fielderrors'] = $validationErrors;
+        $this->navigation->loadSigninView($data);
     }
 
     public function signout() {
@@ -97,14 +70,14 @@ class Authentication extends MY_Controller
                 'fielderrors' => array('resetusername' => 'Invalid sign-in name')
             ));
         } else {
-        	/*
-            $this->load->library('email');
-            $this->email->from('abhishek@gmail.com', 'Abhishek');
-            $this->email->to($this->input->post('signin-reset-name'));
-            $this->email->subject('New Password');
-            $this->email->message("your new password is $resetPassword");
-            $this->email->send();
-			*/
+            /*
+              $this->load->library('email');
+              $this->email->from('abhishek@gmail.com', 'Abhishek');
+              $this->email->to($this->input->post('signin-reset-name'));
+              $this->email->subject('New Password');
+              $this->email->message("your new password is $resetPassword");
+              $this->email->send();
+             */
             $this->navigation->loadSigninView(array(
                 'usermessage' => array('success', 'green', 'Password reset successful', 'Reset password sent, please check your email')
             ));

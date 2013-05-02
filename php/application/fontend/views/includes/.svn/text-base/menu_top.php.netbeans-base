@@ -1,8 +1,0 @@
-<?php $this->lang->load('home'); ?>
-<ul>
-    <li><a href="<?php echo site_url('/'.$this->lang->lang().'/home'); ?>" title="Home"><?php echo $this->lang->line('top_home'); ?></a></li>
-    <li><a href="<?php echo site_url('/'.$this->lang->lang().'/user'); ?>" title="Create Account"><?php echo $this->lang->line('top_register'); ?></a></li>
-    <li><a href="<?php echo site_url('/'.$this->lang->lang().'/login'); ?>" title="Login"><?php echo $this->lang->line('top_login'); ?></a></li>
-    <li><a href="<?php echo site_url('/'.$this->lang->lang().'/services'); ?>"><?php echo $this->lang->line('top_service'); ?></a></li>
-    <li><a href="<?php echo site_url('/'.$this->lang->lang().'/contact'); ?>"><?php echo $this->lang->line('top_contact_us'); ?></a></li>
-</ul>

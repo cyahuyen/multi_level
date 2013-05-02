@@ -33,6 +33,13 @@ class Navigation {
         $data['title'] = 'Sign-in';
         $this->ci->template->load('public', 'signin', $data);
     }
+    
+    public function loadHomeView($data = array()) {
+        $data['title'] = 'Home';
+
+        $data['menu_config'] = $this->menu_config_user_home;
+        $this->ci->template->load('user', 'home', $data);
+    }
 
     public function loadMyProfileView($data = array()) {
         $data['title'] = 'My Profile';
@@ -41,70 +48,14 @@ class Navigation {
         $this->ci->template->load('user', 'myprofile', $data);
     }
 
-    public function loadHomeView($data = array()) {
-        $data['title'] = 'Home';
-
-        $data['menu_config'] = $this->menu_config_user_home;
-        $this->ci->template->load('user', 'home', $data);
-    }
+    
     public function loadManageUserView($data = array()) {
         $data['title'] = 'Manager User';
 
         $data['menu_config'] = $this->menu_config_user_user;
         $this->ci->template->load('user', 'user/manager', $data);
     }
-    public function loadProfileUserView($data = array()) {
-        $data['title'] = '';
-
-        $data['menu_config'] = $this->menu_config_user_user;
-        $this->ci->template->load('user', 'user/profile', $data);
-    }
-    public function loadJobsView($data = array()) {
-        $data['title'] = '';
-        $data['menu_config'] = $this->menu_config_user_jobs;
-        $this->ci->template->load('user', 'job/manage', $data);
-    }
     
-    public function loadProfileJobsView($data = array()) {
-        $data['title'] = '';
-        $data['menu_config'] = $this->menu_config_user_jobs;
-        $this->ci->template->load('user', 'job/profile', $data);
-    }
-    
-    public function loadProductView($data = array()) {
-        $data['title'] = '';
-        $data['menu_config'] = $this->menu_config_user_jobs;
-        $this->ci->template->load('user', 'product/manage', $data);
-    }
-    
-    public function loadProfileProductView($data = array()) {
-        $data['title'] = '';
-        $data['menu_config'] = $this->menu_config_user_jobs;
-        $this->ci->template->load('user', 'product/profile', $data);
-    }
-    
-    public function loadStaffView($data = array()) {
-        $data['title'] = '';
-        $data['menu_config'] = $this->menu_config_user_staff;
-        $this->ci->template->load('user', 'staff/manage', $data);
-    }
-    public function loadHistoryStaffView($data = array()) {
-        $data['title'] = '';
-        $data['menu_config'] = $this->menu_config_user_staff;
-        $this->ci->template->load('user', 'staff/history', $data);
-    }
-    
-    public function loadProfileStaffView($data = array()) {
-        $data['title'] = '';
-        $data['menu_config'] = $this->menu_config_user_staff;
-        $this->ci->template->load('user', 'staff/profile', $data);
-    }
-
-    /** Helper and utility functions */
-    private function getTemplateForUser($data = array()) {
-
-        return "user";
-    }
 
     private function userIsAdmin($data = array()) {
         if ((isset($data['usertype']) && $data['usertype'] == "Administrator")

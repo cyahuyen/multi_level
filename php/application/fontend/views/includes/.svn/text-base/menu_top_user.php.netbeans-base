@@ -1,9 +1,0 @@
-<?php $this->lang->load('account'); ?>
-<ul>
-    <li><a href="<?php echo site_url('/'.$this->lang->lang().'/account/index/'); ?>" title="Account"><?php echo $this->lang->line('top_user_account'); ?></a></li>
-    <li><a href="<?php echo site_url('/'.$this->lang->lang().'/account/profile/'); ?>" title="Profile"><?php echo $this->lang->line('top_user_profile'); ?></a></li>
-    <li><a href="<?php echo site_url('/'.$this->lang->lang().'/history/index/'); ?>" title="History"><?php echo $this->lang->line('top_user_history'); ?></a></li>
-    <li><a href="<?php echo site_url('/'.$this->lang->lang().'/transfer/index/'); ?>" title="Transfer"><?php echo $this->lang->line('top_user_transfer'); ?></a></li>
-    <li><a href="<?php echo site_url('/'.$this->lang->lang().'/tools/index/'); ?>" title="Merchant Tools"><?php echo $this->lang->line('top_user_tool'); ?></a></li>
-    <li><a href="<?php echo site_url('/'.$this->lang->lang().'/messages/index/'); ?>" title="Messages"><?php echo $this->lang->line('top_user_message'); ?></a></li>
-</ul>

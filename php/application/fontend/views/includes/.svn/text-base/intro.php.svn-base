@@ -1,2 +1,0 @@
-<?php $this->lang->load('home'); ?>
-<h3><?php echo $this->lang->line('intro_infor'); ?></h3>
