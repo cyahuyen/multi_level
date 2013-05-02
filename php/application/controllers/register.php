@@ -101,6 +101,7 @@ class Register extends CI_Controller {
     function get_suggest() {
         if (isset($_GET['referring'])) {
             $q = strtolower($_GET['referring']);
+            die($q);
             $this->register_model->get_bird($q);
         }
     }

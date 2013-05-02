@@ -83,11 +83,10 @@
     </tbody>
 </table>
 <?php echo form_close(); ?>
-<script type="">
-    $(function() {
+<script type="text/javascript">
+    $(document).ready(function() {
         $("#referring").autocomplete({
             source: "<?php echo site_url('register/get_suggest') ?>"
         });
     });
-
 </script>
