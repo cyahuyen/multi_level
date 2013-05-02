@@ -17,33 +17,33 @@
         <script type="text/javascript" src="<?php echo base_url(); ?>js/superfish.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>js/jquery-jscontext-1.0.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>js/autocomplete.js"></script>
-        
+
 
         <script>
             $(document).ready(function() {
-			
+
                 /* Menu */
-			
+
                 $('ul.sf-menu').superfish();
 
                 /* Collapsible panels */
-			
-                $(".collapsible div.header").click( function() {
+
+                $(".collapsible div.header").click(function() {
                     var collapsible = $(this).parent();
                     if ($(this).hasClass("header-closed")) {
                         $(this).removeClass("header-closed");
                         $(this).find("img").attr("src",
-                        $(this).find("img").attr("src").replace("col","exp"));
+                                $(this).find("img").attr("src").replace("col", "exp"));
                         $(collapsible).find("div.body").removeClass("header-closed");
                     } else {
                         $(this).addClass("header-closed");
                         $(this).find("img").attr("src",
-                        $(this).find("img").attr("src").replace("exp","col"));
+                                $(this).find("img").attr("src").replace("exp", "col"));
                         $(collapsible).find("div.body").addClass("header-closed");
                     }
                     $(collapsible).find("div.body").slideToggle();
                 });
-			
+
                 showCompMsgs();
 
                 initDirtyCheck();
@@ -78,23 +78,31 @@
             var isdirty = false;
             function initDirtyCheck() {
                 isdirty = false;
-                $(":input").not(".allowdirty").change( function (objEvent) { 
+                $(":input").not(".allowdirty").change(function(objEvent) {
                     isdirty = true;
                 });
                 /* set dirty check conf on menus, tabs and components with class '.checkdirty' */
-                $(".mainmenu a").click( function () { return confirmAction(); } );
-                $("td.tab").click( function () { return confirmAction(); } );
-                $(".checkdirty").click( function () { return confirmAction(); } );
+                $(".mainmenu a").click(function() {
+                    return confirmAction();
+                });
+                $("td.tab").click(function() {
+                    return confirmAction();
+                });
+                $(".checkdirty").click(function() {
+                    return confirmAction();
+                });
             }
-    	
+
             function confirmAction(entity) {
-                if (!isdirty) return true;
-                if (entity == null || entity == "") entity = "Data";
+                if (!isdirty)
+                    return true;
+                if (entity == null || entity == "")
+                    entity = "Data";
                 var msg = entity + " has been modified and not saved. If you continue your changes will be lost.";
                 msg += "\n\nDo you wish to continue?";
                 return confirm(msg);
             }
-    	
+
             function confirmDelete() {
                 return confirm("Delete is permanent, it cannot be undone.\n\nDo you wish to continue?");
             }
@@ -106,11 +114,13 @@
 
             <div id="msg" class="msg">
                 <div id="msg_renderarea">
-                    <div id="msgContainer" style="display:<?php if (isset($usermessage)) {
-    echo 'block';
-} else {
-    echo 'none';
-} ?>">
+                    <div id="msgContainer" style="display:<?php
+                    if (isset($usermessage)) {
+                        echo 'block';
+                    } else {
+                        echo 'none';
+                    }
+                    ?>">
                         <table>
                             <tr>
                                 <td class="msgicon">
@@ -145,7 +155,9 @@
                             $("#msgdesc").html(desc);
                             $("#msgContainer").css("display", "block");
                         }
-                        function hidemessage() { $("#msgContainer").css("display", "none"); }
+                        function hidemessage() {
+                            $("#msgContainer").css("display", "none");
+                        }
                     </script>
                 </div>
                 <div id="msg_popup" title="<?php if (isset($popupmessage)) echo $popupmessage; ?>" style="display:block">
@@ -157,11 +169,13 @@
                     }
                     ?>
                 </div>
-                <script>$("#msg_popup").dialog({ height:240,width:400,autoOpen:<?php if (isset($popupmessage)) {
+                <script>$("#msg_popup").dialog({height: 240, width: 400, autoOpen:<?php
+                    if (isset($popupmessage)) {
                         echo 'true';
                     } else {
                         echo 'false';
-                    } ?>,modal:false,resizable:false });</script>
+                    }
+                    ?>, modal: false, resizable: false});</script>
             </div>
 
             <div class="wrapper">
@@ -185,7 +199,6 @@
                     <div class="mainmenu">
                         <ul class="sf-menu">
                             <li class="<?php echo $menu_config[0] ?>"><?php echo anchor('home', 'Home'); ?></li>
-                            <?php if($user[0]->usertype == 'Administrator'){ ?>
                             <li class="<?php echo $menu_config[1] ?>">
                                 <a href="<?php echo site_url('user/manage') ?>">User</a>
                                 <ul>
@@ -193,43 +206,8 @@
                                     <li><a href="<?php echo site_url('user/manage') ?>">Manage User</a></li>
                                 </ul>
                             </li>
-                            <?php } ?>
-                            <?php if(in_array($user[0]->usertype,array('StaffManager','Staff'))){ ?>
-                            <li class="<?php echo $menu_config[2] ?>">
-                                <a href="<?php echo site_url('job/manage') ?>">Jobs</a>
-                                <ul>
-                                    <?php if($user[0]->usertype == 'StaffManager'){ ?>
-                                    <li><a href="<?php echo site_url('job/profile') ?>">Create Job</a></li>
-                                    <?php } ?>
-                                    <li><a href="<?php echo site_url('job/manage') ?>">Manage Jobs</a></li>
-                                    <li><a href="<?php echo site_url('product/manage') ?>">Manage Products</a></li>
-                                </ul>
-                            </li>
-                            <?php } ?>
-                            <?php if(in_array($user[0]->usertype,array('StaffManager','Administrator'))){ ?>
-                            <li class="<?php echo $menu_config[3] ?>">
-                                <a href="<?php echo site_url('staff/manage') ?>">Staff</a>
-                                <ul>
-                                    <li><a href="<?php echo site_url('staff/profile') ?>">Add an Employee</a></li>
-                                    <li><a href="<?php echo site_url('staff/manage') ?>">Manage Staff</a></li>
-                                </ul>
-                            </li>
-                            <?php } ?>
-                            <?php if(in_array($user[0]->usertype,array('StaffManager','Staff'))){ ?>
-                            <li class="<?php echo $menu_config[4] ?>">
-                                <a href="">Timesheets</a>
-                                <ul>
-                                    <li><a href="">My Current Timesheet</a></li>
-                                    <li><a href="">My Timesheets</a></li>
-                                    <?php if(in_array($user[0]->usertype,array('StaffManager'))){ ?>
-                                    <li><a href="">Manage Staff Timesheets</a></li>
-                                    <?php } ?>
-                                </ul>
-                            </li>
-                            <li class="<?php echo $menu_config[5] ?>"><a href="">Reports</a></li>
-                            <?php } ?>
-                            
-                            
+
+
                         </ul>
                         <div class="clearer"></div>
                     </div>
@@ -237,7 +215,7 @@
 
                 <div class="content">
 
-<?php echo $body; ?>
+                    <?php echo $body; ?>
 
                 </div>
             </div>
