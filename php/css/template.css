@@ -625,3 +625,8 @@ table.tabs {
     border-bottom: 1px solid #017AC3;
     padding: 3px;
 }
+.fr-error p {
+    color: red;
+    padding: 10px 0px;
+    font-weight: bold;
+}

@@ -1,24 +1,33 @@
-<div id="bodyform">
-    <h4 class="color_red">Reset Password Step 2/4</h4>
-    <?php
-    if (isset($message) && ($message != ''))
-        echo "<div class='simple-error'>$message</div>";
-    ?>
-    <?php echo form_open('user/forgot/', array('id' => 'sign-up-form')); ?>
-    <input type="hidden" name="step" value="2" />
-    <div class="st-form-line">	
-        <span class="st-labeltext">Your Email: </span>	
-        <input name="email" type="email" class="st-error-input" id="password" style="width:300px" value="<?php echo set_value('email',$email); ?>" />
-        <?php echo form_error('email'); ?>
-        <div class="clear"></div>
-    </div>
-    <div class="st-form-line">	
-        <span class="st-labeltext">Reset code: </span>	
-        <input name="reset_code" type="reset_code" class="st-error-input" id="reset_code" style="width:300px" value="<?php echo set_value('reset_code'); ?>" />
-        <?php echo form_error('reset_code'); ?>
-        <div class="clear"></div>
-    </div>
-    <div class="button-box">
-        <input name="submit" id="submit" value="Verify code" class="st-clear" type="submit"/>
-    </div>      								
-    <?php echo form_close(); ?>
+<?php echo form_open('register/forgot', array('id' => 'sign-up-form')); ?>
+<input type="hidden" name="step" value="2" />
+<table class="datatable">
+    <thead>
+        <tr>
+            <td colspan="2"><h1>Reset Password step 2/4</h1></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><div>Your Email: </div></td>
+            <td>
+                <input name="email" type="text" id="password" style="width:300px" value="<?php echo set_value('email', $email); ?>" />
+                <span class="fr-error"><?php echo form_error('email'); ?></span>
+            </td>
+        </tr>
+        <tr>
+            <td><div>Reset code: </div></td>
+            <td>
+                <input name="reset_code" type="text" id="reset_code" style="width:300px" value="<?php echo set_value('reset_code'); ?>" />
+                <span class="fr-error"><?php echo form_error('reset_code'); ?></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div style="padding-left: 130px;">
+                    <input type="submit" id="save-btn" name="save-btn" class="button" value="Verify code">
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<?php echo form_close(); ?>

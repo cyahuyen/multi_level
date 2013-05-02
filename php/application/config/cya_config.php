@@ -1,9 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
-$config["per_page"] = 20;
+$config['public_key'] = '6Lc4gN0SAAAAADHAXwXKEK-hVcSmpDziBYZMfjZ_';
+$config['private_key'] = '6Lc4gN0SAAAAADWro91z6JFCCPNKqKAIix_pTTjG';
+$config['domain'] = 'dll2.lc';
 ?>

@@ -17,6 +17,7 @@
     <div class="mainmenu">
         <ul class="sf-menu">
             <li class="<?php echo $menu_config[0] ?>"><?php echo anchor('home', 'Home'); ?></li>
+            <li class="register"><a href="<?php echo site_url('register/index') ?>">Sign Up</a></li>
             <li class="<?php echo $menu_config[1] ?>">
                 <a href="<?php echo site_url('user/manage') ?>">User</a>
                 <ul>

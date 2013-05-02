@@ -9,6 +9,20 @@ class Register_model extends CI_Model {
         parent::__construct();
     }
 
+    function get_auto($username) {
+        $this->db->select('*');
+        $this->db->like('username', $q);
+        $query = $this->db->get('user');
+        if ($query->num_rows > 0) {
+            foreach ($query->result_array() as $row) {
+                $new_row['label'] = htmlentities(stripslashes($row['username']));
+                $new_row['value'] = htmlentities(stripslashes($row['user_id']));
+                $row_set[] = $new_row;
+            }
+            echo json_encode($row_set);
+        }
+    }
+
     function checkUser($username) {
         $r = $this->db->get_where($this->tbl, array('username' => $username))->result();
 

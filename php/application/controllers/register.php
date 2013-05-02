@@ -24,12 +24,13 @@ class Register extends CI_Controller {
         $this->load->library('session');
         $this->load->helper('form');
         $this->load->helper('url');
-//        $this->load->library('recaptcha');
-//        $this->lang->load('recaptcha');
+        $this->load->library('recaptcha');
+        $this->lang->load('recaptcha');
         $this->load->model('register_model', '', TRUE);
     }
 
     public function index() {
+        $this->data['title'] = 'Sign Up';
         $posts = $this->input->post();
         $session = $this->session->flashdata('message');
         if (isset($session)) {
@@ -77,6 +78,8 @@ class Register extends CI_Controller {
         } else {
             $this->data['referring'] = '';
         }
+        $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
+        $this->data['recaptcha'] = $this->recaptcha->get_html();
         if (($this->input->server('REQUEST_METHOD') === 'POST') && $this->validateForm()) {
 
             $this->register_model->save($this->input->post());
@@ -95,16 +98,22 @@ class Register extends CI_Controller {
         $this->load->view('home', $this->data);
     }
 
+    function get_suggest() {
+        if (isset($_GET['referring'])) {
+            $q = strtolower($_GET['referring']);
+            $this->register_model->get_bird($q);
+        }
+    }
+
     public function forgot() {
-        $this->document->setTitle($this->lang->line('repass_title'));
 
-        $data['title'] = $this->document->getTitle();
-
+        $data['menu_config'] = $this->menu_config_user_home;
+        $data['title'] = 'Forgot password';
         $step = 0 + $this->input->post('step', TRUE);
         if ($step <= 1) {
             $this->form_validation->set_rules('email', 'E-mail', 'required|xss_clean|valid_email|max_length[64]|callback_check_email');
             $this->form_validation->set_message('valid_email', 'The %s field must contain a valid email address.');
-//            $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
+            $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
             $data['recaptcha'] = $this->recaptcha->get_html();
             if ($this->form_validation->run() == FALSE) {
                 $data['main_content'] = 'register/reset_pass_step1.php';
@@ -118,7 +127,6 @@ class Register extends CI_Controller {
                 $this->session->set_flashdata('step', 2);
                 $data['main_content'] = 'register/reset_pass_step2.php';
                 $this->register_model->update($id, array('forgotten_password_code' => $data['forget_code']));
-
                 //======================= Send Email ====================================
                 $title = "Forget Password";
                 $content = "Code forget Password: '" . $data['forget_code'] . "'";
@@ -229,31 +237,6 @@ class Register extends CI_Controller {
             $this->form_validation->set_message('valid_date', 'Please enter mm-dd-yyyy');
             return FALSE;
         }
-    }
-
-    public function autocomplete() {
-        $json = array();
-        if ($this->input->post('filter_name')) {
-            if ($this->input->post('filter_name')) {
-                $filter_name = $this->input->post('filter_name');
-            } else {
-                $filter_name = '';
-            }
-            $data = array(
-                'filter_name' => $filter_name,
-            );
-            $results = $this->register_model->getUsers($data);
-
-            foreach ($results as $result) {
-                $json[] = array(
-                    'user_id' => $result->product_id,
-                    'username' => strip_tags(html_entity_decode($result['username'], ENT_QUOTES, 'UTF-8')),
-                );
-            }
-        }
-        $this->response->setOutput(json_encode($json));
-//        echo json_encode($json);
-//        die;
     }
 
 }
