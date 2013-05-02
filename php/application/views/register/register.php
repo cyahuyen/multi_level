@@ -1,6 +1,21 @@
 <?php echo form_open('register/index', array('id' => 'sign-up-form')); ?>
 <table class="datatable">
+    <thead>
+        <tr>
+            <td colspan="2"><h1>Register User</h1></td>
+        </tr>
+    </thead>
     <tbody>
+        <tr>
+            <td><a href="<?php echo site_url('register/forgot') ?>">(if you forgot password ?)</a></td>
+        </tr>
+        <tr>
+            <td><div>FullName: </div></td>
+            <td>
+                <input type="text" name="fullname" id="job-customer" value="<?php echo set_value('fullname', $fullname); ?>" style="width:300px">
+                <span class="fr-error"><?php echo form_error('fullname'); ?></span>
+            </td>
+        </tr>
         <tr>
             <td><div>UserName: </div></td>
             <td>

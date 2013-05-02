@@ -11,7 +11,7 @@ class Register_model extends CI_Model {
 
     function get_auto($username) {
         $this->db->select('*');
-        $this->db->like('username', $q);
+        $this->db->like('username', $username);
         $query = $this->db->get('user');
         if ($query->num_rows > 0) {
             foreach ($query->result_array() as $row) {
@@ -45,7 +45,7 @@ class Register_model extends CI_Model {
     function save($data) {
 
         $password = md5($data['password']);
-        $this->db->query("INSERT INTO " . $this->tbl . " SET username = '" . $data['username'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',fax = '" . $data['fax'] . "',birthday = '" . $data['birthday'] . "',referring = '" . $data['referring'] . "', created_on = NOW()");
+        $this->db->query("INSERT INTO " . $this->tbl . " SET fullname = '" . $data['fullname'] . "',username = '" . $data['username'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',fax = '" . $data['fax'] . "',birthday = '" . $data['birthday'] . "',referring = '" . $data['referring'] . "', created_on = NOW()");
         return $this->db->insert_id();
     }
 

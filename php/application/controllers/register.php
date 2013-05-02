@@ -43,6 +43,11 @@ class Register extends CI_Controller {
         } else {
             $this->data['username'] = '';
         }
+        if (isset($posts['fullname'])) {
+            $this->data['fullname'] = $posts['fullname'];
+        } else {
+            $this->data['fullname'] = '';
+        }
         if (isset($posts['password'])) {
             $this->data['password'] = $posts['password'];
         } else {
@@ -90,7 +95,7 @@ class Register extends CI_Controller {
             }
             $this->session->set_flashdata('message', 'Thank you for registering!');
 
-            redirect('user', 'refresh');
+            redirect('home', 'refresh');
         }
         $this->data['menu_config'] = $this->menu_config_user_home;
         $this->data['main_content'] = 'register/register.php';
@@ -99,10 +104,9 @@ class Register extends CI_Controller {
     }
 
     function get_suggest() {
-        if (isset($_GET['referring'])) {
-            $q = strtolower($_GET['referring']);
-            die($q);
-            $this->register_model->get_bird($q);
+        if (isset($_GET['term'])) {
+            $q = strtolower($_GET['term']);
+            $this->register_model->get_auto($q);
         }
     }
 
@@ -215,6 +219,7 @@ class Register extends CI_Controller {
     }
 
     function validateForm() {
+        $this->form_validation->set_rules('fullname', 'Full Name', 'required|trim|xss_clean|max_length[150]');
         $this->form_validation->set_rules('username', 'User Name', 'required|trim|xss_clean|max_length[50]|callback_checkUser');
         $this->form_validation->set_rules('password', 'Password', 'required|xss_clean|max_length[50]|valid_repassword');
         $this->form_validation->set_rules('repassword', 'Re-Password', 'required|trim|xss_clean|matches[password]');
