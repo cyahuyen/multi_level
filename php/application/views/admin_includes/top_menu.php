@@ -18,10 +18,10 @@
         <ul class="sf-menu">
             <li class="<?php echo $menu_config[0] ?>"><?php echo anchor('home', 'Home'); ?></li>
             <li class="<?php echo $menu_config[1] ?>">
-                <a href="<?php echo site_url('adminuser/manage') ?>">User</a>
+                <a href="<?php echo site_url('adminuser/manager') ?>">User</a>
                 <ul>
                     <li><a href="<?php echo site_url('adminuser/profile') ?>">Create User</a></li>
-                    <li><a href="<?php echo site_url('adminuser/manage') ?>">Manage User</a></li>
+                    <li><a href="<?php echo site_url('adminuser/manager') ?>">Manage User</a></li>
                 </ul>
             </li>
 

@@ -51,8 +51,8 @@ class User_model extends CI_Model {
 
     public function update($data, $id) {
 
-        $this->db->where('id', $id);
-        $this->db->update('product', $data);
+        $this->db->where('user_id', $id);
+        return $this->db->update('user', $data);
     }
 
     public function listUser($data, $limit = null, $start = null, $sort = null) {
@@ -107,19 +107,26 @@ class User_model extends CI_Model {
         $this->db->select("*");
         $this->db->from("user");
 
-        $this->db->where('id', $id);
+        $this->db->where('user_id', $id);
 
         $query = $this->db->get();
         $result = $query->result();
         return $result[0];
     }
+    
+    public function usernameAvailable($username, $excludeUserId) {
+        $this->load->database();
+        $sql = "select * from user where user_id != $excludeUserId and username = '$username'";
+        $query = $this->db->query($sql);
+        return ($query->num_rows() == 0);
+    }
+
 
     public function insert($data) {
-
+        $data['created_on'] = 'NOW()';
         $this->db->insert('user', $data);
 
         $user_id = $this->db->insert_id();
-
 
         return $user_id;
     }
