@@ -20,9 +20,10 @@ class Authentication extends MY_Controller {
         $this->data['menu_config'] = $this->menu_config_1;
         
         $user_session = $this->session->userdata('user');
+        
         if (!empty($user_session) && $user_session['permission'] != 'administrator') {
             redirect(site_url('home'));
-        }else{
+        }elseif(!empty($user_session) && $user_session['permission'] == 'administrator'){
             redirect(site_url('admin'));
         }
     }

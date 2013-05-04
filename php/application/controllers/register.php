@@ -39,6 +39,7 @@ class Register extends CI_Controller {
         $dataConfig['cancel_return'] = site_url('register/cancel_return');
         $dataConfig['notify_url'] = site_url('register/success');
         $dataConfig['transaction_fees'] = $this->configs->getConfigs('transaction_fees');
+        $dataConfig['title'] = 'Register';
         $this->data['transaction_fees'] = $dataConfig['transaction_fees'];
         $payments = $this->configs->listActivepayment();
         $data['payments'] = array();
@@ -134,6 +135,10 @@ class Register extends CI_Controller {
             $q = strtolower($_GET['term']);
             $this->register_model->get_auto($q);
         }
+    }
+    
+    public function paypal_return(){
+        
     }
 
     public function forgot() {

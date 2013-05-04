@@ -153,7 +153,7 @@
     
     function totalfees(){
         var entry_amount = $('#entry_amount').val();
-        if(!isNaN(entry_amount)){
+        if(!isNaN(entry_amount) && entry_amount > 0){
             if(entry_amount.length == 0)
                 entry_amount = 0
             total_fees = parseInt(open_fee) + parseInt(entry_amount);
@@ -207,7 +207,7 @@
             flag = false;
         }
         
-        if(isNaN(entry_amount) || entry_amount % 100 != 0){
+        if(isNaN(entry_amount) || (entry_amount % 100 != 0) || entry_amount < 0){
             $('#msgContainer').append('<input type="hidden" id="cmsgentry_amount" value="Enrolment Entry Amount is numberic and divisible to 100"/>');
             flag = false;
         }

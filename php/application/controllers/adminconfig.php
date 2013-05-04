@@ -31,8 +31,7 @@ class Adminconfig extends MY_Controller {
         $this->load->model('config_model', 'configs');
         $this->data['menu_config'] = $this->menu_config_3;
         $user_session = $this->session->userdata('user');
-
-        if (!empty($user_session) && $user_session['permission'] != 'administrator') {
+        if (empty($user_session) || $user_session['permission'] != 'administrator') {
             redirect(site_url('home'));
         }
         $this->data['user_session'] = $user_session;
