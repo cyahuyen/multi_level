@@ -318,8 +318,9 @@ table.datatable tr td:nth-child(even) span {
 }
 
 .datalist table tr.heading {
-    color: #808080;
+    color: #000;
     background-color: #e7e7e7;
+    font-weight: bold;
 }
 
 .datalist table tr.heading td {
