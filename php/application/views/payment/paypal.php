@@ -20,6 +20,6 @@
     
     <script >
         $(document).ready(function(){
-            
+            $('#payment').change(fn)
         })
     </script>
