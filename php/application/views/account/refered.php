@@ -3,6 +3,9 @@
         <div class="content-title">
             <h1>Refered Members</h1>
         </div>
+        <div style="padding:5px 25px;float: left;">
+            <h4>Total Refered members : <?php echo count($refereds);?> Total Refered Balance : 30$</h4>
+        </div>
     </div>
     <div class="content-body">
         <div class="datalist">
