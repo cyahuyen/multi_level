@@ -85,7 +85,7 @@ class Register extends CI_Controller {
         }
         $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
         $this->data['recaptcha'] = $this->recaptcha->get_html();
-        if (($this->input->server('REQUEST_METHOD') === 'POST') && $this->validateForm()) {
+        if (($this->input->server('REQUEST_METHOD') === 'POST')) {
 
             $this->register_model->save($this->input->post());
             sendmail($this->data['email'], 'Thank you for registering', 'You just sign up at. Please login to check your account', 'admin@website.com', 'Admin Manager', 'html');
@@ -182,12 +182,27 @@ class Register extends CI_Controller {
             redirect('register/index/', 'refresh');
     }
 
-    public function checkEmail($email) {
+    public function checkEmail() {
+        $email = $this->input->get('email');
         if ($this->register_model->checkEmail($email)) {
-            $this->form_validation->set_message('checkEmail', 'This e-mail is already registered in our system. Please use a different one.');
-            return FALSE;
+//            $this->form_validation->set_message('checkEmail', 'This e-mail is already registered in our system. Please use a different one.');
+//            return FALSE;
+            echo 'false';
+            exit();
         } else {
-            return TRUE;
+            echo 'true';
+            exit();
+        }
+    }
+
+    public function checkUser() {
+         $username = $this->input->get('user');
+        if ($this->register_model->checkUser($username)) {
+            echo 'false';
+            exit();
+        } else {
+            echo 'true';
+            exit();
         }
     }
 
@@ -203,15 +218,6 @@ class Register extends CI_Controller {
     public function checkResetcode($code) {
         if (!$this->register_model->check_reset($this->email, $code)) {
             $this->form_validation->set_message('check_resetcode', "The reset code doesn't match one sent to you. Please check your information and try again.");
-            return FALSE;
-        } else {
-            return TRUE;
-        }
-    }
-
-    public function checkUser($username) {
-        if ($this->register_model->checkUser($username)) {
-            $this->form_validation->set_message('checkUser', ' This User is already registered in our system. Please use a different one.');
             return FALSE;
         } else {
             return TRUE;

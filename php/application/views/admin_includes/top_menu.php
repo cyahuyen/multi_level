@@ -1,11 +1,8 @@
 <div class="top">
-    <div class="logo">
-        <a href="index.html">Logo</a>
-    </div>
+
     <div class="topright">
         <div class="usermenu">
             <ul>
-                <li><?php echo anchor('myprofile', $this->session->userdata('personname'), array('class' => 'checkdirty')); ?></li>
                 <li><a href="#" target="_blank">Help</a></li>
                 <li><a href="#" target="_blank">Support</a></li>
                 <li><?php echo anchor('authentication/signout', 'Sign-out', array('class' => 'checkdirty')); ?></li>
@@ -24,8 +21,26 @@
                     <li><a href="<?php echo site_url('adminuser/manager') ?>">Manage User</a></li>
                 </ul>
             </li>
-
-
+            <li class="<?php echo $menu_config[2] ?>">
+                <a href="<?php echo site_url('adminconfig') ?>">Config</a>
+                <ul>
+                    <li><a href="<?php echo site_url('adminconfig/emails') ?>">Email Config</a></li>
+                    <li><a href="<?php echo site_url('adminconfig/transaction_fees') ?>">Transaction Fees</a></li>
+                    <li><a href="<?php echo site_url('adminconfig/referral') ?>">Referral</a></li>
+                </ul>
+            </li>
+            <li class="<?php echo $menu_config[3] ?>">
+                <a href="#">Module</a>
+                <ul>
+                    <li>
+                        <a href="<?php echo site_url('adminmodule/payment') ?>">Payment</a>
+                        <ul>
+                            <li><a href="<?php echo site_url('adminmodule/paypal') ?>">Paypal</a></li>
+                            <li><a href="<?php echo site_url('adminmodule/creditcard') ?>">Credit Cart Payment</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
         </ul>
         <div class="clearer"></div>
     </div>

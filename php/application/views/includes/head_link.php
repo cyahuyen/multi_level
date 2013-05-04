@@ -27,12 +27,12 @@
             if ($(this).hasClass("header-closed")) {
                 $(this).removeClass("header-closed");
                 $(this).find("img").attr("src",
-                        $(this).find("img").attr("src").replace("col", "exp"));
+                $(this).find("img").attr("src").replace("col", "exp"));
                 $(collapsible).find("div.body").removeClass("header-closed");
             } else {
                 $(this).addClass("header-closed");
                 $(this).find("img").attr("src",
-                        $(this).find("img").attr("src").replace("exp", "col"));
+                $(this).find("img").attr("src").replace("exp", "col"));
                 $(collapsible).find("div.body").addClass("header-closed");
             }
             $(collapsible).find("div.body").slideToggle();
@@ -43,6 +43,23 @@
         initDirtyCheck();
 
     });
+    
+    function removeCompMsgs(){
+        $("[id^=cmsg]").each(function() {
+            var target = $(this).attr("id").substring(4);
+            $("[id$=" + target + "]").not("[id^=cmsg]").removeClass("error");
+            var msg = $(this).val();
+            $("[id=" + target + "]").next('img.error').remove();
+            var icon = document.createElement("img");
+            $(icon).addClass("mandatory");
+            $(icon).attr("src", "<?php echo base_url(); ?>img/sev/required.jpg");
+            $(icon).attr("title", 'This is a required value');
+            $("[id$=" + target + "]").not("[id^=cmsg]").after(icon);
+                    
+        });
+        $("[id^=cmsg]").remove();
+    }
+
 
     function showCompMsgs() {
         $("[id^=cmsg]").each(function() {
@@ -54,6 +71,7 @@
             $(icon).attr("src", "<?php echo base_url(); ?>img/sev/error.jpg");
             $(icon).attr("title", msg);
             $("[id$=" + target + "]").not("[id^=cmsg]").after(icon);
+            $(icon).next().remove('img');
         });
         if ($('img.mandatory').length == 0) {
             $(".mandatory").not("img.mandatory").each(function() {

@@ -1,0 +1,76 @@
+[05/03/2013 10:17 AM] - SUCCESS :Paypal Class Initiated by 127.0.0.1
+[05/03/2013 10:17 AM] - SUCCESS :Post string : mc_gross=10.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=ZN65PTB26MKAG&tax=0.00&address_street=1+Main+St&payment_date=01%3A17%3A11+May+03%2C+2013+PDT&payment_status=Completed&charset=windows-1252&address_zip=95131&first_name=Khiem&mc_fee=0.59&address_country_code=US&address_name=Khiem+Pham%27s+Test+Store&notify_version=3.7&custom=&payer_status=verified&business=thuhuy_1317911597_per%40gmail.com&address_country=United+States&address_city=San+Jose&quantity=1&payer_email=rongandat%40gmail.com&verify_sign=AaoNXcMG0FdyrL.tZtiuKkVTdONtAG.vYKGeQym5B-G0BbXwEZqGZnvA&txn_id=8W7540760P963760B&payment_type=instant&payer_business_name=Khiem+Pham%27s+Test+Store&last_name=Pham&address_state=CA&receiver_email=thuhuy_1317911597_per%40gmail.com&payment_fee=0.59&receiver_id=HQP9DVHYBAH3Q&txn_type=web_accept&item_name=CYA+Game+payment&mc_currency=USD&item_number=&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=CYA+Game+payment&payment_gross=10.00&shipping=0.00&auth=Aj9s6LLGQv5XrjjjUwSyHFFOPsWfGxKoN9V7OSMt0KesAux3d0wubvCyhdrX735xJNDY6aQmdRuwnjJ0z9WaiZA&
+[05/03/2013 10:17 AM] - SUCCESS :Connection to www.sandbox.paypal.com successfuly completed.
+[05/03/2013 10:17 AM] - FAILURE :IPN validation failed.
+[05/03/2013 10:17 AM] - SUCCESS :Paypal class finished.
+
+------------------------------------------------------------------
+
+[05/03/2013 10:24 AM] - SUCCESS :Paypal Class Initiated by 127.0.0.1
+[05/03/2013 10:24 AM] - SUCCESS :Post string : mc_gross=10.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=ZN65PTB26MKAG&tax=0.00&address_street=1+Main+St&payment_date=01%3A23%3A55+May+03%2C+2013+PDT&payment_status=Completed&charset=windows-1252&address_zip=95131&first_name=Khiem&mc_fee=0.59&address_country_code=US&address_name=Khiem+Pham%27s+Test+Store&notify_version=3.7&custom=&payer_status=verified&business=thuhuy_1317911597_per%40gmail.com&address_country=United+States&address_city=San+Jose&quantity=1&payer_email=rongandat%40gmail.com&verify_sign=A7cLtyvlXY3zXUt9JNGWnH9cZsIVAz3fk1qb2WH8.1VrKkEXZW7S-Zu9&txn_id=8UX22615VL6698406&payment_type=instant&payer_business_name=Khiem+Pham%27s+Test+Store&last_name=Pham&address_state=CA&receiver_email=thuhuy_1317911597_per%40gmail.com&payment_fee=0.59&receiver_id=HQP9DVHYBAH3Q&txn_type=web_accept&item_name=CYA+Game+payment&mc_currency=USD&item_number=&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=CYA+Game+payment&payment_gross=10.00&shipping=0.00&auth=A-rW5is8t5Invo7U2oMJbyEDIQ5GtrVy.RTZ3xfV1j2ElFTR2-kV30DdHMm83f0TrtgKUSIFJdfgKh61Lgl60rg&
+[05/03/2013 10:24 AM] - SUCCESS :Connection to www.sandbox.paypal.com successfuly completed.
+[05/03/2013 10:24 AM] - SUCCESS :URL: HTTP/1.0 302 Found
+Location: https://www.sandbox.paypal.com
+Server: BigIP
+Connection: close
+Content-Length: 0
+
+
+[05/03/2013 10:24 AM] - FAILURE :IPN validation failed.
+[05/03/2013 10:24 AM] - SUCCESS :Paypal class finished.
+
+------------------------------------------------------------------
+
+[05/03/2013 10:27 AM] - SUCCESS :Paypal Class Initiated by 127.0.0.1
+[05/03/2013 10:27 AM] - SUCCESS :Post string : mc_gross=10.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=ZN65PTB26MKAG&tax=0.00&address_street=1+Main+St&payment_date=01%3A27%3A35+May+03%2C+2013+PDT&payment_status=Completed&charset=windows-1252&address_zip=95131&first_name=Khiem&mc_fee=0.59&address_country_code=US&address_name=Khiem+Pham%27s+Test+Store&notify_version=3.7&custom=&payer_status=verified&business=thuhuy_1317911597_per%40gmail.com&address_country=United+States&address_city=San+Jose&quantity=1&payer_email=rongandat%40gmail.com&verify_sign=An1STMCbejvEl0nYk06fSWdYZw1KAeD5-Bj0ckzJrPj7q5bPt3lJPZHv&txn_id=7FT83131WC107390N&payment_type=instant&payer_business_name=Khiem+Pham%27s+Test+Store&last_name=Pham&address_state=CA&receiver_email=thuhuy_1317911597_per%40gmail.com&payment_fee=0.59&receiver_id=HQP9DVHYBAH3Q&txn_type=web_accept&item_name=CYA+Game+payment&mc_currency=USD&item_number=&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=CYA+Game+payment&payment_gross=10.00&shipping=0.00&auth=AiOJcb5q6K3M.LjCy9Oi22urQfrVhMIRF-EhBaigC5bh-PLepwF-ixJe8893lVcgwyGV5p0ZVXOIOUvbR0U43qA&
+[05/03/2013 10:27 AM] - SUCCESS :Connection to www.sandbox.paypal.com successfuly completed.
+[05/03/2013 10:27 AM] - SUCCESS :URL: HTTP/1.0 302 Found
+Location: https://www.sandbox.paypal.com
+Server: BigIP
+Connection: close
+Content-Length: 0
+
+
+[05/03/2013 10:27 AM] - FAILURE :IPN validation failed.
+[05/03/2013 10:27 AM] - SUCCESS :Paypal class finished.
+
+------------------------------------------------------------------
+
+[05/03/2013 10:29 AM] - SUCCESS :Paypal Class Initiated by 127.0.0.1
+[05/03/2013 10:29 AM] - SUCCESS :Post string : mc_gross=10.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=ZN65PTB26MKAG&tax=0.00&address_street=1+Main+St&payment_date=01%3A27%3A35+May+03%2C+2013+PDT&payment_status=Completed&charset=windows-1252&address_zip=95131&first_name=Khiem&mc_fee=0.59&address_country_code=US&address_name=Khiem+Pham%27s+Test+Store&notify_version=3.7&custom=&payer_status=verified&business=thuhuy_1317911597_per%40gmail.com&address_country=United+States&address_city=San+Jose&quantity=1&payer_email=rongandat%40gmail.com&verify_sign=An1STMCbejvEl0nYk06fSWdYZw1KAeD5-Bj0ckzJrPj7q5bPt3lJPZHv&txn_id=7FT83131WC107390N&payment_type=instant&payer_business_name=Khiem+Pham%27s+Test+Store&last_name=Pham&address_state=CA&receiver_email=thuhuy_1317911597_per%40gmail.com&payment_fee=0.59&receiver_id=HQP9DVHYBAH3Q&txn_type=web_accept&item_name=CYA+Game+payment&mc_currency=USD&item_number=&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=CYA+Game+payment&payment_gross=10.00&shipping=0.00&auth=ATrBfXv.PKwX8BJz5YWEfbHQmUpZB6R0FqrvgrFnNoy9X8WWhX2a6kYL8e.4r0YwydBqkeCuNUNsIWYV1ufvx1g&
+[05/03/2013 10:29 AM] - SUCCESS :Connection to www.sandbox.paypal.com successfuly completed.
+[05/03/2013 10:29 AM] - SUCCESS :URL: HTTP/1.0 302 Found
+Location: https://www.sandbox.paypal.com
+Server: BigIP
+Connection: close
+Content-Length: 0
+
+
+[05/03/2013 10:29 AM] - FAILURE :IPN validation failed.
+[05/03/2013 10:29 AM] - SUCCESS :Paypal class finished.
+
+------------------------------------------------------------------
+
+[05/03/2013 10:32 AM] - SUCCESS :Paypal Class Initiated by 127.0.0.1
+[05/03/2013 10:32 AM] - SUCCESS :Post string : mc_gross=0.10&protection_eligibility=Ineligible&address_status=unconfirmed&payer_id=RUYFNQSW75JUG&tax=0.00&address_street=427-Wave+Propagation+Lab.%2C+Radio+Science+and+Engineering+Depart.%2C+Chungnam+National+University&payment_date=01%3A32%3A31+May+03%2C+2013+PDT&payment_status=Completed&charset=windows-1252&address_zip=305-764&first_name=Mai+Tri&mc_fee=0.10&address_country_code=KR&address_name=DevsoftVN+Billing+Supports&notify_version=3.7&custom=&payer_status=verified&business=hungnm.ceo%40gmail.com&address_country=South+Korea&address_city=Daejeon&quantity=1&payer_email=ceo%40devsoftvn.com&verify_sign=AiPC9BjkCyDFQXbSkoZcgqH3hpacAJfoxiMcpRBd9W6NYCqDnFQJOzzY&txn_id=71Y22339PR3122709&payment_type=instant&payer_business_name=DevsoftVN+Billing+Supports&last_name=Minh&address_state=&receiver_email=hungnm.ceo%40gmail.com&payment_fee=0.10&receiver_id=V2U4SQF87HLEA&txn_type=web_accept&item_name=CYA+Game+payment&mc_currency=USD&item_number=&residence_country=KR&handling_amount=0.00&transaction_subject=CYA+Game+payment&payment_gross=0.10&shipping=0.00&merchant_return_link=click+here&auth=AWzyXjGtCsGQDbXhKlQoPQCsuFAuIP5wxJDuKEWykj.kjKXTH292zVPhisP87R9YYNfT4K3AKIxPa2Pyw6.MIfA&
+[05/03/2013 10:32 AM] - SUCCESS :Connection to www.paypal.com successfuly completed.
+[05/03/2013 10:32 AM] - SUCCESS :URL: HTTP/1.1 200 OK
+Server: Apache
+X-Frame-Options: SAMEORIGIN
+Content-Type: text/html; charset=UTF-8
+Date: Fri, 03 May 2013 08:32:44 GMT
+Content-Length: 8
+Connection: close
+Set-Cookie: cwrClyrK4LoCV1fydGbAxiNL6iG=tdqWcdcG3iekh9bckiKYSNMy0C8Oie-3wBjesNpXPAkXleH7qz3AnuQNOsjwrGIktlO1TwXc8rNvjHuFBL8-6YFvTeaGdiGBG0bjD5LoJXFS_Cwfd4lecS9YJpBCI9mbNPkj6W%7cg8Hmnf8GCmESPCErywmIZ0i9zE_lS4iItXHDngVUq-7cIYZUWYQE6PzajUejgyvgK2myu0%7cjVhHywFurB703sRMpN4IdW9XxGj8UgvdUKWvockvLXAiMYW9H1QDaUSoCbnkrh1nHz756G%7c1367569964; domain=.paypal.com; path=/; HttpOnly
+Set-Cookie: cookie_check=yes; expires=Mon, 01-May-2023 08:32:44 GMT; domain=.paypal.com; path=/; HttpOnly
+Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; HttpOnly
+Set-Cookie: navlns=0.0; expires=Thu, 28-Apr-2033 08:32:44 GMT; domain=.paypal.com; path=/; HttpOnly
+Set-Cookie: aksession=1367570264~id=cookieF6qxmDWUVl7pRPEeIam7JN1+Wh9ghhAPOEv8XLudu4Y77NkY97j7ySoJczLrcWMm0UMo0Qle7niEoErJpRcU9Bqs4lU/Wbo8eXj9DjQwLX90j1BvxWIiunpN5DAL6VPv; expires=Fri, 03-May-2013 08:37:44 GMT; path=/; domain=.paypal.com
+
+VERIFIED
+[05/03/2013 10:32 AM] - SUCCESS :IPN successfully verified.
+[05/03/2013 10:32 AM] - SUCCESS :Creating prodcut Information to send.
+[05/03/2013 10:32 AM] - SUCCESS :Paypal class finished.
+
+------------------------------------------------------------------
+

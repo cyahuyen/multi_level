@@ -28,7 +28,7 @@ class Adminuser extends MY_Controller {
         $this->load->model('user_model', 'user');
         $this->data['menu_config'] = $this->menu_config_2;
         $user_session = $this->session->userdata('user');
-        if (!$user_session || $user_session['permission'] != 'administrator') {
+        if (!empty($user_session) && $user_session['permission'] != 'administrator') {
             redirect(site_url('home'));
         }
         $this->data['user_session'] = $user_session;
@@ -159,6 +159,7 @@ class Adminuser extends MY_Controller {
                 $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
                 $this->data['fielderrors'] = $validationErrors;
             } else {
+                $posts['status'] = 1;
                 unset($posts['save-btn']);
                 unset($posts['repassword']);
                 $id = (int) $id;

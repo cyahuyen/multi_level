@@ -1,12 +1,6 @@
 <div id="msg" class="msg">
     <div id="msg_renderarea">
-        <div id="msgContainer" style="display:<?php
-        if (isset($usermessage)) {
-            echo 'block';
-        } else {
-            echo 'none';
-        }
-        ?>">
+        <div id="msgContainer" style="display:<?php echo isset($usermessage) ? 'block' : 'none' ?>">
             <table>
                 <tr>
                     <td class="msgicon">

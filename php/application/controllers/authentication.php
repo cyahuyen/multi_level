@@ -18,6 +18,13 @@ class Authentication extends MY_Controller {
         parent::__construct();
         $this->load->model('user_model', 'user');
         $this->data['menu_config'] = $this->menu_config_1;
+        
+        $user_session = $this->session->userdata('user');
+        if (!empty($user_session) && $user_session['permission'] != 'administrator') {
+            redirect(site_url('home'));
+        }else{
+            redirect(site_url('admin'));
+        }
     }
 
     public function index() {

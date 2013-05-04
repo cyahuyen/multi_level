@@ -88,6 +88,13 @@
 	color: #fff;
 }
 
+.sf-menu ul li:hover ul li a {
+	color: #000;
+}
+.sf-menu ul li ul li:hover a {
+	color: #fff;
+}
+
 /*** arrows (for all except IE7) **/
 .sf-arrows .sf-with-ul {
 	padding-right: 2.5em;
