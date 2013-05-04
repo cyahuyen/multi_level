@@ -37,7 +37,7 @@ class Register extends CI_Controller {
         $this->load->model('config_model', 'configs');
         $dataConfig['return'] = site_url('register/paypal_return');
         $dataConfig['cancel_return'] = site_url('register/cancel_return');
-        $dataConfig['notify_url'] = site_url('register/success');
+        $dataConfig['notify_url'] = site_url('home');
         $dataConfig['transaction_fees'] = $this->configs->getConfigs('transaction_fees');
         $dataConfig['title'] = 'Register';
         $this->data['transaction_fees'] = $dataConfig['transaction_fees'];
@@ -106,24 +106,7 @@ class Register extends CI_Controller {
             $this->data['entry_amount'] = '';
         }
 
-
-
-//        $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
-//        $this->data['recaptcha'] = $this->recaptcha->get_html();
-
-
-        if (($this->input->server('REQUEST_METHOD') === 'POST')) {
-
-            $this->register_model->save($this->input->post());
-            sendmail($this->data['email'], 'Thank you for registering', 'You just sign up at. Please login to check your account', 'admin@website.com', 'Admin Manager', 'html');
-            if (!empty($posts['referring'])) {
-                $email_referring = $this->register_model->getEmailbyUser($posts['referring']);
-                sendmail($email_referring, 'Your referring member', 'Your referring member just sign up at.', 'admin@website.com', 'Admin Manager', 'html');
-            }
-            $this->session->set_flashdata('message', 'Thank you for registering!');
-
-            redirect('home', 'refresh');
-        }
+        
         $this->data['menu_config'] = $this->menu_config_user_home;
         $this->data['main_content'] = 'register/register.php';
 
@@ -136,9 +119,51 @@ class Register extends CI_Controller {
             $this->register_model->get_auto($q);
         }
     }
-    
-    public function paypal_return(){
-        
+
+    public function paypal_return() {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST')
+            redirect('home');
+        $this->load->model('config_model', 'configs');
+        $transaction_fees = $this->configs->getConfigs('transaction_fees');
+        $paypal = $this->configs->getConfigs('paypal');
+
+        $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+        $url_parsed = parse_url($url);
+        $fp = fsockopen($url_parsed['host'], "80", $err_num, $err_str, 30);
+        if (!$fp) {
+            $error = array('error', 'darkred', 'Register errors', 'Connection to ' . $url_parsed['host'] . " failed.fsockopen error no. $errnum: $errstr");
+            $this->session->set_flashdata(array('usermessage' => $error));
+            redirect('home');
+        } else {
+            $posts = $this->input->post();
+            if ($posts['mc_gross'] < $transaction_fees) {
+                $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter than open fees');
+                $this->session->set_flashdata(array('usermessage' => $error));
+                redirect('home');
+            }
+            
+            if($posts['business'] != $paypal['business']){
+                $error = array('error', 'darkred', 'Register errors', 'Transaction email error');
+                $this->session->set_flashdata(array('usermessage' => $error));
+                redirect('home');
+            }
+            
+            if($posts['mc_gross'] > $transaction_fees)
+                $posts['usertype'] = 2;
+            
+            $this->register_model->save($this->input->post());
+            sendmail($this->data['email'], 'Thank you for registering', 'You just sign up at. Please login to check your account', 'admin@website.com', 'Admin Manager', 'html');
+            if (!empty($posts['referring'])) {
+                
+                $email_referring = $this->register_model->getEmailbyUser($posts['referring']);
+                
+                sendmail($email_referring, 'Your referring member', 'Your referring member just sign up at.', 'admin@website.com', 'Admin Manager', 'html');
+            }$data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
+            $this->session->set_flashdata('usermessage', $data['usermessage']);
+
+            
+        }
+        redirect('home');
     }
 
     public function forgot() {

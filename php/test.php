@@ -11,16 +11,6 @@
  * @author ngoalongkt
  */
 $debug_log = realpath(dirname(__FILE__)) .'/paypal_ipn_logs.txt'; // Debug log file name
-$options_login = array(
-    'api_secret_word',
-    'rest_api_url',
-    'rest_api_port'
-);
-
-$options = array(
-    'paypal_rate',
-    
-);
 
 class paypal_ipn_handler {
 
@@ -30,16 +20,13 @@ class paypal_ipn_handler {
     var $ipn_response;               // holds the IPN response from paypal
     var $ipn_data = array();         // array contains the POST values for IPN
     var $fields = array();           // array holds the fields to submit to paypal
-    var $options_login;
-    var $options;
+    
 
-    function paypal_ipn_handler($url, $file, $options_login, $options) {
+    function paypal_ipn_handler($url, $file) {
         $this->paypal_url = $url;
         $this->last_error = '';
         $this->ipn_log_file = $file;
         $this->ipn_response = '';
-        $this->options_login = $options_login;
-        $this->options = $options;
     }
 
     function validate_ipn() {
@@ -53,6 +40,7 @@ class paypal_ipn_handler {
         foreach ($_POST as $field => $value) {
             $this->ipn_data["$field"] = $value;
             $post_string .= $field . '=' . urlencode(stripslashes($value)) . '&';
+            $this->debug_log( $field .' : ' . $value, true);
         }
 
         $this->post_string = $post_string;
@@ -91,11 +79,7 @@ class paypal_ipn_handler {
             $datas = explode('|', $_POST['custom']);
             $user_ID = $datas[1];
             $this->debug_log('User ID: ' . $user_ID, true);
-            //$curl_post_data = array("serect_word" => md5($options['api_secret_word']), account_number => '88888888');
-            //$data_return = cyafun_login_restapi($options['rest_api_url'], $options['rest_api_port'], 'check_account_number', $curl_post_data);
-            //$this->debug_log('Post string : ' . $data_return->status, true);
-            //insert into cyagames_user_balances table            
-            $rate = $this->options['paypal_rate'];
+            
             $coins = $datas[0];
             $amount = $this->ipn_data['mc_gross'];//Amout
             $amount_text = $datas[2];
@@ -164,7 +148,7 @@ class paypal_ipn_handler {
 }
 
 $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-$ipn_handler_instance = new paypal_ipn_handler($url, $debug_log, $options_login, $options);
+$ipn_handler_instance = new paypal_ipn_handler($url, $debug_log);
 
 $debug_enabled = true; //get_option('wp_cart_enable_debug');
 

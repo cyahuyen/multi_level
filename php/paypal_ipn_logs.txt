@@ -74,3 +74,76 @@ VERIFIED
 
 ------------------------------------------------------------------
 
+[05/04/2013 9:52 AM] - SUCCESS :Paypal Class Initiated by 127.0.0.1
+[05/04/2013 9:52 AM] - SUCCESS :Post string : mc_gross=0.10&protection_eligibility=Eligible&address_status=confirmed&payer_id=ZN65PTB26MKAG&tax=0.00&address_street=1+Main+St&payment_date=00%3A45%3A33+May+04%2C+2013+PDT&payment_status=Completed&charset=windows-1252&address_zip=95131&first_name=Khiem&mc_fee=0.10&address_country_code=US&address_name=Khiem+Pham%27s+Test+Store&notify_version=3.7&custom=&payer_status=verified&business=thuhuy_1317911597_per%40gmail.com&address_country=United+States&address_city=San+Jose&quantity=1&payer_email=rongandat%40gmail.com&verify_sign=An5ns1Kso7MWUdW4ErQKJJJ4qi4-ATkNcjMcWNIxr-0s.SF39BBLHpKM&txn_id=1XD50900M29705805&payment_type=instant&payer_business_name=Khiem+Pham%27s+Test+Store&last_name=Pham&address_state=CA&receiver_email=thuhuy_1317911597_per%40gmail.com&payment_fee=0.10&receiver_id=HQP9DVHYBAH3Q&txn_type=web_accept&item_name=CYA+Game+payment&mc_currency=USD&item_number=&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=CYA+Game+payment&payment_gross=0.10&shipping=0.00&merchant_return_link=click+here&auth=AkjKY9khibSxALNIpj9.cJw6Xbj7dXC.xyD9iabYYRGECCSGLi2VcZMZLOoQab73QFOxLZM4uFs2wLB4UA8Cy-w&
+[05/04/2013 9:52 AM] - SUCCESS :Connection to www.sandbox.paypal.com successfuly completed.
+[05/04/2013 9:52 AM] - SUCCESS :URL: HTTP/1.0 302 Found
+Location: https://www.sandbox.paypal.com
+Server: BigIP
+Connection: close
+Content-Length: 0
+
+
+[05/04/2013 9:52 AM] - FAILURE :IPN validation failed.
+[05/04/2013 9:52 AM] - SUCCESS :Paypal class finished.
+
+------------------------------------------------------------------
+
+[05/04/2013 9:55 AM] - SUCCESS :Paypal Class Initiated by 127.0.0.1
+[05/04/2013 9:55 AM] - SUCCESS :mc_gross : 0.10
+[05/04/2013 9:55 AM] - SUCCESS :protection_eligibility : Eligible
+[05/04/2013 9:55 AM] - SUCCESS :address_status : confirmed
+[05/04/2013 9:55 AM] - SUCCESS :payer_id : ZN65PTB26MKAG
+[05/04/2013 9:55 AM] - SUCCESS :tax : 0.00
+[05/04/2013 9:55 AM] - SUCCESS :address_street : 1 Main St
+[05/04/2013 9:55 AM] - SUCCESS :payment_date : 00:54:59 May 04, 2013 PDT
+[05/04/2013 9:55 AM] - SUCCESS :payment_status : Completed
+[05/04/2013 9:55 AM] - SUCCESS :charset : windows-1252
+[05/04/2013 9:55 AM] - SUCCESS :address_zip : 95131
+[05/04/2013 9:55 AM] - SUCCESS :first_name : Khiem
+[05/04/2013 9:55 AM] - SUCCESS :mc_fee : 0.10
+[05/04/2013 9:55 AM] - SUCCESS :address_country_code : US
+[05/04/2013 9:55 AM] - SUCCESS :address_name : Khiem Pham's Test Store
+[05/04/2013 9:55 AM] - SUCCESS :notify_version : 3.7
+[05/04/2013 9:55 AM] - SUCCESS :custom : 
+[05/04/2013 9:55 AM] - SUCCESS :payer_status : verified
+[05/04/2013 9:55 AM] - SUCCESS :business : thuhuy_1317911597_per@gmail.com
+[05/04/2013 9:55 AM] - SUCCESS :address_country : United States
+[05/04/2013 9:55 AM] - SUCCESS :address_city : San Jose
+[05/04/2013 9:55 AM] - SUCCESS :quantity : 1
+[05/04/2013 9:55 AM] - SUCCESS :payer_email : rongandat@gmail.com
+[05/04/2013 9:55 AM] - SUCCESS :verify_sign : AF2MPSzluLRkVbTAI60VFf99RSXKAj.yDD1KapEX3zdajgzXy1EvfdMP
+[05/04/2013 9:55 AM] - SUCCESS :txn_id : 1CJ89707CD9754801
+[05/04/2013 9:55 AM] - SUCCESS :payment_type : instant
+[05/04/2013 9:55 AM] - SUCCESS :payer_business_name : Khiem Pham's Test Store
+[05/04/2013 9:55 AM] - SUCCESS :last_name : Pham
+[05/04/2013 9:55 AM] - SUCCESS :address_state : CA
+[05/04/2013 9:55 AM] - SUCCESS :receiver_email : thuhuy_1317911597_per@gmail.com
+[05/04/2013 9:55 AM] - SUCCESS :payment_fee : 0.10
+[05/04/2013 9:55 AM] - SUCCESS :receiver_id : HQP9DVHYBAH3Q
+[05/04/2013 9:55 AM] - SUCCESS :txn_type : web_accept
+[05/04/2013 9:55 AM] - SUCCESS :item_name : CYA Game payment
+[05/04/2013 9:55 AM] - SUCCESS :mc_currency : USD
+[05/04/2013 9:55 AM] - SUCCESS :item_number : 
+[05/04/2013 9:55 AM] - SUCCESS :residence_country : US
+[05/04/2013 9:55 AM] - SUCCESS :test_ipn : 1
+[05/04/2013 9:55 AM] - SUCCESS :handling_amount : 0.00
+[05/04/2013 9:55 AM] - SUCCESS :transaction_subject : CYA Game payment
+[05/04/2013 9:55 AM] - SUCCESS :payment_gross : 0.10
+[05/04/2013 9:55 AM] - SUCCESS :shipping : 0.00
+[05/04/2013 9:55 AM] - SUCCESS :merchant_return_link : click here
+[05/04/2013 9:55 AM] - SUCCESS :auth : AstRjmudzd39eSVHZv5mAt4F1C.m0igpuDCkv9lniVnJ8UPODTS.Qil5iHPhmb826JJ7YT0ZIMElprGLaRoonQA
+[05/04/2013 9:55 AM] - SUCCESS :Post string : mc_gross=0.10&protection_eligibility=Eligible&address_status=confirmed&payer_id=ZN65PTB26MKAG&tax=0.00&address_street=1+Main+St&payment_date=00%3A54%3A59+May+04%2C+2013+PDT&payment_status=Completed&charset=windows-1252&address_zip=95131&first_name=Khiem&mc_fee=0.10&address_country_code=US&address_name=Khiem+Pham%27s+Test+Store&notify_version=3.7&custom=&payer_status=verified&business=thuhuy_1317911597_per%40gmail.com&address_country=United+States&address_city=San+Jose&quantity=1&payer_email=rongandat%40gmail.com&verify_sign=AF2MPSzluLRkVbTAI60VFf99RSXKAj.yDD1KapEX3zdajgzXy1EvfdMP&txn_id=1CJ89707CD9754801&payment_type=instant&payer_business_name=Khiem+Pham%27s+Test+Store&last_name=Pham&address_state=CA&receiver_email=thuhuy_1317911597_per%40gmail.com&payment_fee=0.10&receiver_id=HQP9DVHYBAH3Q&txn_type=web_accept&item_name=CYA+Game+payment&mc_currency=USD&item_number=&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=CYA+Game+payment&payment_gross=0.10&shipping=0.00&merchant_return_link=click+here&auth=AstRjmudzd39eSVHZv5mAt4F1C.m0igpuDCkv9lniVnJ8UPODTS.Qil5iHPhmb826JJ7YT0ZIMElprGLaRoonQA&
+[05/04/2013 9:55 AM] - SUCCESS :Connection to www.sandbox.paypal.com successfuly completed.
+[05/04/2013 9:55 AM] - SUCCESS :URL: HTTP/1.0 302 Found
+Location: https://www.sandbox.paypal.com
+Server: BigIP
+Connection: close
+Content-Length: 0
+
+
+[05/04/2013 9:55 AM] - FAILURE :IPN validation failed.
+[05/04/2013 9:55 AM] - SUCCESS :Paypal class finished.
+
+------------------------------------------------------------------
+

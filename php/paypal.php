@@ -1,6 +1,6 @@
-<form method="post" action="https://www.paypal.com/cgi-bin/webscr">
+<form method="post" action="https://www.sandbox.paypal.com/cgi-bin/webscr">
                         <input type="hidden" name="cmd" value="_xclick">
-                        <input type="hidden" name="business" value="hungnm.ceo@gmail.com">
+                        <input type="hidden" name="business" value="thuhuy_1317911597_per@gmail.com">
                         <input type="hidden" name="amount" value="0.1">           
                         <input type="hidden" name="item_name" value="CYA Game payment">
                         <input type="hidden" name="currency_code" value="USD">

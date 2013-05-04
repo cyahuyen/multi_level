@@ -25,6 +25,10 @@ class Home extends MY_Controller {
         
         $this->load->model('user_model', 'user');
         $this->data['menu_config'] = $this->menu_config_1;
+        $msg = $this->session->flashdata('usermessage');
+        if ($msg) {
+            $this->data['usermessage'] = $msg;
+        }
     }   
 
     public function index() {

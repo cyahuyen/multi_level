@@ -28,6 +28,9 @@
             
             getAmount()    
             
+        });
+        $('#entry_amount').keyup(function(){
+            getAmount()    
         })
     })
     
