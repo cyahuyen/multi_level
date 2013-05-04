@@ -630,3 +630,7 @@ table.tabs {
     padding: 10px 0px;
     font-weight: bold;
 }
+
+table.datatable tr td span.currency{
+    color: #ED2C21;
+}

@@ -21,12 +21,10 @@ class Home extends MY_Controller {
     var $menu_config_6 = array('', '', '', '', '','active');
     var $navstack = null;
     public function __construct() {
-
         parent::__construct();
         
         $this->load->model('user_model', 'user');
         $this->data['menu_config'] = $this->menu_config_1;
-        
     }   
 
     public function index() {

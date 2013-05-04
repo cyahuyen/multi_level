@@ -63,6 +63,18 @@ class Config_model extends CI_Model {
 
         return $results;
     }
+    
+    public function listActivepayment(){
+        $payments = $this->listPayment();
+        $listActivePayments = array();
+        foreach($payments as $payment){
+            if($payment->value == 1){
+                $listActivePayments[$payment->code] = $this->getConfigs($payment->code);
+            }
+        }
+        
+        return ($listActivePayments);
+    }
 
     public function deleteConfigs($code) {
         $this->db->delete('config', array('code' => $code));

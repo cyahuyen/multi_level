@@ -32,6 +32,22 @@ class Register extends CI_Controller {
     public function index() {
         $this->data['title'] = 'Sign Up';
         $posts = $this->input->post();
+
+
+        $this->load->model('config_model', 'configs');
+        $dataConfig['return'] = site_url('register/paypal_return');
+        $dataConfig['cancel_return'] = site_url('register/cancel_return');
+        $dataConfig['notify_url'] = site_url('register/success');
+        $dataConfig['transaction_fees'] = $this->configs->getConfigs('transaction_fees');
+        $this->data['transaction_fees'] = $dataConfig['transaction_fees'];
+        $payments = $this->configs->listActivepayment();
+        $data['payments'] = array();
+        foreach ($payments as $code => $config) {
+            $dataConfig['config'] = $config;
+            $this->data['payments'][$code] = $this->load->view('payment/' . $code, $dataConfig, true);
+        }
+
+
         $session = $this->session->flashdata('message');
         if (isset($session)) {
             $this->data['success'] = $session;
@@ -83,8 +99,18 @@ class Register extends CI_Controller {
         } else {
             $this->data['referring'] = '';
         }
-        $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
-        $this->data['recaptcha'] = $this->recaptcha->get_html();
+        if (isset($posts['entry_amount'])) {
+            $this->data['entry_amount'] = $posts['entry_amount'];
+        } else {
+            $this->data['entry_amount'] = '';
+        }
+
+
+
+//        $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
+//        $this->data['recaptcha'] = $this->recaptcha->get_html();
+
+
         if (($this->input->server('REQUEST_METHOD') === 'POST')) {
 
             $this->register_model->save($this->input->post());
@@ -196,7 +222,7 @@ class Register extends CI_Controller {
     }
 
     public function checkUser() {
-         $username = $this->input->get('user');
+        $username = $this->input->get('user');
         if ($this->register_model->checkUser($username)) {
             echo 'false';
             exit();

@@ -37,6 +37,12 @@
             </tr>
             
             <tr>
+                <td>Sandbox</td>
+                <td>
+                    <input type="checkbox" id="sandbox" name="sandbox" value="1" <?php echo (!empty($data_configs['sandbox']) && ($data_configs['sandbox'] == '1')) ? 'checked' : '' ?> class="" > Active
+                </td>
+            </tr>
+            <tr>
                 <td>Active</td>
                 <td>
                     <input type="checkbox" id="active" name="active" value="1" <?php echo (!empty($data_configs['active']) && ($data_configs['active'] == '1')) ? 'checked' : '' ?> class="" > Active
