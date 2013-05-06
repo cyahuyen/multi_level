@@ -48,3 +48,31 @@ INSERT INTO `config` (`id`, `group`, `code`, `key`, `value`, `serialized`) VALUE
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+
+
+
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               5.5.16 - MySQL Community Server (GPL)
+-- Server OS:                    Win32
+-- HeidiSQL version:             7.0.0.4053
+-- Date/time:                    2013-05-06 09:59:55
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET FOREIGN_KEY_CHECKS=0 */;
+
+-- Dumping structure for table multi_level.transaction
+DROP TABLE IF EXISTS `transaction`;
+CREATE TABLE IF NOT EXISTS `transaction` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) DEFAULT NULL,
+  `open_fees` double(10,4) DEFAULT NULL,
+  `total_fees` double(10,4) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `transaction_id` varchar(50) DEFAULT NULL,
+  `payment_status` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+

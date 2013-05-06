@@ -27,6 +27,7 @@ class Register extends CI_Controller {
         $this->load->library('recaptcha');
         $this->lang->load('recaptcha');
         $this->load->model('register_model', '', TRUE);
+        $this->load->model('transaction_model', 'transaction', TRUE);
     }
 
     public function index() {
@@ -122,7 +123,7 @@ class Register extends CI_Controller {
 
     public function paypal_return() {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
-            redirect('home');
+            redirect('register');
         $this->load->model('config_model', 'configs');
         $transaction_fees = $this->configs->getConfigs('transaction_fees');
         $paypal = $this->configs->getConfigs('paypal');
@@ -133,32 +134,54 @@ class Register extends CI_Controller {
         if (!$fp) {
             $error = array('error', 'darkred', 'Register errors', 'Connection to ' . $url_parsed['host'] . " failed.fsockopen error no. $errnum: $errstr");
             $this->session->set_flashdata(array('usermessage' => $error));
-            redirect('home');
+            redirect('register');
         } else {
             $posts = $this->input->post();
-            if ($posts['mc_gross'] < $transaction_fees) {
+            if ($posts['mc_gross'] < $transaction_fees['open_fee']) {
                 $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter than open fees');
                 $this->session->set_flashdata(array('usermessage' => $error));
-                redirect('home');
+                redirect('register');
             }
             
+            $custom = $posts['custom'];
+            $custom_list = explode('|', $custom);
+            $postsData = array();
+            foreach ($custom_list as $val){
+                $custom_post = explode('=', $val);
+                $postsData[$custom_post[0]] = $custom_post[1];
+                
+            }
             if($posts['business'] != $paypal['business']){
                 $error = array('error', 'darkred', 'Register errors', 'Transaction email error');
                 $this->session->set_flashdata(array('usermessage' => $error));
-                redirect('home');
+                redirect('register');
             }
             
-            if($posts['mc_gross'] > $transaction_fees)
-                $posts['usertype'] = 2;
             
-            $this->register_model->save($this->input->post());
+            
+            if($posts['mc_gross'] > $transaction_fees['open_fee'])
+                $postsData['usertype'] = 2;
+            else
+                $postsData['usertype'] = 0;
+            
+            $user_id = $this->register_model->save($postsData);
+            
+            $dataTransaction['user_id'] = $user_id;
+            $dataTransaction['open_fees'] = $transaction_fees['open_fee'];
+            $dataTransaction['total_fees'] = $posts['mc_gross'];
+            $dataTransaction['transaction_id'] = $posts['txn_id'];
+            $dataTransaction['payment_status'] = $posts['payment_status'];
+            $this->transaction->insert($dataTransaction);
             sendmail($this->data['email'], 'Thank you for registering', 'You just sign up at. Please login to check your account', 'admin@website.com', 'Admin Manager', 'html');
+            
+            
             if (!empty($posts['referring'])) {
                 
                 $email_referring = $this->register_model->getEmailbyUser($posts['referring']);
                 
                 sendmail($email_referring, 'Your referring member', 'Your referring member just sign up at.', 'admin@website.com', 'Admin Manager', 'html');
-            }$data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
+            }
+            $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
             $this->session->set_flashdata('usermessage', $data['usermessage']);
 
             

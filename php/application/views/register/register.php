@@ -84,6 +84,7 @@
             <td>
                 <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="<?php echo set_value('entry_amount', $entry_amount); ?>" />
                 <span class="fr-error"><?php echo form_error('referring'); ?></span>
+                <input type="hidden" name="custom" id="custom" value="" />
             </td>
         </tr>
         <tr>
@@ -171,6 +172,7 @@
     
     
     $('#save-btn').live('click',function(){
+        var open_fee = '<?php echo $transaction_fees['open_fee']; ?>';
         e = $(this);
         var fullname = $('#fullname').val();
         var username = $('#username').val();
@@ -179,6 +181,24 @@
         var email = $('#email').val();
         var entry_amount = $('#entry_amount').val();
         var payment = $('#payment:checked').val();
+        var address = $('#address').val();
+        var phone = $('#phone').val();
+        var fax = $('#fax').val();
+        var birthday = $('#birthday').val();
+        var referring = $('#referring').val();
+        
+        $('#custom').val('fullname='+fullname+'|username='+username+'|password='+password+'|email='+email+'|entry_amount='+entry_amount+'|address='+address+'|phone='+phone+'|fax='+fax+'|birthday='+birthday+'|referring='+referring+'|entry_amount='+entry_amount)
+        
+        
+        if(!isNaN(entry_amount) && entry_amount > 0){
+            if(entry_amount.length == 0)
+                entry_amount = 0
+            var total_fees = parseInt(open_fee) + parseInt(entry_amount);
+            $('#amount').val(total_fees);
+        }else{
+            $('#amount').val(open_fee);
+        }   
+        
         var flag = true;
         removeCompMsgs();
         if(fullname.length == 0){
