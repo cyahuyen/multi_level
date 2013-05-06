@@ -62,6 +62,12 @@
                     <input type="text" id="smtp_timeout" name="smtp_timeout" value="<?php echo!empty($data_configs['smtp_timeout']) ? $data_configs['smtp_timeout'] : '' ?>" class="" style="width:240px">
                 </td>
             </tr>
+            <tr>
+                <td>Email Admin:</td>
+                <td>
+                    <input type="text" id="email_admin" name="email_admin" value="<?php echo!empty($data_configs['email_admin']) ? $data_configs['email_admin'] : '' ?>" class="" style="width:240px">
+                </td>
+            </tr>
             
             <tr>
                 <td></td>

@@ -3855,3 +3855,284 @@ DEBUG - 2013-05-06 05:25:38 --> File loaded: application/views/authentication/in
 DEBUG - 2013-05-06 05:25:38 --> File loaded: application/views/home.php
 DEBUG - 2013-05-06 05:25:38 --> Final output sent to browser
 DEBUG - 2013-05-06 05:25:38 --> Total execution time: 0.0598
+DEBUG - 2013-05-06 06:19:23 --> Config Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Hooks Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Utf8 Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> UTF-8 Support Enabled
+DEBUG - 2013-05-06 06:19:23 --> URI Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Router Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Output Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Security Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Input Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-06 06:19:23 --> Language Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Loader Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-06 06:19:23 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-06 06:19:23 --> Helper loaded: url_helper
+DEBUG - 2013-05-06 06:19:23 --> Helper loaded: file_helper
+DEBUG - 2013-05-06 06:19:23 --> Helper loaded: form_helper
+DEBUG - 2013-05-06 06:19:23 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-06 06:19:23 --> Database Driver Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Session Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Helper loaded: string_helper
+DEBUG - 2013-05-06 06:19:23 --> Session routines successfully run
+DEBUG - 2013-05-06 06:19:23 --> XML-RPC Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-06 06:19:23 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-06 06:19:23 --> reCaptcha Library Initialized
+DEBUG - 2013-05-06 06:19:23 --> Controller Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Model Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Model Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Config Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Hooks Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Utf8 Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> UTF-8 Support Enabled
+DEBUG - 2013-05-06 06:19:23 --> URI Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Router Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Output Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Security Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Input Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-06 06:19:23 --> Language Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Loader Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-06 06:19:23 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-06 06:19:23 --> Helper loaded: url_helper
+DEBUG - 2013-05-06 06:19:23 --> Helper loaded: file_helper
+DEBUG - 2013-05-06 06:19:23 --> Helper loaded: form_helper
+DEBUG - 2013-05-06 06:19:23 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-06 06:19:23 --> Database Driver Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Session Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Helper loaded: string_helper
+DEBUG - 2013-05-06 06:19:23 --> Session routines successfully run
+DEBUG - 2013-05-06 06:19:23 --> XML-RPC Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-06 06:19:23 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-06 06:19:23 --> reCaptcha Library Initialized
+DEBUG - 2013-05-06 06:19:23 --> Controller Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Model Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> Model Class Initialized
+DEBUG - 2013-05-06 06:19:23 --> File loaded: application/views/admin_includes/head_link.php
+DEBUG - 2013-05-06 06:19:23 --> File loaded: application/views/admin_includes/message.php
+DEBUG - 2013-05-06 06:19:23 --> File loaded: application/views/admin_includes/top_menu.php
+DEBUG - 2013-05-06 06:19:23 --> File loaded: application/views/includes/main_content.php
+DEBUG - 2013-05-06 06:19:23 --> File loaded: application/views/administrator.php
+DEBUG - 2013-05-06 06:19:23 --> Final output sent to browser
+DEBUG - 2013-05-06 06:19:23 --> Total execution time: 0.0624
+DEBUG - 2013-05-06 06:19:26 --> Config Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Hooks Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Utf8 Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> UTF-8 Support Enabled
+DEBUG - 2013-05-06 06:19:26 --> URI Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Router Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Output Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Security Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Input Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-06 06:19:26 --> Language Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Loader Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-06 06:19:26 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-06 06:19:26 --> Helper loaded: url_helper
+DEBUG - 2013-05-06 06:19:26 --> Helper loaded: file_helper
+DEBUG - 2013-05-06 06:19:26 --> Helper loaded: form_helper
+DEBUG - 2013-05-06 06:19:26 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-06 06:19:26 --> Database Driver Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Session Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Helper loaded: string_helper
+DEBUG - 2013-05-06 06:19:26 --> Session routines successfully run
+DEBUG - 2013-05-06 06:19:26 --> XML-RPC Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-06 06:19:26 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-06 06:19:26 --> reCaptcha Library Initialized
+DEBUG - 2013-05-06 06:19:26 --> Controller Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Model Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Model Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> Model Class Initialized
+DEBUG - 2013-05-06 06:19:26 --> File loaded: application/views/admin_includes/head_link.php
+DEBUG - 2013-05-06 06:19:26 --> File loaded: application/views/admin_includes/message.php
+DEBUG - 2013-05-06 06:19:26 --> File loaded: application/views/admin_includes/top_menu.php
+DEBUG - 2013-05-06 06:19:26 --> File loaded: application/views/adminconfig/emails.php
+DEBUG - 2013-05-06 06:19:26 --> File loaded: application/views/administrator.php
+DEBUG - 2013-05-06 06:19:26 --> Final output sent to browser
+DEBUG - 2013-05-06 06:19:26 --> Total execution time: 0.0588
+DEBUG - 2013-05-06 06:31:58 --> Config Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Hooks Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Utf8 Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> UTF-8 Support Enabled
+DEBUG - 2013-05-06 06:31:58 --> URI Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Router Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Output Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Security Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Input Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-06 06:31:58 --> Language Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Loader Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-06 06:31:58 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-06 06:31:58 --> Helper loaded: url_helper
+DEBUG - 2013-05-06 06:31:58 --> Helper loaded: file_helper
+DEBUG - 2013-05-06 06:31:58 --> Helper loaded: form_helper
+DEBUG - 2013-05-06 06:31:58 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-06 06:31:58 --> Database Driver Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Session Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Helper loaded: string_helper
+DEBUG - 2013-05-06 06:31:58 --> Session routines successfully run
+DEBUG - 2013-05-06 06:31:58 --> XML-RPC Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-06 06:31:58 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-06 06:31:58 --> reCaptcha Library Initialized
+DEBUG - 2013-05-06 06:31:58 --> Controller Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Model Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Model Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> Model Class Initialized
+DEBUG - 2013-05-06 06:31:58 --> File loaded: application/views/admin_includes/head_link.php
+DEBUG - 2013-05-06 06:31:58 --> File loaded: application/views/admin_includes/message.php
+DEBUG - 2013-05-06 06:31:58 --> File loaded: application/views/admin_includes/top_menu.php
+DEBUG - 2013-05-06 06:31:58 --> File loaded: application/views/adminconfig/emails.php
+DEBUG - 2013-05-06 06:31:58 --> File loaded: application/views/administrator.php
+DEBUG - 2013-05-06 06:31:58 --> Final output sent to browser
+DEBUG - 2013-05-06 06:31:58 --> Total execution time: 0.1358
+DEBUG - 2013-05-06 06:32:52 --> Config Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Hooks Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Utf8 Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> UTF-8 Support Enabled
+DEBUG - 2013-05-06 06:32:52 --> URI Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Router Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Output Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Security Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Input Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-06 06:32:52 --> Language Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Loader Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-06 06:32:52 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-06 06:32:52 --> Helper loaded: url_helper
+DEBUG - 2013-05-06 06:32:52 --> Helper loaded: file_helper
+DEBUG - 2013-05-06 06:32:52 --> Helper loaded: form_helper
+DEBUG - 2013-05-06 06:32:52 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-06 06:32:52 --> Database Driver Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Session Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Helper loaded: string_helper
+DEBUG - 2013-05-06 06:32:52 --> Session routines successfully run
+DEBUG - 2013-05-06 06:32:52 --> XML-RPC Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-06 06:32:52 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-06 06:32:52 --> reCaptcha Library Initialized
+DEBUG - 2013-05-06 06:32:52 --> Controller Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Model Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Model Class Initialized
+DEBUG - 2013-05-06 06:32:52 --> Model Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Config Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Hooks Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Utf8 Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> UTF-8 Support Enabled
+DEBUG - 2013-05-06 06:32:53 --> URI Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Router Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Output Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Security Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Input Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-06 06:32:53 --> Language Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Loader Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-06 06:32:53 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-06 06:32:53 --> Helper loaded: url_helper
+DEBUG - 2013-05-06 06:32:53 --> Helper loaded: file_helper
+DEBUG - 2013-05-06 06:32:53 --> Helper loaded: form_helper
+DEBUG - 2013-05-06 06:32:53 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-06 06:32:53 --> Database Driver Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Session Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Helper loaded: string_helper
+DEBUG - 2013-05-06 06:32:53 --> Session garbage collection performed.
+DEBUG - 2013-05-06 06:32:53 --> Session routines successfully run
+DEBUG - 2013-05-06 06:32:53 --> XML-RPC Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-06 06:32:53 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-06 06:32:53 --> reCaptcha Library Initialized
+DEBUG - 2013-05-06 06:32:53 --> Controller Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Model Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Model Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> Model Class Initialized
+DEBUG - 2013-05-06 06:32:53 --> File loaded: application/views/admin_includes/head_link.php
+DEBUG - 2013-05-06 06:32:53 --> File loaded: application/views/admin_includes/message.php
+DEBUG - 2013-05-06 06:32:53 --> File loaded: application/views/admin_includes/top_menu.php
+DEBUG - 2013-05-06 06:32:53 --> File loaded: application/views/adminconfig/emails.php
+DEBUG - 2013-05-06 06:32:53 --> File loaded: application/views/administrator.php
+DEBUG - 2013-05-06 06:32:53 --> Final output sent to browser
+DEBUG - 2013-05-06 06:32:53 --> Total execution time: 0.0953
+DEBUG - 2013-05-06 06:33:02 --> Config Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Hooks Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Utf8 Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> UTF-8 Support Enabled
+DEBUG - 2013-05-06 06:33:02 --> URI Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Router Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Output Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Security Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Input Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-06 06:33:02 --> Language Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Loader Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-06 06:33:02 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-06 06:33:02 --> Helper loaded: url_helper
+DEBUG - 2013-05-06 06:33:02 --> Helper loaded: file_helper
+DEBUG - 2013-05-06 06:33:02 --> Helper loaded: form_helper
+DEBUG - 2013-05-06 06:33:02 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-06 06:33:02 --> Database Driver Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Session Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Helper loaded: string_helper
+DEBUG - 2013-05-06 06:33:02 --> Session routines successfully run
+DEBUG - 2013-05-06 06:33:02 --> XML-RPC Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-06 06:33:02 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-06 06:33:02 --> reCaptcha Library Initialized
+DEBUG - 2013-05-06 06:33:02 --> Controller Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Model Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Model Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> Model Class Initialized
+DEBUG - 2013-05-06 06:33:02 --> File loaded: application/views/admin_includes/head_link.php
+DEBUG - 2013-05-06 06:33:02 --> File loaded: application/views/admin_includes/message.php
+DEBUG - 2013-05-06 06:33:02 --> File loaded: application/views/admin_includes/top_menu.php
+DEBUG - 2013-05-06 06:33:02 --> File loaded: application/views/adminconfig/emails.php
+DEBUG - 2013-05-06 06:33:02 --> File loaded: application/views/administrator.php
+DEBUG - 2013-05-06 06:33:02 --> Final output sent to browser
+DEBUG - 2013-05-06 06:33:02 --> Total execution time: 0.1329
+DEBUG - 2013-05-06 06:52:48 --> Config Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Hooks Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Utf8 Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> UTF-8 Support Enabled
+DEBUG - 2013-05-06 06:52:48 --> URI Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Router Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Output Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Security Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Input Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-06 06:52:48 --> Language Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Loader Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-06 06:52:48 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-06 06:52:48 --> Helper loaded: url_helper
+DEBUG - 2013-05-06 06:52:48 --> Helper loaded: file_helper
+DEBUG - 2013-05-06 06:52:48 --> Helper loaded: form_helper
+DEBUG - 2013-05-06 06:52:48 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-06 06:52:48 --> Database Driver Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Session Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Helper loaded: string_helper
+DEBUG - 2013-05-06 06:52:48 --> Session routines successfully run
+DEBUG - 2013-05-06 06:52:48 --> XML-RPC Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-06 06:52:48 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-06 06:52:48 --> reCaptcha Library Initialized
+DEBUG - 2013-05-06 06:52:48 --> Controller Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Model Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Model Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> Model Class Initialized
+DEBUG - 2013-05-06 06:52:48 --> File loaded: application/views/admin_includes/head_link.php
+DEBUG - 2013-05-06 06:52:48 --> File loaded: application/views/admin_includes/message.php
+DEBUG - 2013-05-06 06:52:48 --> File loaded: application/views/admin_includes/top_menu.php
+DEBUG - 2013-05-06 06:52:48 --> File loaded: application/views/adminconfig/transaction_fees.php
+DEBUG - 2013-05-06 06:52:48 --> File loaded: application/views/administrator.php
+DEBUG - 2013-05-06 06:52:48 --> Final output sent to browser
+DEBUG - 2013-05-06 06:52:48 --> Total execution time: 0.1399

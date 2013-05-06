@@ -173,6 +173,8 @@
     
     $('#save-btn').live('click',function(){
         var open_fee = '<?php echo $transaction_fees['open_fee']; ?>';
+        var min_enrolment_entry_amount = '<?php echo $transaction_fees['min_enrolment_entry_amount']; ?>';
+        var max_enrolment_entry_amount = '<?php echo $transaction_fees['max_enrolment_entry_amount']; ?>';
         e = $(this);
         var fullname = $('#fullname').val();
         var username = $('#username').val();
@@ -186,6 +188,7 @@
         var fax = $('#fax').val();
         var birthday = $('#birthday').val();
         var referring = $('#referring').val();
+        
         
         $('#custom').val('fullname='+fullname+'|username='+username+'|password='+password+'|email='+email+'|entry_amount='+entry_amount+'|address='+address+'|phone='+phone+'|fax='+fax+'|birthday='+birthday+'|referring='+referring+'|entry_amount='+entry_amount)
         
@@ -227,8 +230,8 @@
             flag = false;
         }
         
-        if(isNaN(entry_amount) || (entry_amount % 100 != 0) || entry_amount < 0){
-            $('#msgContainer').append('<input type="hidden" id="cmsgentry_amount" value="Enrolment Entry Amount is numberic and divisible to 100"/>');
+        if(isNaN(entry_amount) || (entry_amount % 100 != 0) || entry_amount < min_enrolment_entry_amount || entry_amount > max_enrolment_entry_amount){
+            $('#msgContainer').append('<input type="hidden" id="cmsgentry_amount" value="Enrolment Entry Amount is numberic , divisible to 100, greater than '+ min_enrolment_entry_amount +' and litter than '+ max_enrolment_entry_amount +'"/>');
             flag = false;
         }
         

@@ -76,3 +76,10 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+ALTER TABLE `user`
+	ADD COLUMN `transaction_start` DATE NULL DEFAULT NULL AFTER `permission`,
+	ADD COLUMN `transaction_finish` DATE NULL DEFAULT NULL AFTER `transaction_start`;
+
+ALTER TABLE `user`
+	CHANGE COLUMN `transaction_start` `transaction_start` DATETIME NULL DEFAULT NULL AFTER `permission`,
+	CHANGE COLUMN `transaction_finish` `transaction_finish` DATETIME NULL DEFAULT NULL AFTER `transaction_start`;

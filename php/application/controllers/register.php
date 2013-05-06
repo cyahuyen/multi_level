@@ -16,6 +16,7 @@ class Register extends CI_Controller {
     var $menu_config_admin_home = array('active', '', '');
     var $menu_config_admin_users = array('', 'active', '');
     var $menu_config_admin_reports = array('', '', 'active');
+    var $usertype = array('0' => 'Member', '1' => 'Silver', '2' => 'Gold');
 
     function __construct() {
         parent::__construct();
@@ -161,6 +162,7 @@ class Register extends CI_Controller {
 
             if ($posts['mc_gross'] > $transaction_fees['open_fee'])
                 $postsData['usertype'] = 2;
+//                $postsData['transaction_start'] = 2;
             else
                 $postsData['usertype'] = 0;
 
@@ -172,12 +174,24 @@ class Register extends CI_Controller {
             $dataTransaction['transaction_id'] = $posts['txn_id'];
             $dataTransaction['payment_status'] = $posts['payment_status'];
             $this->transaction->insert($dataTransaction);
-            sendmail($this->data['email'], 'Thank you for registering', 'You just sign up at. Please login to check your account', 'admin@website.com', 'Admin Manager', 'html');
+            
+            
+            
+            $userHtml = '
+                Thank you for registering <br>
+                You just sign up at. Please login to check your account';
+            
+            if ($posts['mc_gross'] > $transaction_fees['open_fee']) {
+                $userHtml .= 'Payment :' + $posts['mc_gross'] - $transaction_fees['open_fee'];
+                $userHtml .= 'Acount Type: ' + $this->usertype[$postsData['usertype']];
+            }
+            
+            sendmail($postsData['email'], 'Thank you for registering', $userHtml, null, 'Admin Manager', 'html');
 
 
-            if (!empty($posts['referring'])) {
+            if (!empty($postsData['referring'])) {
 
-                $email_referring = $this->register_model->getEmailbyUser($posts['referring']);
+                $email_referring = $this->register_model->getEmailbyUser($postsData['referring']);
 
                 sendmail($email_referring, 'Your referring member', 'Your referring member just sign up at.', 'admin@website.com', 'Admin Manager', 'html');
             }

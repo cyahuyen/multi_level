@@ -19,7 +19,7 @@ class Adminuser extends MY_Controller {
     var $menu_config_5 = array('', '', '', '', 'active', '');
     var $menu_config_6 = array('', '', '', '', '', 'active');
     var $navstack = null;
-    var $usertype = array('0' => 'Member', '1' => 'Sliver', '2' => 'Gold');
+    var $usertype = array('0' => 'Member', '1' => 'Silver', '2' => 'Gold');
 
     public function __construct() {
 
