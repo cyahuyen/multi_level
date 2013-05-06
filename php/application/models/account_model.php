@@ -75,6 +75,24 @@ class Account_model extends CI_Model {
         $this->db->query("UPDATE " . $this->tbl . " SET password = '" . md5($data['password']) . "' WHERE user_id='" . (int) $id . "'");
     }
 
+    function getSumOpen($id, $transaction_start, $transaction_finish) {
+        $sql = $this->db->query("SELECT SUM(open_fees) AS totalopen FROM transaction WHERE created >='" . $transaction_start . "' AND created <='" . $transaction_finish . "' AND user_id='" . (int) $id . "' ")->result();
+        if ($sql)
+            return $sql[0]->totalopen;
+        else {
+            return 0;
+        }
+    }
+
+    function getSumTotal($id, $transaction_start, $transaction_finish) {
+        $sql = $this->db->query("SELECT SUM(total_fees) AS total FROM transaction WHERE created >='" . $transaction_start . "' AND created <='" . $transaction_finish . "' AND user_id='" . (int) $id . "' ")->result();
+        if ($sql)
+            return $sql[0]->total;
+        else {
+            return 0;
+        }
+    }
+
     public function getRefereds($id, $limit = null, $start = null) {
         $this->db->select("*");
         $this->db->from($this->tbl);
