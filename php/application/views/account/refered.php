@@ -1,10 +1,16 @@
+<div class="breadcrumb">
+    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+        <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
+    <?php } ?>
+    <div style="clear:both;"></div>
+</div>
 <div class="content">
     <div class="content-header">
         <div class="content-title">
             <h1>Refered Members</h1>
         </div>
         <div style="padding:5px 25px;float: left;">
-            <h4>Total members : <?php echo count($refereds);?> (30$)</h4>
+            <h4>Total members : <?php echo count($refereds); ?> (30$)</h4>
         </div>
     </div>
     <div class="content-body">
@@ -32,10 +38,13 @@
                                     <td><div><?php echo $refered->phone; ?></div></td>
                                     <td><div><?php echo $refered->created_on; ?></div></td>
                                 </tr>
-                            <?php }
-                        } ?>
+                                <?php
+                            }
+                        }
+                        ?>
                     </tbody>
                 </table>
+                <?php echo $links; ?>
             </div>
         </div>
     </div>
