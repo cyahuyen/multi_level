@@ -28,6 +28,7 @@ class Register extends CI_Controller {
         $this->lang->load('recaptcha');
         $this->load->model('register_model', '', TRUE);
         $this->load->model('transaction_model', 'transaction', TRUE);
+        $this->data['user_session'] = $this->session->userdata('user');
     }
 
     public function index() {

@@ -8,7 +8,11 @@
                 <li><a href="<?php echo site_url('account/index') ?>">My Profile</a></li>
                 <li><a href="#" target="_blank">Help</a></li>
                 <li><a href="#" target="_blank">Support</a></li>
-                <li><a href="<?php echo site_url('authentication/signout') ?>">Log Out</a></li>
+                <?php if (empty($user_session)) { ?>
+                    <li><a href="<?php echo site_url('authentication') ?>">Login</a></li>
+                <?php } else { ?>
+                    <li><a href="<?php echo site_url('authentication/signout') ?>">Log Out</a></li>
+                <?php } ?>
             </ul>
             <div class="clearer"></div>
         </div>
@@ -17,8 +21,10 @@
     <div class="mainmenu">
         <ul class="sf-menu">
             <li class="<?php echo $menu_config[0] ?>"><?php echo anchor('home', 'Home'); ?></li>
-            <li class="register"><a href="<?php echo site_url('register/index') ?>">Sign Up</a></li>
-            <li class="register"><a href="<?php echo site_url('authentication') ?>">Login</a></li>
+            <?php if (empty($user_session)) { ?>
+                <li class="register"><a href="<?php echo site_url('register/index') ?>">Sign Up</a></li>
+                <li class="register"><a href="<?php echo site_url('authentication') ?>">Login</a></li>
+            <?php } ?>
         </ul>
         <div class="clearer"></div>
     </div>

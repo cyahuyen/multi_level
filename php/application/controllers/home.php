@@ -29,6 +29,7 @@ class Home extends MY_Controller {
         if ($msg) {
             $this->data['usermessage'] = $msg;
         }
+        $this->data['user_session'] = $this->session->userdata('user');
     }   
 
     public function index() {

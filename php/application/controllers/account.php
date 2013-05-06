@@ -28,6 +28,7 @@ class Account extends CI_Controller {
         $this->lang->load('recaptcha');
         $this->load->model('account_model', '', TRUE);
         $this->data['menu_config'] = $this->menu_config_user_home;
+        $this->data['user_session'] = $this->session->userdata('user');
     }
 
     public function index() {

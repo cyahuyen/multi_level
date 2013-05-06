@@ -19,6 +19,10 @@ class Authentication extends MY_Controller {
         $this->load->model('user_model', 'user');
         $this->data['menu_config'] = $this->menu_config_1;
         
+        
+    }
+
+    public function index() {
         $user_session = $this->session->userdata('user');
         
         if (!empty($user_session) && $user_session['permission'] != 'administrator') {
@@ -26,9 +30,6 @@ class Authentication extends MY_Controller {
         }elseif(!empty($user_session) && $user_session['permission'] == 'administrator'){
             redirect(site_url('admin'));
         }
-    }
-
-    public function index() {
         $this->data['title'] = 'Sign-in';
         $this->data['main_content'] = 'authentication/index';
 
