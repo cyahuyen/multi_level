@@ -17,6 +17,8 @@ class Account_model extends CI_Model {
         else
             return false;
     }
+    
+ 
 
     function get_auto($username) {
         $this->db->select('*');

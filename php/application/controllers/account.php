@@ -28,8 +28,14 @@ class Account extends CI_Controller {
         $this->lang->load('recaptcha');
         $this->load->model('account_model', '', TRUE);
         $this->data['menu_config'] = $this->menu_config_user_home;
+        $this->data['user_session'] = $this->session->userdata('user');
         if (!$this->session->userdata('user')) {
             redirect('authentication', 'refresh');
+        }
+
+        $msg = $this->session->flashdata('usermessage');
+        if ($msg) {
+            $this->data['usermessage'] = $msg;
         }
     }
 
@@ -163,6 +169,106 @@ class Account extends CI_Controller {
         } else {
             $this->form_validation->set_message('valid_date', 'Please enter mm-dd-yyyy');
             return FALSE;
+        }
+    }
+
+    public function transaction() {
+        $this->data['title'] = 'Deposite Amount';
+        $user_session = $this->session->userdata('user');
+        $id = $user_session['user_id'];
+        $this->load->model('user_model', 'user');
+        $this->load->model('transaction_model', 'transaction');
+        $this->load->model('config_model', 'configs');
+        $user = $this->user->getUserById($id);
+        $transaction_config = $this->configs->getConfigs('transaction_fees');
+        $this->data['transaction_fees'] = $transaction_config;
+
+        $dataConfig['return'] = site_url('account/paypal_return');
+        $dataConfig['cancel_return'] = site_url('account/cancel_return');
+        $dataConfig['notify_url'] = site_url('home');
+        $dataConfig['title'] = 'Register';
+
+        $payments = $this->configs->listActivepayment();
+
+        //get transaction
+        $transactions = $this->transaction->getTransactionNotExpiration($id, $user->transaction_start, $user->transaction_finish);
+        $max_entry_amount = $transaction_config['max_enrolment_entry_amount'];
+        $totalTransaction = 0;
+        if (!empty($transactions)) {
+            foreach ($transactions as $transaction) {
+                $totalTransaction += $transaction->total_fees - $transaction->open_fees;
+            }
+        }
+        $this->data['max_entry_amount'] = $max_entry_amount - $totalTransaction;
+
+        $payments = $this->configs->listActivepayment();
+        $data['payments'] = array();
+        foreach ($payments as $code => $config) {
+            $dataConfig['config'] = $config;
+            $this->data['payments'][$code] = $this->load->view('payment/' . $code, $dataConfig, true);
+        }
+
+        $this->data['refereds'] = $this->account_model->getRefereds($id);
+        $this->data['main_content'] = 'account/transaction';
+        $this->load->view('home', $this->data);
+    }
+
+    public function paypal_return() {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST')
+            redirect('account/transaction');
+
+        $user_session = $this->session->userdata('user');
+        $id = $user_session['user_id'];
+        $this->load->model('user_model', 'user');
+        $this->load->model('transaction_model', 'transaction');
+        $this->load->model('config_model', 'configs');
+        $user = $this->user->getUserById($id);
+        $transaction_config = $this->configs->getConfigs('transaction_fees');
+        $this->data['transaction_fees'] = $transaction_config;
+
+        $this->load->model('config_model', 'configs');
+        $transaction_fees = $this->configs->getConfigs('transaction_fees');
+        $paypal = $this->configs->getConfigs('paypal');
+
+        $payments = $this->configs->listActivepayment();
+
+        //get transaction
+        $transactions = $this->transaction->getTransactionNotExpiration($id, $user->transaction_start, $user->transaction_finish);
+        $max_entry_amount = $transaction_config['max_enrolment_entry_amount'];
+        $totalTransaction = 0;
+        if (!empty($transactions)) {
+            foreach ($transactions as $transaction) {
+                $totalTransaction += $transaction->total_fees - $transaction->open_fees;
+            }
+        }
+        $this->data['max_entry_amount'] = $max_entry_amount - $totalTransaction;
+
+        $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+        $url_parsed = parse_url($url);
+        $fp = fsockopen($url_parsed['host'], "80", $err_num, $err_str, 30);
+        if (!$fp) {
+            $error = array('error', 'darkred', 'Register errors', 'Connection to ' . $url_parsed['host'] . " failed.fsockopen error no. $errnum: $errstr");
+            $this->session->set_flashdata(array('usermessage' => $error));
+            redirect('register');
+        } else {
+            $posts = $this->input->post();
+            $dataTransaction['user_id'] = $id;
+            $dataTransaction['open_fees'] = 0;
+            $dataTransaction['total_fees'] = $posts['mc_gross'];
+            $dataTransaction['transaction_id'] = $posts['txn_id'];
+            $dataTransaction['payment_status'] = $posts['payment_status'];
+            $this->transaction->insert($dataTransaction);
+            if (empty($transactions)) {
+                $this->user->updateTransaction($id);
+            }
+            $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
+            $this->session->set_flashdata('usermessage', $data['usermessage']);
+            $adminHtml = 'User: ' . $user->username .'<br>';
+            $adminHtml .= 'Amount: ' . $posts['mc_gross'];
+            sendmail(null, 'Have just new member deposite', $adminHtml);
+
+
+            redirect('account/transaction');
         }
     }
 

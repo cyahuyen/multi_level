@@ -21,34 +21,3 @@
 </tr>
 
 
-<script >
-    $(document).ready(function(){
-        getAmount();
-        $('#payment').change(function(){
-            
-            getAmount()    
-            
-        });
-        $('#entry_amount').keyup(function(){
-            getAmount()    
-        })
-    })
-    
-    function getAmount(){
-        var payment = $('#payment:checked').val();
-                
-        if(payment == 'paypal'){
-            $('form').attr('action','https://www.<?php echo ($config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
-        }
-        var open_fee = <?php echo $transaction_fees['open_fee'] ?>;
-        var entry_amount = $('#entry_amount').val();
-        if(!isNaN(entry_amount) && entry_amount > 0){
-            if(entry_amount.length == 0)
-                entry_amount = 0
-            var total_fees = parseInt(open_fee) + parseInt(entry_amount);
-            $('#amount').val(total_fees);
-        }else{
-            $('#amount').val(open_fee);
-        }   
-    }
-</script>

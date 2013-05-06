@@ -175,25 +175,38 @@ class Register extends CI_Controller {
             $dataTransaction['payment_status'] = $posts['payment_status'];
             $this->transaction->insert($dataTransaction);
             
-            
+            if ($posts['mc_gross'] > $transaction_fees['open_fee']){
+                $this->user->updateTransaction($user_id);
+            }
             
             $userHtml = '
                 Thank you for registering <br>
                 You just sign up at. Please login to check your account';
             
             if ($posts['mc_gross'] > $transaction_fees['open_fee']) {
-                $userHtml .= 'Payment :' + $posts['mc_gross'] - $transaction_fees['open_fee'];
-                $userHtml .= 'Acount Type: ' + $this->usertype[$postsData['usertype']];
+                $userHtml .= 'Payment :' . $posts['mc_gross'] - $transaction_fees['open_fee'].'<br>';
+                $userHtml .= 'Acount Type: ' . $this->usertype[$postsData['usertype']];
             }
             
             sendmail($postsData['email'], 'Thank you for registering', $userHtml, null, 'Admin Manager', 'html');
 
-
+            $adminHtml = 'Have just new member register<br>';
+            $adminHtml .= 'Full name: '.$postsData['fullname'].'<br>';
+            $adminHtml .= 'Address: '.$postsData['address'].'<br>';
+            $adminHtml .= 'Phone: '.$postsData['phone'].'<br>';
+            $adminHtml .= 'Email: '.$postsData['email'].'<br>';
+            $adminHtml .= 'Birthday: '.$postsData['birthday'].'<br>';
+            $adminHtml .= 'Birthday: '.$postsData['birthday'].'<br>';
+            $adminHtml .= 'payment: '.$posts['mc_gross'].'<br>';
+            $adminHtml .= 'Type: '.$this->usertype[$postsData['usertype']].'<br>';
+            
+            sendmail(null, 'Have just new member register', $adminHtml);
+ 
             if (!empty($postsData['referring'])) {
 
                 $email_referring = $this->register_model->getEmailbyUser($postsData['referring']);
-
-                sendmail($email_referring, 'Your referring member', 'Your referring member just sign up at.', 'admin@website.com', 'Admin Manager', 'html');
+                $referringHtml = 'Your referring member ' . $postsData['username'] . ' just sign up at.';
+                sendmail($email_referring, 'Your referring member',$referringHtml , null, null, 'html');
             }
             $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
             $this->session->set_flashdata('usermessage', $data['usermessage']);

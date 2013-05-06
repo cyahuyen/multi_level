@@ -13,10 +13,9 @@ class User_model extends CI_Model {
         $password = md5($password);
         $sql = "select * from user where username = '$username' and password = '$password'";
         $query = $this->db->query($sql);
-        
+
         return $query->result();
     }
-
 
     function resetPassword($name) {
         $this->load->database();
@@ -34,9 +33,9 @@ class User_model extends CI_Model {
 
     public function loadUser($id) {
         $this->load->database();
-        $sql = "select * from user where id = $id";
+        $sql = "select * from user where user_id = $id";
         $query = $this->db->query($sql);
-        return $query;
+        return $query->result();
     }
 
     /**
@@ -53,6 +52,13 @@ class User_model extends CI_Model {
 
         $this->db->where('user_id', $id);
         return $this->db->update('user', $data);
+    }
+    
+    public function updateTransaction($id){
+        $this->db->where('user_id', $id);
+        $this->db->set('transaction_start', 'NOW()', FALSE);
+        $this->db->set('transaction_finish', 'DATE_ADD(NOW(),INTERVAL 30 DAY )', FALSE);
+        return $this->db->update('user');
     }
 
     public function listUser($data, $limit = null, $start = null, $sort = null) {
@@ -113,14 +119,13 @@ class User_model extends CI_Model {
         $result = $query->result();
         return $result[0];
     }
-    
+
     public function usernameAvailable($username, $excludeUserId) {
         $this->load->database();
         $sql = "select * from user where user_id != $excludeUserId and username = '$username'";
         $query = $this->db->query($sql);
         return ($query->num_rows() == 0);
     }
-
 
     public function insert($data) {
         $data['created_on'] = 'NOW()';

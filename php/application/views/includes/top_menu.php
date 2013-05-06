@@ -8,6 +8,7 @@
             <ul class="sf-menu">
                 <li><a href="<?php echo site_url('account/index') ?>">My Profile</a></li>
                 <li><a href="<?php echo site_url('account/history') ?>">History</a></li>
+                <li><a href="<?php echo site_url('account/transaction') ?>">Deposite</a></li>
                 <li><a href="<?php echo site_url('authentication/signout') ?>">Log Out</a></li>
             </ul>
             <div class="clearer"></div>
