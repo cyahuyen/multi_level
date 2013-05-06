@@ -4,7 +4,7 @@
             <h1>Refered Members</h1>
         </div>
         <div style="padding:5px 25px;float: left;">
-            <h4>Total members : <?php echo count($refereds);?> (30$)</h4>
+            <h4>Total members : <?php echo count($refereds); ?> (30$)</h4>
         </div>
     </div>
     <div class="content-body">
@@ -32,10 +32,13 @@
                                     <td><div><?php echo $refered->phone; ?></div></td>
                                     <td><div><?php echo $refered->created_on; ?></div></td>
                                 </tr>
-                            <?php }
-                        } ?>
+                                <?php
+                            }
+                        }
+                        ?>
                     </tbody>
                 </table>
+                <?php echo $links; ?>
             </div>
         </div>
     </div>

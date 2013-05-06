@@ -106,16 +106,81 @@ class Account extends CI_Controller {
         $this->data['title'] = 'Refered Members';
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
-        $this->data['refereds'] = $this->account_model->getRefereds($id);
+        $limit = $this->config->item('per_page', 'cya_config');
+        $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        //       Begin pagination
+        $this->load->library("pagination");
+        $config = array();
+        $config["total_rows"] = $this->account_model->totalRefered($id);
+        $config["base_url"] = site_url('account/refered');
+        $config["per_page"] = $limit;
+        $page = $start;
+        $config["uri_segment"] = 3;
+        $config['num_links'] = 2;
+
+        $config['first_link'] = "<img src=" . base_url() . "/img/datalist/nav_first.jpg />";
+        $config['first_tag_open'] = '<div class="nav-button">';
+        $config['first_tag_close'] = '</div>';
+        $config['last_link'] = "<img src=" . base_url() . "/img/datalist/nav_last.jpg />";
+        $config['last_tag_open'] = '<div class="nav-button">';
+        $config['last_tag_close'] = '</div>';
+        $config['cur_tag_open'] = "<div class='nav-button'><div class='nav-page nav-page-selected'>";
+        $config['cur_tag_close'] = '</div></div>';
+        $config['num_tag_open'] = "<div class='nav-button'><div class='nav-page'>";
+        $config['num_tag_close'] = '</div></div>';
+        $config['prev_tag_open'] = "<div class='nav-button'>";
+        $config['prev_link'] = "<img src=" . base_url() . "/img/datalist/nav_prev.jpg />";
+        $config['prev_tag_close'] = '</div>';
+        $config['next_link'] = "<img src=" . base_url() . "/img/datalist/nav_next.jpg />";
+        $config['next_tag_open'] = "<div class='nav-button'>";
+        $config['next_tag_close'] = '</div>';
+        $this->pagination->initialize($config);
+        $this->data["links"] = $this->pagination->create_links();
+        //       End pagination
+        $this->data['refereds'] = $this->account_model->getRefereds($id, $limit, $start);
         $this->data['main_content'] = 'account/refered';
         $this->load->view('home', $this->data);
     }
 
     function history() {
+        $posts = $this->input->post();
         $this->data['title'] = 'History';
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
-        $this->data['historys'] = $this->account_model->getHistorys($id);
+
+        $limit = $this->config->item('per_page', 'cya_config');
+        $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+        //       Begin pagination
+        $this->load->library("pagination");
+        $config = array();
+        $config["total_rows"] = $this->account_model->totalHistory($id);
+        $config["base_url"] = site_url('account/history');
+        $config["per_page"] = $limit;
+        $page = $start;
+        $config["uri_segment"] = 3;
+        $config['num_links'] = 2;
+
+        $config['first_link'] = "<img src=" . base_url() . "/img/datalist/nav_first.jpg />";
+        $config['first_tag_open'] = '<div class="nav-button">';
+        $config['first_tag_close'] = '</div>';
+        $config['last_link'] = "<img src=" . base_url() . "/img/datalist/nav_last.jpg />";
+        $config['last_tag_open'] = '<div class="nav-button">';
+        $config['last_tag_close'] = '</div>';
+        $config['cur_tag_open'] = "<div class='nav-button'><div class='nav-page nav-page-selected'>";
+        $config['cur_tag_close'] = '</div></div>';
+        $config['num_tag_open'] = "<div class='nav-button'><div class='nav-page'>";
+        $config['num_tag_close'] = '</div></div>';
+        $config['prev_tag_open'] = "<div class='nav-button'>";
+        $config['prev_link'] = "<img src=" . base_url() . "/img/datalist/nav_prev.jpg />";
+        $config['prev_tag_close'] = '</div>';
+        $config['next_link'] = "<img src=" . base_url() . "/img/datalist/nav_next.jpg />";
+        $config['next_tag_open'] = "<div class='nav-button'>";
+        $config['next_tag_close'] = '</div>';
+        $this->pagination->initialize($config);
+        $this->data["links"] = $this->pagination->create_links();
+        //       End pagination
+        $this->data['historys'] = $this->account_model->getHistorys($id, $limit, $start);
         $this->data['main_content'] = 'account/history';
         $this->load->view('home', $this->data);
     }

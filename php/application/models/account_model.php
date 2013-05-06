@@ -75,18 +75,58 @@ class Account_model extends CI_Model {
         $this->db->query("UPDATE " . $this->tbl . " SET password = '" . md5($data['password']) . "' WHERE user_id='" . (int) $id . "'");
     }
 
-    function getRefereds($id, $data = array()) {
-        $sql = 'SELECT * FROM ' . $this->tbl;
-        $sql .= " WHERE referring='" . (int) $id . "'";
-        $data = $this->db->query($sql)->result();
-        return $data;
+    public function getRefereds($id, $limit = null, $start = null) {
+        $this->db->select("*");
+        $this->db->from($this->tbl);
+
+        if ($id) {
+            $this->db->where('referring', $id);
+        }
+        if ($limit)
+            $this->db->limit((int) $limit);
+
+        if ($limit && $start) {
+            $this->db->limit((int) $limit, (int) $start);
+        }
+        $this->db->order_by('user_id', 'DESC');
+
+        $query = $this->db->get();
+        return $query->result();
     }
 
-    function getHistorys($id) {
-        $sql = "SELECT * FROM transaction";
-        $sql .= " WHERE user_id='" . (int) $id . "'";
-        $data = $this->db->query($sql)->result();
-        return $data;
+    public function totalRefered($id) {
+        $this->db->select("*");
+        $this->db->from($this->tbl);
+        $this->db->where('referring', $id);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function getHistorys($id, $limit = null, $start = null) {
+        $this->db->select("*");
+        $this->db->from("transaction");
+
+        if ($id) {
+            $this->db->where('user_id', $id);
+        }
+        if ($limit)
+            $this->db->limit((int) $limit);
+
+        if ($limit && $start) {
+            $this->db->limit((int) $limit, (int) $start);
+        }
+        $this->db->order_by('id', 'DESC');
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function totalHistory($id) {
+        $this->db->select("*");
+        $this->db->from("transaction");
+        $this->db->where('user_id', $id);
+        $query = $this->db->get();
+        return $query->num_rows();
     }
 
 }
