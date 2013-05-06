@@ -120,6 +120,26 @@ class Adminconfig extends MY_Controller {
         $this->data['main_content'] = 'adminconfig/referral';
         $this->load->view('administrator', $this->data);
     }
+    public function timeconfig() {
+        $code = 'timeconfig';
+        $this->data['title'] = 'Time config';
+        $this->data['data_configs'] = $this->configs->getConfigs($code);
+        $msg = $this->session->flashdata('usermessage');
+        if ($msg) {
+            $this->data['usermessage'] = $msg;
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $posts = $this->input->post();
+            unset($posts['save-btn']);
+            $this->configs->editConfigs($code, 'config', $posts);
+            $data['usermessage'] = array('success', 'green', 'Successfully saved ', '');
+            $this->session->set_flashdata(array('usermessage' => $data['usermessage']));
+            redirect('adminconfig/' . $code);
+        }
+
+        $this->data['main_content'] = 'adminconfig/timeconfig';
+        $this->load->view('administrator', $this->data);
+    }
 
 }
 

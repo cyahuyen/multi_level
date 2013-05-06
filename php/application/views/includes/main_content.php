@@ -12,5 +12,4 @@
                 There is no guaranteed shipping date unless you request the&nbsp;order be shipped on a set date and you receive a confirmation of that&nbsp;date. </span>Rush service or a specific shipping date can be arranged based on workload. Be sure any agreed shipping date is specified on your order&nbsp;in writing<span style="background-color: #ffffff;"> .We will make every&nbsp;attempt to ship your order as quickly as possible. </span></p>
         <p style="margin-top: 0; margin-bottom: 0;" align="center">Shipping charges incurred can not be refunded for any reason. We can not guarantee DELIVERY DATE as this can only be controlled by the shipping company. If premium shipping is paid for and the shipper does not perform, we will work with you to get a refund of&nbsp;the additional shipping costs. We can not be held responsible for the shippers&nbsp;errors.</p>
     </div>
-    <div style="float: left; margin-top: 100px;"><img class="alignnone size-full wp-image-657" alt="shippingmapvinyl" src="http://mark.cyahost.com/stickerz/wp-content/uploads/2013/04/shippingmapvinyl1.gif" width="300" height="222"></div>
 </div>

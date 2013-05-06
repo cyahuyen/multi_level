@@ -27,6 +27,7 @@
                     <li><a href="<?php echo site_url('adminconfig/emails') ?>">Email Config</a></li>
                     <li><a href="<?php echo site_url('adminconfig/transaction_fees') ?>">Transaction Fees</a></li>
                     <li><a href="<?php echo site_url('adminconfig/referral') ?>">Referral</a></li>
+                    <li><a href="<?php echo site_url('adminconfig/timeconfig') ?>">Time config</a></li>
                 </ul>
             </li>
             <li class="<?php echo $menu_config[3] ?>">
