@@ -82,5 +82,12 @@ class Account_model extends CI_Model {
         return $data;
     }
 
+    function getHistorys($id) {
+        $sql = "SELECT * FROM transaction";
+        $sql .= " WHERE user_id='" . (int) $id . "'";
+        $data = $this->db->query($sql)->result();
+        return $data;
+    }
+
 }
 

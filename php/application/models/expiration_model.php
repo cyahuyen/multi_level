@@ -3,24 +3,14 @@
 class Expiration_model extends CI_Model {
 
     private $user = 'user';
-    private $transfer = 'transaction';
     private $user_id = 'user_id';
 
     function __construct() {
         parent::__construct();
     }
 
-    function getAccount($id) {
-        $results = $this->db->get_where($this->tbl, array('user_id' => $id))->result();
-        if ($results) {
-            return $results[0];
-        }
-        else
-            return false;
-    }
-
-    function updateUser() {
-        $this->db->query("UPDATE " . $this->user . " SET usertype=1 WHERE usertype=2");
+    function updateUser($id, $type) {
+        $this->db->query("UPDATE " . $this->user . " SET usertype='" . (int) $type . "' WHERE usertype=2 AND user_id='" . (int) $id . "'");
     }
 
     function getUsers($data = array()) {
@@ -28,8 +18,17 @@ class Expiration_model extends CI_Model {
         return $data;
     }
 
+    function getReferedsbyId($user_id) {
+        $data = $this->db->get_where($this->user, array('referring' => $user_id))->result();
+        if ($data) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function getUsersLimit($currentdata, $type) {
-        $sql = "SELECT email FROM user WHERE transaction_finish <='" . $currentdata . "' AND usertype=" . $type . "";
+        $sql = "SELECT user_id,email FROM user WHERE transaction_finish <='" . $currentdata . "' AND usertype=" . $type . "";
         $data = $this->db->query($sql)->result();
         return $data;
     }

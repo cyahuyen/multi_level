@@ -14,10 +14,6 @@
             <td></td>
         </tr>
         <tr>
-            <td><div><a href="<?php echo site_url('account/history') ?>">History</a> </div></td>
-            <td></td>
-        </tr>
-        <tr>
             <td><div><a href="<?php echo site_url('account/refered') ?>">Refered Member</a> </div></td>
             <td></td>
         </tr>

@@ -115,7 +115,7 @@ class Account extends CI_Controller {
         $this->data['title'] = 'History';
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
-//        $this->data['historys'] = $this->account_model->getHistorys($id);
+        $this->data['historys'] = $this->account_model->getHistorys($id);
         $this->data['main_content'] = 'account/history';
         $this->load->view('home', $this->data);
     }

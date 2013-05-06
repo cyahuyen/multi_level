@@ -16,10 +16,8 @@ class CheckExpiration extends CI_Controller {
     public function index() {
         $this->data['title'] = 'Check Expiration';
         $expirations = $this->expiration_model->getUsers();
-        print_r($expirations);
-//        $currentDate = date("Y-m-d H:i:s");
-        $currentDate = "2013-05-06 05:37:22";
-        echo $currentDate;
+        $currentDate = date("Y-m-d H:i:s");
+//        $currentDate = "2013-05-06 05:37:22";
         foreach ($expirations as $expiration) {
             if ($expiration->transaction_finish <= $currentDate && $expiration->usertype == 2) {
                 $users_expirations = $this->expiration_model->getUsersLimit($currentDate, 2);
@@ -28,10 +26,15 @@ class CheckExpiration extends CI_Controller {
                     $title = "Account Expiration!";
                     $content = "Your account has expired. Please log in and check your account";
                     $email_sent = "admin@mysite.com";
-                    $name_sent = "admin@mysite.com";
+                    $name_sent = "Administrator";
                     sendmail($email_user, $title, $content, $email_sent, $name_sent, 'html');
+                    $refereds = $this->expiration_model->getReferedsbyId($emails->user_id);
+                    if (!empty($refereds)) {
+                        $this->expiration_model->updateUser($emails->user_id, 1);
+                    } else {
+                        $this->expiration_model->updateUser($emails->user_id, 0);
+                    }
                 }
-                $this->expiration_model->updateUser();
             }
         }
     }

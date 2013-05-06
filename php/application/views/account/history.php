@@ -29,17 +29,20 @@
                             <td style="width:60px"><div>Status</div></td>
                             <td style="width:40px"><div>Actions</div></td>
                         </tr>
-                        <tr class="row">
-                            <td><div>123</div></td>
-                            <td><div>Job name 1</div></td>
-                            <td><div>Customer 1</div></td>
-                            <td><div></div></td>
-                            <td><div>14/12/2012</div></td>
-                            <td><div>14/12/2012</div></td>
-                            <td><div>1</div></td>
-                            <td><div>Open</div></td>
-                            <td><div></div></td>
-                        </tr>
+                        <?php if ($historys) { ?>
+                            <?php foreach ($historys as $history) { ?>
+                                <tr class="row">
+                                    <td><div>123</div></td>
+                                    <td><div>Job name 1</div></td>
+                                    <td><div>Customer 1</div></td>
+                                    <td><div></div></td>
+                                    <td><div>14/12/2012</div></td>
+                                    <td><div>14/12/2012</div></td>
+                                    <td><div>1</div></td>
+                                    <td><div>Open</div></td>
+                                    <td><div></div></td>
+                                </tr>
+                            <?php } ?>
                     </tbody>
                 </table>
             </div>
