@@ -107,7 +107,7 @@ class Register extends CI_Controller {
             $this->data['entry_amount'] = '';
         }
 
-        
+
         $this->data['menu_config'] = $this->menu_config_user_home;
         $this->data['main_content'] = 'register/register.php';
 
@@ -142,30 +142,29 @@ class Register extends CI_Controller {
                 $this->session->set_flashdata(array('usermessage' => $error));
                 redirect('register');
             }
-            
+
             $custom = $posts['custom'];
             $custom_list = explode('|', $custom);
             $postsData = array();
-            foreach ($custom_list as $val){
+            foreach ($custom_list as $val) {
                 $custom_post = explode('=', $val);
                 $postsData[$custom_post[0]] = $custom_post[1];
-                
             }
-            if($posts['business'] != $paypal['business']){
+            if ($posts['business'] != $paypal['business']) {
                 $error = array('error', 'darkred', 'Register errors', 'Transaction email error');
                 $this->session->set_flashdata(array('usermessage' => $error));
                 redirect('register');
             }
-            
-            
-            
-            if($posts['mc_gross'] > $transaction_fees['open_fee'])
+
+
+
+            if ($posts['mc_gross'] > $transaction_fees['open_fee'])
                 $postsData['usertype'] = 2;
             else
                 $postsData['usertype'] = 0;
-            
+
             $user_id = $this->register_model->save($postsData);
-            
+
             $dataTransaction['user_id'] = $user_id;
             $dataTransaction['open_fees'] = $transaction_fees['open_fee'];
             $dataTransaction['total_fees'] = $posts['mc_gross'];
@@ -173,20 +172,24 @@ class Register extends CI_Controller {
             $dataTransaction['payment_status'] = $posts['payment_status'];
             $this->transaction->insert($dataTransaction);
             sendmail($this->data['email'], 'Thank you for registering', 'You just sign up at. Please login to check your account', 'admin@website.com', 'Admin Manager', 'html');
-            
-            
+
+
             if (!empty($posts['referring'])) {
-                
+
                 $email_referring = $this->register_model->getEmailbyUser($posts['referring']);
-                
+
                 sendmail($email_referring, 'Your referring member', 'Your referring member just sign up at.', 'admin@website.com', 'Admin Manager', 'html');
             }
             $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
             $this->session->set_flashdata('usermessage', $data['usermessage']);
-
-            
         }
         redirect('home');
+    }
+
+    public function cancel_return() {
+        $error = array('error', 'darkred', 'Transaction is cancel', '');
+        $this->session->set_flashdata(array('usermessage' => $error));
+        redirect('register');
     }
 
     public function forgot() {

@@ -2211,3 +2211,45 @@ DEBUG - 2013-05-06 05:05:39 --> File loaded: application/views/includes/main_con
 DEBUG - 2013-05-06 05:05:39 --> File loaded: application/views/home.php
 DEBUG - 2013-05-06 05:05:39 --> Final output sent to browser
 DEBUG - 2013-05-06 05:05:39 --> Total execution time: 0.1243
+DEBUG - 2013-05-06 05:11:02 --> Config Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Hooks Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Utf8 Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> UTF-8 Support Enabled
+DEBUG - 2013-05-06 05:11:02 --> URI Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Router Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Output Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Security Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Input Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-06 05:11:02 --> Language Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Loader Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-06 05:11:02 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-06 05:11:02 --> Helper loaded: url_helper
+DEBUG - 2013-05-06 05:11:02 --> Helper loaded: file_helper
+DEBUG - 2013-05-06 05:11:02 --> Helper loaded: form_helper
+DEBUG - 2013-05-06 05:11:02 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-06 05:11:02 --> Database Driver Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Session Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Helper loaded: string_helper
+DEBUG - 2013-05-06 05:11:02 --> Session routines successfully run
+DEBUG - 2013-05-06 05:11:02 --> XML-RPC Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-06 05:11:02 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-06 05:11:02 --> reCaptcha Library Initialized
+DEBUG - 2013-05-06 05:11:02 --> Controller Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Form Validation Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-06 05:11:02 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-06 05:11:02 --> Model Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Model Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Model Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> Model Class Initialized
+DEBUG - 2013-05-06 05:11:02 --> File loaded: application/views/payment/paypal.php
+DEBUG - 2013-05-06 05:11:02 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-06 05:11:02 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-06 05:11:02 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-06 05:11:02 --> File loaded: application/views/register/register.php
+DEBUG - 2013-05-06 05:11:02 --> File loaded: application/views/home.php
+DEBUG - 2013-05-06 05:11:02 --> Final output sent to browser
+DEBUG - 2013-05-06 05:11:02 --> Total execution time: 0.1415
