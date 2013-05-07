@@ -10,12 +10,13 @@ if (!function_exists('sendmail')) {
         
         
         
-        $CI->load->library('email', $config);
+        $CI->load->library('email');
         $CI->load->model('config_model', 'configs');
         $CI->email->clear();
-        $CI->email->from($config['smtp_user'], $CI->config->item('email_name'));
-        
         $emailConfig = $CI->configs->getConfigs('emails');
+        $CI->email->from($emailConfig['smtp_user'], $emailConfig['email_admin']);
+        
+        
         
         $config = Array(
             'protocol' => $emailConfig['protocol'],
