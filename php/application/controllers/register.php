@@ -58,11 +58,7 @@ class Register extends CI_Controller {
         } else {
             $this->data['success'] = '';
         }
-        if (isset($posts['username'])) {
-            $this->data['username'] = $posts['username'];
-        } else {
-            $this->data['username'] = '';
-        }
+
         if (isset($posts['fullname'])) {
             $this->data['fullname'] = $posts['fullname'];
         } else {
@@ -211,11 +207,9 @@ class Register extends CI_Controller {
             sendmail(null, 'Have just new member register', $adminHtml);
 
             if (!empty($postsData['referring'])) {
-
                 $email_referring = $this->register_model->getEmailbyUser($postsData['referring']);
                 $this->user->updateUserType($postsData['referring']);
                 $this->transaction->updateRefereFees($postsData['referring']);
-                
                 $userReferring = $this->user->getUserById($postsData['referring']);
                 if ($userReferring) {
                     $referral_config = $this->configs->getConfigs('referral');
@@ -228,7 +222,7 @@ class Register extends CI_Controller {
                 }
 
 
-                $referringHtml = 'Your referring member ' . $postsData['username'] . ' just sign up at.';
+                $referringHtml = 'Your referring member ' . $postsData['fullname'] . ' just sign up at.';
                 sendmail($email_referring, 'Your referring member', $referringHtml, null, null, 'html');
             }
             $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
@@ -328,17 +322,6 @@ class Register extends CI_Controller {
         }
     }
 
-    public function checkUser() {
-        $username = $this->input->get('user');
-        if ($this->register_model->checkUser($username)) {
-            echo 'false';
-            exit();
-        } else {
-            echo 'true';
-            exit();
-        }
-    }
-
     public function check_email($email) {
         if (!$this->register_model->checkEmail($email)) {
             $this->form_validation->set_message('check_email', 'This e-mail is Not registered in our system. Please use a different one.');
@@ -359,7 +342,6 @@ class Register extends CI_Controller {
 
     function validateForm() {
         $this->form_validation->set_rules('fullname', 'Full Name', 'required|trim|xss_clean|max_length[150]');
-        $this->form_validation->set_rules('username', 'User Name', 'required|trim|xss_clean|max_length[50]|callback_checkUser');
         $this->form_validation->set_rules('password', 'Password', 'required|xss_clean|max_length[50]|valid_repassword');
         $this->form_validation->set_rules('repassword', 'Re-Password', 'required|trim|xss_clean|matches[password]');
         $this->form_validation->set_rules('address', 'Address', 'required|trim|xss_clean|max_length[150]');

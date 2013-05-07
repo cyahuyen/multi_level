@@ -51,13 +51,7 @@
                     <input type="text" style="width:240px" class="mandatory" value="<?php echo!empty($userdata->fullname) ? $userdata->fullname : '' ?>" name="fullname" id="fullname"><img class="mandatory" src="<?php echo base_url() ?>/img/sev/required.jpg" title="This is a required value">
                 </td>
             </tr>
-
-            <tr>
-                <td>sign-in</td>
-                <td>
-                    <input type="text" style="width:240px" class="mandatory" value="<?php echo!empty($userdata->username) ? $userdata->username : '' ?>" name="username" id="username"><img class="mandatory" src="<?php echo base_url() ?>/img/sev/required.jpg" title="This is a required value">
-                </td>
-            </tr>               
+            
             <tr>
                 <td>Password</td>
                 <td>

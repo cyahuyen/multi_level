@@ -83,7 +83,6 @@ class Account extends CI_Controller {
         $account = $this->user_model->getAccount($id);
         $posts = $this->input->post();
         if (!empty($account)) {
-            $this->data['username'] = $account->username;
             $this->data['fullname'] = $account->fullname;
             $this->data['address'] = $account->address;
             $this->data['phone'] = $account->phone;
@@ -91,7 +90,6 @@ class Account extends CI_Controller {
             $this->data['fax'] = $account->fax;
             $this->data['birthday'] = $account->birthday;
         } else {
-            $this->data['username'] = $posts['username'];
             $this->data['fullname'] = $posts['fullname'];
             $this->data['address'] = $posts['address'];
             $this->data['phone'] = $posts['phone'];
@@ -404,7 +402,7 @@ class Account extends CI_Controller {
             }
             $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
             $this->session->set_flashdata('usermessage', $data['usermessage']);
-            $adminHtml = 'User: ' . $user->username .'<br>';
+            $adminHtml = 'Full Name: ' . $user->fullname .'<br>';
             $adminHtml .= 'Amount: ' . $posts['mc_gross'];
             sendmail(null, 'Have just new member deposite', $adminHtml);
 

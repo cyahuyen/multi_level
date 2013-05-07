@@ -5,19 +5,16 @@
  */
 
 class User_model extends CI_Model {
-    
+
     private $tbl = 'user';
     private $user_id = 'user_id';
 
-
     function verifySignin($name, $password) {
-
         $this->load->database();
-        $username = strtolower(trim($name));
+        $email = strtolower(trim($name));
         $password = md5($password);
-        $sql = "select * from user where username = '$username' and password = '$password'";
+        $sql = "select * from user where email = '$email' and password = '$password'";
         $query = $this->db->query($sql);
-
         return $query->result();
     }
 
@@ -81,7 +78,8 @@ class User_model extends CI_Model {
                 if ($key == 'searchby') {
                     $where = "( username LIKE '%" . $val . "%' OR fullname LIKE '%" . $val . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
                     $this->db->where($where);
-                }else
+                }
+                else
                     $this->db->where($key, $val);
             }
         }
@@ -111,7 +109,8 @@ class User_model extends CI_Model {
                 if ($key == 'searchby') {
                     $where = "( username LIKE '%" . $val . "%' OR fullname LIKE '%" . $val . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
                     $this->db->where($where);
-                }else
+                }
+                else
                     $this->db->where($key, $val);
             }
         }
@@ -146,9 +145,7 @@ class User_model extends CI_Model {
 
         return $user_id;
     }
-    
-    
-    
+
     function getAccount($id) {
         $results = $this->db->get_where($this->tbl, array('user_id' => $id))->result();
         if ($results) {
@@ -157,8 +154,6 @@ class User_model extends CI_Model {
         else
             return false;
     }
-    
- 
 
     function get_auto($username) {
         $this->db->select('*');

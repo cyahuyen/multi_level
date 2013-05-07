@@ -16,7 +16,6 @@
             <tr class="row" id="row_<?php echo $user->id; ?>"> 
                 <td onClick="window.location='<?php echo site_url('user/profile'); ?>/<?php echo $user->id; ?>'"><span></span></td>
                 <td onClick="window.location='<?php echo site_url('user/profile'); ?>/<?php echo $user->id; ?>'"><span><?php echo $user->fullname; ?></span></td>
-                <td onClick="window.location='<?php echo site_url('user/profile'); ?>/<?php echo $user->id; ?>'"><span><?php echo $user->username; ?></span></td>
                 <td onClick="window.location='<?php echo site_url('user/profile'); ?>/<?php echo $user->id; ?>'"><span><?php echo $user->usertype; ?></span></td>
                 <td onClick="window.location='<?php echo site_url('user/profile'); ?>/<?php echo $user->id; ?>'"><span><?php echo $user->email; ?></span></td>
                 <td onClick="window.location='<?php echo site_url('user/profile'); ?>/<?php echo $user->id; ?>'"><span><?php echo $user->phone; ?></span></td>

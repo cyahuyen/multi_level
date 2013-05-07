@@ -87,7 +87,6 @@
                             <select id="datalist-sort-order"  onchange="search()"> 
                                 <option value="user_data.fullname">Person name</option>
                                 <option value="user.email">Email</option>
-                                <option value="user.username">Sign-in name</option>
                                 <option  value="user.usertype">User type</option>
                             </select>
                             <span>

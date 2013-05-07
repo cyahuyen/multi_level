@@ -25,7 +25,7 @@ class User extends MY_Controller {
 
     public function manage() {
         $data['user'] = $this->user->getSessionUserDetails();
-        
+
         if ($data['user'][0]->usertype != 'Administrator')
             redirect(site_url('home'));
 
@@ -47,20 +47,9 @@ class User extends MY_Controller {
             if ($posts['fullname'] == '') {
                 $validationErrors['fullname'] = "Your name is Fullname cannot be blank";
             }
-            if ($posts['username'] == '') {
-                $validationErrors['username'] = "Username cannot be blank";
-            }
             if ($posts['email'] == '') {
                 $validationErrors['email'] = "Email cannot be blank";
             }
-
-            //check username exists
-            $userExists = $this->user->usernameAvailable($posts['username'], $id);
-
-            if (!$userExists) {
-                $validationErrors['username'] = "Username is exists";
-            }
-
             if (!empty($id) && !empty($posts['password'])) {
                 if ($posts['password'] < 6) {
                     $validationErrors['password'] = "password greater than 6 character";
@@ -70,7 +59,6 @@ class User extends MY_Controller {
                     $validationErrors['repassword'] = "password wrong";
                 }
             }
-
             if (empty($id)) {
                 if (strlen($posts['password']) < 6) {
                     $validationErrors['password'] = "password greater than 6 character";
@@ -94,14 +82,14 @@ class User extends MY_Controller {
                 $id = (int) $id;
                 if (empty($id)) {
                     $id = $this->user->insert($posts);
-                    $data['usermessage'] =  array('success', 'green', 'Successfully saved ','');
+                    $data['usermessage'] = array('success', 'green', 'Successfully saved ', '');
                     $this->session->set_flashdata(array('usermessage' => $data['usermessage']));
-                    redirect(site_url('user/profile/'.$id));
+                    redirect(site_url('user/profile/' . $id));
                 } else {
                     $this->user->update($posts, $id);
-                    $data['usermessage'] =  array('success', 'green', 'Successfully saved','');
+                    $data['usermessage'] = array('success', 'green', 'Successfully saved', '');
                     $this->session->set_flashdata(array('usermessage' => $data['usermessage']));
-                    redirect(site_url('user/profile/'.$id));
+                    redirect(site_url('user/profile/' . $id));
                 }
             }
         }
@@ -161,8 +149,8 @@ class User extends MY_Controller {
         $json['users'] = $this->load->view('user/userlist', $data, true);
         echo json_encode($json);
     }
-    
-    public function deactive(){
+
+    public function deactive() {
         $id = $this->input->post('id');
         $this->user->deactive($id);
     }

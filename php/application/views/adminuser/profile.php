@@ -1,33 +1,35 @@
 <?php if (!empty($userdata->id)) { ?>
     <script>
-        $(document).ready(function(){              
-            $('#deactivate-btn').live('click',function(){
-                if (!confirm('Confirm request to de-activate user?')) return false;
+        $(document).ready(function() {
+            $('#deactivate-btn').live('click', function() {
+                if (!confirm('Confirm request to de-activate user?'))
+                    return false;
                 var id = $(this).attr('rel');
                 var e = $(this);
-                $.ajax({  
-                    type:"post",
-                    data:{id:"<?php echo$userdata->id ?>"},
-                    url:"<?php echo site_url('user/deactive') ?>",
-                    success: function(data){
+                $.ajax({
+                    type: "post",
+                    data: {id: "<?php echo$userdata->id ?>"},
+                    url: "<?php echo site_url('user/deactive') ?>",
+                    success: function(data) {
                         //window.location = "<?php echo site_url('user/manage') ?>"
                         showmessage('info', 'User de-activated', 'The user has now been de-activated')
-                    } 
-                }); 
+                    }
+                });
             });
-            $('#reactivate-btn').live('click',function(){
-                if (!confirm('Confirm request to re-activate user?')) return false;
+            $('#reactivate-btn').live('click', function() {
+                if (!confirm('Confirm request to re-activate user?'))
+                    return false;
                 var id = $(this).attr('rel');
                 var e = $(this);
-                $.ajax({  
-                    type:"post",
-                    data:{id:"<?php echo$userdata->id ?>"},
-                    url:"<?php echo site_url('user/active') ?>",
-                    success: function(data){
+                $.ajax({
+                    type: "post",
+                    data: {id: "<?php echo$userdata->id ?>"},
+                    url: "<?php echo site_url('user/active') ?>",
+                    success: function(data) {
                         //window.location = "<?php echo site_url('user/manage') ?>"
                         showmessage('info', 'User re-activated', 'The user has now been re-activated')
-                    } 
-                }); 
+                    }
+                });
             });
         })
     </script>
@@ -40,7 +42,7 @@
                 <span><?php echo!empty($userdata->fullname) ? $userdata->fullname : '' ?> ( <?php echo!empty($userdata->usertype) ? $userdata->usertype : '' ?> )</span>
             <?php } else { ?>
                 <h1>Add User</h1>
-            <?php } ?>
+<?php } ?>
         </div>
         <div class="content-actions">
             <input type="submit" value="Save" class="button" name="save-btn" id="save-btn">
@@ -50,7 +52,8 @@
                     <input type="button" value="De-activate" class="button" name="deactivate-btn" id="deactivate-btn">
                 <?php } else { ?>
                     <input type="button" value="Re-activate" class="button" name="reactivate-btn" id="reactivate-btn">
-                <?php }
+                <?php
+                }
             }
             ?>
         </div>
@@ -70,13 +73,6 @@
                     <input type="text" style="width:240px" class="mandatory" value="<?php echo!empty($userdata->fullname) ? $userdata->fullname : '' ?>" name="fullname" id="fullname"><img class="mandatory" src="<?php echo base_url() ?>/img/sev/required.jpg" title="This is a required value">
                 </td>
             </tr>
-
-            <tr>
-                <td>sign-in</td>
-                <td>
-                    <input type="text" style="width:240px" class="mandatory" value="<?php echo!empty($userdata->username) ? $userdata->username : '' ?>" name="username" id="username"><img class="mandatory" src="<?php echo base_url() ?>/img/sev/required.jpg" title="This is a required value">
-                </td>
-            </tr>               
             <tr>
                 <td>Password</td>
                 <td>
@@ -103,9 +99,9 @@
                 <td>User type</td>
                 <td>
                     <select onchange="" style="width:160px" id="usertype" name="usertype">
-                        <?php foreach ($usertype as $key => $val) { ?>
+<?php foreach ($usertype as $key => $val) { ?>
                             <option value="<?php echo $key ?>" <?php echo(!empty($userdata->usertype) && ($key == $userdata->usertype)) ? 'selected' : '' ?>><?php echo $val ?></option>
-                        <?php } ?>
+<?php } ?>
                     </select>
 
                 </td>
@@ -121,7 +117,7 @@
                 <td>birthday</td>
                 <td>
                     <input type="text" style="width:240px" class="mandatory" value="<?php echo!empty($userdata->birthday) ? $userdata->birthday : '' ?>" name="birthday" id="birthday">
-                    <script>$("#birthday").datepicker({ dateFormat: "yy-mm-dd" });</script>
+                    <script>$("#birthday").datepicker({dateFormat: "yy-mm-dd"});</script>
                 </td>
             </tr>
             <tr>
@@ -130,7 +126,7 @@
                     <input type="text" style="width:180px" value="<?php echo!empty($userdata->phone) ? $userdata->phone : '' ?>" name="phone" id="phone" >
                 </td>
             </tr>
-           
+
             <tr>
                 <td>fax</td>
                 <td>

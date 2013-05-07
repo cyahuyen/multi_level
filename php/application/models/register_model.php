@@ -9,27 +9,17 @@ class Register_model extends CI_Model {
         parent::__construct();
     }
 
-    function get_auto($username) {
+    function get_auto($email) {
         $this->db->select('*');
-        $this->db->like('username', $username);
+        $this->db->like('email', $email);
         $query = $this->db->get('user');
         if ($query->num_rows > 0) {
             foreach ($query->result_array() as $row) {
-                $new_row['label'] = htmlentities(stripslashes($row['username']));
+                $new_row['label'] = htmlentities(stripslashes($row['email']));
                 $new_row['value'] = htmlentities(stripslashes($row['user_id']));
                 $row_set[] = $new_row;
             }
             echo json_encode($row_set);
-        }
-    }
-
-    function checkUser($username) {
-        $r = $this->db->get_where($this->tbl, array('username' => $username))->result();
-
-        if ($r) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -45,7 +35,7 @@ class Register_model extends CI_Model {
     function save($data) {
 
         $password = md5($data['password']);
-        $this->db->query("INSERT INTO " . $this->tbl . " SET fullname = '" . $data['fullname'] . "',username = '" . $data['username'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',fax = '" . $data['fax'] . "',birthday = '" . $data['birthday'] . "',referring = '" . $data['referring']. "',usertype = '" . $data['usertype'] . "', created_on = NOW()");
+        $this->db->query("INSERT INTO " . $this->tbl . " SET fullname = '" . $data['fullname'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',fax = '" . $data['fax'] . "',birthday = '" . $data['birthday'] . "',referring = '" . $data['referring'] . "',usertype = '" . $data['usertype'] . "', created_on = NOW()");
         return $this->db->insert_id();
     }
 
@@ -65,8 +55,8 @@ class Register_model extends CI_Model {
         }
     }
 
-    function getEmailbyUser($username) {
-        $data = $this->db->get_where($this->tbl, array('username' => $username))->result();
+    function getEmailbyUser($id) {
+        $data = $this->db->get_where($this->tbl, array('id' => $id))->result();
         if ($data) {
             return $data[0]->email;
         }

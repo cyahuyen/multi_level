@@ -21,7 +21,6 @@
                         <tr class="heading">
                             <td style="width:35px"><div>Id</div></td>
                             <td style="width:120px"><div>Full Name</div></td>
-                            <td style="width:120px"><div>UserName</div></td>
                             <td style="width:60px"><div>Birthday</div></td>
                             <td style="width:80px"><div>Email</div></td>
                             <td style="width:50px"><div>Phone</div></td>
@@ -32,7 +31,6 @@
                                 <tr class="row">
                                     <td><div><?php echo $refered->user_id; ?></div></td>
                                     <td><div><?php echo $refered->fullname; ?></div></td>
-                                    <td><div><?php echo $refered->username; ?></div></td>
                                     <td><div><?php echo $refered->birthday; ?></div></td>
                                     <td><div><?php echo $refered->email; ?></div></td>
                                     <td><div><?php echo $refered->phone; ?></div></td>

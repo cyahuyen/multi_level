@@ -17,13 +17,6 @@
             </td>
         </tr>
         <tr>
-            <td><div>UserName: </div></td>
-            <td>
-                <input type="text" name="username" class="mandatory" id="username" value="<?php echo set_value('username', $username); ?>" style="width:300px">
-                <span class="fr-error"><?php echo form_error('username'); ?></span>
-            </td>
-        </tr>
-        <tr>
             <td><div>Password: </div></td>
             <td>
                 <input name="password" type="password" class="mandatory" id="password" style="width:300px" value="" />
@@ -136,48 +129,28 @@
             source: "<?php echo site_url('register/get_suggest') ?>"
         });
     });
-    
-    function checkemailExists(email){
-         
-    }
-    
-    function checkUserExists(user){
-        $.ajax({  
-            url:"<?php echo site_url('register/checkUser') ?>/"+user,
-            success: function(data){
-                if(data == 'true')
-                    return true;
-                return false;
-            } 
-        }); 
-    }
-    
-    function totalfees(){
+    function totalfees() {
         var entry_amount = $('#entry_amount').val();
-        if(!isNaN(entry_amount) && entry_amount > 0){
-            if(entry_amount.length == 0)
+        if (!isNaN(entry_amount) && entry_amount > 0) {
+            if (entry_amount.length == 0)
                 entry_amount = 0
             total_fees = parseInt(open_fee) + parseInt(entry_amount);
-            $('#total_fees').text('$'+total_fees);
-        }   
+            $('#total_fees').text('$' + total_fees);
+        }
     }
-    
-    $(document).ready(function(){
+
+    $(document).ready(function() {
         totalfees()
     })
-    $('#entry_amount').keyup(function(){
+    $('#entry_amount').keyup(function() {
         totalfees()
     });
-    
-    
-    
-    $('#save-btn').live('click',function(){
+    $('#save-btn').live('click', function() {
         var open_fee = '<?php echo $transaction_fees['open_fee']; ?>';
         var min_enrolment_entry_amount = '<?php echo $transaction_fees['min_enrolment_entry_amount']; ?>';
         var max_enrolment_entry_amount = '<?php echo $transaction_fees['max_enrolment_entry_amount']; ?>';
         e = $(this);
         var fullname = $('#fullname').val();
-        var username = $('#username').val();
         var password = $('#password').val();
         var repassword = $('#repass').val();
         var email = $('#email').val();
@@ -188,137 +161,100 @@
         var fax = $('#fax').val();
         var birthday = $('#birthday').val();
         var referring = $('#referring').val();
-        
-        
-        $('#custom').val('fullname='+fullname+'|username='+username+'|password='+password+'|email='+email+'|entry_amount='+entry_amount+'|address='+address+'|phone='+phone+'|fax='+fax+'|birthday='+birthday+'|referring='+referring+'|entry_amount='+entry_amount)
-        
-        
-        if(!isNaN(entry_amount) && entry_amount > 0){
-            if(entry_amount.length == 0)
+        $('#custom').val('fullname=' + fullname + '|password=' + password + '|email=' + email + '|entry_amount=' + entry_amount + '|address=' + address + '|phone=' + phone + '|fax=' + fax + '|birthday=' + birthday + '|referring=' + referring + '|entry_amount=' + entry_amount)
+        if (!isNaN(entry_amount) && entry_amount > 0) {
+            if (entry_amount.length == 0)
                 entry_amount = 0
             var total_fees = parseInt(open_fee) + parseInt(entry_amount);
             $('#amount').val(total_fees);
-        }else{
+        } else {
             $('#amount').val(open_fee);
-        }   
-        
+        }
         var flag = true;
         removeCompMsgs();
-        if(fullname.length == 0){
+        if (fullname.length == 0) {
             $('#msgContainer').append('<input type="hidden" id="cmsgfullname" value="Full name is not null"/>');
             flag = false;
         }
-        
-        if(username.length < 6){
-            $('#msgContainer').append('<input type="hidden" id="cmsgusername" value="Username greater than 6 character"/>');
-            flag = false;
-        }
-        
-        if(password.length < 6){
+        if (password.length < 6) {
             $('#msgContainer').append('<input type="hidden" id="cmsgpassword" value="password greater than 6 character"/>');
             flag = false;
         }
-        
-        
-        if(password !=  repassword){
+        if (password != repassword) {
             $('#msgContainer').append('<input type="hidden" id="cmsgrepass" value="Repassword wrong"/>');
             flag = false;
         }
-        
-        if(validateEmail(email)){
+        if (!validateEmail(email)) {
             $('#msgContainer').append('<input type="hidden" id="cmsgemail" value="Email wrong"/>');
             flag = false;
         }
-        if(isNaN(entry_amount) || (entry_amount % 100 != 0) || ((entry_amount != '') && entry_amount < min_enrolment_entry_amount) || ((entry_amount != '') && entry_amount > max_enrolment_entry_amount)){
-            $('#msgContainer').append('<input type="hidden" id="cmsgentry_amount" value="Enrolment Entry Amount is numberic , divisible to 100, greater than '+ min_enrolment_entry_amount +' and litter than '+ max_enrolment_entry_amount +'"/>');
+        if (isNaN(entry_amount) || (entry_amount % 100 != 0) || ((entry_amount != '') && entry_amount < min_enrolment_entry_amount) || ((entry_amount != '') && entry_amount > max_enrolment_entry_amount)) {
+            $('#msgContainer').append('<input type="hidden" id="cmsgentry_amount" value="Enrolment Entry Amount is numberic , divisible to 100, greater than ' + min_enrolment_entry_amount + ' and litter than ' + max_enrolment_entry_amount + '"/>');
             flag = false;
         }
-        
-        if (typeof(payment) == "undefined"){
+        if (typeof(payment) == "undefined") {
             $('#msgContainer').append('<input type="hidden" id="cmsgpayment" value="Payment method not null"/>');
             flag = false;
         }
-        
-        if(flag == false){
+
+        if (flag == false) {
             showmessage('error', 'Validation errors found', 'Please see below');
             showCompMsgs();
             return false;
-        } else{
-            
-            $.ajax({  
-                data:'user='+username,
-                url:"<?php echo site_url('register/checkUser') ?>",
-                success: function(data){
-                    if(data == 'true'){
-                        $.ajax({  
-                            data:'email='+email,
-                            url:"<?php echo site_url('register/checkEmail') ?>",
-                            success: function(data){
-                                if(data == 'true'){
-                                    $('#sign-up-form').submit();
-                                }
-                                    
-                                else{
-                                    $('#msgContainer').append('<input type="hidden" id="cmsgemail" value="Email is already registered in our system. Please use a different one."/>');
-                                    showmessage('error', 'Validation errors found', 'Please see below');
-                                    showCompMsgs();
-                                }
-                                
-                            } 
-                        });
-                    }else{
-                        $('#msgContainer').append('<input type="hidden" id="cmsgusername" value="Username is already registered in our system. Please use a different one."/>');
+        } else {
+            $.ajax({
+                data: 'email=' + email,
+                url: "<?php echo site_url('register/checkEmail') ?>",
+                success: function(data) {
+                    if (data == 'true') {
+                        $('#sign-up-form').submit();
+                    }
+                    else {
+                        $('#msgContainer').append('<input type="hidden" id="cmsgemail" value="Email is already registered in our system. Please use a different one."/>');
                         showmessage('error', 'Validation errors found', 'Please see below');
                         showCompMsgs();
                     }
-                    
-                } 
+
+                }
             });
-            return false;    
-            
-        }
-        
-        
-    })
-    
-    function validateEmail(x){
-        var atpos=x.indexOf("@");
-        var dotpos=x.lastIndexOf(".");
-        if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length)
-        {
             return false;
+        }
+    })
+
+    function validateEmail(x) {
+        var email = document.getElementById('email');
+        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if (filter.test(email.value)) {
+            return true;
         }
     }
 </script>
 
 <script >
-    $(document).ready(function(){
+    $(document).ready(function() {
         getAmount();
-        $('#payment').change(function(){
-            
-            getAmount()    
-            
+        $('#payment').change(function() {
+            getAmount()
         });
-        $('#entry_amount').keyup(function(){
-            getAmount()    
+        $('#entry_amount').keyup(function() {
+            getAmount()
         })
     })
-    
-    function getAmount(){
+
+    function getAmount() {
         var payment = $('#payment:checked').val();
-                
-        if(payment == 'paypal'){
-            $('form').attr('action','https://www.<?php echo ($config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
+        if (payment == 'paypal') {
+            $('form').attr('action', 'https://www.<?php echo ($config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
         }
         var open_fee = <?php echo $transaction_fees['open_fee'] ?>;
         var entry_amount = $('#entry_amount').val();
-        if(!isNaN(entry_amount) && entry_amount > 0){
-            if(entry_amount.length == 0)
+        if (!isNaN(entry_amount) && entry_amount > 0) {
+            if (entry_amount.length == 0)
                 entry_amount = 0
             var total_fees = parseInt(open_fee) + parseInt(entry_amount);
             $('#amount').val(total_fees);
-        }else{
+        } else {
             $('#amount').val(open_fee);
-        }   
+        }
     }
 </script>

@@ -117,18 +117,8 @@ class Adminuser extends MY_Controller {
             if ($posts['fullname'] == '') {
                 $validationErrors['fullname'] = "Your name is Fullname cannot be blank";
             }
-            if ($posts['username'] == '') {
-                $validationErrors['username'] = "Username cannot be blank";
-            }
             if ($posts['email'] == '') {
                 $validationErrors['email'] = "Email cannot be blank";
-            }
-
-            //check username exists
-            $userExists = $this->user->usernameAvailable($posts['username'], $id);
-
-            if (!$userExists) {
-                $validationErrors['username'] = "Username is exists";
             }
 
             if (!empty($id) && !empty($posts['password'])) {
@@ -175,7 +165,7 @@ class Adminuser extends MY_Controller {
                 } else {
                     if (empty($posts['password'])) {
                         unset($posts['password']);
-                    }else{
+                    } else {
                         $posts['password'] = md5($posts['password']);
                     }
                     if ($this->user->update($posts, $id))
