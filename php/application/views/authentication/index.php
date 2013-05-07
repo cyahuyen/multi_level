@@ -1,5 +1,10 @@
 <?php echo form_open('authentication'); ?>
 <table class="datatable">
+    <thead>
+        <tr>
+            <td colspan="2"><h1>Login</h1></td>
+        </tr>
+    </thead>
     <tr>
         <td><div>Sign-in Email: </div></td>
         <td>
