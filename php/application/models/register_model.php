@@ -73,18 +73,17 @@ class Register_model extends CI_Model {
             return false;
     }
 
-    function getUsers($data = array()) {
-        $sql = 'SELECT * FROM ' . $this->tbl;
-
-        $sql .= " WHERE 1=1";
-
-        if (!empty($data['filter_name'])) {
-            $sql .= " AND username LIKE '" . $this->db->escape($data['filter_name']) . "%'";
-        }
-        $data = $this->db->query($sql)->result();
-
-        return $data;
-    }
-
+//    function getUsers($data = array()) {
+//        $sql = 'SELECT * FROM ' . $this->tbl;
+//
+//        $sql .= " WHERE 1=1";
+//
+//        if (!empty($data['filter_name'])) {
+//            $sql .= " AND username LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+//        }
+//        $data = $this->db->query($sql)->result();
+//
+//        return $data;
+//    }
 }
 
