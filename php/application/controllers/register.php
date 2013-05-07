@@ -294,7 +294,7 @@ class Register extends CI_Controller {
                 $new_pass = $this->input->post('password', TRUE);
                 $password = md5($new_pass);
                 $update_data = array('password' => $password);
-                $this->register_model->update($id, $update_data);
+                $this->register_model->update($update_data, $id);
                 $data['main_content'] = 'register/reset_pass_step4.php';
                 $this->load->view('home', $data);
             }
