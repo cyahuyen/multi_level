@@ -18,20 +18,6 @@ class User_model extends CI_Model {
         return $query->result();
     }
 
-    function resetPassword($name) {
-        $this->load->database();
-        $username = strtolower(trim($name));
-        $sql = "select * from user where username = '$username'";
-        $query = $this->db->query($sql);
-        if ($query->num_rows() > 0) {
-            $data = array('password' => md5(time()));
-            $this->db->update('user', $data, array('username' => $username));
-            return time();
-        } else {
-            return 'error';
-        }
-    }
-
     public function loadUser($id) {
         $this->load->database();
         $sql = "select * from user where user_id = $id";

@@ -1,7 +1,7 @@
 <?php echo form_open('authentication'); ?>
 <table class="datatable">
     <tr>
-        <td><div>Sign-in Name: </div></td>
+        <td><div>Sign-in Email: </div></td>
         <td>
             <input type="text" id="email" name="email" value="" style="width:200px"/>
         </td>

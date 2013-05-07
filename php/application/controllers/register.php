@@ -35,8 +35,6 @@ class Register extends CI_Controller {
     public function index() {
         $this->data['title'] = 'Sign Up';
         $posts = $this->input->post();
-
-
         $this->load->model('config_model', 'configs');
         $dataConfig['return'] = site_url('register/paypal_return');
         $dataConfig['cancel_return'] = site_url('register/cancel_return');
@@ -50,8 +48,6 @@ class Register extends CI_Controller {
             $dataConfig['config'] = $config;
             $this->data['payments'][$code] = $this->load->view('payment/' . $code, $dataConfig, true);
         }
-
-
         $session = $this->session->flashdata('message');
         if (isset($session)) {
             $this->data['success'] = $session;
@@ -104,8 +100,6 @@ class Register extends CI_Controller {
         } else {
             $this->data['entry_amount'] = '';
         }
-
-
         $this->data['menu_config'] = $this->menu_config_user_home;
         $this->data['main_content'] = 'register/register.php';
 
