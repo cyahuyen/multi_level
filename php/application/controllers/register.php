@@ -153,6 +153,13 @@ class Register extends CI_Controller {
 //                $postsData['transaction_start'] = 2;
             else
                 $postsData['usertype'] = 0;
+            
+            if (!empty($postsData['referring'])) {
+                $userReferring = $this->user->getUserById($postsData['referring']);
+                if (!$userReferring) {
+                    unset($postsData['referring']);
+                }
+            }
 
             $user_id = $this->register_model->save($postsData);
 
