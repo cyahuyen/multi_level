@@ -7,20 +7,26 @@
     </thead>
     <tbody>
         <tr>
-            <td><div>Max Transaction Fees: </div></td>
+            <td><div>Max Transaction Amount: </div></td>
             <td>
                 <span class="currency">$<?php echo $max_entry_amount; ?></span>
             </td>
         </tr>
         <tr>
-            <td><div>Deposite Fees: </div></td>
+            <td><div>Deposite Amount: </div></td>
             <td>
                 <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="" />
             </td>
         </tr>
 
         <tr>
-            <td><div>Total Fees: </div></td>
+            <td><div>Fees: </div></td>
+            <td>
+                <span class="currency" id="fees">$<?php echo $transaction_fees['transaction_fee'] ?></span>
+            </td>
+        </tr>
+        <tr>
+            <td><div>Total Amount: </div></td>
             <td>
                 <span class="currency" id="total_fees">$0</span>
             </td>
@@ -56,6 +62,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('#save-btn').live('click',function(){
+            var transaction_fee = '<?php echo $transaction_fees['transaction_fee'] ?>'
             var flag;
             var entry_amount = $('#entry_amount').val();
             var min_enrolment_entry_amount = '<?php echo $transaction_fees['min_enrolment_entry_amount']; ?>';
@@ -86,15 +93,17 @@
           
     })
     function totalfees(){
+        var transaction_fee = '<?php echo $transaction_fees['transaction_fee'] ?>'
         var min_enrolment_entry_amount = '<?php echo $transaction_fees['min_enrolment_entry_amount']; ?>';
         var max_enrolment_entry_amount = '<?php echo $max_entry_amount; ?>';
         var entry_amount = $('#entry_amount').val();
         if(!isNaN(entry_amount) && (entry_amount % 100 == 0)  && entry_amount >= min_enrolment_entry_amount  && entry_amount <= max_enrolment_entry_amount){
             if(entry_amount.length == 0)
                 entry_amount = 0
-            $('#total_fees').text('$'+entry_amount);
+            var total_fees = parseInt(entry_amount) + parseInt(transaction_fee);
+            $('#total_fees').text('$'+total_fees);
         }else{
-            $('#total_fees').text('$'+0);
+            $('#total_fees').text('$'+transaction_fee);
         }   
     }
 </script>
@@ -114,7 +123,7 @@
     
     function getAmount(){
         var payment = $('#payment:checked').val();
-                
+         var transaction_fee = '<?php echo $transaction_fees['transaction_fee'] ?>'    
         if(payment == 'paypal'){
             $('form').attr('action','https://www.<?php echo ($config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
         }
@@ -122,10 +131,10 @@
         if(!isNaN(entry_amount) && entry_amount > 0){
             if(entry_amount.length == 0)
                 entry_amount = 0
-            var total_fees = parseInt(entry_amount);
+            var total_fees = parseInt(entry_amount) + parseInt(transaction_fee);
             $('#amount').val(total_fees);
         }else{
-            $('#amount').val(0);
+            $('#amount').val(transaction_fee);
         }   
     }
 </script>

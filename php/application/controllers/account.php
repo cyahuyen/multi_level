@@ -397,13 +397,15 @@ class Account extends CI_Controller {
         } else {
             $posts = $this->input->post();
             $dataTransaction['user_id'] = $id;
-            $dataTransaction['open_fees'] = 0;
+            $dataTransaction['open_fees'] = $transaction_fees['transaction_fee'];
             $dataTransaction['total_fees'] = $posts['mc_gross'];
             $dataTransaction['transaction_id'] = $posts['txn_id'];
             $dataTransaction['payment_status'] = $posts['payment_status'];
             $dataTransaction['transaction_source'] = 'paypal';
+            
+            $current_fees = $posts['mc_gross'] - $transaction_fees['transaction_fee'];
             $this->transaction->insert($dataTransaction);
-            $this->balance->updateBalance($id, $posts['mc_gross']);
+            $this->balance->updateBalance($id, $current_fees);
             if (empty($transactions)) {
                 $this->user->updateTransaction($id);
             }
