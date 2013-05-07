@@ -6,6 +6,7 @@
     <?php if ($this->session->userdata('user')) { ?>
         <div class="mainmenu">
             <ul class="sf-menu">
+                <li class="<?php echo $menu_config[0] ?>"><?php echo anchor('home', 'Home'); ?></li>
                 <li><a href="<?php echo site_url('account/index') ?>">My Profile</a></li>
                 <li><a href="<?php echo site_url('account/history') ?>">History</a></li>
                 <li><a href="<?php echo site_url('account/transaction') ?>">Deposite</a></li>

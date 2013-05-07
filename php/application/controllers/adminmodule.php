@@ -43,7 +43,18 @@ class Adminmodule extends MY_Controller {
 
     public function payment() {
         $this->data['title'] = 'Manager Config';
-        
+        $this->data['breadcrumbs'] = array();
+
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Home',
+            'href' => site_url('account'),
+            'separator' => false
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Manager Config',
+            'href' => site_url('adminmodule/payment'),
+            'separator' => ' :: '
+        );
         $this->data['list_payment'] = $this->configs->listPayment();
 
         $this->data['main_content'] = 'adminmodule/payment';
@@ -53,6 +64,18 @@ class Adminmodule extends MY_Controller {
     public function paypal() {
 
         $this->data['title'] = 'Config Paypal';
+        $this->data['breadcrumbs'] = array();
+
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Home',
+            'href' => site_url('account'),
+            'separator' => false
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Config Paypal',
+            'href' => site_url('adminmodule/paypal'),
+            'separator' => ' :: '
+        );
         $this->data['data_configs'] = $this->configs->getConfigs('paypal');
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {

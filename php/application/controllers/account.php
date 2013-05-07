@@ -5,7 +5,6 @@ if (!defined('BASEPATH'))
 
 class Account extends CI_Controller {
 
-    var $menu_config_user_none = array('', '', '', '', '', '');
     var $menu_config_user_home = array('active', '', '', '', '', '');
     var $menu_config_user_user = array('', 'active', '', '', '', '');
     var $menu_config_user_jobs = array('', '', 'active', '', '', '');
@@ -40,7 +39,19 @@ class Account extends CI_Controller {
     }
 
     public function index() {
-        $this->data['title'] = 'Sign Up';
+        $this->data['title'] = 'My Profile';
+        $this->data['breadcrumbs'] = array();
+
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Home',
+            'href' => site_url('account'),
+            'separator' => false
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'My Account',
+            'href' => site_url('account/index'),
+            'separator' => ' :: '
+        );
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
         $infors = $this->user_model->getAccount($id);
@@ -51,7 +62,7 @@ class Account extends CI_Controller {
             if ($infors->usertype == 2) {
                 $this->data['usertype'] = "Gold";
             } elseif ($infors->usertype == 1) {
-                $this->data['usertype'] = "Sliver";
+                $this->data['usertype'] = "Silver";
             } else {
                 $this->data['usertype'] = "Member";
             }
@@ -317,6 +328,18 @@ class Account extends CI_Controller {
 
     public function transaction() {
         $this->data['title'] = 'Deposite Amount';
+        $this->data['breadcrumbs'] = array();
+
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Home',
+            'href' => site_url('account'),
+            'separator' => false
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Deposite Amount',
+            'href' => site_url('account/transaction'),
+            'separator' => ' :: '
+        );
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
         $this->load->model('user_model', 'user');
@@ -402,7 +425,7 @@ class Account extends CI_Controller {
             $dataTransaction['transaction_id'] = $posts['txn_id'];
             $dataTransaction['payment_status'] = $posts['payment_status'];
             $dataTransaction['transaction_source'] = 'paypal';
-            
+
             $current_fees = $posts['mc_gross'] - $transaction_fees['transaction_fee'];
             $this->transaction->insert($dataTransaction);
             $this->balance->updateBalance($id, $current_fees);

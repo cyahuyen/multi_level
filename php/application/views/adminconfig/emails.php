@@ -1,3 +1,9 @@
+<div class="breadcrumb">
+    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+        <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
+    <?php } ?>
+    <div style="clear:both;"></div>
+</div>
 <form action="" method="post">
     <div class="content-header">
         <div class="content-title">
@@ -68,7 +74,7 @@
                     <input type="text" id="email_admin" name="email_admin" value="<?php echo!empty($data_configs['email_admin']) ? $data_configs['email_admin'] : '' ?>" class="" style="width:240px">
                 </td>
             </tr>
-            
+
             <tr>
                 <td></td>
                 <td><div class="">

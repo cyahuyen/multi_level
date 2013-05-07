@@ -18,7 +18,7 @@
                         if ($user->usertype == 2) {
                             echo 'Gold';
                         } elseif ($user->usertype == 2) {
-                            echo 'Sliver';
+                            echo 'Silver';
                         } else {
                             echo 'Member';
                         }
