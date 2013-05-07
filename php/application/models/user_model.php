@@ -13,7 +13,7 @@ class User_model extends CI_Model {
         $this->load->database();
         $email = strtolower(trim($name));
         $password = md5($password);
-        $sql = "select * from user where email = '$email' and password = '$password'";
+        $sql = "select * from user where email = '$email' and password = '$password' and status = 1";
         $query = $this->db->query($sql);
         return $query->result();
     }
