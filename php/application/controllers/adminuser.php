@@ -45,16 +45,12 @@ class Adminuser extends MY_Controller {
     }
 
     public function userlist($status = null) {
-
         $posts = $this->input->post();
-
         $this->config->load('cya_config', TRUE);
-
         $this->session->set_userdata(array('userlist' => $posts));
         if ($posts['status'] != 'all')
             $dataWhere['status'] = $posts['status'];
         $dataWhere['searchby'] = $posts['searchby'];
-
         $limit = $this->config->item('per_page', 'cya_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         if (!empty($posts['asc'])) {
@@ -62,7 +58,6 @@ class Adminuser extends MY_Controller {
         } else {
             $sort[$posts['sort']] = 'DESC';
         }
-
 //       Begin pagination
         $this->load->library("pagination");
         $config = array();
@@ -108,8 +103,6 @@ class Adminuser extends MY_Controller {
         if ($msg) {
             $this->data['usermessage'] = $msg;
         }
-
-
         $this->data['posts'] = array();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $posts = $this->input->post();
@@ -120,7 +113,6 @@ class Adminuser extends MY_Controller {
             if ($posts['email'] == '') {
                 $validationErrors['email'] = "Email cannot be blank";
             }
-
             if (!empty($id) && !empty($posts['password'])) {
                 if (strlen($posts['password']) < 6) {
                     $validationErrors['password'] = "Password must greater than 6 characters";
@@ -130,7 +122,6 @@ class Adminuser extends MY_Controller {
                     $validationErrors['repassword'] = "Password wrong";
                 }
             }
-
             if (empty($id)) {
                 if (strlen($posts['password']) < 6) {
                     $validationErrors['password'] = "Password must greater than 6 characters";
@@ -143,8 +134,6 @@ class Adminuser extends MY_Controller {
             foreach ($posts as $key => $val) {
                 $this->data['userdata']->$key = $val;
             }
-
-
             if (count($validationErrors) != 0) {
                 $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
                 $this->data['fielderrors'] = $validationErrors;
@@ -168,7 +157,7 @@ class Adminuser extends MY_Controller {
                     } else {
                         $posts['password'] = md5($posts['password']);
                     }
-                    if ($this->user->update($posts, $id))
+                    if ($this->user->update($id, $posts))
                         $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
                     else
                         $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');

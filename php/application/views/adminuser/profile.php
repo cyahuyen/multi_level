@@ -42,7 +42,7 @@
                 <span><?php echo!empty($userdata->fullname) ? $userdata->fullname : '' ?> ( <?php echo!empty($userdata->usertype) ? $userdata->usertype : '' ?> )</span>
             <?php } else { ?>
                 <h1>Add User</h1>
-<?php } ?>
+            <?php } ?>
         </div>
         <div class="content-actions">
             <input type="submit" value="Save" class="button" name="save-btn" id="save-btn">
@@ -52,7 +52,7 @@
                     <input type="button" value="De-activate" class="button" name="deactivate-btn" id="deactivate-btn">
                 <?php } else { ?>
                     <input type="button" value="Re-activate" class="button" name="reactivate-btn" id="reactivate-btn">
-                <?php
+                    <?php
                 }
             }
             ?>
@@ -62,9 +62,9 @@
     <table class="datatable">
         <tbody>
             <tr>
-                <td>status</td>
+                <td>Status</td>
                 <td>
-<?php echo (isset($userdata->status) && $userdata->status == '0') ? 'Deactive' : 'Active'; ?>            
+                    <?php echo (isset($userdata->status) && $userdata->status == '0') ? 'Deactive' : 'Active'; ?>            
                 </td>
             </tr>
             <tr>
@@ -80,7 +80,7 @@
                 </td>
             </tr>               
             <tr>
-                <td>Repassword</td>
+                <td>Re-Password</td>
                 <td>
                     <input type="password" style="width:240px" class="mandatory" value="" name="repassword" id="repassword"><img class="mandatory" src="<?php echo base_url() ?>/img/sev/required.jpg" title="This is a required value">
                 </td>
@@ -99,36 +99,35 @@
                 <td>User type</td>
                 <td>
                     <select onchange="" style="width:160px" id="usertype" name="usertype">
-<?php foreach ($usertype as $key => $val) { ?>
+                        <?php foreach ($usertype as $key => $val) { ?>
                             <option value="<?php echo $key ?>" <?php echo(!empty($userdata->usertype) && ($key == $userdata->usertype)) ? 'selected' : '' ?>><?php echo $val ?></option>
-<?php } ?>
+                        <?php } ?>
                     </select>
 
                 </td>
             </tr>
 
             <tr>
-                <td>email</td>
+                <td>Email</td>
                 <td>
                     <input type="text" style="width:240px" class="mandatory" value="<?php echo!empty($userdata->email) ? $userdata->email : '' ?>" name="email" id="email"><img class="mandatory" src="<?php echo base_url() ?>/img/sev/required.jpg" title="This is a required value">
                 </td>
             </tr>
             <tr>
-                <td>birthday</td>
+                <td>Birthday</td>
                 <td>
                     <input type="text" style="width:240px" class="mandatory" value="<?php echo!empty($userdata->birthday) ? $userdata->birthday : '' ?>" name="birthday" id="birthday">
                     <script>$("#birthday").datepicker({dateFormat: "yy-mm-dd"});</script>
                 </td>
             </tr>
             <tr>
-                <td>phone</td>
+                <td>Phone</td>
                 <td>
                     <input type="text" style="width:180px" value="<?php echo!empty($userdata->phone) ? $userdata->phone : '' ?>" name="phone" id="phone" >
                 </td>
             </tr>
-
             <tr>
-                <td>fax</td>
+                <td>Fax</td>
                 <td>
                     <input type="text" style="width:180px" value="<?php echo!empty($userdata->fax) ? $userdata->fax : '' ?>" name="fax" id="fax" >
                 </td>
