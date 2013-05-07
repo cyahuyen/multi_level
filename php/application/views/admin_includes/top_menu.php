@@ -1,5 +1,4 @@
 <div class="top">
-
     <div class="topright">
         <div class="usermenu">
             <ul>

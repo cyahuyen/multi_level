@@ -98,7 +98,7 @@
         </div>
         <div class="content-actions">
             <div class="content-action">
-                <div class="clear"><a onclick="window.location='<?php echo site_url('/user/profile'); ?>'" href="javascript:void(0);"><img alt="Save Continue" src="<?php echo base_url(); ?>img/actions/add.png"></a></div>
+                <div class="clear"><a onclick="window.location='<?php echo site_url('/adminuser//profile'); ?>'" href="javascript:void(0);"><img alt="Save Continue" src="<?php echo base_url(); ?>img/actions/add.png"></a></div>
                 <div class="clear"><span>Add</span></div>
             </div>
         </div>
