@@ -55,6 +55,7 @@ class Account extends CI_Controller {
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
         $infors = $this->user_model->getAccount($id);
+        $this->data['inforcheck'] = $infors;
         $open_fees = $this->user_model->getSumOpen($id, $infors->transaction_start, $infors->transaction_finish);
         $total_fees = $this->user_model->getSumTotal($id, $infors->transaction_start, $infors->transaction_finish);
         $this->data['amout'] = $total_fees - $open_fees;
@@ -87,38 +88,54 @@ class Account extends CI_Controller {
             'href' => site_url('account/edit'),
             'separator' => ' :: '
         );
-
         $this->data['title'] = 'Edit Account';
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
-        $account = $this->user_model->getAccount($id);
-        $posts = $this->input->post();
-        if (!empty($account)) {
-            $this->data['fullname'] = $account->fullname;
-            $this->data['address'] = $account->address;
-            $this->data['phone'] = $account->phone;
-            $this->data['email'] = $account->email;
-            $this->data['fax'] = $account->fax;
-            $this->data['birthday'] = $account->birthday;
-        } else {
-            $this->data['fullname'] = $posts['fullname'];
-            $this->data['address'] = $posts['address'];
-            $this->data['phone'] = $posts['phone'];
-            $this->data['email'] = $posts['email'];
-            $this->data['fax'] = $posts['fax'];
-            $this->data['birthday'] = $posts['birthday'];
+        $this->data['userdata'] = $this->user_model->getAccount($id);
+        $msg = $this->session->flashdata('usermessage');
+        if ($msg) {
+            $this->data['usermessage'] = $msg;
         }
-        if (($this->input->server('REQUEST_METHOD') === 'POST') && $this->validateForm()) {
-            $data = array(
-                'fullname' => $posts['fullname'],
-                'address' => $posts['address'],
-                'phone' => $posts['phone'],
-                'email' => $posts['email'],
-                'fax' => $posts['fax'],
-                'birthday' => $posts['birthday']
-            );
-            $this->user_model->update($id, $data);
-            redirect('account');
+        $this->data['posts'] = array();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $posts = $this->input->post();
+            $validationErrors = array();
+            if ($posts['fullname'] == '') {
+                $validationErrors['fullname'] = "Your name is Fullname cannot be blank";
+            }
+            if ($posts['email'] != $posts['old_email']) {
+                if ($posts['email'] == '' || !($this->checkEmail($posts['email']))) {
+                    $validationErrors['email'] = "Email cannot be blank";
+                }
+            } else {
+                if ($posts['email'] == '') {
+                    $validationErrors['email'] = "Email cannot be blank";
+                }
+            }
+            $this->data['posts'] = $posts;
+            foreach ($posts as $key => $val) {
+                $this->data['userdata']->$key = $val;
+            }
+            if (count($validationErrors) != 0) {
+                $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
+                $this->data['fielderrors'] = $validationErrors;
+            } else {
+                unset($posts['save-btn']);
+                $data = array(
+                    'fullname' => $posts['fullname'],
+                    'address' => $posts['address'],
+                    'phone' => $posts['phone'],
+                    'email' => $posts['email'],
+                    'fax' => $posts['fax'],
+                    'birthday' => $posts['birthday']
+                );
+                if ($this->user_model->update($id, $data))
+                    $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
+                else
+                    $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');
+                $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
+                redirect(site_url('account/edit/' . $id));
+            }
         }
         $this->data['main_content'] = 'account/edit';
         $this->load->view('home', $this->data);
@@ -141,29 +158,58 @@ class Account extends CI_Controller {
         );
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
-        if ($this->input->post('cu_password')) {
-            $this->data['cu_password'] = $this->input->post('cu_password');
-        } else {
-            $this->data['cu_password'] = '';
+
+
+        $msg = $this->session->flashdata('usermessage');
+        if ($msg) {
+            $this->data['usermessage'] = $msg;
         }
-        if ($this->input->post('password')) {
-            $this->data['password'] = $this->input->post('password');
-        } else {
-            $this->data['password'] = '';
-        }
-        if ($this->input->post('repassword')) {
-            $this->data['repassword'] = $this->input->post('repassword');
-        } else {
-            $this->data['repassword'] = '';
-        }
-        $this->form_validation->set_rules('cu_password', 'Current Password', 'required|xss_clean|max_length[50]|callback_checkPassword');
-        $this->form_validation->set_rules('password', 'Password', 'required|xss_clean|max_length[50]|valid_repassword');
-        $this->form_validation->set_rules('repassword', 'Re-Password', 'required|trim|xss_clean|matches[password]');
-        if ($this->form_validation->run() == TRUE) {
-            $this->user_model->updatePassword($id, $this->input->post());
-            redirect('account');
-        } else {
-            $this->data['main_content'] = 'account/changepass';
+        $this->data['posts'] = array();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $posts = $this->input->post();
+            $validationErrors = array();
+            if (!$this->checkPassword($posts['cu_password'])) {
+                $validationErrors['cu_password'] = "Current Pass cannot be blank";
+            }
+            if (!empty($posts['password'])) {
+                if (strlen($posts['password']) < 6) {
+                    $validationErrors['password'] = "Password must greater than 6 characters";
+                }
+                if ($posts['password'] != $posts['repassword']) {
+                    $validationErrors['repassword'] = "Password wrong";
+                }
+            } else {
+                if (strlen($posts['password']) < 6) {
+                    $validationErrors['password'] = "Password must greater than 6 characters";
+                } elseif ($posts['password'] != $posts['repassword']) {
+                    $validationErrors['repassword'] = "Password wrong";
+                }
+            }
+            $this->data['posts'] = $posts;
+            foreach ($posts as $key => $val) {
+                $this->data['userdata']->$key = $val;
+            }
+            if (count($validationErrors) != 0) {
+                $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
+                $this->data['fielderrors'] = $validationErrors;
+            } else {
+                unset($posts['cu_password']);
+                unset($posts['save-btn']);
+                if (empty($posts['password'])) {
+                    unset($posts['password']);
+                } else {
+                    $posts['password'] = $posts['password'];
+                }
+                $data = array(
+                    'password' => $posts['password']
+                );
+                if ($this->user_model->updatePassword($id, $data))
+                    $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
+                else
+                    $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');
+                $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
+                redirect(site_url('account/changepass/' . $id));
+            }
         }
         $this->data['main_content'] = 'account/changepass';
         $this->load->view('home', $this->data);
@@ -280,27 +326,8 @@ class Account extends CI_Controller {
         $this->load->view('home', $this->data);
     }
 
-    function validateForm() {
-        if ($this->input->post('email') != $this->input->post('old_email')) {
-            $this->form_validation->set_rules('email', 'Email', 'required|xss_clean|valid_email|max_length[64]|callback_checkEmail');
-        } else {
-            $this->form_validation->set_rules('email', 'Email', 'required|xss_clean|valid_email|max_length[64]');
-        }
-        $this->form_validation->set_rules('fullname', 'Full Name', 'required|trim|xss_clean|max_length[150]');
-        $this->form_validation->set_rules('address', 'Address', 'required|trim|xss_clean|max_length[150]');
-        $this->form_validation->set_rules('phone', 'Phone', 'required|trim|xss_clean|numeric|max_length[12]');
-        $this->form_validation->set_rules('fax', 'Fax', 'required|trim|xss_clean|numeric|max_length[12]');
-        $this->form_validation->set_rules('birthday', 'Birthday', 'required|trim|xss_clean|max_length[15]|callback_valid_date');
-        if ($this->form_validation->run() == TRUE) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function checkPassword($password) {
         if (!$this->user_model->checkPassword($password)) {
-            $this->form_validation->set_message('checkPassword', 'Current password not math. Please try again.');
             return FALSE;
         } else {
             return TRUE;
@@ -309,7 +336,6 @@ class Account extends CI_Controller {
 
     public function checkEmail($email) {
         if ($this->user_model->checkEmail($email)) {
-            $this->form_validation->set_message('checkEmail', 'This e-mail is already registered in our system. Please use a different one.');
             return FALSE;
         } else {
             return TRUE;

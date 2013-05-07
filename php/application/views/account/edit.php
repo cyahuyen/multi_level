@@ -15,50 +15,44 @@
         <tr>
             <td><div>FullName: </div></td>
             <td>
-                <input type="text" name="fullname"  id="fullname" value="<?php echo set_value('fullname', $fullname); ?>" style="width:300px">
-                <span class="fr-error"><?php echo form_error('fullname'); ?></span>
+                <input type="text" name="fullname"  id="fullname" value="<?php echo!empty($userdata->fullname) ? $userdata->fullname : '' ?>" style="width:300px">
             </td>
         </tr>
         <tr>
             <td><div>Address: </div></td>
             <td>
-                <input name="address" type="text" id="address" style="width:300px" value="<?php echo set_value('address', $address); ?>" />
-                <span class="fr-error"><?php echo form_error('address'); ?></span>
+                <input name="address" type="text" id="address" style="width:300px" value="<?php echo!empty($userdata->address) ? $userdata->address : '' ?>" />
             </td>
         </tr>
         <tr>
             <td><div>Phone: </div></td>
             <td>
-                <input name="phone" type="text" id="phone" style="width:300px" value="<?php echo set_value('phone', $phone); ?>" />
-                <span class="fr-error"><?php echo form_error('phone'); ?></span>
+                <input name="phone" type="text" id="phone" style="width:300px" value="<?php echo!empty($userdata->phone) ? $userdata->phone : '' ?>" />
             </td>
         </tr>
         <tr>
             <td><div>Email: </div></td>
             <td>
-                <input name="email" type="text" id="email" style="width:300px" value="<?php echo set_value('email', $email); ?>" />
-                <input name="old_email" type="hidden" id="old_email" style="width:300px" value="<?php echo $email; ?>" />
-                <span class="fr-error"><?php echo form_error('email'); ?></span>
+                <input name="email" type="text" id="email" style="width:300px" value="<?php echo!empty($userdata->email) ? $userdata->email : '' ?>" />
+                <input name="old_email" type="hidden" id="old_email" style="width:300px" value="<?php echo!empty($userdata->email) ? $userdata->email : '' ?>" />
             </td>
         </tr>
         <tr>
             <td><div>Fax: </div></td>
             <td>
-                <input name="fax" type="text" id="fax" style="width:300px" value="<?php echo set_value('fax', $fax); ?>" />
-                <span class="fr-error"><?php echo form_error('fax'); ?></span>
+                <input name="fax" type="text" id="fax" style="width:300px" value="<?php echo!empty($userdata->fax) ? $userdata->fax : '' ?>" />
             </td>
         </tr>
         <tr>
             <td><div>Birthday: </div></td>
             <td>
-                <input name="birthday" type="text" id="birthday" style="width:300px" value="<?php echo set_value('birthday', $birthday); ?>" />
-                <span class="fr-error"><?php echo form_error('birthday'); ?></span>
+                <input name="birthday" type="text" id="birthday" style="width:300px" value="<?php echo!empty($userdata->birthday) ? $userdata->birthday : '' ?>" />
             </td>
         </tr>
         <tr>
             <td colspan="2">
                 <div style="padding-left: 150px;">
-                    <input type="submit" id="save-btn" name="save-btn" class="button" value="Save">
+                    <input type="submit" value="Save" class="button" name="save-btn" id="save-btn">
                     <a href="<?php echo site_url('account/index') ?>" class="button">Cancel</a>
                 </div>
             </td>

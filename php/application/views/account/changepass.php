@@ -15,22 +15,19 @@
         <tr>
             <td><div>Current Password: </div></td>
             <td>
-                <input name="cu_password" type="password" id="cu_password" style="width:300px" value="<?php echo set_value('cu_password', $cu_password); ?>" />
-                <span class="fr-error"><?php echo form_error('cu_password'); ?></span>
+                <input name="cu_password" type="password" id="cu_password" style="width:300px" value="" />
             </td>
         </tr>
         <tr>
             <td><div>Password: </div></td>
             <td>
-                <input name="password" type="password" id="password" style="width:300px" value="<?php echo set_value('password', $password); ?>" />
-                <span class="fr-error"><?php echo form_error('password'); ?></span>
+                <input name="password" type="password" id="password" style="width:300px" value="" />
             </td>
         </tr>
         <tr>
             <td><div>Confirm Password: </div></td>
             <td>
-                <input name="repassword" type="password" id="repass" style="width:300px" value="<?php echo set_value('repassword', $repassword); ?>" />
-                <span class="fr-error"><?php echo form_error('repassword'); ?></span>
+                <input name="repassword" type="password" id="repass" style="width:300px" value="" />
             </td>
         </tr>
         <tr>
