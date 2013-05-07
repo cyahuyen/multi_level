@@ -3106,3 +3106,1155 @@ DEBUG - 2013-05-07 06:46:08 --> UTF-8 Support Enabled
 DEBUG - 2013-05-07 06:46:08 --> URI Class Initialized
 DEBUG - 2013-05-07 06:46:08 --> Router Class Initialized
 ERROR - 2013-05-07 06:46:08 --> 404 Page Not Found --> img
+DEBUG - 2013-05-07 09:04:27 --> Config Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:04:27 --> URI Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Router Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Output Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Security Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Input Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:04:27 --> Language Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:04:27 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:04:27 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:04:27 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:04:27 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:04:27 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:04:27 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Session Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:04:27 --> A session cookie was not found.
+DEBUG - 2013-05-07 09:04:27 --> Session routines successfully run
+DEBUG - 2013-05-07 09:04:27 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:04:27 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:04:27 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:04:27 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Model Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Model Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-07 09:04:27 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-07 09:04:27 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-07 09:04:27 --> File loaded: application/views/includes/main_content.php
+DEBUG - 2013-05-07 09:04:27 --> File loaded: application/views/home.php
+DEBUG - 2013-05-07 09:04:27 --> Final output sent to browser
+DEBUG - 2013-05-07 09:04:27 --> Total execution time: 0.0908
+DEBUG - 2013-05-07 09:04:27 --> Config Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:04:27 --> URI Class Initialized
+DEBUG - 2013-05-07 09:04:27 --> Router Class Initialized
+ERROR - 2013-05-07 09:04:27 --> 404 Page Not Found --> img
+DEBUG - 2013-05-07 09:04:32 --> Config Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:04:32 --> URI Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Router Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Output Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Security Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Input Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:04:32 --> Language Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:04:32 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:04:32 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Session Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:04:32 --> Session routines successfully run
+DEBUG - 2013-05-07 09:04:32 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:04:32 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:04:32 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:04:32 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:04:32 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:04:32 --> Model Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Model Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Model Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Model Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> File loaded: application/views/payment/paypal.php
+DEBUG - 2013-05-07 09:04:32 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-07 09:04:32 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-07 09:04:32 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-07 09:04:32 --> File loaded: application/views/register/register.php
+DEBUG - 2013-05-07 09:04:32 --> File loaded: application/views/home.php
+DEBUG - 2013-05-07 09:04:32 --> Final output sent to browser
+DEBUG - 2013-05-07 09:04:32 --> Total execution time: 0.0587
+DEBUG - 2013-05-07 09:04:32 --> Config Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:04:32 --> URI Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Router Class Initialized
+ERROR - 2013-05-07 09:04:32 --> 404 Page Not Found --> img
+DEBUG - 2013-05-07 09:04:32 --> Config Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:04:32 --> URI Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Router Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Output Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Security Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Input Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:04:32 --> Language Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:04:32 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:04:32 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Session Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:04:32 --> Session routines successfully run
+DEBUG - 2013-05-07 09:04:32 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:04:32 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:04:32 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:04:32 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:04:32 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:04:32 --> Model Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Model Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Model Class Initialized
+ERROR - 2013-05-07 09:04:32 --> 404 Page Not Found --> register/favicon.ico
+DEBUG - 2013-05-07 09:04:32 --> Config Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:04:32 --> URI Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Router Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Output Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Security Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Input Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:04:32 --> Language Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:04:32 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:04:32 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Session Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:04:32 --> Session routines successfully run
+DEBUG - 2013-05-07 09:04:32 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:04:32 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:04:32 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:04:32 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:04:32 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:04:32 --> Model Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Model Class Initialized
+DEBUG - 2013-05-07 09:04:32 --> Model Class Initialized
+ERROR - 2013-05-07 09:04:32 --> 404 Page Not Found --> register/favicon.ico
+DEBUG - 2013-05-07 09:05:36 --> Config Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:05:36 --> URI Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Router Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Output Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Security Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Input Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:05:36 --> Language Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:05:36 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:05:36 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:05:36 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:05:36 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:05:36 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:05:36 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Session Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:05:36 --> Session routines successfully run
+DEBUG - 2013-05-07 09:05:36 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:05:36 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:05:36 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:05:36 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:05:36 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:05:36 --> Model Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Model Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Model Class Initialized
+DEBUG - 2013-05-07 09:05:36 --> Final output sent to browser
+DEBUG - 2013-05-07 09:05:36 --> Total execution time: 0.0573
+DEBUG - 2013-05-07 09:05:44 --> Config Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:05:44 --> URI Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Router Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Output Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Security Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Input Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:05:44 --> Language Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:05:44 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:05:44 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:05:44 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:05:44 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:05:44 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:05:44 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Session Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:05:44 --> Session routines successfully run
+DEBUG - 2013-05-07 09:05:44 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:05:44 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:05:44 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:05:44 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:05:44 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:05:44 --> Model Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Model Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Model Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Config Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:05:44 --> URI Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Router Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Output Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Security Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Input Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:05:44 --> Language Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:05:44 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:05:44 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:05:44 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:05:44 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:05:44 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:05:44 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Session Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:05:44 --> Session routines successfully run
+DEBUG - 2013-05-07 09:05:44 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:05:44 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:05:44 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:05:44 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:05:44 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:05:44 --> Model Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Model Class Initialized
+DEBUG - 2013-05-07 09:05:44 --> Model Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Config Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:07:27 --> URI Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Router Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Output Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Security Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Input Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:07:27 --> Language Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:07:27 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:07:27 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:07:27 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:07:27 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:07:27 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:07:27 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Session Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:07:27 --> Session routines successfully run
+DEBUG - 2013-05-07 09:07:27 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:07:27 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:07:27 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:07:27 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:07:27 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:07:27 --> Model Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Model Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Model Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Model Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Model Class Initialized
+DEBUG - 2013-05-07 09:07:27 --> Model Class Initialized
+ERROR - 2013-05-07 09:07:28 --> Severity: Notice  --> Undefined offset: 0 F:\multi_level\php\application\models\balance_module.php 53
+ERROR - 2013-05-07 09:07:28 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 13
+DEBUG - 2013-05-07 09:07:28 --> Email Class Initialized
+ERROR - 2013-05-07 09:07:28 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 16
+DEBUG - 2013-05-07 09:07:29 --> Language file loaded: language/english/email_lang.php
+ERROR - 2013-05-07 09:07:34 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 13
+DEBUG - 2013-05-07 09:07:34 --> Email class already loaded. Second attempt ignored.
+ERROR - 2013-05-07 09:07:34 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 16
+ERROR - 2013-05-07 09:07:39 --> Severity: Notice  --> Undefined variable: user F:\multi_level\php\application\controllers\register.php 223
+ERROR - 2013-05-07 09:07:39 --> Severity: Notice  --> Trying to get property of non-object F:\multi_level\php\application\controllers\register.php 223
+ERROR - 2013-05-07 09:07:39 --> Severity: Notice  --> Undefined variable: user F:\multi_level\php\application\controllers\register.php 225
+ERROR - 2013-05-07 09:07:39 --> Severity: Notice  --> Trying to get property of non-object F:\multi_level\php\application\controllers\register.php 225
+ERROR - 2013-05-07 09:07:39 --> Severity: Notice  --> Undefined offset: 0 F:\multi_level\php\application\models\balance_module.php 53
+ERROR - 2013-05-07 09:07:39 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 13
+DEBUG - 2013-05-07 09:07:39 --> Email class already loaded. Second attempt ignored.
+ERROR - 2013-05-07 09:07:39 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 16
+DEBUG - 2013-05-07 09:07:45 --> Config Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:07:45 --> URI Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Router Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Output Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Security Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Input Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:07:45 --> Language Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:07:45 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:07:45 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:07:45 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:07:45 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:07:45 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:07:45 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Session Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:07:45 --> Session routines successfully run
+DEBUG - 2013-05-07 09:07:45 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:07:45 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:07:45 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:07:45 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Model Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> Model Class Initialized
+DEBUG - 2013-05-07 09:07:45 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-07 09:07:45 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-07 09:07:45 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-07 09:07:45 --> File loaded: application/views/includes/main_content.php
+DEBUG - 2013-05-07 09:07:45 --> File loaded: application/views/home.php
+DEBUG - 2013-05-07 09:07:45 --> Final output sent to browser
+DEBUG - 2013-05-07 09:07:45 --> Total execution time: 0.1224
+DEBUG - 2013-05-07 09:12:41 --> Config Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:12:41 --> URI Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Router Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Output Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Security Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Input Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:12:41 --> Language Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:12:41 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:12:41 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:12:41 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:12:41 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:12:41 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:12:41 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Session Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:12:41 --> Session routines successfully run
+DEBUG - 2013-05-07 09:12:41 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:12:41 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:12:41 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:12:41 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:12:41 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:12:41 --> Model Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Model Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Model Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Model Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> File loaded: application/views/payment/paypal.php
+DEBUG - 2013-05-07 09:12:41 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-07 09:12:41 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-07 09:12:41 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-07 09:12:41 --> File loaded: application/views/register/register.php
+DEBUG - 2013-05-07 09:12:41 --> File loaded: application/views/home.php
+DEBUG - 2013-05-07 09:12:41 --> Final output sent to browser
+DEBUG - 2013-05-07 09:12:41 --> Total execution time: 0.1242
+DEBUG - 2013-05-07 09:12:41 --> Config Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:12:41 --> URI Class Initialized
+DEBUG - 2013-05-07 09:12:41 --> Router Class Initialized
+ERROR - 2013-05-07 09:12:41 --> 404 Page Not Found --> img
+DEBUG - 2013-05-07 09:14:16 --> Config Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:14:16 --> URI Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Router Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Output Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Security Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Input Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:14:16 --> Language Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:14:16 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:14:16 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:14:16 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:14:16 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:14:16 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:14:16 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Session Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:14:16 --> Session routines successfully run
+DEBUG - 2013-05-07 09:14:16 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:14:16 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:14:16 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:14:16 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:14:16 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:14:16 --> Model Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Model Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Model Class Initialized
+DEBUG - 2013-05-07 09:14:16 --> Final output sent to browser
+DEBUG - 2013-05-07 09:14:16 --> Total execution time: 0.0663
+DEBUG - 2013-05-07 09:14:28 --> Config Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:14:28 --> URI Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Router Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Output Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Security Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Input Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:14:28 --> Language Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:14:28 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:14:28 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:14:28 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:14:28 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:14:28 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:14:28 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Session Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:14:28 --> Session routines successfully run
+DEBUG - 2013-05-07 09:14:28 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:14:28 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:14:28 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:14:28 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:14:28 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:14:28 --> Model Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Model Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Model Class Initialized
+DEBUG - 2013-05-07 09:14:28 --> Final output sent to browser
+DEBUG - 2013-05-07 09:14:28 --> Total execution time: 0.0572
+DEBUG - 2013-05-07 09:14:59 --> Config Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:14:59 --> URI Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Router Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Output Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Security Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Input Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:14:59 --> Language Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:14:59 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:14:59 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:14:59 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:14:59 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:14:59 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:14:59 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Session Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:14:59 --> Session routines successfully run
+DEBUG - 2013-05-07 09:14:59 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:14:59 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:14:59 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:14:59 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:14:59 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:14:59 --> Model Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Model Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Model Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Config Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:14:59 --> URI Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Router Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Output Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Security Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Input Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:14:59 --> Language Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:14:59 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:14:59 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:14:59 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:14:59 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:14:59 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:14:59 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Session Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:14:59 --> Session routines successfully run
+DEBUG - 2013-05-07 09:14:59 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:14:59 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:14:59 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:14:59 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:14:59 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:14:59 --> Model Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Model Class Initialized
+DEBUG - 2013-05-07 09:14:59 --> Model Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Config Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:15:33 --> URI Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Router Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Output Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Security Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Input Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:15:33 --> Language Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:15:33 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:15:33 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:15:33 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:15:33 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:15:33 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:15:33 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Session Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:15:33 --> Session routines successfully run
+DEBUG - 2013-05-07 09:15:33 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:15:33 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:15:33 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:15:33 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:15:33 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:15:33 --> Model Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Model Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Model Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Model Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Model Class Initialized
+DEBUG - 2013-05-07 09:15:33 --> Model Class Initialized
+ERROR - 2013-05-07 09:15:34 --> Severity: Notice  --> Undefined offset: 0 F:\multi_level\php\application\models\balance_module.php 54
+ERROR - 2013-05-07 09:15:34 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 13
+DEBUG - 2013-05-07 09:15:34 --> Email Class Initialized
+ERROR - 2013-05-07 09:15:34 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 16
+DEBUG - 2013-05-07 09:15:34 --> Language file loaded: language/english/email_lang.php
+ERROR - 2013-05-07 09:15:39 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 13
+DEBUG - 2013-05-07 09:15:39 --> Email class already loaded. Second attempt ignored.
+ERROR - 2013-05-07 09:15:39 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 16
+ERROR - 2013-05-07 09:15:44 --> Severity: Notice  --> Undefined offset: 0 F:\multi_level\php\application\models\balance_module.php 54
+ERROR - 2013-05-07 09:15:44 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 13
+DEBUG - 2013-05-07 09:15:44 --> Email class already loaded. Second attempt ignored.
+ERROR - 2013-05-07 09:15:44 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 16
+DEBUG - 2013-05-07 09:15:49 --> Config Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:15:49 --> URI Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> Router Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> Output Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> Security Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> Input Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:15:49 --> Language Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:15:49 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:15:49 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:15:49 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:15:49 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:15:49 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:15:49 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> Session Class Initialized
+DEBUG - 2013-05-07 09:15:49 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:15:50 --> Session routines successfully run
+DEBUG - 2013-05-07 09:15:50 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:15:50 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:15:50 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:15:50 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:15:50 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:15:50 --> Model Class Initialized
+DEBUG - 2013-05-07 09:15:50 --> Model Class Initialized
+DEBUG - 2013-05-07 09:15:50 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-07 09:15:50 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-07 09:15:50 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-07 09:15:50 --> File loaded: application/views/includes/main_content.php
+DEBUG - 2013-05-07 09:15:50 --> File loaded: application/views/home.php
+DEBUG - 2013-05-07 09:15:50 --> Final output sent to browser
+DEBUG - 2013-05-07 09:15:50 --> Total execution time: 0.1212
+DEBUG - 2013-05-07 09:16:40 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:40 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Router Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Output Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Security Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Input Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:16:40 --> Language Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:16:40 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:16:40 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:16:40 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:16:40 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:16:40 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:16:40 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Session Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:16:40 --> Session routines successfully run
+DEBUG - 2013-05-07 09:16:40 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:16:40 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:16:40 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:16:40 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-07 09:16:40 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-07 09:16:40 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-07 09:16:40 --> File loaded: application/views/authentication/index.php
+DEBUG - 2013-05-07 09:16:40 --> File loaded: application/views/home.php
+DEBUG - 2013-05-07 09:16:40 --> Final output sent to browser
+DEBUG - 2013-05-07 09:16:40 --> Total execution time: 0.1113
+DEBUG - 2013-05-07 09:16:40 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:40 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:40 --> Router Class Initialized
+ERROR - 2013-05-07 09:16:40 --> 404 Page Not Found --> img
+DEBUG - 2013-05-07 09:16:45 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:45 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Router Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Output Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Security Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Input Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:16:45 --> Language Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:16:45 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:16:45 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:16:45 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:16:45 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:16:45 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:16:45 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Session Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:16:45 --> Session routines successfully run
+DEBUG - 2013-05-07 09:16:45 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:16:45 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:16:45 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:16:45 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:45 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Router Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Output Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Security Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Input Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:16:45 --> Language Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:16:45 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:16:45 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:16:45 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:16:45 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:16:45 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:16:45 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Session Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:16:45 --> Session routines successfully run
+DEBUG - 2013-05-07 09:16:45 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:16:45 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:16:45 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:16:45 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-07 09:16:45 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-07 09:16:45 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-07 09:16:45 --> File loaded: application/views/includes/main_content.php
+DEBUG - 2013-05-07 09:16:45 --> File loaded: application/views/home.php
+DEBUG - 2013-05-07 09:16:45 --> Final output sent to browser
+DEBUG - 2013-05-07 09:16:45 --> Total execution time: 0.0542
+DEBUG - 2013-05-07 09:16:45 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:45 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:45 --> Router Class Initialized
+ERROR - 2013-05-07 09:16:45 --> 404 Page Not Found --> img
+DEBUG - 2013-05-07 09:16:47 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:47 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Router Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Output Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Security Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Input Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:16:47 --> Language Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:16:47 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:16:47 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Session Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:16:47 --> Session routines successfully run
+DEBUG - 2013-05-07 09:16:47 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:16:47 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:16:47 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:16:47 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:16:47 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:16:47 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Pagination Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-07 09:16:47 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-07 09:16:47 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-07 09:16:47 --> File loaded: application/views/account/history.php
+DEBUG - 2013-05-07 09:16:47 --> File loaded: application/views/home.php
+DEBUG - 2013-05-07 09:16:47 --> Final output sent to browser
+DEBUG - 2013-05-07 09:16:47 --> Total execution time: 0.0602
+DEBUG - 2013-05-07 09:16:47 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:47 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Router Class Initialized
+ERROR - 2013-05-07 09:16:47 --> 404 Page Not Found --> img
+DEBUG - 2013-05-07 09:16:47 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:47 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Router Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Output Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Security Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Input Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:16:47 --> Language Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:16:47 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:16:47 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Session Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:16:47 --> Session routines successfully run
+DEBUG - 2013-05-07 09:16:47 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:16:47 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:16:47 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:16:47 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:16:47 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:16:47 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Model Class Initialized
+ERROR - 2013-05-07 09:16:47 --> 404 Page Not Found --> account/favicon.ico
+DEBUG - 2013-05-07 09:16:47 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:47 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Router Class Initialized
+ERROR - 2013-05-07 09:16:47 --> 404 Page Not Found --> img
+DEBUG - 2013-05-07 09:16:47 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:47 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Router Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Output Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Security Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Input Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:16:47 --> Language Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:16:47 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:16:47 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Session Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:16:47 --> Session routines successfully run
+DEBUG - 2013-05-07 09:16:47 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:16:47 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:16:47 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:16:47 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:16:47 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:16:47 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:47 --> Model Class Initialized
+ERROR - 2013-05-07 09:16:47 --> 404 Page Not Found --> account/favicon.ico
+DEBUG - 2013-05-07 09:16:48 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:48 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Router Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Output Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Security Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Input Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:16:48 --> Language Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:16:48 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:16:48 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:16:48 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:16:48 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:16:48 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:16:48 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Session Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:16:48 --> Session routines successfully run
+DEBUG - 2013-05-07 09:16:48 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:16:48 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:16:48 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:16:48 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:16:48 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:16:48 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Model Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> File loaded: application/views/payment/paypal.php
+DEBUG - 2013-05-07 09:16:48 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-07 09:16:48 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-07 09:16:48 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-07 09:16:48 --> File loaded: application/views/account/transaction.php
+DEBUG - 2013-05-07 09:16:48 --> File loaded: application/views/home.php
+DEBUG - 2013-05-07 09:16:48 --> Final output sent to browser
+DEBUG - 2013-05-07 09:16:48 --> Total execution time: 0.0620
+DEBUG - 2013-05-07 09:16:48 --> Config Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:16:48 --> URI Class Initialized
+DEBUG - 2013-05-07 09:16:48 --> Router Class Initialized
+ERROR - 2013-05-07 09:16:48 --> 404 Page Not Found --> img
+DEBUG - 2013-05-07 09:17:29 --> Config Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:17:29 --> URI Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Router Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Output Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Security Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Input Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:17:29 --> Language Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:17:29 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:17:29 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:17:29 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:17:29 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:17:29 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:17:29 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Session Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:17:29 --> Session garbage collection performed.
+DEBUG - 2013-05-07 09:17:29 --> Session routines successfully run
+DEBUG - 2013-05-07 09:17:29 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:17:29 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:17:29 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:17:29 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:17:29 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:17:29 --> Model Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Model Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Model Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Model Class Initialized
+DEBUG - 2013-05-07 09:17:29 --> Model Class Initialized
+ERROR - 2013-05-07 09:17:29 --> Severity: Notice  --> Undefined property: Account::$balance F:\multi_level\php\application\controllers\account.php 400
+DEBUG - 2013-05-07 09:17:51 --> Config Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:17:51 --> URI Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Router Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Output Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Security Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Input Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:17:51 --> Language Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:17:51 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:17:51 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:17:51 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:17:51 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:17:51 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:17:51 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Session Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:17:51 --> Session routines successfully run
+DEBUG - 2013-05-07 09:17:51 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:17:51 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:17:51 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:17:51 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:17:51 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:17:51 --> Model Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Model Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Model Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Model Class Initialized
+DEBUG - 2013-05-07 09:17:51 --> Model Class Initialized
+ERROR - 2013-05-07 09:17:52 --> Severity: Notice  --> Undefined property: Account::$balance F:\multi_level\php\application\controllers\account.php 400
+DEBUG - 2013-05-07 09:18:53 --> Config Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:18:53 --> URI Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Router Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Output Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Security Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Input Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:18:53 --> Language Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:18:53 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:18:53 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:18:53 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:18:53 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:18:53 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:18:53 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Session Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:18:53 --> Session garbage collection performed.
+DEBUG - 2013-05-07 09:18:53 --> Session routines successfully run
+DEBUG - 2013-05-07 09:18:53 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:18:53 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:18:53 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:18:53 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:18:53 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:18:54 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:18:54 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:18:54 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:18:54 --> Model Class Initialized
+DEBUG - 2013-05-07 09:18:54 --> Model Class Initialized
+DEBUG - 2013-05-07 09:18:54 --> Model Class Initialized
+DEBUG - 2013-05-07 09:18:54 --> Model Class Initialized
+DEBUG - 2013-05-07 09:18:54 --> Model Class Initialized
+DEBUG - 2013-05-07 09:18:54 --> Model Class Initialized
+DEBUG - 2013-05-07 09:18:54 --> DB Transaction Failure
+ERROR - 2013-05-07 09:18:54 --> Query error: Table 'multi_level.user_id' doesn't exist
+DEBUG - 2013-05-07 09:18:54 --> Language file loaded: language/english/db_lang.php
+DEBUG - 2013-05-07 09:19:35 --> Config Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:19:35 --> URI Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Router Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Output Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Security Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Input Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:19:35 --> Language Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:19:35 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:19:35 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:19:35 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:19:35 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:19:35 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:19:35 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Session Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:19:35 --> Session routines successfully run
+DEBUG - 2013-05-07 09:19:35 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:19:35 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:19:35 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:19:35 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:19:35 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:19:35 --> Model Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Model Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Model Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Model Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Model Class Initialized
+DEBUG - 2013-05-07 09:19:35 --> Model Class Initialized
+ERROR - 2013-05-07 09:19:36 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 13
+DEBUG - 2013-05-07 09:19:36 --> Email Class Initialized
+ERROR - 2013-05-07 09:19:36 --> Severity: Notice  --> Undefined variable: config F:\multi_level\php\application\helpers\sendmail_helper.php 16
+DEBUG - 2013-05-07 09:19:36 --> Language file loaded: language/english/email_lang.php
+DEBUG - 2013-05-07 09:19:41 --> Config Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:19:41 --> URI Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Router Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Output Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Security Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Input Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:19:41 --> Language Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:19:41 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:19:41 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:19:41 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:19:41 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:19:41 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:19:41 --> Database Driver Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Session Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:19:41 --> Session routines successfully run
+DEBUG - 2013-05-07 09:19:41 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:19:41 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:19:41 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:19:41 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:19:41 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:19:41 --> Model Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Model Class Initialized
+DEBUG - 2013-05-07 09:19:41 --> Model Class Initialized
+DEBUG - 2013-05-07 09:19:42 --> Model Class Initialized
+DEBUG - 2013-05-07 09:19:42 --> Model Class Initialized
+DEBUG - 2013-05-07 09:19:42 --> File loaded: application/views/payment/paypal.php
+DEBUG - 2013-05-07 09:19:42 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-07 09:19:42 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-07 09:19:42 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-07 09:19:42 --> File loaded: application/views/account/transaction.php
+DEBUG - 2013-05-07 09:19:42 --> File loaded: application/views/home.php
+DEBUG - 2013-05-07 09:19:42 --> Final output sent to browser
+DEBUG - 2013-05-07 09:19:42 --> Total execution time: 0.1358
+DEBUG - 2013-05-07 09:20:09 --> Config Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:20:09 --> URI Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Router Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Output Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Security Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Input Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Global POST and COOKIE data sanitized
+DEBUG - 2013-05-07 09:20:09 --> Language Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Loader Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Config file loaded: application/config/cya_config.php
+DEBUG - 2013-05-07 09:20:09 --> Config file loaded: application/config/email.php
+DEBUG - 2013-05-07 09:20:09 --> Helper loaded: url_helper
+DEBUG - 2013-05-07 09:20:09 --> Helper loaded: file_helper
+DEBUG - 2013-05-07 09:20:09 --> Helper loaded: form_helper
+DEBUG - 2013-05-07 09:20:09 --> Helper loaded: sendmail_helper
+DEBUG - 2013-05-07 09:20:09 --> Database Driver Class Initialized
+ERROR - 2013-05-07 09:20:09 --> Severity: Notice  --> mysql_pconnect() [<a href='function.mysql-pconnect'>function.mysql-pconnect</a>]: send of 5 bytes failed with errno=10053 An established connection was aborted by the software in your host machine.
+ F:\multi_level\php\system\database\drivers\mysql\mysql_driver.php 91
+DEBUG - 2013-05-07 09:20:09 --> Session Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Helper loaded: string_helper
+DEBUG - 2013-05-07 09:20:09 --> Session routines successfully run
+DEBUG - 2013-05-07 09:20:09 --> XML-RPC Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Config file loaded: application/config/recaptcha.php
+DEBUG - 2013-05-07 09:20:09 --> Language file loaded: language/english/recaptcha_lang.php
+INFO  - 2013-05-07 09:20:09 --> reCaptcha Library Initialized
+DEBUG - 2013-05-07 09:20:09 --> Controller Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Form Validation Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Session class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:20:09 --> Recaptcha class already loaded. Second attempt ignored.
+DEBUG - 2013-05-07 09:20:09 --> Model Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Model Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Model Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Model Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> Model Class Initialized
+DEBUG - 2013-05-07 09:20:09 --> File loaded: application/views/payment/paypal.php
+DEBUG - 2013-05-07 09:20:09 --> File loaded: application/views/includes/head_link.php
+DEBUG - 2013-05-07 09:20:09 --> File loaded: application/views/includes/message.php
+DEBUG - 2013-05-07 09:20:09 --> File loaded: application/views/includes/top_menu.php
+DEBUG - 2013-05-07 09:20:09 --> File loaded: application/views/account/transaction.php
+DEBUG - 2013-05-07 09:20:09 --> File loaded: application/views/home.php
+DEBUG - 2013-05-07 09:20:09 --> Final output sent to browser
+DEBUG - 2013-05-07 09:20:09 --> Total execution time: 0.0891
+DEBUG - 2013-05-07 09:20:10 --> Config Class Initialized
+DEBUG - 2013-05-07 09:20:10 --> Hooks Class Initialized
+DEBUG - 2013-05-07 09:20:10 --> Utf8 Class Initialized
+DEBUG - 2013-05-07 09:20:10 --> UTF-8 Support Enabled
+DEBUG - 2013-05-07 09:20:10 --> URI Class Initialized
+DEBUG - 2013-05-07 09:20:10 --> Router Class Initialized
+ERROR - 2013-05-07 09:20:10 --> 404 Page Not Found --> img

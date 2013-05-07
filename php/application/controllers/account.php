@@ -360,6 +360,7 @@ class Account extends CI_Controller {
         $this->load->model('user_model', 'user');
         $this->load->model('transaction_model', 'transaction');
         $this->load->model('config_model', 'configs');
+        $this->load->model('balance_model', 'balance');
         $user = $this->user->getUserById($id);
         $transaction_config = $this->configs->getConfigs('transaction_fees');
         $this->data['transaction_fees'] = $transaction_config;
@@ -397,6 +398,7 @@ class Account extends CI_Controller {
             $dataTransaction['payment_status'] = $posts['payment_status'];
             $dataTransaction['transaction_source'] = 'paypal';
             $this->transaction->insert($dataTransaction);
+            $this->balance->updateBalance($id, $posts['mc_gross']);
             if (empty($transactions)) {
                 $this->user->updateTransaction($id);
             }

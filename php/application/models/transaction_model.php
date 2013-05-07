@@ -52,7 +52,7 @@ class Transaction_model extends CI_Model {
             elseif ($user->usertype == 2)
                 $data['total_fees'] = $referral['gold_fees'];
 
-            $data['payment_status'] = 'complate';
+            $data['payment_status'] = 'Completed';
             $data['status'] = 0;
             $data['transaction_source'] = 'system';
             $data['user_id'] = $user->user_id;

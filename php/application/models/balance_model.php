@@ -10,24 +10,37 @@
  *
  * @author ngoalongkt
  */
-class Balance_module extends CI_Model {
+class Balance_model extends CI_Model {
 
-    public function updateBalance($user_id, $data) {
+    public function updateBalance($user_id, $balance) {
         $this->load->model('user_model', 'user');
         $user = $this->user->getUserById($user_id);
-
+        
         if (!empty($user)) {
-            $balance = $this->getBalance($user_id);
-            if (!empty($balance)) {
-                
+            $balanceData = $this->getBalance($user_id);
+            if (!empty($balanceData)) {
+                $data['balance'] = $balanceData->balance + $balance;
+                $this->update($user_id, $data);
+            } else {
+                $data['balance'] = $balance;
+                $data['user_id'] = $user_id;
+                $this->insert($data);
             }
         }
+    }
+
+    public function insert($data) {
+        $this->db->insert('balance', $data);
+
+        $id = $this->db->insert_id();
+
+        return $id;
     }
 
     public function update($user_id, $data) {
 
         $this->db->where('user_id', $user_id);
-        return $this->db->update('user_id', $data);
+        return $this->db->update('balance', $data);
     }
 
     public function getBalance($user_id) {
