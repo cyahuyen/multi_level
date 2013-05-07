@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `fax` int(12) DEFAULT NULL,
   `birthday` varchar(50) COLLATE utf16_bin DEFAULT NULL,
   `referring` int(11) DEFAULT '0',
-  `usertype` int(11) NOT NULL,
+  `usertype` int(11) DEFAULT '1',
   `status` int(11) NOT NULL,
   `forgotten_password_code` varchar(255) COLLATE utf16_bin DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
