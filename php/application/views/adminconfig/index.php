@@ -1,16 +1,16 @@
+<div class="breadcrumb">
+    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+        <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
+    <?php } ?>
+    <div style="clear:both;"></div>
+</div>
 <div id="content-header">
-
-
     <div class="content-header">
         <div class="content-title">
             <h1>Configs</h1>
         </div>
-
     </div>
-
 </div>
-
-
 <div id="content-body-wrapper">
     <div id="content-body">
         <div class="datalist">

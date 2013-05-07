@@ -1,3 +1,9 @@
+<div class="breadcrumb">
+    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+        <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
+    <?php } ?>
+    <div style="clear:both;"></div>
+</div>
 <?php echo form_open('', array('id' => 'transaction-form')); ?>
 <table class="datatable">
     <thead>
@@ -60,81 +66,81 @@
 <?php echo form_close(); ?>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#save-btn').live('click',function(){
+    $(document).ready(function() {
+        $('#save-btn').live('click', function() {
             var transaction_fee = '<?php echo $transaction_fees['transaction_fee'] ?>'
             var flag;
             var entry_amount = $('#entry_amount').val();
             var min_enrolment_entry_amount = '<?php echo $transaction_fees['min_enrolment_entry_amount']; ?>';
             var max_enrolment_entry_amount = '<?php echo $max_entry_amount; ?>';
-            if(isNaN(entry_amount) || (entry_amount % 100 != 0) || ((entry_amount != '') && entry_amount < min_enrolment_entry_amount) || ((entry_amount != '') && entry_amount > max_enrolment_entry_amount)){
-                $('#msgContainer').append('<input type="hidden" id="cmsgentry_amount" value="Enrolment Entry Amount is numberic , divisible to 100, greater than '+ min_enrolment_entry_amount +' and litter than '+ max_enrolment_entry_amount +'"/>');
+            if (isNaN(entry_amount) || (entry_amount % 100 != 0) || ((entry_amount != '') && entry_amount < min_enrolment_entry_amount) || ((entry_amount != '') && entry_amount > max_enrolment_entry_amount)) {
+                $('#msgContainer').append('<input type="hidden" id="cmsgentry_amount" value="Enrolment Entry Amount is numberic , divisible to 100, greater than ' + min_enrolment_entry_amount + ' and litter than ' + max_enrolment_entry_amount + '"/>');
                 flag = false;
             }
             var payment = $('#payment:checked').val();
-            if (typeof(payment) == "undefined"){
+            if (typeof(payment) == "undefined") {
                 $('#msgContainer').append('<input type="hidden" id="cmsgpayment" value="Payment method not null"/>');
                 flag = false;
             }
-        
-            if(flag == false){
+
+            if (flag == false) {
                 showmessage('error', 'Validation errors found', 'Please see below');
                 showCompMsgs();
                 return false;
-            } else{
+            } else {
                 $('#transaction-form').submit();
             }
-            
-            
+
+
         });
-        $('#entry_amount').keyup(function(){
+        $('#entry_amount').keyup(function() {
             totalfees()
         });
-          
+
     })
-    function totalfees(){
+    function totalfees() {
         var transaction_fee = '<?php echo $transaction_fees['transaction_fee'] ?>'
         var min_enrolment_entry_amount = '<?php echo $transaction_fees['min_enrolment_entry_amount']; ?>';
         var max_enrolment_entry_amount = '<?php echo $max_entry_amount; ?>';
         var entry_amount = $('#entry_amount').val();
-        if(!isNaN(entry_amount) && (entry_amount % 100 == 0)  && entry_amount >= min_enrolment_entry_amount  && entry_amount <= max_enrolment_entry_amount){
-            if(entry_amount.length == 0)
+        if (!isNaN(entry_amount) && (entry_amount % 100 == 0) && entry_amount >= min_enrolment_entry_amount && entry_amount <= max_enrolment_entry_amount) {
+            if (entry_amount.length == 0)
                 entry_amount = 0
             var total_fees = parseInt(entry_amount) + parseInt(transaction_fee);
-            $('#total_fees').text('$'+total_fees);
-        }else{
-            $('#total_fees').text('$'+transaction_fee);
-        }   
+            $('#total_fees').text('$' + total_fees);
+        } else {
+            $('#total_fees').text('$' + transaction_fee);
+        }
     }
 </script>
 
 <script >
-    $(document).ready(function(){
+    $(document).ready(function() {
         getAmount();
-        $('#payment').change(function(){
-            
-            getAmount()    
-            
+        $('#payment').change(function() {
+
+            getAmount()
+
         });
-        $('#entry_amount').keyup(function(){
-            getAmount()    
+        $('#entry_amount').keyup(function() {
+            getAmount()
         })
     })
-    
-    function getAmount(){
+
+    function getAmount() {
         var payment = $('#payment:checked').val();
-         var transaction_fee = '<?php echo $transaction_fees['transaction_fee'] ?>'    
-        if(payment == 'paypal'){
-            $('form').attr('action','https://www.<?php echo ($config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
+        var transaction_fee = '<?php echo $transaction_fees['transaction_fee'] ?>'
+        if (payment == 'paypal') {
+            $('form').attr('action', 'https://www.<?php echo ($config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
         }
         var entry_amount = $('#entry_amount').val();
-        if(!isNaN(entry_amount) && entry_amount > 0){
-            if(entry_amount.length == 0)
+        if (!isNaN(entry_amount) && entry_amount > 0) {
+            if (entry_amount.length == 0)
                 entry_amount = 0
             var total_fees = parseInt(entry_amount) + parseInt(transaction_fee);
             $('#amount').val(total_fees);
-        }else{
+        } else {
             $('#amount').val(transaction_fee);
-        }   
+        }
     }
 </script>

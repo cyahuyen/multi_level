@@ -40,6 +40,18 @@ class Adminconfig extends MY_Controller {
 
     public function index() {
         $this->data['title'] = 'Manager Config';
+        $this->data['breadcrumbs'] = array();
+
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Home',
+            'href' => site_url('account'),
+            'separator' => false
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Manager Config',
+            'href' => site_url('adminconfig'),
+            'separator' => ' :: '
+        );
         $class_methods = get_class_methods($this);
         $f_reflect = new ReflectionObject($this);
         foreach ($f_reflect->getMethods() as $method) {
@@ -61,6 +73,18 @@ class Adminconfig extends MY_Controller {
 
     public function emails() {
         $this->data['title'] = 'Config Emails';
+        $this->data['breadcrumbs'] = array();
+
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Home',
+            'href' => site_url('account'),
+            'separator' => false
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Config Emails',
+            'href' => site_url('adminconfig/emails'),
+            'separator' => ' :: '
+        );
         $this->data['data_configs'] = $this->configs->getConfigs('emails');
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {
@@ -70,7 +94,7 @@ class Adminconfig extends MY_Controller {
             $posts = $this->input->post();
             unset($posts['save-btn']);
             $posts['group'] = 'config';
-            $this->configs->editConfigs('emails','config', $posts);
+            $this->configs->editConfigs('emails', 'config', $posts);
             $data['usermessage'] = array('success', 'green', 'Successfully saved ', '');
             $this->session->set_flashdata(array('usermessage' => $data['usermessage']));
             redirect('adminconfig/emails');
@@ -81,6 +105,18 @@ class Adminconfig extends MY_Controller {
 
     public function transaction_fees() {
         $code = 'transaction_fees';
+        $this->data['breadcrumbs'] = array();
+
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Home',
+            'href' => site_url('account'),
+            'separator' => false
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Config Transaction Fees',
+            'href' => site_url('adminconfig/transaction_fees'),
+            'separator' => ' :: '
+        );
         $this->data['title'] = 'Config Transaction Fees';
         $this->data['data_configs'] = $this->configs->getConfigs($code);
         $msg = $this->session->flashdata('usermessage');
@@ -91,7 +127,7 @@ class Adminconfig extends MY_Controller {
             $posts = $this->input->post();
             unset($posts['save-btn']);
             $posts['group'] = 'config';
-            $this->configs->editConfigs($code,'config', $posts);
+            $this->configs->editConfigs($code, 'config', $posts);
             $data['usermessage'] = array('success', 'green', 'Successfully saved ', '');
             $this->session->set_flashdata(array('usermessage' => $data['usermessage']));
             redirect('adminconfig/' . $code);
@@ -104,6 +140,18 @@ class Adminconfig extends MY_Controller {
     public function referral() {
         $code = 'referral';
         $this->data['title'] = 'Config Referral';
+        $this->data['breadcrumbs'] = array();
+
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Home',
+            'href' => site_url('account'),
+            'separator' => false
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Config Referral',
+            'href' => site_url('adminconfig/referral'),
+            'separator' => ' :: '
+        );
         $this->data['data_configs'] = $this->configs->getConfigs($code);
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {
@@ -112,7 +160,7 @@ class Adminconfig extends MY_Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $posts = $this->input->post();
             unset($posts['save-btn']);
-            $this->configs->editConfigs($code,'config', $posts);
+            $this->configs->editConfigs($code, 'config', $posts);
             $data['usermessage'] = array('success', 'green', 'Successfully saved ', '');
             $this->session->set_flashdata(array('usermessage' => $data['usermessage']));
             redirect('adminconfig/' . $code);
@@ -121,9 +169,22 @@ class Adminconfig extends MY_Controller {
         $this->data['main_content'] = 'adminconfig/referral';
         $this->load->view('administrator', $this->data);
     }
+
     public function timeconfig() {
         $code = 'timeconfig';
         $this->data['title'] = 'Time config';
+        $this->data['breadcrumbs'] = array();
+
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Home',
+            'href' => site_url('account'),
+            'separator' => false
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Time config',
+            'href' => site_url('adminconfig/timeconfig'),
+            'separator' => ' :: '
+        );
         $this->data['data_configs'] = $this->configs->getConfigs($code);
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {

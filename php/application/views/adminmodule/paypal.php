@@ -1,3 +1,9 @@
+<div class="breadcrumb">
+    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+        <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
+    <?php } ?>
+    <div style="clear:both;"></div>
+</div>
 <form action="" method="post">
     <div class="content-header">
         <div class="content-title">
@@ -16,7 +22,7 @@
     <table class="datatable">
         <tbody>
 
-            
+
             <tr>
                 <td>Business Email</td>
                 <td>
@@ -35,7 +41,7 @@
                     <input type="text" id="currency_code" class="mandatory" name="currency_code" value="<?php echo!empty($data_configs['currency_code']) ? $data_configs['currency_code'] : '' ?>" class="" style="width:240px">
                 </td>
             </tr>
-            
+
             <tr>
                 <td>Sandbox</td>
                 <td>
