@@ -127,6 +127,7 @@ class Register extends CI_Controller {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
             redirect('register');
         $this->load->model('config_model', 'configs');
+        $this->load->model('user_model', 'user');
         $transaction_fees = $this->configs->getConfigs('transaction_fees');
         $paypal = $this->configs->getConfigs('paypal');
 
@@ -173,10 +174,12 @@ class Register extends CI_Controller {
             $dataTransaction['total_fees'] = $posts['mc_gross'];
             $dataTransaction['transaction_id'] = $posts['txn_id'];
             $dataTransaction['payment_status'] = $posts['payment_status'];
+            $dataTransaction['transaction_source'] = 'paypal';
             $this->transaction->insert($dataTransaction);
             
             if ($posts['mc_gross'] > $transaction_fees['open_fee']){
                 $this->user->updateTransaction($user_id);
+                
             }
             
             $userHtml = '
@@ -203,8 +206,10 @@ class Register extends CI_Controller {
             sendmail(null, 'Have just new member register', $adminHtml);
  
             if (!empty($postsData['referring'])) {
-
+                
                 $email_referring = $this->register_model->getEmailbyUser($postsData['referring']);
+                $this->user->updateUserType($postsData['referring']);
+                $this->transaction->updateRefereFees($postsData['referring']);
                 $referringHtml = 'Your referring member ' . $postsData['username'] . ' just sign up at.';
                 sendmail($email_referring, 'Your referring member',$referringHtml , null, null, 'html');
             }

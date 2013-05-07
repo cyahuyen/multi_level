@@ -26,7 +26,7 @@ class Account extends CI_Controller {
         $this->load->helper('url');
         $this->load->library('recaptcha');
         $this->lang->load('recaptcha');
-        $this->load->model('account_model', '', TRUE);
+        $this->load->model('user_model', '', TRUE);
         $this->data['menu_config'] = $this->menu_config_user_home;
         $this->data['user_session'] = $this->session->userdata('user');
         if (!$this->session->userdata('user')) {
@@ -43,9 +43,9 @@ class Account extends CI_Controller {
         $this->data['title'] = 'Sign Up';
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
-        $infors = $this->account_model->getAccount($id);
-        $open_fees = $this->account_model->getSumOpen($id, $infors->transaction_start, $infors->transaction_finish);
-        $total_fees = $this->account_model->getSumTotal($id, $infors->transaction_start, $infors->transaction_finish);
+        $infors = $this->user_model->getAccount($id);
+        $open_fees = $this->user_model->getSumOpen($id, $infors->transaction_start, $infors->transaction_finish);
+        $total_fees = $this->user_model->getSumTotal($id, $infors->transaction_start, $infors->transaction_finish);
         $this->data['amout'] = $total_fees - $open_fees;
         if ($infors) {
             if ($infors->usertype == 2) {
@@ -80,7 +80,7 @@ class Account extends CI_Controller {
         $this->data['title'] = 'Edit Account';
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
-        $account = $this->account_model->getAccount($id);
+        $account = $this->user_model->getAccount($id);
         $posts = $this->input->post();
         if (!empty($account)) {
             $this->data['username'] = $account->username;
@@ -100,7 +100,7 @@ class Account extends CI_Controller {
             $this->data['birthday'] = $posts['birthday'];
         }
         if (($this->input->server('REQUEST_METHOD') === 'POST') && $this->validateForm()) {
-            $this->account_model->update($id, $this->input->post());
+            $this->user_model->update($id, $this->input->post());
             redirect('account');
         }
         $this->data['main_content'] = 'account/edit';
@@ -144,7 +144,7 @@ class Account extends CI_Controller {
         $this->form_validation->set_rules('password', 'Password', 'required|xss_clean|max_length[50]|valid_repassword');
         $this->form_validation->set_rules('repassword', 'Re-Password', 'required|trim|xss_clean|matches[password]');
         if ($this->form_validation->run() == TRUE) {
-            $this->account_model->updatePassword($id, $this->input->post());
+            $this->user_model->updatePassword($id, $this->input->post());
             redirect('account');
         } else {
             $this->data['main_content'] = 'account/changepass';
@@ -177,7 +177,7 @@ class Account extends CI_Controller {
         //       Begin pagination
         $this->load->library("pagination");
         $config = array();
-        $config["total_rows"] = $this->account_model->totalRefered($id);
+        $config["total_rows"] = $this->user_model->totalRefered($id);
         $config["base_url"] = site_url('account/refered');
         $config["per_page"] = $limit;
         $page = $start;
@@ -203,7 +203,7 @@ class Account extends CI_Controller {
         $this->pagination->initialize($config);
         $this->data["links"] = $this->pagination->create_links();
         //       End pagination
-        $this->data['refereds'] = $this->account_model->getRefereds($id, $limit, $start);
+        $this->data['refereds'] = $this->user_model->getRefereds($id, $limit, $start);
         $this->data['main_content'] = 'account/refered';
         $this->load->view('home', $this->data);
     }
@@ -233,7 +233,7 @@ class Account extends CI_Controller {
         //       Begin pagination
         $this->load->library("pagination");
         $config = array();
-        $config["total_rows"] = $this->account_model->totalHistory($id);
+        $config["total_rows"] = $this->user_model->totalHistory($id);
         $config["base_url"] = site_url('account/history');
         $config["per_page"] = $limit;
         $page = $start;
@@ -259,7 +259,7 @@ class Account extends CI_Controller {
         $this->pagination->initialize($config);
         $this->data["links"] = $this->pagination->create_links();
         //       End pagination
-        $this->data['historys'] = $this->account_model->getHistorys($id, $limit, $start);
+        $this->data['historys'] = $this->user_model->getHistorys($id, $limit, $start);
         $this->data['main_content'] = 'account/history';
         $this->load->view('home', $this->data);
     }
@@ -283,7 +283,7 @@ class Account extends CI_Controller {
     }
 
     public function checkPassword($password) {
-        if (!$this->account_model->checkPassword($password)) {
+        if (!$this->user_model->checkPassword($password)) {
             $this->form_validation->set_message('checkPassword', 'Current password not math. Please try again.');
             return FALSE;
         } else {
@@ -292,7 +292,7 @@ class Account extends CI_Controller {
     }
 
     public function checkEmail($email) {
-        if ($this->account_model->checkEmail($email)) {
+        if ($this->user_model->checkEmail($email)) {
             $this->form_validation->set_message('checkEmail', 'This e-mail is already registered in our system. Please use a different one.');
             return FALSE;
         } else {
@@ -346,7 +346,7 @@ class Account extends CI_Controller {
             $this->data['payments'][$code] = $this->load->view('payment/' . $code, $dataConfig, true);
         }
 
-        $this->data['refereds'] = $this->account_model->getRefereds($id);
+        $this->data['refereds'] = $this->user_model->getRefereds($id);
         $this->data['main_content'] = 'account/transaction';
         $this->load->view('home', $this->data);
     }
@@ -395,6 +395,7 @@ class Account extends CI_Controller {
             $dataTransaction['total_fees'] = $posts['mc_gross'];
             $dataTransaction['transaction_id'] = $posts['txn_id'];
             $dataTransaction['payment_status'] = $posts['payment_status'];
+            $dataTransaction['transaction_source'] = 'paypal';
             $this->transaction->insert($dataTransaction);
             if (empty($transactions)) {
                 $this->user->updateTransaction($id);

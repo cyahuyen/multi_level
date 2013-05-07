@@ -28,7 +28,19 @@
                     %<input type="text" id="interest_race" class="mandatory" name="interest_race" value="<?php echo!empty($data_configs['interest_race']) ? $data_configs['interest_race'] : '' ?>" class="" style="width:240px">
                 </td>
             </tr>
-            
+            <tr>
+                <td>Gold Fees </td>
+                <td>
+                    $<input type="text" id="gold_fees" class="mandatory" name="gold_fees" value="<?php echo!empty($data_configs['gold_fees']) ? $data_configs['gold_fees'] : '' ?>" style="width:240px">
+                </td>
+            </tr>
+            <tr>
+                <td>Silver Fees </td>
+                <td>
+                    $<input type="text" id="silver_fees" class="mandatory" name="silver_fees" value="<?php echo!empty($data_configs['silver_fees']) ? $data_configs['silver_fees'] : '' ?>" style="width:240px">
+                </td>
+            </tr>
+
             <tr>
                 <td></td>
                 <td><div class="">
