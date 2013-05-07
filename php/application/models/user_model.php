@@ -49,8 +49,7 @@ class User_model extends CI_Model {
         return ($query->num_rows() != 0);
     }
 
-    public function update($data, $id) {
-
+    public function update($id, $data) {
         $this->db->where('user_id', $id);
         return $this->db->update('user', $data);
     }

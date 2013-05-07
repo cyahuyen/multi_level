@@ -98,7 +98,15 @@ class Account extends CI_Controller {
             $this->data['birthday'] = $posts['birthday'];
         }
         if (($this->input->server('REQUEST_METHOD') === 'POST') && $this->validateForm()) {
-            $this->user_model->update($id, $this->input->post());
+            $data = array(
+                'fullname' => $posts['fullname'],
+                'address' => $posts['address'],
+                'phone' => $posts['phone'],
+                'email' => $posts['email'],
+                'fax' => $posts['fax'],
+                'birthday' => $posts['birthday']
+            );
+            $this->user_model->update($id, $data);
             redirect('account');
         }
         $this->data['main_content'] = 'account/edit';
@@ -115,7 +123,6 @@ class Account extends CI_Controller {
             'href' => site_url('account'),
             'separator' => false
         );
-
         $this->data['breadcrumbs'][] = array(
             'text' => 'Change Password',
             'href' => site_url('account/changepassword'),
@@ -402,7 +409,7 @@ class Account extends CI_Controller {
             }
             $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
             $this->session->set_flashdata('usermessage', $data['usermessage']);
-            $adminHtml = 'Full Name: ' . $user->fullname .'<br>';
+            $adminHtml = 'Full Name: ' . $user->fullname . '<br>';
             $adminHtml .= 'Amount: ' . $posts['mc_gross'];
             sendmail(null, 'Have just new member deposite', $adminHtml);
 
