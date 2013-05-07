@@ -18,12 +18,3 @@ CREATE TABLE IF NOT EXISTS `balance` (
   `balance` double(10,4) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
--- Dumping data for table multi_level.balance: ~0 rows (approximately)
-/*!40000 ALTER TABLE `balance` DISABLE KEYS */;
-INSERT INTO `balance` (`id`, `user_id`, `balance`) VALUES
-	(1, 40, 300.0000),
-	(2, 10, 10.0000);
-/*!40000 ALTER TABLE `balance` ENABLE KEYS */;
-/*!40014 SET FOREIGN_KEY_CHECKS=1 */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

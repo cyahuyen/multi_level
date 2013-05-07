@@ -22,6 +22,7 @@ class Adminconfig extends MY_Controller {
     var $emails = 'Email Config';
     var $transaction_fees = 'Transaction Fees';
     var $referral = 'Referral';
+    var $timeconfig = 'Time Config';
 
     public function __construct() {
 
