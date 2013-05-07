@@ -51,7 +51,7 @@ class Balance_model extends CI_Model {
 
         $query = $this->db->get();
         $result = $query->result();
-        return $result[0];
+        return !empty($result)?$result[0]:array();
     }
 
 }
