@@ -180,7 +180,7 @@ class Register extends CI_Controller {
             $userHtml = '
                 Thank you for registering <br>
                 You just sign up at. Please login to check your account';
-            $userHtml .= 'Acount Type: ' . $this->usertype[$postsData['usertype']];
+            $userHtml .= 'Acount Type: ' . $this->usertype[$postsData['usertype']]. '<br>';
             if ($posts['mc_gross'] > $transaction_fees['open_fee']) {
                 $userHtml .= 'Payment :' . $posts['mc_gross'] - $transaction_fees['open_fee'] . '<br>';
                 
