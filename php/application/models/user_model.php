@@ -50,7 +50,7 @@ class User_model extends CI_Model {
     public function updateUserType($id) {
         $user = $this->getUserById($id);
         if (!empty($user) && $user->usertype == 0) {
-            $this->update(array('usertype' => 1), $id);
+            $this->update($id, array('usertype' => 1));
         }
     }
 

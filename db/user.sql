@@ -2,13 +2,13 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.5.16 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
--- HeidiSQL Version:             7.0.0.4369
+-- HeidiSQL version:             7.0.0.4053
+-- Date/time:                    2013-05-07 17:00:39
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40014 SET FOREIGN_KEY_CHECKS=0 */;
 
 -- Dumping structure for table multi_level.user
 DROP TABLE IF EXISTS `user`;
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `birthday` varchar(50) COLLATE utf16_bin DEFAULT NULL,
   `referring` int(11) DEFAULT '0',
   `usertype` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
   `forgotten_password_code` varchar(255) COLLATE utf16_bin DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `permission` varchar(50) COLLATE utf16_bin DEFAULT NULL,
@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
 -- Dumping data for table multi_level.user: ~5 rows (approximately)
-DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`user_id`, `fullname`, `password`, `address`, `phone`, `email`, `fax`, `birthday`, `referring`, `usertype`, `status`, `forgotten_password_code`, `created_on`, `permission`, `transaction_start`, `transaction_finish`) VALUES
 	(9, 'Thu Huyen', '2a547a7fb83b9922f2dbc6c47b20f8f9', 'Hai duong', 2147483647, 'ngoclecong@gmail.com', 2147483647, '12/12/1989', 0, 2, 1, '5609533015', '2013-04-25 16:11:12', '', NULL, NULL),
@@ -42,6 +41,5 @@ INSERT INTO `user` (`user_id`, `fullname`, `password`, `address`, `phone`, `emai
 	(40, 'Khiem Pham', '7085e6b4fb5bf71436221f6ccd1af40c', '', 0, 'rongandat@gmail.com', 0, '1989-05-02', 10, 2, 1, '', '2013-05-07 14:15:33', NULL, '2013-05-07 14:15:34', '2013-06-06 14:15:34'),
 	(41, 'Nguy&#7877;n Thu Huy&#7873;n', '2a547a7fb83b9922f2dbc6c47b20f8f9', 'dsadsa', 978344219, 'bagiahuyen@gmail.com', 978344219, '2013-05-08', 0, 1, 1, '', '0000-00-00 00:00:00', 'administrator', NULL, NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

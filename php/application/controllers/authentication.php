@@ -17,7 +17,7 @@ class Authentication extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('user_model', 'user');
-        $this->data['menu_config'] = $this->menu_config_1;
+        $this->data['menu_config'] = $this->menu_config_3;
         
         
     }
@@ -72,6 +72,7 @@ class Authentication extends MY_Controller {
     }
 
     public function signout() {
+        
         $this->session->sess_destroy();
         redirect('home');
     }
