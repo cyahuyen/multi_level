@@ -248,7 +248,7 @@ class Register extends CI_Controller {
                 $data['forget_code'] = random_string('numeric', 10);
                 $this->session->set_flashdata('step', 2);
                 $data['main_content'] = 'register/reset_pass_step2.php';
-                $this->register_model->update($id, array('forgotten_password_code' => $data['forget_code']));
+                $this->register_model->update(array('forgotten_password_code' => $data['forget_code']),$id);
                 //======================= Send Email ====================================
                 $title = "Forget Password";
                 $content = "Code forget Password: '" . $data['forget_code'] . "'";
