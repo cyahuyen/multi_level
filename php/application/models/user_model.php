@@ -30,7 +30,7 @@ class User_model extends CI_Model {
      */
     public function passwordMatches($id, $password) {
         $this->load->database();
-        $sql = "select * from user where user.id = $id and user.password = md5('$password')";
+        $sql = "select * from user where user.user_id = $id and user.password = md5('$password')";
         $query = $this->db->query($sql);
         return ($query->num_rows() != 0);
     }

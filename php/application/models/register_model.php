@@ -56,7 +56,7 @@ class Register_model extends CI_Model {
     }
 
     function getEmailbyUser($id) {
-        $data = $this->db->get_where($this->tbl, array('id' => $id))->result();
+        $data = $this->db->get_where($this->tbl, array('user_id' => $id))->result();
         if ($data) {
             return $data[0]->email;
         }
