@@ -99,18 +99,12 @@ class User extends MY_Controller {
     public function userlist($status = null) {
 
         $data['user'] = $this->user->getSessionUserDetails();
-
         $posts = $this->input->post();
-
         $this->config->load('cya_config', TRUE);
-
-
         $dataWhere['status'] = 1;
         $dataWhere['searchby'] = $posts['searchby'];
-
-        $limit = $this->config->item('per_page', 'cya_config');
+        $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-
         if (!empty($posts['asc'])) {
             $sort[$posts['sort']] = 'ASC';
         } else {

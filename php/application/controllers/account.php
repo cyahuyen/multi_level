@@ -56,9 +56,7 @@ class Account extends MY_Controller {
         $id = $user_session['user_id'];
         $infors = $this->user_model->getAccount($id);
         $this->data['inforcheck'] = $infors;
-        $open_fees = $this->user_model->getSumOpen($id, $infors->transaction_start, $infors->transaction_finish);
-        $total_fees = $this->user_model->getSumTotal($id, $infors->transaction_start, $infors->transaction_finish);
-        $this->data['amout'] = $total_fees - $open_fees;
+        $this->data['amout'] = $this->user_model->getBalance($id);
         if ($infors) {
             if ($infors->usertype == 2) {
                 $this->data['usertype'] = "Gold";
@@ -82,7 +80,11 @@ class Account extends MY_Controller {
             'href' => site_url('account'),
             'separator' => false
         );
-
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'My Account',
+            'href' => site_url('account/index'),
+            'separator' => ' :: '
+        );
         $this->data['breadcrumbs'][] = array(
             'text' => 'Edit Account',
             'href' => site_url('account/edit'),
@@ -104,7 +106,7 @@ class Account extends MY_Controller {
                 $validationErrors['fullname'] = "Your name is Fullname cannot be blank";
             }
             if ($posts['email'] != $posts['old_email']) {
-                if ($posts['email'] == '' || !($this->checkEmail($posts['email']))) {
+                if ($posts['email'] == '' || !($this->checkEmail($posts['email'])) || !($this->isEmail($posts['email']))) {
                     $validationErrors['email'] = "Email cannot be blank";
                 }
             } else {
@@ -134,7 +136,7 @@ class Account extends MY_Controller {
                 else
                     $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');
                 $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
-                redirect(site_url('account/edit/' . $id));
+                redirect(site_url('account/edit/'));
             }
         }
         $this->data['main_content'] = 'account/edit';
@@ -152,6 +154,11 @@ class Account extends MY_Controller {
             'separator' => false
         );
         $this->data['breadcrumbs'][] = array(
+            'text' => 'My Account',
+            'href' => site_url('account/index'),
+            'separator' => ' :: '
+        );
+        $this->data['breadcrumbs'][] = array(
             'text' => 'Change Password',
             'href' => site_url('account/changepassword'),
             'separator' => ' :: '
@@ -165,26 +172,26 @@ class Account extends MY_Controller {
             $this->data['usermessage'] = $msg;
         }
         $this->data['posts'] = array();
+        $posts = $this->input->post();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $posts = $this->input->post();
             $validationErrors = array();
-            if (!$this->checkPassword($posts['cu_password'])) {
-                $validationErrors['cu_password'] = "Current Pass cannot be blank";
-            }
-            if (!empty($posts['password'])) {
+            if (!empty($id) && empty($posts['password'])) {
                 if (strlen($posts['password']) < 6) {
                     $validationErrors['password'] = "Password must greater than 6 characters";
                 }
+
                 if ($posts['password'] != $posts['repassword']) {
                     $validationErrors['repassword'] = "Password wrong";
                 }
-            } else {
+            }
+            if (empty($id)) {
                 if (strlen($posts['password']) < 6) {
                     $validationErrors['password'] = "Password must greater than 6 characters";
                 } elseif ($posts['password'] != $posts['repassword']) {
                     $validationErrors['repassword'] = "Password wrong";
                 }
             }
+
             $this->data['posts'] = $posts;
             foreach ($posts as $key => $val) {
                 $this->data['userdata']->$key = $val;
@@ -193,22 +200,14 @@ class Account extends MY_Controller {
                 $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
                 $this->data['fielderrors'] = $validationErrors;
             } else {
-                unset($posts['cu_password']);
                 unset($posts['save-btn']);
-                if (empty($posts['password'])) {
-                    unset($posts['password']);
-                } else {
-                    $posts['password'] = $posts['password'];
-                }
-                $data = array(
-                    'password' => $posts['password']
-                );
+                unset($posts['repassword']);
+                $data = array('password' => md5($posts['password']));
                 if ($this->user_model->updatePassword($id, $data))
                     $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
                 else
                     $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');
                 $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
-                redirect(site_url('account/changepass/' . $id));
             }
         }
         $this->data['main_content'] = 'account/changepass';
@@ -225,7 +224,11 @@ class Account extends MY_Controller {
             'href' => site_url('account'),
             'separator' => false
         );
-
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'My Account',
+            'href' => site_url('account/index'),
+            'separator' => ' :: '
+        );
         $this->data['breadcrumbs'][] = array(
             'text' => 'Refered Members',
             'href' => site_url('account/refered'),
@@ -234,7 +237,7 @@ class Account extends MY_Controller {
 
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
-        $limit = $this->config->item('per_page', 'cya_config');
+        $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         //       Begin pagination
         $this->load->library("pagination");
@@ -289,7 +292,7 @@ class Account extends MY_Controller {
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
 
-        $limit = $this->config->item('per_page', 'cya_config');
+        $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
         //       Begin pagination
@@ -332,6 +335,10 @@ class Account extends MY_Controller {
         } else {
             return TRUE;
         }
+    }
+
+    public function isEmail($email) {
+        return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email)) ? FALSE : TRUE;
     }
 
     public function checkEmail($email) {

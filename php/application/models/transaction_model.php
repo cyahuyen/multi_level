@@ -78,6 +78,41 @@ class Transaction_model extends CI_Model {
         return TRUE;
     }
 
+    public function getTransfers($limit = null, $start = null) {
+        $this->db->select("*");
+        $this->db->from("transaction");
+        if ($limit)
+            $this->db->limit((int) $limit);
+
+        if ($limit && $start)
+            $this->db->limit((int) $limit, (int) $start);
+
+        if (!empty($sort)) {
+            foreach ($sort as $key => $value) {
+                $this->db->order_by($key, $value);
+            }
+        }
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function totalTransfer() {
+        $this->db->select("*");
+        $this->db->from("transaction");
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    function getUser($id) {
+        $sql = $this->db->query("SELECT fullname FROM user WHERE user_id='" . (int) $id . "' ")->result();
+        if ($sql)
+            return $sql[0]->fullname;
+        else {
+            return 0;
+        }
+    }
+
 }
 
 ?>
