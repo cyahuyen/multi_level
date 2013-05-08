@@ -51,7 +51,7 @@ class Adminuser extends MY_Controller {
         if ($posts['status'] != 'all')
             $dataWhere['status'] = $posts['status'];
         $dataWhere['searchby'] = $posts['searchby'];
-        $limit = $this->config->item('per_page', 'cya_config');
+        $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         if (!empty($posts['asc'])) {
             $sort[$posts['sort']] = 'ASC';

@@ -43,8 +43,8 @@ class Admintransfer extends MY_Controller {
             'separator' => ' :: '
         );
         $posts = $this->input->post();
-        $this->config->load('cya_config', TRUE);
-        $limit = $this->config->item('per_page', 'cya_config');
+        $this->config->load('my_config', TRUE);
+        $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
 //       Begin pagination

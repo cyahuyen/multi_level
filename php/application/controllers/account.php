@@ -237,7 +237,7 @@ class Account extends MY_Controller {
 
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
-        $limit = $this->config->item('per_page', 'cya_config');
+        $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         //       Begin pagination
         $this->load->library("pagination");
@@ -292,7 +292,7 @@ class Account extends MY_Controller {
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
 
-        $limit = $this->config->item('per_page', 'cya_config');
+        $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
         //       Begin pagination
