@@ -1,9 +1,5 @@
 <?php
 
-/*
-  This model provides all interfaces for user management
- */
-
 class User_model extends CI_Model {
 
     private $tbl = 'user';
@@ -25,9 +21,6 @@ class User_model extends CI_Model {
         return $query->result();
     }
 
-    /**
-     * Returns TRUE if the password is the same as the one currently stored, owtherwise FALSE
-     */
     public function passwordMatches($id, $password) {
         $this->load->database();
         $sql = "select * from user where user.user_id = $id and user.password = md5('$password')";
@@ -188,22 +181,14 @@ class User_model extends CI_Model {
     }
 
     function updatePassword($id, $data) {
-        $this->db->query("UPDATE " . $this->tbl . " SET password = '" . md5($data['password']) . "' WHERE user_id='" . (int) $id . "'");
+        $this->db->where('user_id', $id);
+        return $this->db->update('user', $data);
     }
 
-    function getSumOpen($id, $transaction_start, $transaction_finish) {
-        $sql = $this->db->query("SELECT SUM(fees) AS totalopen FROM transaction WHERE created >='" . $transaction_start . "' AND created <='" . $transaction_finish . "' AND user_id='" . (int) $id . "' ")->result();
+    function getBalance($id) {
+        $sql = $this->db->query("SELECT balance FROM balance WHERE user_id='" . (int) $id . "' ")->result();
         if ($sql)
-            return $sql[0]->totalopen;
-        else {
-            return 0;
-        }
-    }
-
-    function getSumTotal($id, $transaction_start, $transaction_finish) {
-        $sql = $this->db->query("SELECT SUM(total) AS total FROM transaction WHERE created >='" . $transaction_start . "' AND created <='" . $transaction_finish . "' AND user_id='" . (int) $id . "' ")->result();
-        if ($sql)
-            return $sql[0]->total;
+            return $sql[0]->balance;
         else {
             return 0;
         }

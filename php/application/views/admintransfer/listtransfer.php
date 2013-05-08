@@ -1,9 +1,4 @@
-<div class="breadcrumb">
-    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-        <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
-    <?php } ?>
-    <div style="clear:both;"></div>
-</div>
+
 <div class="content">
     <div class="content-header">
         <div class="content-title">
@@ -16,7 +11,7 @@
                 <table>
                     <tbody>
                         <tr class="heading">
-                            <td style="width:40px"><div>Id</div></td>
+                            <td style="width:40px"><div>UserName</div></td>
                             <td style="width:140px"><div>Fees</div></td>
                             <td style="width:120px"><div>Total</div></td>
                             <td style="width:80px"><div>Payment Type</div></td>
@@ -27,7 +22,7 @@
                         <?php if ($historys) { ?>
                             <?php foreach ($historys as $history) { ?>
                                 <tr class="row">
-                                    <td><div><?php echo $history->id; ?></div></td>
+                                    <td><div><?php echo $history->username; ?></div></td>
                                     <td><div><?php echo $history->fees; ?></div></td>
                                     <td><div><?php echo $history->total; ?></div></td>
                                     <td><div><?php echo $history->transaction_type; ?></div></td>

@@ -16,7 +16,7 @@
                 <table>
                     <tbody>
                         <tr class="heading">
-                            <td style="width:40px"><div>Id</div></td>
+                            <td style="width:40px"><div>UserName</div></td>
                             <td style="width:140px"><div>Fees</div></td>
                             <td style="width:120px"><div>Total</div></td>
                             <td style="width:80px"><div>Payment Type</div></td>
@@ -24,16 +24,16 @@
                             <td style="width:80px"><div>Status</div></td>
                             <td style="width:120px"><div>Created Date</div></td>
                         </tr>
-                        <?php if ($historys) { ?>
-                            <?php foreach ($historys as $history) { ?>
+                        <?php if ($transfers) { ?>
+                            <?php foreach ($transfers as $history) { ?>
                                 <tr class="row">
-                                    <td><div><?php echo $history->id; ?></div></td>
-                                    <td><div><?php echo $history->fees; ?></div></td>
-                                    <td><div><?php echo $history->total; ?></div></td>
-                                    <td><div><?php echo $history->transaction_type; ?></div></td>
-                                    <td><div><?php echo $history->transaction_source; ?></div></td>
-                                    <td><div><?php echo $history->payment_status; ?></div></td>
-                                    <td><div><?php echo $history->created; ?></div></td>
+                                    <td><div><?php echo $history['fullname']; ?></div></td>
+                                    <td><div><?php echo $history['fees']; ?></div></td>
+                                    <td><div><?php echo $history['total']; ?></div></td>
+                                    <td><div><?php echo $history['transaction_type']; ?></div></td>
+                                    <td><div><?php echo $history['transaction_source']; ?></div></td>
+                                    <td><div><?php echo $history['payment_status']; ?></div></td>
+                                    <td><div><?php echo $history['created']; ?></div></td>
                                 </tr>
                             <?php } ?>
                         <?php } ?>

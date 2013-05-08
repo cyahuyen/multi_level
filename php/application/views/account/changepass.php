@@ -13,21 +13,15 @@
     </thead>
     <tbody>
         <tr>
-            <td><div>Current Password: </div></td>
-            <td>
-                <input name="cu_password" type="password" id="cu_password" style="width:300px" value="" />
-            </td>
-        </tr>
-        <tr>
             <td><div>Password: </div></td>
             <td>
-                <input name="password" type="password" id="password" style="width:300px" value="" />
+                <input name="password" type="password" id="password" style="width:300px" value="<?php echo set_value('password'); ?>" />
             </td>
         </tr>
         <tr>
             <td><div>Confirm Password: </div></td>
             <td>
-                <input name="repassword" type="password" id="repass" style="width:300px" value="" />
+                <input name="repassword" type="password" id="repass" style="width:300px" value="<?php echo set_value('repassword'); ?>" />
             </td>
         </tr>
         <tr>
