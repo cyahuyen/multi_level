@@ -39,8 +39,7 @@
                         <?php } ?>
                     </tbody>
                 </table>
-                <?php echo $links; ?>
+                <div class="pagination"><?php echo $links; ?></div>
             </div>
         </div>
     </div>
-</div>

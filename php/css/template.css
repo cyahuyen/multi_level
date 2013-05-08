@@ -640,3 +640,32 @@ table.datatable tr td span.currency{
     clear: both;
     font-weight: bold;
 }
+
+.pagination{
+    text-align:center;
+    padding: 15px 0px;
+    overflow: hidden;
+}
+.pagination .nav-button{
+    display:inline;
+    text-align:center;
+    font-size:12px;
+    color:#3E7CAC;
+    padding-right:3px;
+    font-weight:bold;
+    float: left;
+}
+.pagination .nav-button div{
+    color: #3E7CAC;
+    border: 1px solid #D6D6D6;
+    border-radius: 3px;
+    padding: 5px 8px;
+    box-shadow: 0px 1px 1px #EDEDED;
+}
+.pagination .nav-button a img{
+    color: #3E7CAC;
+    border: 1px solid #D6D6D6;
+    border-radius: 3px;
+    padding: 5px 8px;
+    box-shadow: 0px 1px 1px #EDEDED;
+}

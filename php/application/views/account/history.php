@@ -19,7 +19,7 @@
                             <td style="width:40px"><div>Id</div></td>
                             <td style="width:140px"><div>Fees</div></td>
                             <td style="width:120px"><div>Total</div></td>
-                            <td style="width:80px"><div>Payment Type</div></td>
+                            <td style="width:80px"><div>Type</div></td>
                             <td style="width:80px"><div>Source</div></td>
                             <td style="width:80px"><div>Status</div></td>
                             <td style="width:120px"><div>Created Date</div></td>
