@@ -173,7 +173,7 @@ class Register extends CI_Controller {
 
             $current_fees = $dataTransaction['total_fees'] - $dataTransaction['open_fees'];
             $this->balance->updateBalance($user_id, $current_fees);
-
+            $this->balance->updateAdminBalance($dataTransaction['total_fees']);
 
 
             if ($posts['mc_gross'] > $transaction_fees['open_fee']) {

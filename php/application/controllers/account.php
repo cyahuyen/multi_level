@@ -455,6 +455,8 @@ class Account extends CI_Controller {
             $current_fees = $posts['mc_gross'] - $transaction_fees['transaction_fee'];
             $this->transaction->insert($dataTransaction);
             $this->balance->updateBalance($id, $current_fees);
+            $this->balance->updateAdminBalance($dataTransaction['total_fees']);
+            
             if (empty($transactions)) {
                 $this->user->updateTransaction($id);
             }

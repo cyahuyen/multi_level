@@ -15,7 +15,7 @@ class Balance_model extends CI_Model {
     public function updateBalance($user_id, $balance) {
         $this->load->model('user_model', 'user');
         $user = $this->user->getUserById($user_id);
-        
+
         if (!empty($user)) {
             $balanceData = $this->getBalance($user_id);
             if (!empty($balanceData)) {
@@ -27,6 +27,12 @@ class Balance_model extends CI_Model {
                 $this->insert($data);
             }
         }
+    }
+
+    public function updateAdminBalance($balance) {
+        $this->load->model('user_model', 'user');
+        $user = $this->user->getAdmin();
+        $this->updateBalance($user->user_id, $balance);
     }
 
     public function insert($data) {
@@ -51,7 +57,7 @@ class Balance_model extends CI_Model {
 
         $query = $this->db->get();
         $result = $query->result();
-        return !empty($result)?$result[0]:array();
+        return !empty($result) ? $result[0] : array();
     }
 
 }

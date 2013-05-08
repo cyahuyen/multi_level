@@ -113,6 +113,17 @@ class User_model extends CI_Model {
         $result = $query->result();
         return $result[0];
     }
+    
+    public function getAdmin(){
+        $this->db->select("*");
+        $this->db->from("user");
+
+        $this->db->where('permission', 'administrator');
+
+        $query = $this->db->get();
+        $result = $query->result();
+        return $result[0];
+    }
 
     public function insert($data) {
         $data['created_on'] = 'NOW()';
