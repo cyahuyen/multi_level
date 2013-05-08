@@ -56,8 +56,18 @@ class User_model extends CI_Model {
     public function updateUserType($id) {
         $user = $this->getUserById($id);
         if (!empty($user) && $user->usertype == 0) {
-            $this->update($id, array('usertype' => 1));
+            $this->db->where('user_id', $id);
+            $this->db->set('transaction_start', 'NOW()', FALSE);
+            $this->db->set('transaction_finish', 'DATE_ADD(NOW(),INTERVAL 30 DAY )', FALSE);
+            $this->db->update('user', array('usertype' => 1));
         }
+    }
+
+    public function updateDate($id) {
+        $this->db->where('user_id', $id);
+        $this->db->set('transaction_start', 'NOW()', FALSE);
+        $this->db->set('transaction_finish', 'DATE_ADD(NOW(),INTERVAL 30 DAY )', FALSE);
+        $this->db->update('user');
     }
 
     public function listUser($data, $limit = null, $start = null, $sort = null) {
@@ -86,6 +96,16 @@ class User_model extends CI_Model {
             }
         }
 
+        $query = $this->db->get();
+        return $query->result();
+    }
+    
+    public function listUserBouns($type){
+        $this->db->select("*");
+        $this->db->from("user");
+        $this->db->where('usertype', $type);
+        $this->db->where('DATE_FORMAT(transaction_finish,"%Y-%m-%d") = DATE_FORMAT(NOW(),"%Y-%m-%d")');
+        
         $query = $this->db->get();
         return $query->result();
     }

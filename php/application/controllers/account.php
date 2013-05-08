@@ -389,7 +389,7 @@ class Account extends MY_Controller {
         $totalTransaction = 0;
         if (!empty($transactions)) {
             foreach ($transactions as $transaction) {
-                $totalTransaction += $transaction->total_fees - $transaction->open_fees;
+                $totalTransaction += $transaction->total - $transaction->fees;
             }
         }
         $this->data['max_entry_amount'] = $max_entry_amount - $totalTransaction;
@@ -432,7 +432,7 @@ class Account extends MY_Controller {
         $totalTransaction = 0;
         if (!empty($transactions)) {
             foreach ($transactions as $transaction) {
-                $totalTransaction += $transaction->total_fees - $transaction->open_fees;
+                $totalTransaction += $transaction->total - $transaction->fees;
             }
         }
         $this->data['max_entry_amount'] = $max_entry_amount - $totalTransaction;

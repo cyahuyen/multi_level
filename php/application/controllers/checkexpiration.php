@@ -39,4 +39,63 @@ class CheckExpiration extends MY_Controller {
         }
     }
 
+    public function bonus() {
+        $this->load->model('config_model', 'configs');
+        $this->load->model('user_model', 'user');
+        $this->load->model('balance_model', 'balance');
+        $this->load->model('transaction_model', 'transaction');
+
+        $referral = $this->configs->getConfigs('referral');
+        $listSilver = $this->user->listUserBouns(1);
+
+        if (!empty($listSilver)) {
+            foreach ($listSilver as $silver) {
+                $balance = $this->balance->getBalance($silver->user_id);
+                $blanceFees = $balance->balance * $referral['percentage_silver'] / 100;
+                $newBalance = $balance->balance + $blanceFees;
+                $this->balance->update($silver->user_id, array('balance' => $newBalance));
+                $this->user->updateDate($silver->user_id);
+                $adminBalance = $this->balance->getAdminBalance();
+                $this->balance->updateAdminBalance($adminBalance->balance - $blanceFees);
+                $dataTransaction['user_id'] = $silver->user_id;
+                $dataTransaction['fees'] = 0;
+                $dataTransaction['status'] = 0;
+                $dataTransaction['total'] = $blanceFees;
+                $dataTransaction['transaction_id'] = '';
+                $dataTransaction['payment_status'] = 'Completed';
+                $dataTransaction['transaction_source'] = 'system';
+                $dataTransaction['transaction_type'] = 'bonus';
+                $this->transaction->insert($dataTransaction);
+                $title = "Profit from " . $silver->transaction_start . " to " . $silver->transaction_finish;
+                $content = "You have just received: $".$blanceFees . 'from '.$silver->transaction_start .' to '.$silver->transaction_finish;
+                sendmail($silver->email, $title, $content);
+            }
+        }
+        $listGold = $this->user->listUserBouns(2);
+
+        if (!empty($listGold)) {
+            foreach ($listGold as $gold) {
+                $balance = $this->balance->getBalance($silver->user_id);
+                $blanceFees = $balance->balance * $referral['percentage_gold'] / 100;
+                $newBalance = $balance->balance + $blanceFees;
+                $this->balance->update($gold->user_id, array('balance' => $newBalance));
+                $this->user->updateDate($gold->user_id);
+                $adminBalance = $this->balance->getAdminBalance();
+                $this->balance->updateAdminBalance($adminBalance->balance - $blanceFees);
+                
+                $dataTransaction['user_id'] = $gold->user_id;
+                $dataTransaction['fees'] = 0;
+                $dataTransaction['total'] = $blanceFees;
+                $dataTransaction['transaction_id'] = '';
+                $dataTransaction['payment_status'] = 'Completed';
+                $dataTransaction['transaction_source'] = 'system';
+                $dataTransaction['transaction_type'] = 'bonus';
+                $this->transaction->insert($dataTransaction);
+                $title = "Profit from " . $gold->transaction_start . " to " . $gold->transaction_finish;
+                $content = "You have just received: $".$blanceFees . 'from '.$gold->transaction_start .' to '.$gold->transaction_finish;
+                sendmail($gold->email, $title, $content);
+            }
+        }
+    }
+
 }

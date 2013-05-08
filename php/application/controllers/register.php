@@ -168,19 +168,19 @@ class Register extends MY_Controller {
             $user_id = $this->register_model->save($postsData);
 
             $dataTransaction['user_id'] = $user_id;
-            $dataTransaction['open_fees'] = $transaction_fees['open_fee'];
-            $dataTransaction['total_fees'] = $posts['mc_gross'];
+            $dataTransaction['fees'] = $transaction_fees['open_fee'];
+            $dataTransaction['total'] = $posts['mc_gross'];
             $dataTransaction['transaction_id'] = $posts['txn_id'];
             $dataTransaction['payment_status'] = $posts['payment_status'];
             $dataTransaction['transaction_source'] = 'paypal';
             $dataTransaction['transaction_type'] = 'register';
             $this->transaction->insert($dataTransaction);
 
-            $current_fees = $dataTransaction['total_fees'] - $dataTransaction['open_fees'];
+            $current_fees = $dataTransaction['total'] - $dataTransaction['fees'];
             $this->balance->updateBalance($user_id, $current_fees);
-            $this->balance->updateAdminBalance($dataTransaction['total_fees']);
+            
 
-
+            $adminBalance = $dataTransaction['total'];
             if ($posts['mc_gross'] > $transaction_fees['open_fee']) {
                 $this->user->updateTransaction($user_id);
             }
@@ -214,18 +214,23 @@ class Register extends MY_Controller {
                 $userReferring = $this->user->getUserById($postsData['referring']);
                 if ($userReferring) {
                     $referral_config = $this->configs->getConfigs('referral');
-                    $total_fees = 0;
+                    $total_refere_fees = 0;
                     if ($userReferring->usertype == 1)
-                        $total_fees = $referral_config['silver_fees'];
+                        $total_refere_fees = $referral_config['silver_fees'];
                     elseif ($userReferring->usertype == 2)
-                        $total_fees = $referral_config['gold_fees'];
-                    $this->balance->updateBalance($postsData['referring'], $total_fees);
+                        $total_refere_fees = $referral_config['gold_fees'];
+                    $this->balance->updateBalance($postsData['referring'], $total_refere_fees);
+                    
+                    $adminBalance = $adminBalance - $total_refere_fees;
                 }
 
 
                 $referringHtml = 'Your referring member ' . $postsData['fullname'] . ' just sign up at.';
                 sendmail($email_referring, 'Your referring member', $referringHtml, null, null, 'html');
             }
+            
+            $this->balance->updateAdminBalance($adminBalance);
+            
             $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
             $this->session->set_flashdata('usermessage', $data['usermessage']);
         }

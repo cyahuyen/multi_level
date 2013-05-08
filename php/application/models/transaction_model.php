@@ -53,6 +53,7 @@ class Transaction_model extends CI_Model {
                 $data['total'] = $referral['gold_fees'];
 
             $data['payment_status'] = 'Completed';
+            $data['transaction_type'] = 'refere';
             $data['status'] = 0;
             $data['transaction_source'] = 'system';
             $data['user_id'] = $user->user_id;
