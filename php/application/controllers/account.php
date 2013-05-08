@@ -447,8 +447,8 @@ class Account extends MY_Controller {
         } else {
             $posts = $this->input->post();
             $dataTransaction['user_id'] = $id;
-            $dataTransaction['open_fees'] = $transaction_fees['transaction_fee'];
-            $dataTransaction['total_fees'] = $posts['mc_gross'];
+            $dataTransaction['fees'] = $transaction_fees['transaction_fee'];
+            $dataTransaction['total'] = $posts['mc_gross'];
             $dataTransaction['transaction_id'] = $posts['txn_id'];
             $dataTransaction['payment_status'] = $posts['payment_status'];
             $dataTransaction['transaction_source'] = 'paypal';

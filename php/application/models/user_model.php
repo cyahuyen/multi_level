@@ -192,7 +192,7 @@ class User_model extends CI_Model {
     }
 
     function getSumOpen($id, $transaction_start, $transaction_finish) {
-        $sql = $this->db->query("SELECT SUM(open_fees) AS totalopen FROM transaction WHERE created >='" . $transaction_start . "' AND created <='" . $transaction_finish . "' AND user_id='" . (int) $id . "' ")->result();
+        $sql = $this->db->query("SELECT SUM(fees) AS totalopen FROM transaction WHERE created >='" . $transaction_start . "' AND created <='" . $transaction_finish . "' AND user_id='" . (int) $id . "' ")->result();
         if ($sql)
             return $sql[0]->totalopen;
         else {
@@ -201,7 +201,7 @@ class User_model extends CI_Model {
     }
 
     function getSumTotal($id, $transaction_start, $transaction_finish) {
-        $sql = $this->db->query("SELECT SUM(total_fees) AS total FROM transaction WHERE created >='" . $transaction_start . "' AND created <='" . $transaction_finish . "' AND user_id='" . (int) $id . "' ")->result();
+        $sql = $this->db->query("SELECT SUM(total) AS total FROM transaction WHERE created >='" . $transaction_start . "' AND created <='" . $transaction_finish . "' AND user_id='" . (int) $id . "' ")->result();
         if ($sql)
             return $sql[0]->total;
         else {

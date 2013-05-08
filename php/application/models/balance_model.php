@@ -34,6 +34,13 @@ class Balance_model extends CI_Model {
         $user = $this->user->getAdmin();
         $this->updateBalance($user->user_id, $balance);
     }
+    
+    public function getAdminBalance() {
+        $this->load->model('user_model', 'user');
+        $user = $this->user->getAdmin();
+        
+        return $this->getBalance($user->user_id);
+    }
 
     public function insert($data) {
         $this->db->insert('balance', $data);

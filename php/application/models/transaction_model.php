@@ -48,9 +48,9 @@ class Transaction_model extends CI_Model {
 
         if (!empty($user)) {
             if ($user->usertype == 1)
-                $data['total_fees'] = $referral['silver_fees'];
+                $data['total'] = $referral['silver_fees'];
             elseif ($user->usertype == 2)
-                $data['total_fees'] = $referral['gold_fees'];
+                $data['total'] = $referral['gold_fees'];
 
             $data['payment_status'] = 'Completed';
             $data['status'] = 0;
