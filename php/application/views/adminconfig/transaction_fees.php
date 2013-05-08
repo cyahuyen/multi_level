@@ -46,6 +46,12 @@
                    $<input type="text" id="max_enrolment_entry_amount" class="mandatory" name="max_enrolment_entry_amount" value="<?php echo!empty($data_configs['max_enrolment_entry_amount']) ? $data_configs['max_enrolment_entry_amount'] : '' ?>" class="" style="width:240px">
                 </td>
             </tr>
+            <tr>
+                <td>Monthly Of Silver Amount</td>
+                <td>
+                   $<input type="text" id="max_enrolment_silver_amount" class="mandatory" name="max_enrolment_silver_amount" value="<?php echo!empty($data_configs['max_enrolment_silver_amount']) ? $data_configs['max_enrolment_silver_amount'] : '' ?>" class="" style="width:240px">
+                </td>
+            </tr>
             
             <tr>
                 <td></td>

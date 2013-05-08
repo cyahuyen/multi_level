@@ -40,11 +40,17 @@ class User_model extends CI_Model {
         return $this->db->update('user', $data);
     }
 
-    public function updateTransaction($id) {
+    public function updateTransaction($id, $balance) {
         $this->db->where('user_id', $id);
         $this->db->set('transaction_start', 'NOW()', FALSE);
         $this->db->set('transaction_finish', 'DATE_ADD(NOW(),INTERVAL 30 DAY )', FALSE);
-        return $this->db->update('user');
+        $data = array();
+        if ($balance > 100) {
+            $data['usertype'] = 2;
+        } elseif ($balance < 100 & $balance > 0) {
+            $data['usertype'] = 1;
+        }
+        return $this->db->update('user', $data);
     }
 
     public function updateUserType($id) {
@@ -113,8 +119,8 @@ class User_model extends CI_Model {
         $result = $query->result();
         return $result[0];
     }
-    
-    public function getAdmin(){
+
+    public function getAdmin() {
         $this->db->select("*");
         $this->db->from("user");
 

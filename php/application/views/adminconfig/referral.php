@@ -23,27 +23,28 @@
         <tbody>
 
             <tr>
-                <td>Reffering Percentage </td>
+                <td>Percentage of Silver Acount </td>
                 <td>
-                    %<input type="text" id="referring_percentage" class="mandatory" name="referring_percentage" value="<?php echo!empty($data_configs['referring_percentage']) ? $data_configs['referring_percentage'] : '' ?>" class="" style="width:240px">
+                    <input type="text" id="percentage_silver" class="" name="percentage_silver" value="<?php echo!empty($data_configs['percentage_silver']) ? $data_configs['percentage_silver'] : '' ?>" class="" style="width:240px">%
                 </td>
             </tr>
             <tr>
-                <td>Interest Race </td>
+                <td>Percentage of Gold Acount </td>
                 <td>
-                    %<input type="text" id="interest_race" class="mandatory" name="interest_race" value="<?php echo!empty($data_configs['interest_race']) ? $data_configs['interest_race'] : '' ?>" class="" style="width:240px">
+                    <input type="text" id="percentage_gold" class="" name="percentage_gold" value="<?php echo!empty($data_configs['percentage_gold']) ? $data_configs['percentage_gold'] : '' ?>" class="" style="width:240px">%
+
                 </td>
             </tr>
             <tr>
                 <td>Gold Fees </td>
                 <td>
-                    $<input type="text" id="gold_fees" class="mandatory" name="gold_fees" value="<?php echo!empty($data_configs['gold_fees']) ? $data_configs['gold_fees'] : '' ?>" style="width:240px">
+                    <input type="text" id="gold_fees" class="" name="gold_fees" value="<?php echo!empty($data_configs['gold_fees']) ? $data_configs['gold_fees'] : '' ?>" style="width:240px">$
                 </td>
             </tr>
             <tr>
                 <td>Silver Fees </td>
                 <td>
-                    $<input type="text" id="silver_fees" class="mandatory" name="silver_fees" value="<?php echo!empty($data_configs['silver_fees']) ? $data_configs['silver_fees'] : '' ?>" style="width:240px">
+                    <input type="text" id="silver_fees" class="" name="silver_fees" value="<?php echo!empty($data_configs['silver_fees']) ? $data_configs['silver_fees'] : '' ?>" style="width:240px">$
                 </td>
             </tr>
 

@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Account extends CI_Controller {
+class Account extends MY_Controller {
 
     var $menu_config_user_home = array('active', '', '', '', '', '');
     var $menu_config_user_user = array('', 'active', '', '', '', '');
@@ -372,6 +372,7 @@ class Account extends CI_Controller {
         $this->load->model('transaction_model', 'transaction');
         $this->load->model('config_model', 'configs');
         $user = $this->user->getUserById($id);
+        $this->data['user'] = $user;
         $transaction_config = $this->configs->getConfigs('transaction_fees');
         $this->data['transaction_fees'] = $transaction_config;
 
@@ -451,7 +452,7 @@ class Account extends CI_Controller {
             $dataTransaction['transaction_id'] = $posts['txn_id'];
             $dataTransaction['payment_status'] = $posts['payment_status'];
             $dataTransaction['transaction_source'] = 'paypal';
-
+            $dataTransaction['transaction_type'] = 'deposit';
             if ($this->transaction->checkTransactionExists($posts['txn_id'])) {
                 $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
                 $this->session->set_flashdata('usermessage', $data['usermessage']);

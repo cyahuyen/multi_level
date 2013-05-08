@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Register extends CI_Controller {
+class Register extends MY_Controller {
 
     var $menu_config_0 = array('', '', '', '', '', '');
     var $menu_config_1 = array('active', '', '', '', '', '');
@@ -173,6 +173,7 @@ class Register extends CI_Controller {
             $dataTransaction['transaction_id'] = $posts['txn_id'];
             $dataTransaction['payment_status'] = $posts['payment_status'];
             $dataTransaction['transaction_source'] = 'paypal';
+            $dataTransaction['transaction_type'] = 'register';
             $this->transaction->insert($dataTransaction);
 
             $current_fees = $dataTransaction['total_fees'] - $dataTransaction['open_fees'];

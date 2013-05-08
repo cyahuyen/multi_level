@@ -64,7 +64,6 @@
     </tbody>
 </table>
 <?php echo form_close(); ?>
-
 <script type="text/javascript">
     $(document).ready(function() {
         $('#save-btn').live('click', function() {
@@ -73,10 +72,20 @@
             var entry_amount = $('#entry_amount').val();
             var min_enrolment_entry_amount = '<?php echo $transaction_fees['min_enrolment_entry_amount']; ?>';
             var max_enrolment_entry_amount = '<?php echo $max_entry_amount; ?>';
+            <?php if($user->usertype != 1){ ?>
             if (isNaN(entry_amount) || (entry_amount % 100 != 0) || ((entry_amount != '') && entry_amount < min_enrolment_entry_amount) || ((entry_amount != '') && entry_amount > max_enrolment_entry_amount)) {
                 $('#msgContainer').append('<input type="hidden" id="cmsgentry_amount" value="Enrolment Entry Amount is numberic , divisible to 100, greater than ' + min_enrolment_entry_amount + ' and litter than ' + max_enrolment_entry_amount + '"/>');
                 flag = false;
             }
+             <?php }else{ ?>
+             var max_enrolment_silver_amount = '<?php echo $transaction_fees['max_enrolment_silver_amount']; ?>';
+             if (!isNaN(entry_amount) && (entry_amount >0) && (entry_amount < max_enrolment_silver_amount)) {
+                
+            }else if((isNaN(entry_amount) || (entry_amount % 100 != 0) || ((entry_amount != '') && entry_amount < min_enrolment_entry_amount) || ((entry_amount != '') && entry_amount > max_enrolment_entry_amount))){
+                $('#msgContainer').append('<input type="hidden" id="cmsgentry_amount" value="Enrolment Entry Amount is numberic , divisible to 100, greater than ' + min_enrolment_entry_amount + ' and litter than ' + max_enrolment_entry_amount + '"/>');
+                flag = false;
+            }
+             <?php } ?>
             var payment = $('#payment:checked').val();
             if (typeof(payment) == "undefined") {
                 $('#msgContainer').append('<input type="hidden" id="cmsgpayment" value="Payment method not null"/>');
@@ -103,6 +112,8 @@
         var min_enrolment_entry_amount = '<?php echo $transaction_fees['min_enrolment_entry_amount']; ?>';
         var max_enrolment_entry_amount = '<?php echo $max_entry_amount; ?>';
         var entry_amount = $('#entry_amount').val();
+        var max_enrolment_silver_amount = '<?php echo $transaction_fees['max_enrolment_silver_amount']; ?>';
+        <?php if($user->usertype != 1){ ?>
         if (!isNaN(entry_amount) && (entry_amount % 100 == 0) && entry_amount >= min_enrolment_entry_amount && entry_amount <= max_enrolment_entry_amount) {
             if (entry_amount.length == 0)
                 entry_amount = 0
@@ -111,6 +122,21 @@
         } else {
             $('#total_fees').text('$' + transaction_fee);
         }
+        <?php }else{ ?>
+            if (!isNaN(entry_amount) && (entry_amount >0) && (entry_amount < max_enrolment_silver_amount)) {
+                if (entry_amount.length == 0)
+                    entry_amount = 0
+                var total_fees = parseInt(entry_amount) + parseInt(transaction_fee);
+                    $('#total_fees').text('$' + total_fees);
+            }else if (!isNaN(entry_amount) && (entry_amount % 100 == 0) && entry_amount >= min_enrolment_entry_amount && entry_amount <= max_enrolment_entry_amount) {
+                if (entry_amount.length == 0)
+                    entry_amount = 0
+                var total_fees = parseInt(entry_amount) + parseInt(transaction_fee);
+                    $('#total_fees').text('$' + total_fees);
+            } else {
+                $('#total_fees').text('$' + transaction_fee);
+            }
+        <?php } ?>
     }
 </script>
 
