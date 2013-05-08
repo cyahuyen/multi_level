@@ -41,6 +41,9 @@
                     </li>
                 </ul>
             </li>
+            <li class="<?php echo $menu_config[4] ?>">
+                <a href="<?php echo site_url('adminreport') ?>">Report</a>
+            </li>
         </ul>
         <div class="clearer"></div>
     </div>

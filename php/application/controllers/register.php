@@ -5,13 +5,13 @@ if (!defined('BASEPATH'))
 
 class Register extends CI_Controller {
 
-    var $menu_config_0 = array('', '', '', '', '','');
-    var $menu_config_1 = array('active', '', '', '', '','');
-    var $menu_config_2 = array('', 'active', '', '', '','');
-    var $menu_config_3 = array('', '', 'active', '', '','');
-    var $menu_config_4 = array('', '', '', 'active', '','');
-    var $menu_config_5 = array('', '', '', '', 'active','');
-    var $menu_config_6 = array('', '', '', '', '','active');
+    var $menu_config_0 = array('', '', '', '', '', '');
+    var $menu_config_1 = array('active', '', '', '', '', '');
+    var $menu_config_2 = array('', 'active', '', '', '', '');
+    var $menu_config_3 = array('', '', 'active', '', '', '');
+    var $menu_config_4 = array('', '', '', 'active', '', '');
+    var $menu_config_5 = array('', '', '', '', 'active', '');
+    var $menu_config_6 = array('', '', '', '', '', 'active');
     var $usertype = array('0' => 'Member', '1' => 'Silver', '2' => 'Gold');
 
     function __construct() {
@@ -146,14 +146,18 @@ class Register extends CI_Controller {
                 redirect('register');
             }
 
-
+            if ($this->transaction->checkTransactionExists($posts['txn_id'])) {
+                $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
+                $this->session->set_flashdata('usermessage', $data['usermessage']);
+                redirect('home');
+            }
 
             if ($posts['mc_gross'] > $transaction_fees['open_fee'])
                 $postsData['usertype'] = 2;
 //                $postsData['transaction_start'] = 2;
             else
                 $postsData['usertype'] = 0;
-            
+
             if (!empty($postsData['referring'])) {
                 $userReferring = $this->user->getUserById($postsData['referring']);
                 if (!$userReferring) {
@@ -183,10 +187,9 @@ class Register extends CI_Controller {
             $userHtml = '
                 Thank you for registering <br>
                 You just sign up at. Please login to check your account';
-            $userHtml .= 'Acount Type: ' . $this->usertype[$postsData['usertype']]. '<br>';
+            $userHtml .= 'Acount Type: ' . $this->usertype[$postsData['usertype']] . '<br>';
             if ($posts['mc_gross'] > $transaction_fees['open_fee']) {
                 $userHtml .= 'Payment :' . $posts['mc_gross'] - $transaction_fees['open_fee'] . '<br>';
-                
             }
 
             sendmail($postsData['email'], 'Thank you for registering', $userHtml, null, 'Admin Manager', 'html');
@@ -255,7 +258,7 @@ class Register extends CI_Controller {
                 $data['forget_code'] = random_string('numeric', 10);
                 $this->session->set_flashdata('step', 2);
                 $data['main_content'] = 'register/reset_pass_step2.php';
-                $this->register_model->update(array('forgotten_password_code' => $data['forget_code']),$id);
+                $this->register_model->update(array('forgotten_password_code' => $data['forget_code']), $id);
                 //======================= Send Email ====================================
                 $title = "Forget Password";
                 $content = "Code forget Password: '" . $data['forget_code'] . "'";

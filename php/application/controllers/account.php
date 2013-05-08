@@ -452,11 +452,17 @@ class Account extends CI_Controller {
             $dataTransaction['payment_status'] = $posts['payment_status'];
             $dataTransaction['transaction_source'] = 'paypal';
 
+            if ($this->transaction->checkTransactionExists($posts['txn_id'])) {
+                $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
+                $this->session->set_flashdata('usermessage', $data['usermessage']);
+                redirect('account/transaction');
+            }
+
             $current_fees = $posts['mc_gross'] - $transaction_fees['transaction_fee'];
             $this->transaction->insert($dataTransaction);
             $this->balance->updateBalance($id, $current_fees);
             $this->balance->updateAdminBalance($dataTransaction['total_fees']);
-            
+
             if (empty($transactions)) {
                 $this->user->updateTransaction($id);
             }

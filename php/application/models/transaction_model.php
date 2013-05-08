@@ -65,6 +65,18 @@ class Transaction_model extends CI_Model {
         return 0;
     }
 
+    public function checkTransactionExists($transaction) {
+        $this->db->select("*");
+        $this->db->from("transaction");
+        $this->db->where("transaction_id", $transaction);
+
+        $query = $this->db->get();
+        $result = $query->result();
+        if (empty($result))
+            return FALSE;
+        return TRUE;
+    }
+
 }
 
 ?>
