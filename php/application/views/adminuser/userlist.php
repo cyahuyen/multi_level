@@ -7,6 +7,7 @@
             <td style="width:110px"><span>Email</span></td>
             <td style="width:80px"><span>Phone</span></td>
             <td style="width:60px"><span>Status</span></td>
+            <td style="width:60px"><span>Active</span></td>
         </tr>
     </thead>
     <tbody>
@@ -25,6 +26,7 @@
                         ?></span></td>
                 <td><span><?php echo $user->email; ?></span></td>
                 <td><span><?php echo $user->phone; ?></span></td>
+                <td><span><?php echo !empty($user->status)?'Active':'De-Active' ?></span></td>
                 <td><span>
                         <?php if ($user->status == 1) { ?>
                             <a href="javascript:void(0);" class="activate" id="disable_<?php echo $user->user_id; ?>" rel="<?php echo $user->user_id; ?>"><img src='<?php echo base_url(); ?>img/actions/deactivate.png' alt='Activate' title='Activate'/></a>
