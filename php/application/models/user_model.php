@@ -46,6 +46,17 @@ class User_model extends CI_Model {
         return $this->db->update('user', $data);
     }
 
+    public function updateTransactionWithoutDate($id, $balance) {
+        $this->db->where('user_id', $id);
+        $data = array();
+        if ($balance > 100) {
+            $data['usertype'] = 2;
+        } elseif ($balance < 100 & $balance > 0) {
+            $data['usertype'] = 1;
+        }
+        return $this->db->update('user', $data);
+    }
+
     public function updateUserType($id) {
         $user = $this->getUserById($id);
         if (!empty($user) && $user->usertype == 0) {
@@ -92,13 +103,13 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
-    
-    public function listUserBouns($type){
+
+    public function listUserBouns($type) {
         $this->db->select("*");
         $this->db->from("user");
         $this->db->where('usertype', $type);
         $this->db->where('DATE_FORMAT(transaction_finish,"%Y-%m-%d") = DATE_FORMAT(NOW(),"%Y-%m-%d")');
-        
+
         $query = $this->db->get();
         return $query->result();
     }

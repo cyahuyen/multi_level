@@ -473,7 +473,9 @@ class Account extends MY_Controller {
             $this->balance->updateAdminBalance($dataTransaction['total_fees']);
 
             if (empty($transactions)) {
-                $this->user->updateTransaction($id);
+                $this->user->updateTransaction($id, $current_fees);
+            } else {
+                $this->user->updateTransactionWithoutDate($id, $current_fees);
             }
             $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
             $this->session->set_flashdata('usermessage', $data['usermessage']);
@@ -484,6 +486,90 @@ class Account extends MY_Controller {
 
             redirect('account/transaction');
         }
+    }
+
+    public function creditcard() {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST')
+            redirect('account/transaction');
+        $this->load->helper('authorize');
+        $user_session = $this->session->userdata('user');
+        $id = $user_session['user_id'];
+        $this->load->model('user_model', 'user');
+        $this->load->model('transaction_model', 'transaction');
+        $this->load->model('config_model', 'configs');
+        $this->load->model('balance_model', 'balance');
+        $user = $this->user->getUserById($id);
+        $transaction_config = $this->configs->getConfigs('transaction_fees');
+        $this->data['transaction_fees'] = $transaction_config;
+
+        $posts = $this->input->post();
+
+        if ($posts['entry_amount'] < 0) {
+            $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter 0');
+            $this->session->set_flashdata(array('usermessage' => $error));
+            redirect('account/transaction');
+        }
+
+        $this->load->model('config_model', 'configs');
+        $transaction_fees = $this->configs->getConfigs('transaction_fees');
+
+        $payments = $this->configs->listActivepayment();
+
+        //get transaction
+        $transactions = $this->transaction->getTransactionNotExpiration($id, $user->transaction_start, $user->transaction_finish);
+        $max_entry_amount = $transaction_config['max_enrolment_entry_amount'];
+        $totalTransaction = 0;
+        if (!empty($transactions)) {
+            foreach ($transactions as $transaction) {
+                $totalTransaction += $transaction->total - $transaction->fees;
+            }
+        }
+        $this->data['max_entry_amount'] = $max_entry_amount - $totalTransaction;
+
+
+
+        $money = $transaction_fees['transaction_fee'] + $posts['entry_amount'];
+        $dataTransactionFees = array(
+            'card_num' => $posts['card_num'],
+            'exp_date' => $posts['exp_date'],
+            'amount' => $money,
+        );
+
+
+        $payment_status = payment_creditcard($dataTransactionFees);
+        if ($payment_status['message'] == 'error') {
+            $error = array('error', 'darkred', 'Payment errors', $payment_status['error']);
+            $this->session->set_flashdata(array('usermessage' => $error));
+            redirect('account/transaction');
+        }
+
+        $dataTransaction['user_id'] = $id;
+        $dataTransaction['fees'] = $transaction_fees['transaction_fee'];
+        $dataTransaction['total'] = $money;
+        $dataTransaction['transaction_id'] = $payment_status['transaction_id'];
+        $dataTransaction['payment_status'] = 'Completed';
+        $dataTransaction['transaction_source'] = 'creditcard';
+        $dataTransaction['transaction_type'] = 'deposit';
+
+        $current_fees = $posts['entry_amount'];
+        $this->transaction->insert($dataTransaction);
+        $this->balance->updateBalance($id, $current_fees);
+        $this->balance->updateAdminBalance($money);
+
+        if (empty($transactions)) {
+            $this->user->updateTransaction($id, $current_fees);
+        } else {
+            $this->user->updateTransactionWithoutDate($id, $current_fees);
+        }
+
+        $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
+        $this->session->set_flashdata('usermessage', $data['usermessage']);
+        $adminHtml = 'Full Name: ' . $user->fullname . '<br>';
+        $adminHtml .= 'Amount: ' . $posts['mc_gross'];
+        sendmail(null, 'Have just new member deposite', $adminHtml);
+
+
+        redirect('account/transaction');
     }
 
 }

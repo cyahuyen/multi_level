@@ -263,7 +263,7 @@ class Register extends MY_Controller {
         $dataTransactionFees = array(
             'card_num' => $posts['card_num'],
             'exp_date' => $posts['exp_date'],
-            'amount' => $posts['amount'],
+            'amount' => $money,
         );
 
 

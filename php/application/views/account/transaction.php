@@ -79,18 +79,31 @@
             }
              <?php }else{ ?>
              var max_enrolment_silver_amount = '<?php echo $transaction_fees['max_enrolment_silver_amount']; ?>';
-             if (!isNaN(entry_amount) && (entry_amount >0) && (entry_amount < max_enrolment_silver_amount)) {
+             if (!isNaN(entry_amount) && (parseInt(entry_amount) >0) && (parseInt(entry_amount) < parseInt(max_enrolment_silver_amount))) {
                 
             }else if((isNaN(entry_amount) || (entry_amount % 100 != 0) || ((entry_amount != '') && entry_amount < min_enrolment_entry_amount) || ((entry_amount != '') && entry_amount > max_enrolment_entry_amount))){
                 $('#msgContainer').append('<input type="hidden" id="cmsgentry_amount" value="Enrolment Entry Amount is numberic , divisible to 100, greater than ' + min_enrolment_entry_amount + ' and litter than ' + max_enrolment_entry_amount + '"/>');
                 flag = false;
             }
              <?php } ?>
-            var payment = $('#payment:checked').val();
+            var payment = $('input[name=payment]:checked').val();
             if (typeof(payment) == "undefined") {
                 $('#msgContainer').append('<input type="hidden" id="cmsgpayment" value="Payment method not null"/>');
                 flag = false;
             }
+            
+            if(payment == 'creditcard'){
+            var card_num = $('#card_num').val();
+            var exp_date = $('#exp_date').val();
+            if (card_num.length <= 0) {
+                $('#msgContainer').append('<input type="hidden" id="cmsgcard_num" value="Card Number is not null"/>');
+                flag = false;
+            }
+            if (exp_date.length <= 0) {
+                $('#msgContainer').append('<input type="hidden" id="cmsgexp_date" value="Exp Date is not null"/>');
+                flag = false;
+            }
+        }
 
             if (flag == false) {
                 showmessage('error', 'Validation errors found', 'Please see below');
@@ -99,6 +112,7 @@
             } else {
                 $('#transaction-form').submit();
             }
+            
 
 
         });
@@ -143,7 +157,7 @@
 <script >
     $(document).ready(function() {
         getAmount();
-        $('#payment').change(function() {
+        $('input[name=payment]').change(function() {
 
             getAmount()
 
@@ -154,10 +168,14 @@
     })
 
     function getAmount() {
-        var payment = $('#payment:checked').val();
+        var payment = $('input[name=payment]:checked').val();
         var transaction_fee = '<?php echo $transaction_fees['transaction_fee'] ?>'
+        $('.creditcard').hide();
         if (payment == 'paypal') {
             $('form').attr('action', 'https://www.<?php echo ($config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
+        }else if (payment == 'creditcard'){
+            $('form').attr('action', '<?php echo site_url('account/creditcard') ?>');
+            $('.creditcard').show();
         }
         var entry_amount = $('#entry_amount').val();
         if (!isNaN(entry_amount) && entry_amount > 0) {
