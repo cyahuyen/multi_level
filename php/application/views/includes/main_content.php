@@ -1,5 +1,5 @@
 <div class="entry"> 
-    <div style="width: 40%; float: left; margin-right: 10px;">
+    <div style="clear: both;text-align: center;width: 60%;margin: 0px auto;">
         <p style="margin-top: 0; margin-bottom: 0;" align="center"><b>Shipping Terms and Conditions</b></p>
         <p>&nbsp;</p>
         <p style="margin-top: 0; margin-bottom: 0;" align="center"><span style="background-color: #ffffff;">We offer FREE UPS Ground<br>

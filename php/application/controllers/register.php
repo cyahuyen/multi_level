@@ -357,7 +357,6 @@ class Register extends MY_Controller {
 
         $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
         $this->session->set_flashdata('usermessage', $data['usermessage']);
-        redirect('home');
     }
 
     public function cancel_return() {
