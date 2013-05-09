@@ -16,8 +16,7 @@ class CheckExpiration extends MY_Controller {
     public function index() {
         $this->data['title'] = 'Check Expiration';
         $expirations = $this->expiration_model->getUsers();
-//        $currentDate = date("Y-m-d H:i:s");
-        $currentDate = "2013-06-08 14:26:41";
+        $currentDate = date("Y-m-d H:i:s");
         foreach ($expirations as $expiration) {
             if ($expiration->transaction_finish <= $currentDate && $expiration->usertype == 2) {
                 $users_expirations = $this->expiration_model->getUsersLimit($currentDate, 2);
@@ -53,7 +52,7 @@ class CheckExpiration extends MY_Controller {
 
         $referral = $this->configs->getConfigs('referral');
         $listSilver = $this->user->listUserBouns(1);
-
+        $dataAdmin = array();
         if (!empty($listSilver)) {
             foreach ($listSilver as $silver) {
                 $balance = $this->balance->getBalance($silver->user_id);
@@ -75,6 +74,10 @@ class CheckExpiration extends MY_Controller {
                 $title = "Profit from " . $silver->transaction_start . " to " . $silver->transaction_finish;
                 $content = "You have just received: $" . $blanceFees . 'from ' . $silver->transaction_start . ' to ' . $silver->transaction_finish;
                 sendmail($silver->email, $title, $content);
+                $dataAdmin[$silver->user_id] = array(
+                    'fullname' => $silver->fullname,
+                    'amount' => $blanceFees
+                );
             }
         }
         $listGold = $this->user->listUserBouns(2);
@@ -100,8 +103,20 @@ class CheckExpiration extends MY_Controller {
                 $title = "Profit from " . $gold->transaction_start . " to " . $gold->transaction_finish;
                 $content = "You have just received: $" . $blanceFees . 'from ' . $gold->transaction_start . ' to ' . $gold->transaction_finish;
                 sendmail($gold->email, $title, $content);
+                $dataAdmin[$gold->user_id] = array(
+                    'fullname' => $gold->fullname,
+                    'amount' => $blanceFees
+                );
             }
         }
+        if(!empty($dataAdmin)){
+            $content = '';
+            foreach ($dataAdmin as $data){
+                $content .= $data['fullname'] .': '.$data['amount'].'<br>';
+            }
+            sendmail(null, 'Profit', $content);
+        }
+        
     }
 
 }
