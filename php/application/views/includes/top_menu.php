@@ -20,8 +20,6 @@
                 <li class="<?php echo $menu_config[0] ?>" class="<?php echo $menu_config[0] ?>"><?php echo anchor('home', 'Home'); ?></li>
                 <li class="<?php echo $menu_config[1] ?>" class="register"><a href="<?php echo site_url('register/index') ?>">Sign Up</a></li>
                 <li class="<?php echo $menu_config[2] ?>" class="register"><a href="<?php echo site_url('authentication') ?>">Login</a></li>
-                <li class="<?php echo $menu_config[3] ?>"><a href="#">Help</a></li>
-                <li class="<?php echo $menu_config[4] ?>"><a href="#">Support</a></li>
             </ul>
             <div class="clearer"></div>
         </div>
