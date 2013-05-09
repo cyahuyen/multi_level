@@ -11,7 +11,7 @@ class User_model extends CI_Model {
         $password = md5($password);
         $sql = "select * from user where email = '$email' and password = '$password' and status = 1";
         $data = $this->db->query($sql)->result_array();
-        return $data[0];
+        return !empty($data)?$data[0]:array();
     }
 
     public function loadUser($id) {
