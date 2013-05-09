@@ -565,7 +565,7 @@ class Account extends MY_Controller {
         $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
         $this->session->set_flashdata('usermessage', $data['usermessage']);
         $adminHtml = 'Full Name: ' . $user->fullname . '<br>';
-        $adminHtml .= 'Amount: ' . $posts['mc_gross'];
+        $adminHtml .= 'Amount: ' . $money;
         sendmail(null, 'Have just new member deposite', $adminHtml);
 
 
