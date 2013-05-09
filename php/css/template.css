@@ -669,3 +669,7 @@ table.datatable tr td span.currency{
     padding: 5px 8px;
     box-shadow: 0px 1px 1px #EDEDED;
 }
+
+.user{
+    margin: 10px;
+}
