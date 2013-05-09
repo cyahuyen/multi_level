@@ -18,16 +18,14 @@ class Authentication extends MY_Controller {
         parent::__construct();
         $this->load->model('user_model', 'user');
         $this->data['menu_config'] = $this->menu_config_3;
-        
-        
     }
 
     public function index() {
         $user_session = $this->session->userdata('user');
-        
+
         if (!empty($user_session) && $user_session['permission'] != 'administrator') {
             redirect(site_url('home'));
-        }elseif(!empty($user_session) && $user_session['permission'] == 'administrator'){
+        } elseif (!empty($user_session) && $user_session['permission'] == 'administrator') {
             redirect(site_url('admin'));
         }
         $this->data['title'] = 'Sign-in';
@@ -54,11 +52,15 @@ class Authentication extends MY_Controller {
                     $this->data['usermessage'] = array('error', 'darkred', 'Sign-in name / password could not be verified', 'Please see below');
                     $validationErrors["email"] = "Sign-in name / password could not be verified";
                 } else {
-                    foreach ($usersForCreds[0] as $key => $data) {
-                        $sessiondata[$key] = $data;
-                    }
-                    $this->session->set_userdata(array('user' => $sessiondata));
-                    if ($sessiondata['permission'] == 'administrator')
+                    $data = array(
+                        'user_id' => $usersForCreds['user_id'],
+                        'email' => $usersForCreds['email'],
+                        'usertype' => $usersForCreds['usertype'],
+                        'status' => $usersForCreds['status'],
+                        'permission' => $usersForCreds['permission'],
+                    );
+                    $this->session->set_userdata(array('user' => $data));
+                    if ($usersForCreds['permission'] == 'administrator')
                         redirect(site_url('admin'));
                     redirect(site_url('home'));
                 }
@@ -72,7 +74,7 @@ class Authentication extends MY_Controller {
     }
 
     public function signout() {
-        
+
         $this->session->sess_destroy();
         redirect('home');
     }

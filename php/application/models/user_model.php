@@ -10,8 +10,8 @@ class User_model extends CI_Model {
         $email = strtolower(trim($name));
         $password = md5($password);
         $sql = "select * from user where email = '$email' and password = '$password' and status = 1";
-        $query = $this->db->query($sql);
-        return $query->result();
+        $data = $this->db->query($sql)->result_array();
+        return $data[0];
     }
 
     public function loadUser($id) {
@@ -92,13 +92,13 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
-    
-    public function listUserBouns($type){
+
+    public function listUserBouns($type) {
         $this->db->select("*");
         $this->db->from("user");
         $this->db->where('usertype', $type);
         $this->db->where('DATE_FORMAT(transaction_finish,"%Y-%m-%d") = DATE_FORMAT(NOW(),"%Y-%m-%d")');
-        
+
         $query = $this->db->get();
         return $query->result();
     }
