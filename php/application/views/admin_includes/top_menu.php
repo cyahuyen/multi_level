@@ -12,7 +12,7 @@
     <div class="clearer" style="height:1px; background-color:#fff"></div>
     <div class="mainmenu">
         <ul class="sf-menu">
-            <li class="<?php echo $menu_config[0] ?>"><?php echo anchor('home', 'Home'); ?></li>
+            <li class="<?php echo $menu_config[0] ?>"><?php echo anchor('admin', 'Home'); ?></li>
             <li class="<?php echo $menu_config[1] ?>">
                 <a href="<?php echo site_url('adminuser/manager') ?>">Users</a>
                 <ul>
