@@ -18,19 +18,19 @@
                 <table id="userdata">
                     <thead>
                         <tr class="heading">
-                            <td style="width:20px"><span></span></td>
-                            <td style=""><span>Configuration name</span></td>
-                            <td style="width:210px"><span>Action</span></td>
+                            <td style="width:20px"><div></div></td>
+                            <td style=""><div>Configuration name</div></td>
+                            <td style="width:210px"><div>Action</div></td>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($configs as $config) { ?>
                             <tr class="row" id=""> 
                                 <td></td>
-                                <td><?php echo $config['name'] ?></td>
-                                <td><span>
+                                <td><div><?php echo $config['name'] ?></div></td>
+                                <td><div>
                                         <a href="<?php echo site_url('adminconfig/' . $config['key'] ) ?>" class="deactivate" >Edit</a>
-                                    </span>
+                                    </div>
                                 </td>
                             </tr>
                         <?php } ?>

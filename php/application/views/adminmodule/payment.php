@@ -22,22 +22,22 @@
                 <table id="userdata">
                     <thead>
                         <tr class="heading">
-                            <td style="width:20px"><span></span></td>
-                            <td style=""><span>Config code</span></td>
-                            <td style="width:210px"><span>Status</span></td>
-                            <td style="width:210px"><span>Action</span></td>
+                            <td style="width:20px"><div></div></td>
+                            <td style=""><div>Config code</div></td>
+                            <td style="width:210px"><div>Status</div></td>
+                            <td style="width:210px"><div>Action</div></td>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($list_payment as $config) { ?>
                             <tr class="row" id=""> 
-                                <td></td>
-                                <td><?php echo $config->code ?></td>
-                                <td><?php echo ($config->value == 1)?'Active':'Deactive' ?></td>
+                                <td><div></div></td>
+                                <td><div><?php echo $config->code ?></div></td>
+                                <td><div><?php echo ($config->value == 1)?'Active':'Deactive' ?></div></td>
                                 <td>
-                                    <span>
+                                    <div>
                                         <a href="<?php echo site_url('adminmodule/' . $config->code ) ?>" class="deactivate" >Edit</a>
-                                    </span>
+                                    </div>
                                 </td>
                             </tr>
                         <?php } ?>
