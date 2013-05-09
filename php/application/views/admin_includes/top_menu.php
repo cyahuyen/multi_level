@@ -44,7 +44,7 @@
             <li class="<?php echo $menu_config[4] ?>">
                 <a href="<?php echo site_url('adminreport') ?>">Report</a>
             </li>
-            <li><a href="<?php echo site_url('admintransfer') ?>">Transaction</a></li>
+            <li class="<?php echo $menu_config[5] ?>"><a href="<?php echo site_url('admintransfer') ?>">Transaction</a></li>
         </ul>
         <div class="clearer"></div>
     </div>
