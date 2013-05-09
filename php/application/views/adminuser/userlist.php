@@ -26,10 +26,10 @@
                 <td><span><?php echo $user->email; ?></span></td>
                 <td><span><?php echo $user->phone; ?></span></td>
                 <td><span>
-                        <?php if ($user->status == 0) { ?>
-                            <a href="javascript:void(0);" class="deactivate" id="disable_<?php echo $user->user_id; ?>" rel="<?php echo $user->user_id; ?>"><img src='<?php echo base_url(); ?>img/actions/deactivate.png' alt='Deactivate' title='De-activate'/></a>
+                        <?php if ($user->status == 1) { ?>
+                            <a href="javascript:void(0);" class="activate" id="disable_<?php echo $user->user_id; ?>" rel="<?php echo $user->user_id; ?>"><img src='<?php echo base_url(); ?>img/actions/deactivate.png' alt='Activate' title='Activate'/></a>
                         <?php } else { ?>
-                            <a href="javascript:void(0);" class="activate" id="disable_<?php echo $user->user_id; ?>" rel="<?php echo $user->user_id; ?>"><img src='<?php echo base_url(); ?>img/actions/activate.png' alt='Activate' title='Activate'/></a>
+                            <a href="javascript:void(0);" class="deactivate" id="disable_<?php echo $user->user_id; ?>" rel="<?php echo $user->user_id; ?>"><img src='<?php echo base_url(); ?>img/actions/activate.png' alt='Deactivate' title='Deactivate'/></a>
                             <?php } ?>
                     </span>
                 </td>

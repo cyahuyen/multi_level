@@ -11,13 +11,7 @@ if (!defined('BASEPATH'))
 class Adminuser extends MY_Controller {
 
     private $data;
-    var $menu_config_0 = array('', '', '', '', '', '');
-    var $menu_config_1 = array('active', '', '', '', '', '');
-    var $menu_config_2 = array('', 'active', '', '', '', '');
-    var $menu_config_3 = array('', '', 'active', '', '', '');
-    var $menu_config_4 = array('', '', '', 'active', '', '');
-    var $menu_config_5 = array('', '', '', '', 'active', '');
-    var $menu_config_6 = array('', '', '', '', '', 'active');
+    
     var $navstack = null;
     var $usertype = array('0' => 'Member', '1' => 'Silver', '2' => 'Gold');
 

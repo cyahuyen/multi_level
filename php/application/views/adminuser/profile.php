@@ -85,16 +85,7 @@
                     <input type="password" style="width:240px" class="mandatory" value="" name="repassword" id="repassword"><img class="mandatory" src="<?php echo base_url() ?>/img/sev/required.jpg" title="This is a required value">
                 </td>
             </tr>               
-            <tr>
-                <td>Permission</td>
-                <td>
-                    <select onchange="" style="width:160px" id="permission" name="permission">
-                        <option  value="">-- Select --</option>
-                        <option <?php echo(!empty($userdata->permission) && $userdata->permission == 'administrator') ? 'selected' : '' ?> value="administrator">Administrator</option>
-                    </select>
-
-                </td>
-            </tr>
+            
             <tr>
                 <td>User type</td>
                 <td>

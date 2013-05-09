@@ -31,7 +31,7 @@ class Account extends MY_Controller {
         if (!$this->session->userdata('user')) {
             redirect('authentication', 'refresh');
         }
-
+        $this->data['menu_config'] = $this->menu_config_2;
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {
             $this->data['usermessage'] = $msg;
@@ -277,7 +277,7 @@ class Account extends MY_Controller {
         $posts = $this->input->post();
         $this->data['title'] = 'History';
         $this->data['breadcrumbs'] = array();
-
+        $this->data['menu_config'] = $this->menu_config_3;
         $this->data['breadcrumbs'][] = array(
             'text' => 'Home',
             'href' => site_url('account'),
@@ -368,6 +368,7 @@ class Account extends MY_Controller {
             'href' => site_url('account'),
             'separator' => false
         );
+        $this->data['menu_config'] = $this->menu_config_4;
         $this->data['breadcrumbs'][] = array(
             'text' => 'Deposite Amount',
             'href' => site_url('account/transaction'),

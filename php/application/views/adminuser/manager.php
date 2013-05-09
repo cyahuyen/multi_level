@@ -106,7 +106,7 @@
                         <select id="datalist-filter-type">
                             <option value="all" <?php echo (!empty($userlist['status']) && $userlist['status'] == 'all') ? 'selected' : '' ?>>Show both active and inactive users</option>
                             <option <?php echo (!isset($userlist['status']) || $userlist['status'] == '1') ? 'selected' : '' ?> value="1">Active users only</option>
-                            <option value="0" <?php echo (empty($userlist['status'])) ? 'selected' : '' ?>>Inactive users only</option>
+                            <option value="0" <?php echo (isset($userlist['status'])) ? 'selected' : '' ?>>Inactive users only</option>
                         </select>
                     </div>
                 </div>
