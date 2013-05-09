@@ -23,14 +23,7 @@ require dirname(__FILE__) . '/lib/AuthorizeNetCP.php';
 if (class_exists("SoapClient")) {
     require dirname(__FILE__) . '/lib/AuthorizeNetSOAP.php';
 }
-/**
- * Exception class for AuthorizeNet PHP SDK.
- *
- * @package AuthorizeNet
- */
-class AuthorizeNetException extends Exception
-{
-}
+
 
 $transaction = new AuthorizeNetAIM('6Z2Kgs6W7m', '49yh68ESgd4Sd2Mw');
 $transaction->amount = '9.99';

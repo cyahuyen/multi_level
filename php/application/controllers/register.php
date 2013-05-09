@@ -27,6 +27,11 @@ class Register extends MY_Controller {
         $this->load->model('transaction_model', 'transaction', TRUE);
         $this->data['user_session'] = $this->session->userdata('user');
         $this->data['menu_config'] = $this->menu_config_2;
+        
+        $msg = $this->session->flashdata('usermessage');
+        if ($msg) {
+            $this->data['usermessage'] = $msg;
+        }
     }
 
     public function index() {
@@ -182,7 +187,7 @@ class Register extends MY_Controller {
 
             $adminBalance = $dataTransaction['total'];
             if ($posts['mc_gross'] > $transaction_fees['open_fee']) {
-                $this->user->updateTransaction($user_id);
+                $this->user->updateTransaction($user_id,$adminBalance);
             }
 
             $userHtml = '
@@ -244,14 +249,114 @@ class Register extends MY_Controller {
         $this->load->model('user_model', 'user');
         $this->load->model('balance_model', 'balance');
         $transaction_fees = $this->configs->getConfigs('transaction_fees');
-        $paypal = $this->configs->getConfigs('paypal');
+
+        $this->load->helper('authorize');
 
 
-        if ($posts['mc_gross'] < $transaction_fees['open_fee']) {
+        if ($posts['entry_amount'] < 0) {
             $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter than open fees');
             $this->session->set_flashdata(array('usermessage' => $error));
             redirect('register');
         }
+
+        $money = $transaction_fees['open_fee'] + $posts['entry_amount'];
+        $dataTransactionFees = array(
+            'card_num' => $posts['card_num'],
+            'exp_date' => $posts['exp_date'],
+            'amount' => $posts['amount'],
+        );
+
+
+        $payment_status = payment_creditcard($dataTransactionFees);
+        if ($payment_status['message'] == 'error') {
+            $error = array('error', 'darkred', 'Payment errors', $payment_status['error']);
+            $this->session->set_flashdata(array('usermessage' => $error));
+            redirect('register');
+        }
+
+
+        $postsData = $posts;
+       
+        if ($posts['entry_amount'] >= 100)
+            $postsData['usertype'] = 2;
+        else
+            $postsData['usertype'] = 0;
+
+        if (!empty($postsData['referring'])) {
+            $userReferring = $this->user->getUserById($postsData['referring']);
+            if (!$userReferring) {
+                unset($postsData['referring']);
+            }
+        }
+
+        $user_id = $this->register_model->save($postsData);
+
+        $dataTransaction['user_id'] = $user_id;
+        $dataTransaction['fees'] = $transaction_fees['open_fee'];
+        $dataTransaction['total'] = $money;
+        $dataTransaction['transaction_id'] = $payment_status['transaction_id'];
+        $dataTransaction['payment_status'] = 'Completed';
+        $dataTransaction['transaction_source'] = 'creditcard';
+        $dataTransaction['transaction_type'] = 'register';
+        $this->transaction->insert($dataTransaction);
+
+        $current_fees = $dataTransaction['total'] - $dataTransaction['fees'];
+        $this->balance->updateBalance($user_id, $current_fees);
+
+
+        $adminBalance = $dataTransaction['total'];
+        if ($posts['entry_amount'] >= 0) {
+            $this->user->updateTransaction($user_id,$adminBalance);
+        }
+
+        $userHtml = '
+                Thank you for registering <br>
+                You just sign up at. Please login to check your account';
+        $userHtml .= 'Acount Type: ' . $this->usertype[$postsData['usertype']] . '<br>';
+        if ($posts['entry_amount'] >= 0) {
+            $userHtml .= 'Payment :' . $posts['entry_amount'] . '<br>';
+        }
+
+        sendmail($postsData['email'], 'Thank you for registering', $userHtml, null, 'Admin Manager', 'html');
+
+        $adminHtml = 'Have just new member register<br>';
+        $adminHtml .= 'Full name: ' . $postsData['fullname'] . '<br>';
+        $adminHtml .= 'Address: ' . $postsData['address'] . '<br>';
+        $adminHtml .= 'Phone: ' . $postsData['phone'] . '<br>';
+        $adminHtml .= 'Email: ' . $postsData['email'] . '<br>';
+        $adminHtml .= 'Birthday: ' . $postsData['birthday'] . '<br>';
+        $adminHtml .= 'Birthday: ' . $postsData['birthday'] . '<br>';
+        $adminHtml .= 'payment: ' . $money . '<br>';
+        $adminHtml .= 'Type: ' . $this->usertype[$postsData['usertype']] . '<br>';
+
+        sendmail(null, 'Have just new member register', $adminHtml);
+
+        if (!empty($postsData['referring'])) {
+            $email_referring = $this->register_model->getEmailbyUser($postsData['referring']);
+            $this->user->updateUserType($postsData['referring']);
+            $this->transaction->updateRefereFees($postsData['referring']);
+            $userReferring = $this->user->getUserById($postsData['referring']);
+            if ($userReferring) {
+                $referral_config = $this->configs->getConfigs('referral');
+                $total_refere_fees = 0;
+                if ($userReferring->usertype == 1)
+                    $total_refere_fees = $referral_config['silver_fees'];
+                elseif ($userReferring->usertype == 2)
+                    $total_refere_fees = $referral_config['gold_fees'];
+                $this->balance->updateBalance($postsData['referring'], $total_refere_fees);
+
+                $adminBalance = $adminBalance - $total_refere_fees;
+            }
+
+
+            $referringHtml = 'Your referring member ' . $postsData['fullname'] . ' just sign up at.';
+            sendmail($email_referring, 'Your referring member', $referringHtml, null, null, 'html');
+        }
+
+        $this->balance->updateAdminBalance($adminBalance);
+
+        $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
+        $this->session->set_flashdata('usermessage', $data['usermessage']);
     }
 
     public function cancel_return() {
