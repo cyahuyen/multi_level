@@ -239,21 +239,19 @@ class Register extends MY_Controller {
 
     public function creditcard() {
         $posts = $this->input->post();
-        
+
         $this->load->model('config_model', 'configs');
         $this->load->model('user_model', 'user');
         $this->load->model('balance_model', 'balance');
         $transaction_fees = $this->configs->getConfigs('transaction_fees');
         $paypal = $this->configs->getConfigs('paypal');
-        
-        
+
+
         if ($posts['mc_gross'] < $transaction_fees['open_fee']) {
             $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter than open fees');
             $this->session->set_flashdata(array('usermessage' => $error));
             redirect('register');
         }
-        
-        
     }
 
     public function cancel_return() {
@@ -282,7 +280,7 @@ class Register extends MY_Controller {
                 $this->data['forget_code'] = random_string('numeric', 10);
                 $this->session->set_flashdata('step', 2);
                 $this->data['main_content'] = 'register/reset_pass_step2.php';
-                $this->register_model->update($id,array('forgotten_password_code' => $this->data['forget_code']));
+                $this->register_model->update($id, array('forgotten_password_code' => $this->data['forget_code']));
                 //======================= Send Email ====================================
                 $title = "Forget Password";
                 $content = "Code forget Password: '" . $this->data['forget_code'] . "'";
@@ -324,9 +322,8 @@ class Register extends MY_Controller {
                 $new_pass = $this->input->post('password', TRUE);
                 $password = md5($new_pass);
                 $update_data = array('password' => $password);
-                $this->register_model->update($id,$update_data);
-                $this->data['main_content'] = 'register/reset_pass_step4.php';
-                $this->load->view('home', $this->data);
+                $this->register_model->update($id, $update_data);
+                redirect('authentication/');
             }
         }
         else
