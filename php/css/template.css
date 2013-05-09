@@ -673,3 +673,7 @@ table.datatable tr td span.currency{
 .user{
     margin: 10px;
 }
+
+.creditcard{
+    display: none;
+}

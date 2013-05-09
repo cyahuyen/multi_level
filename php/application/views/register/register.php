@@ -155,7 +155,7 @@
         var repassword = $('#repass').val();
         var email = $('#email').val();
         var entry_amount = $('#entry_amount').val();
-        var payment = $('#payment:checked').val();
+        var payment = $('input[name=payment]:checked').val();
         var address = $('#address').val();
         var phone = $('#phone').val();
         var fax = $('#fax').val();
@@ -196,6 +196,19 @@
             $('#msgContainer').append('<input type="hidden" id="cmsgpayment" value="Payment method not null"/>');
             flag = false;
         }
+        
+        if(payment == 'creditcard'){
+            var card_num = $('#card_num').val();
+            var exp_date = $('#exp_date').val();
+            if (card_num.length <= 0) {
+                $('#msgContainer').append('<input type="hidden" id="cmsgcard_num" value="Card Number is not null"/>');
+                flag = false;
+            }
+            if (exp_date.length <= 0) {
+                $('#msgContainer').append('<input type="hidden" id="cmsgexp_date" value="Exp Date is not null"/>');
+                flag = false;
+            }
+        }
 
         if (flag == false) {
             showmessage('error', 'Validation errors found', 'Please see below');
@@ -233,7 +246,7 @@
 <script >
     $(document).ready(function() {
         getAmount();
-        $('#payment').change(function() {
+        $('input[name=payment]').change(function() {
             getAmount()
         });
         $('#entry_amount').keyup(function() {
@@ -242,9 +255,14 @@
     })
 
     function getAmount() {
-        var payment = $('#payment:checked').val();
+        var payment = $('input[name=payment]:checked').val();
+        $('.creditcard').hide();
         if (payment == 'paypal') {
             $('form').attr('action', 'https://www.<?php echo ($config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
+        }else if (payment == 'creditcard'){
+            
+            $('form').attr('action', '<?php echo site_url('register/creditcard') ?>');
+            $('.creditcard').show();
         }
         var open_fee = <?php echo $transaction_fees['open_fee'] ?>;
         var entry_amount = $('#entry_amount').val();

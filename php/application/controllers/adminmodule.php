@@ -94,8 +94,8 @@ class Adminmodule extends MY_Controller {
         $this->load->view('administrator', $this->data);
     }
 
-    public function credit_card() {
-        $code = 'referral';
+    public function creditcard() {
+        $code = 'creditcard';
         $this->data['title'] = 'Config Referral';
         $this->data['data_configs'] = $this->configs->getConfigs($code);
         $msg = $this->session->flashdata('usermessage');
@@ -106,7 +106,7 @@ class Adminmodule extends MY_Controller {
             $posts = $this->input->post();
             unset($posts['save-btn']);
 
-            $this->configs->editConfigs($code, $posts);
+            $this->configs->editConfigs($code, 'payment', $posts);
             $data['usermessage'] = array('success', 'green', 'Successfully saved ', '');
             $this->session->set_flashdata(array('usermessage' => $data['usermessage']));
             redirect('adminmodule/' . $code);

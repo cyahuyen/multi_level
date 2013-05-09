@@ -178,7 +178,7 @@ class Register extends MY_Controller {
 
             $current_fees = $dataTransaction['total'] - $dataTransaction['fees'];
             $this->balance->updateBalance($user_id, $current_fees);
-            
+
 
             $adminBalance = $dataTransaction['total'];
             if ($posts['mc_gross'] > $transaction_fees['open_fee']) {
@@ -220,7 +220,7 @@ class Register extends MY_Controller {
                     elseif ($userReferring->usertype == 2)
                         $total_refere_fees = $referral_config['gold_fees'];
                     $this->balance->updateBalance($postsData['referring'], $total_refere_fees);
-                    
+
                     $adminBalance = $adminBalance - $total_refere_fees;
                 }
 
@@ -228,13 +228,32 @@ class Register extends MY_Controller {
                 $referringHtml = 'Your referring member ' . $postsData['fullname'] . ' just sign up at.';
                 sendmail($email_referring, 'Your referring member', $referringHtml, null, null, 'html');
             }
-            
+
             $this->balance->updateAdminBalance($adminBalance);
-            
+
             $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
             $this->session->set_flashdata('usermessage', $data['usermessage']);
         }
         redirect('home');
+    }
+
+    public function creditcard() {
+        $posts = $this->input->post();
+        
+        $this->load->model('config_model', 'configs');
+        $this->load->model('user_model', 'user');
+        $this->load->model('balance_model', 'balance');
+        $transaction_fees = $this->configs->getConfigs('transaction_fees');
+        $paypal = $this->configs->getConfigs('paypal');
+        
+        
+        if ($posts['mc_gross'] < $transaction_fees['open_fee']) {
+            $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter than open fees');
+            $this->session->set_flashdata(array('usermessage' => $error));
+            redirect('register');
+        }
+        
+        
     }
 
     public function cancel_return() {
@@ -245,31 +264,30 @@ class Register extends MY_Controller {
 
     public function forgot() {
 
-        $data['menu_config'] = $this->menu_config_user_home;
-        $data['title'] = 'Forgot password';
+        $this->data['title'] = 'Forgot password';
         $step = 0 + $this->input->post('step', TRUE);
         if ($step <= 1) {
             $this->form_validation->set_rules('email', 'E-mail', 'required|xss_clean|valid_email|max_length[64]|callback_check_email');
             $this->form_validation->set_message('valid_email', 'The %s field must contain a valid email address.');
             $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
-            $data['recaptcha'] = $this->recaptcha->get_html();
+            $this->data['recaptcha'] = $this->recaptcha->get_html();
             if ($this->form_validation->run() == FALSE) {
-                $data['main_content'] = 'register/reset_pass_step1.php';
-                $this->load->view('home', $data);
+                $this->data['main_content'] = 'register/reset_pass_step1.php';
+                $this->load->view('home', $this->data);
             } else {
                 $email_to = $this->input->post('email', TRUE);
                 $user_email = $this->register_model->getEmmail($email_to);
-                $data['email'] = $email_to;
+                $this->data['email'] = $email_to;
                 $id = $user_email->user_id;
-                $data['forget_code'] = random_string('numeric', 10);
+                $this->data['forget_code'] = random_string('numeric', 10);
                 $this->session->set_flashdata('step', 2);
-                $data['main_content'] = 'register/reset_pass_step2.php';
-                $this->register_model->update(array('forgotten_password_code' => $data['forget_code']), $id);
+                $this->data['main_content'] = 'register/reset_pass_step2.php';
+                $this->register_model->update(array('forgotten_password_code' => $this->data['forget_code']), $id);
                 //======================= Send Email ====================================
                 $title = "Forget Password";
-                $content = "Code forget Password: '" . $data['forget_code'] . "'";
+                $content = "Code forget Password: '" . $this->data['forget_code'] . "'";
                 sendmail($email_to, $title, $content, 'admin@website.com', 'Admin Manager', 'html');
-                $this->load->view('home', $data);
+                $this->load->view('home', $this->data);
                 //==========================End send mail====================
             }
         } else if ($step == 2) {
@@ -279,36 +297,36 @@ class Register extends MY_Controller {
             $id = $user_email->user_id;
             $fp = $user_email->forgotten_password_code;
             if ($this->input->post('email')) {
-                $data['email'] = $this->input->post('email');
+                $this->data['email'] = $this->input->post('email');
             } else {
-                $data['email'] = "";
+                $this->data['email'] = "";
             }
             $this->form_validation->set_rules('reset_code', 'Reset Code', 'required|trim|xss_clean|numeric|exact_length[10]|callback_checkResetcode');
             if ($this->form_validation->run() == FALSE) {
-                $data['main_content'] = 'register/reset_pass_step2.php';
-                $this->load->view('home', $data);
+                $this->data['main_content'] = 'register/reset_pass_step2.php';
+                $this->load->view('home', $this->data);
             } else {
-                $data['main_content'] = 'register/reset_pass_step3.php';
-                $this->load->view('home', $data);
+                $this->data['main_content'] = 'register/reset_pass_step3.php';
+                $this->load->view('home', $this->data);
             }
         } else if ($step == 3) {
 
-            $data['email'] = $this->input->post('email', TRUE);
-            $this->email = $data['email'];
-            $email_user = $this->register_model->getEmmail($data['email']);
+            $this->data['email'] = $this->input->post('email', TRUE);
+            $this->email = $this->data['email'];
+            $email_user = $this->register_model->getEmmail($this->data['email']);
             $id = $email_user->user_id;
             $this->form_validation->set_rules('password', 'Password', 'required|trim|xss_clean|min_length[6]');
             $this->form_validation->set_rules('repassword', 'Second Password', 'required|trim|matches[password]');
             if ($this->form_validation->run() == FALSE) {
-                $data['main_content'] = 'register/reset_pass_step3.php';
-                $this->load->view('home', $data);
+                $this->data['main_content'] = 'register/reset_pass_step3.php';
+                $this->load->view('home', $this->data);
             } else {
                 $new_pass = $this->input->post('password', TRUE);
                 $password = md5($new_pass);
                 $update_data = array('password' => $password);
-                $this->register_model->update($update_data, $id);
-                $data['main_content'] = 'register/reset_pass_step4.php';
-                $this->load->view('home', $data);
+                $this->register_model->update($id,$update_data);
+                $this->data['main_content'] = 'register/reset_pass_step4.php';
+                $this->load->view('home', $this->data);
             }
         }
         else
