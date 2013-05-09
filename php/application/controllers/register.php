@@ -385,7 +385,7 @@ class Register extends MY_Controller {
                 $this->data['forget_code'] = random_string('numeric', 10);
                 $this->session->set_flashdata('step', 2);
                 $this->data['main_content'] = 'register/reset_pass_step2.php';
-                $this->register_model->update(array('forgotten_password_code' => $this->data['forget_code']), $id);
+                $this->register_model->update($id, array('forgotten_password_code' => $this->data['forget_code']));
                 //======================= Send Email ====================================
                 $title = "Forget Password";
                 $content = "Code forget Password: '" . $this->data['forget_code'] . "'";
@@ -428,8 +428,7 @@ class Register extends MY_Controller {
                 $password = md5($new_pass);
                 $update_data = array('password' => $password);
                 $this->register_model->update($id, $update_data);
-                $this->data['main_content'] = 'register/reset_pass_step4.php';
-                $this->load->view('home', $this->data);
+                redirect('authentication/');
             }
         }
         else
