@@ -7,7 +7,7 @@
 <div class="content">
     <div class="content-header">
         <div class="content-title">
-            <h1>Refered Members</h1>
+            <h1>Referred Members</h1>
         </div>
         <div style="padding:5px 25px;float: left;">
             <h4>Total members : <?php echo count($refereds); ?></h4>
@@ -24,7 +24,7 @@
                             <td style="width:60px"><div>Birthday</div></td>
                             <td style="width:80px"><div>Email</div></td>
                             <td style="width:50px"><div>Phone</div></td>
-                            <td style="width:80px"><div>Created Date</div></td>
+                            <td style="width:80px"><div>Referred Date</div></td>
                         </tr>
                         <?php if ($refereds) { ?>
                             <?php foreach ($refereds as $refered) { ?>

@@ -7,7 +7,7 @@
 <div class="content">
     <div class="content-header">
         <div class="content-title">
-            <h1>History Transaction</h1>
+            <h1>Transaction History</h1>
         </div>
     </div>
     <div class="content-body">
@@ -17,12 +17,12 @@
                     <tbody>
                         <tr class="heading">
                             <td style="width:40px"><div>Id</div></td>
-                            <td style="width:140px"><div>Fees</div></td>
+                            <td style="width:140px"><div>Fee</div></td>
                             <td style="width:120px"><div>Total</div></td>
                             <td style="width:80px"><div>Type</div></td>
                             <td style="width:80px"><div>Source</div></td>
                             <td style="width:80px"><div>Status</div></td>
-                            <td style="width:120px"><div>Created Date</div></td>
+                            <td style="width:120px"><div>Date</div></td>
                         </tr>
                         <?php if ($historys) { ?>
                             <?php foreach ($historys as $history) { ?>

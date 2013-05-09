@@ -7,7 +7,7 @@
 <form action="" method="post">
     <div class="content-header">
         <div class="content-title">
-            <h1>View/Edit Transaction Referal config</h1>
+            <h1>View/Edit Referal Configuration</h1>
         </div>
 
     </div>
@@ -23,26 +23,26 @@
         <tbody>
 
             <tr>
-                <td>Percentage of Silver Acount </td>
+                <td>Profit percentage of Silver</td>
                 <td>
                     <input type="text" id="percentage_silver" class="" name="percentage_silver" value="<?php echo!empty($data_configs['percentage_silver']) ? $data_configs['percentage_silver'] : '' ?>" class="" style="width:240px">%
                 </td>
             </tr>
             <tr>
-                <td>Percentage of Gold Acount </td>
+                <td>Profit percentage of Gold</td>
                 <td>
                     <input type="text" id="percentage_gold" class="" name="percentage_gold" value="<?php echo!empty($data_configs['percentage_gold']) ? $data_configs['percentage_gold'] : '' ?>" class="" style="width:240px">%
 
                 </td>
             </tr>
             <tr>
-                <td>Gold Fees </td>
+                <td>Referral fee for Gold</td>
                 <td>
                     <input type="text" id="gold_fees" class="" name="gold_fees" value="<?php echo!empty($data_configs['gold_fees']) ? $data_configs['gold_fees'] : '' ?>" style="width:240px">$
                 </td>
             </tr>
             <tr>
-                <td>Silver Fees </td>
+                <td>Referral fee for Silver</td>
                 <td>
                     <input type="text" id="silver_fees" class="" name="silver_fees" value="<?php echo!empty($data_configs['silver_fees']) ? $data_configs['silver_fees'] : '' ?>" style="width:240px">$
                 </td>

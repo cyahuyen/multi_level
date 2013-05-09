@@ -7,7 +7,7 @@
 <div id="content-header">
     <div class="content-header">
         <div class="content-title">
-            <h1>Configs</h1>
+            <h1>Configuration</h1>
         </div>
     </div>
 </div>
@@ -19,7 +19,7 @@
                     <thead>
                         <tr class="heading">
                             <td style="width:20px"><span></span></td>
-                            <td style=""><span>Config name</span></td>
+                            <td style=""><span>Configuration name</span></td>
                             <td style="width:210px"><span>Action</span></td>
                         </tr>
                     </thead>

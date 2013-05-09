@@ -23,7 +23,7 @@
         <tbody>
 
             <tr>
-                <td>Opening Fees </td>
+                <td>Opening Fee </td>
                 <td>
                     $<input type="text" id="open_fee" class="mandatory" name="open_fee" value="<?php echo!empty($data_configs['open_fee']) ? $data_configs['open_fee'] : '' ?>" class="" style="width:240px">
                 </td>
@@ -47,7 +47,7 @@
                 </td>
             </tr>
             <tr>
-                <td>Monthly Of Silver Amount</td>
+                <td>Monthly Amount for Silver</td>
                 <td>
                    $<input type="text" id="max_enrolment_silver_amount" class="mandatory" name="max_enrolment_silver_amount" value="<?php echo!empty($data_configs['max_enrolment_silver_amount']) ? $data_configs['max_enrolment_silver_amount'] : '' ?>" class="" style="width:240px">
                 </td>

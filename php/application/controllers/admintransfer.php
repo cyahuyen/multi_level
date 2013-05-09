@@ -30,7 +30,7 @@ class Admintransfer extends MY_Controller {
             'separator' => false
         );
         $this->data['breadcrumbs'][] = array(
-            'text' => 'Transfer',
+            'text' => 'Transaction History',
             'href' => site_url('admintransfer/index'),
             'separator' => ' :: '
         );

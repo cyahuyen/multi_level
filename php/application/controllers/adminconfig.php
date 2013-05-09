@@ -33,7 +33,7 @@ class Adminconfig extends MY_Controller {
     }
 
     public function index() {
-        $this->data['title'] = 'Manager Config';
+        $this->data['title'] = 'Configuration';
         $this->data['breadcrumbs'] = array();
 
         $this->data['breadcrumbs'][] = array(
@@ -42,7 +42,7 @@ class Adminconfig extends MY_Controller {
             'separator' => false
         );
         $this->data['breadcrumbs'][] = array(
-            'text' => 'Manager Config',
+            'text' => 'Configuration',
             'href' => site_url('adminconfig'),
             'separator' => ' :: '
         );
@@ -75,7 +75,12 @@ class Adminconfig extends MY_Controller {
             'separator' => false
         );
         $this->data['breadcrumbs'][] = array(
-            'text' => 'Config Emails',
+            'text' => 'Configuration',
+            'href' => site_url('adminconfig'),
+            'separator' => ' :: '
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Emails',
             'href' => site_url('adminconfig/emails'),
             'separator' => ' :: '
         );
@@ -107,7 +112,12 @@ class Adminconfig extends MY_Controller {
             'separator' => false
         );
         $this->data['breadcrumbs'][] = array(
-            'text' => 'Config Transaction Fees',
+            'text' => 'Configuration',
+            'href' => site_url('adminconfig'),
+            'separator' => ' :: '
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Transaction Fee',
             'href' => site_url('adminconfig/transaction_fees'),
             'separator' => ' :: '
         );
@@ -142,7 +152,12 @@ class Adminconfig extends MY_Controller {
             'separator' => false
         );
         $this->data['breadcrumbs'][] = array(
-            'text' => 'Config Referral',
+            'text' => 'Configuration',
+            'href' => site_url('adminconfig'),
+            'separator' => ' :: '
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Referral',
             'href' => site_url('adminconfig/referral'),
             'separator' => ' :: '
         );
@@ -175,7 +190,12 @@ class Adminconfig extends MY_Controller {
             'separator' => false
         );
         $this->data['breadcrumbs'][] = array(
-            'text' => 'Time config',
+            'text' => 'Configuration',
+            'href' => site_url('adminconfig'),
+            'separator' => ' :: '
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Date/Time',
             'href' => site_url('adminconfig/timeconfig'),
             'separator' => ' :: '
         );

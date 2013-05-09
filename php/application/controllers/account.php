@@ -215,7 +215,7 @@ class Account extends MY_Controller {
     }
 
     function refered() {
-        $this->data['title'] = 'Refered Members';
+        $this->data['title'] = 'Referred Members';
 
         $this->data['breadcrumbs'] = array();
 
@@ -230,7 +230,7 @@ class Account extends MY_Controller {
             'separator' => ' :: '
         );
         $this->data['breadcrumbs'][] = array(
-            'text' => 'Refered Members',
+            'text' => 'Referred Members',
             'href' => site_url('account/refered'),
             'separator' => ' :: '
         );

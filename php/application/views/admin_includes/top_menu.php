@@ -14,23 +14,23 @@
         <ul class="sf-menu">
             <li class="<?php echo $menu_config[0] ?>"><?php echo anchor('home', 'Home'); ?></li>
             <li class="<?php echo $menu_config[1] ?>">
-                <a href="<?php echo site_url('adminuser/manager') ?>">User</a>
+                <a href="<?php echo site_url('adminuser/manager') ?>">Users</a>
                 <ul>
                     <li><a href="<?php echo site_url('adminuser/profile') ?>">Create User</a></li>
-                    <li><a href="<?php echo site_url('adminuser/manager') ?>">Manage User</a></li>
+                    <li><a href="<?php echo site_url('adminuser/manager') ?>">Manage Users</a></li>
                 </ul>
             </li>
             <li class="<?php echo $menu_config[2] ?>">
-                <a href="<?php echo site_url('adminconfig') ?>">Config</a>
+                <a href="<?php echo site_url('adminconfig') ?>">Configuration</a>
                 <ul>
-                    <li><a href="<?php echo site_url('adminconfig/emails') ?>">Email Config</a></li>
-                    <li><a href="<?php echo site_url('adminconfig/transaction_fees') ?>">Transaction Fees</a></li>
+                    <li><a href="<?php echo site_url('adminconfig/emails') ?>">Email</a></li>
+                    <li><a href="<?php echo site_url('adminconfig/transaction_fees') ?>">Transaction Fee</a></li>
                     <li><a href="<?php echo site_url('adminconfig/referral') ?>">Referral</a></li>
-                    <li><a href="<?php echo site_url('adminconfig/timeconfig') ?>">Time config</a></li>
+                    <li><a href="<?php echo site_url('adminconfig/timeconfig') ?>">Date/Time</a></li>
                 </ul>
             </li>
             <li class="<?php echo $menu_config[3] ?>">
-                <a href="#">Module</a>
+                <a href="#">Modules</a>
                 <ul>
                     <li>
                         <a href="<?php echo site_url('adminmodule/payment') ?>">Payment</a>
