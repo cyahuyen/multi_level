@@ -16,18 +16,24 @@ class CheckExpiration extends MY_Controller {
     public function index() {
         $this->data['title'] = 'Check Expiration';
         $expirations = $this->expiration_model->getUsers();
-        $currentDate = date("Y-m-d H:i:s");
-//        $currentDate = "2013-05-06 05:37:22";
+//        $currentDate = date("Y-m-d H:i:s");
+        $currentDate = "2013-06-08 14:26:41";
         foreach ($expirations as $expiration) {
             if ($expiration->transaction_finish <= $currentDate && $expiration->usertype == 2) {
                 $users_expirations = $this->expiration_model->getUsersLimit($currentDate, 2);
+                $admins = $this->expiration_model->getAdmin();
                 foreach ($users_expirations as $emails) {
                     $email_user = $emails->email;
                     $title = "Account Expiration!";
                     $content = "Your account has expired. Please log in and check your account";
                     $email_sent = "admin@mysite.com";
                     $name_sent = "Administrator";
+                    // Sent email to user
                     sendmail($email_user, $title, $content, $email_sent, $name_sent, 'html');
+                    $title_admin = "Users Expiration!";
+                    $content_admin = "Member account '" . $emails->fullname . "'  has expired. Please log in and check information";
+                    // Sent email to admin
+                    sendmail($admins->email, $title_admin, $content_admin, 'admin@mysite.com', 'System', 'html');
                     $refereds = $this->expiration_model->getReferedsbyId($emails->user_id);
                     if (!empty($refereds)) {
                         $this->expiration_model->updateUser($emails->user_id, 1);
@@ -67,7 +73,7 @@ class CheckExpiration extends MY_Controller {
                 $dataTransaction['transaction_type'] = 'bonus';
                 $this->transaction->insert($dataTransaction);
                 $title = "Profit from " . $silver->transaction_start . " to " . $silver->transaction_finish;
-                $content = "You have just received: $".$blanceFees . 'from '.$silver->transaction_start .' to '.$silver->transaction_finish;
+                $content = "You have just received: $" . $blanceFees . 'from ' . $silver->transaction_start . ' to ' . $silver->transaction_finish;
                 sendmail($silver->email, $title, $content);
             }
         }
@@ -82,7 +88,7 @@ class CheckExpiration extends MY_Controller {
                 $this->user->updateDate($gold->user_id);
                 $adminBalance = $this->balance->getAdminBalance();
                 $this->balance->updateAdminBalance($adminBalance->balance - $blanceFees);
-                
+
                 $dataTransaction['user_id'] = $gold->user_id;
                 $dataTransaction['fees'] = 0;
                 $dataTransaction['total'] = $blanceFees;
@@ -92,7 +98,7 @@ class CheckExpiration extends MY_Controller {
                 $dataTransaction['transaction_type'] = 'bonus';
                 $this->transaction->insert($dataTransaction);
                 $title = "Profit from " . $gold->transaction_start . " to " . $gold->transaction_finish;
-                $content = "You have just received: $".$blanceFees . 'from '.$gold->transaction_start .' to '.$gold->transaction_finish;
+                $content = "You have just received: $" . $blanceFees . 'from ' . $gold->transaction_start . ' to ' . $gold->transaction_finish;
                 sendmail($gold->email, $title, $content);
             }
         }

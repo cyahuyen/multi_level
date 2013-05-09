@@ -18,6 +18,15 @@ class Expiration_model extends CI_Model {
         return $data;
     }
 
+    public function getAdmin() {
+        $this->db->select("*");
+        $this->db->from("user");
+        $this->db->where('permission', 'administrator');
+        $query = $this->db->get();
+        $result = $query->result();
+        return $result[0];
+    }
+
     function getReferedsbyId($user_id) {
         $data = $this->db->get_where($this->user, array('referring' => $user_id))->result();
         if ($data) {
@@ -28,7 +37,7 @@ class Expiration_model extends CI_Model {
     }
 
     function getUsersLimit($currentdata, $type) {
-        $sql = "SELECT user_id,email FROM user WHERE transaction_finish <='" . $currentdata . "' AND usertype=" . $type . "";
+        $sql = "SELECT user_id,email,fullname FROM user WHERE transaction_finish <='" . $currentdata . "' AND usertype=" . $type . "";
         $data = $this->db->query($sql)->result();
         return $data;
     }
