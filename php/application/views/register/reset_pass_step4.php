@@ -6,7 +6,7 @@
     </thead>
     <tbody>
         <tr>
-            <td colspan="2"><p>Success</p></td>
+            <td colspan="2"><p style="color: #000;padding: 30px;">Your Password had been changed!</p></td>
         </tr>
 
     </tbody>
