@@ -12,7 +12,6 @@ if (!defined('BASEPATH'))
 class MY_Controller extends CI_Controller {
 
     protected $transaction_type = array('register', 'refere', 'deposit', 'withdraw', 'bonus');
-
     var $menu_config_0 = array('', '', '', '', '', '', '', '', '', '');
     var $menu_config_1 = array('active', '', '', '', '', '', '', '', '', '');
     var $menu_config_2 = array('', 'active', '', '', '', '', '', '', '', '');
@@ -24,9 +23,10 @@ class MY_Controller extends CI_Controller {
     var $menu_config_8 = array('', '', '', '', '', '', '', 'active', '', '');
     var $menu_config_9 = array('', '', '', '', '', '', '', '', 'active', '');
     var $menu_config_10 = array('', '', '', '', '', '', '', '', '', 'active');
-    
+
     public function __construct() {
         parent::__construct();
+
 
 //		$this->load->library('navigation');
         // $this->load->library('lookupValues');

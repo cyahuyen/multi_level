@@ -30,6 +30,10 @@ class Home extends MY_Controller {
             $this->data['usermessage'] = $msg;
         }
         $this->data['user_session'] = $this->session->userdata('user');
+        $user_session = $this->session->userdata('user');
+        if(!empty($user_session) && $user_session['permission'] == 'administrator'){
+            redirect(site_url('admin'));
+        }
     }   
 
     public function index() {

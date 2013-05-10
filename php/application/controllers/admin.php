@@ -32,6 +32,11 @@ class Admin extends MY_Controller {
             redirect(site_url('home'));
         }
         $this->data['user_session'] = $user_session;
+        
+        $user_session = $this->session->userdata('user');
+        if (empty($user_session) || $user_session['permission'] != 'administrator') {
+            redirect(site_url('home'));
+        }
     }   
 
     public function index() {

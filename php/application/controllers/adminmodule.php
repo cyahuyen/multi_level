@@ -11,13 +11,7 @@ if (!defined('BASEPATH'))
 class Adminmodule extends MY_Controller {
 
     private $data;
-    var $menu_config_0 = array('', '', '', '', '', '');
-    var $menu_config_1 = array('active', '', '', '', '', '');
-    var $menu_config_2 = array('', 'active', '', '', '', '');
-    var $menu_config_3 = array('', '', 'active', '', '', '');
-    var $menu_config_4 = array('', '', '', 'active', '', '');
-    var $menu_config_5 = array('', '', '', '', 'active', '');
-    var $menu_config_6 = array('', '', '', '', '', 'active');
+   
     var $navstack = null;
     var $paypal = 'Paypal';
     var $credit_card = 'Credit Cart Payment';
@@ -34,7 +28,6 @@ class Adminmodule extends MY_Controller {
         if (empty($user_session) || $user_session['permission'] != 'administrator') {
             redirect(site_url('home'));
         }
-        $this->data['user_session'] = $user_session;
     }
 
     public function index() {

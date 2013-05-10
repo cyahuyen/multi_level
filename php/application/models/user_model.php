@@ -43,7 +43,7 @@ class User_model extends CI_Model {
         } elseif ($balance < 100 & $balance > 0) {
             $data['usertype'] = 1;
         }
-        return $this->db->update('user', $data);
+        return $this->update($id, $data);
     }
 
     public function updateTransactionWithoutDate($id, $balance) {

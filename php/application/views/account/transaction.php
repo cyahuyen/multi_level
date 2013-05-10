@@ -172,7 +172,7 @@
         var transaction_fee = '<?php echo $transaction_fees['transaction_fee'] ?>'
         $('.creditcard').hide();
         if (payment == 'paypal') {
-            $('form').attr('action', 'https://www.<?php echo ($config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
+            $('form').attr('action', 'https://www.<?php echo (!empty($config['sandbox']) && $config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
         }else if (payment == 'creditcard'){
             $('form').attr('action', '<?php echo site_url('account/creditcard') ?>');
             $('.creditcard').show();

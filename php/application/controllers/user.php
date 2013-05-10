@@ -17,6 +17,11 @@ class User extends MY_Controller {
         } else {
             $this->load->model('user_model', 'user');
         }
+        
+        $user_session = $this->session->userdata('user');
+        if(!empty($user_session) && $user_session['permission'] == 'administrator'){
+            redirect(site_url('admin'));
+        }
     }
 
     public function index() {

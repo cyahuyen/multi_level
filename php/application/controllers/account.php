@@ -36,6 +36,11 @@ class Account extends MY_Controller {
         if ($msg) {
             $this->data['usermessage'] = $msg;
         }
+        
+        $user_session = $this->session->userdata('user');
+        if(!empty($user_session) && $user_session['permission'] == 'administrator'){
+            redirect(site_url('admin'));
+        }
     }
 
     public function index() {
@@ -387,7 +392,7 @@ class Account extends MY_Controller {
         $dataConfig['return'] = site_url('account/paypal_return');
         $dataConfig['cancel_return'] = site_url('account/cancel_return');
         $dataConfig['notify_url'] = site_url('home');
-        $dataConfig['title'] = 'Register';
+        $dataConfig['title'] = 'Deposite';
 
         $payments = $this->configs->listActivepayment();
 
@@ -470,7 +475,7 @@ class Account extends MY_Controller {
             $current_fees = $posts['mc_gross'] - $transaction_fees['transaction_fee'];
             $this->transaction->insert($dataTransaction);
             $this->balance->updateBalance($id, $current_fees);
-            $this->balance->updateAdminBalance($dataTransaction['total_fees']);
+            $this->balance->updateAdminBalance($dataTransaction['total']);
 
             if (empty($transactions)) {
                 $this->user->updateTransaction($id, $current_fees);
