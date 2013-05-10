@@ -23,8 +23,8 @@
         <tbody>
 
             <tr>
-                <td><div>Time</div> </td>
-                <td>(day) <input type="text" id="time_format" class="mandatory" name="time_format" value="<?php echo!empty($data_configs['time_format']) ? $data_configs['time_format'] : '' ?>" class="" style="width:240px"></td>
+                <td><div>Number days of month</div> </td>
+                <td> <input type="text" id="time_format" class="mandatory" name="time_format" value="<?php echo!empty($data_configs['time_format']) ? $data_configs['time_format'] : '' ?>" class="" style="width:240px">(days)</td>
             </tr>
             <tr>
                 <td></td>
