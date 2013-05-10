@@ -52,9 +52,9 @@
 </div>
 
 <div class="user">
-    <strong>Total User: </strong><?php echo $user_count ?><br>
-    <strong>Total Common User: </strong><?php echo $member_count ?><br>
-    <strong>Total Silver User: </strong><?php echo $silver_count ?><br>
-    <strong>Total Gold User: </strong><?php echo $gold_count ?><br>
+    <strong>Total Users: </strong><?php echo $user_count ?><br>
+    <strong>Total Common Users: </strong><?php echo $member_count ?><br>
+    <strong>Total Silver Users: </strong><?php echo $silver_count ?><br>
+    <strong>Total Gold Users: </strong><?php echo $gold_count ?><br>
 
 </div>
