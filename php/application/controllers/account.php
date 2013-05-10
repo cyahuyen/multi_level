@@ -537,12 +537,14 @@ class Account extends MY_Controller {
         $money = $transaction_fees['transaction_fee'] + $posts['entry_amount'];
         $dataTransactionFees = array(
             'card_num' => $posts['card_num'],
+            'cc_owner' => $posts['cc_owner'],
             'exp_date' => $posts['exp_date'],
             'amount' => $money,
+            'cc_cvv2' => $posts['cc_cvv2'],
         );
 
 
-        $payment_status = payment_creditcard($dataTransactionFees);
+        $payment_status = payment_creditcard_authorize($dataTransactionFees);
         if ($payment_status['message'] == 'error') {
             $error = array('error', 'darkred', 'Payment errors', $payment_status['error']);
             $this->session->set_flashdata(array('usermessage' => $error));

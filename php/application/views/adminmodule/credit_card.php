@@ -28,7 +28,13 @@
                     <input type="text" id="transaction" class="mandatory" name="transaction" value="<?php echo!empty($data_configs['transaction']) ? $data_configs['transaction'] : '' ?>" class="" style="width:240px">
                 </td>
             </tr>
-            
+            <tr>
+                <td>Transaction Method:</td>
+                <td><select name="authorizenet_aim_method">
+                        <option <?php echo (!empty($data_configs['authorizenet_aim_method']) && ($data_configs['authorizenet_aim_method'] == 'authorization'))?'selected':''  ?> value="authorization">Authorization</option>
+                        <option <?php echo (!empty($data_configs['authorizenet_aim_method']) && ($data_configs['authorizenet_aim_method'] == 'capture'))?'selected':''  ?> value="capture">Capture</option>
+                    </select></td>
+            </tr>
             <tr>
                 <td>Sandbox</td>
                 <td>
