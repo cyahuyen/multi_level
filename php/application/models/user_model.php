@@ -11,7 +11,7 @@ class User_model extends CI_Model {
         $password = md5($password);
         $sql = "select * from user where email = '$email' and password = '$password' and status = 1";
         $data = $this->db->query($sql)->result_array();
-        return !empty($data)?$data[0]:array();
+        return !empty($data) ? $data[0] : array();
     }
 
     public function loadUser($id) {
@@ -47,14 +47,17 @@ class User_model extends CI_Model {
     }
 
     public function updateTransactionWithoutDate($id, $balance) {
+        
         $this->db->where('user_id', $id);
         $data = array();
-        if ($balance > 100) {
+        if ($balance >= 100) {
             $data['usertype'] = 2;
         } elseif ($balance < 100 & $balance > 0) {
             $data['usertype'] = 1;
         }
-        return $this->db->update('user', $data);
+        if (!empty($data))
+             $this->db->update('user', $data);
+        return FALSE;
     }
 
     public function updateUserType($id) {

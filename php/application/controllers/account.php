@@ -411,6 +411,7 @@ class Account extends MY_Controller {
         $data['payments'] = array();
         foreach ($payments as $code => $config) {
             $dataConfig['config'] = $config;
+            $this->data['config'][$code] = $config;
             $this->data['payments'][$code] = $this->load->view('payment/' . $code, $dataConfig, true);
         }
 
