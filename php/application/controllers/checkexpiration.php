@@ -22,23 +22,26 @@ class CheckExpiration extends MY_Controller {
                 $users_expirations = $this->expiration_model->getUsersLimit($currentDate, 2);
                 $admins = $this->expiration_model->getAdmin();
                 foreach ($users_expirations as $emails) {
-                    $email_user = $emails->email;
-                    $title = "Account Expiration!";
-                    $content = "Your account has expired. Please log in and check your account";
-                    $email_sent = "admin@mysite.com";
-                    $name_sent = "Administrator";
-                    // Sent email to user
-                    sendmail($email_user, $title, $content, $email_sent, $name_sent, 'html');
-                    $title_admin = "Users Expiration!";
-                    $content_admin = "Member account '" . $emails->fullname . "'  has expired. Please log in and check information";
-                    // Sent email to admin
-                    sendmail($admins->email, $title_admin, $content_admin, 'admin@mysite.com', 'System', 'html');
                     $refereds = $this->expiration_model->getReferedsbyId($emails->user_id);
                     if (!empty($refereds)) {
                         $this->expiration_model->updateUser($emails->user_id, 1);
+                        $content = "Your Gold account has expired. Your current account type is Silver. Please log in and deposite to be Gold again.";
                     } else {
                         $this->expiration_model->updateUser($emails->user_id, 0);
-                    }
+                        $content = "Your Gold account has expired. Your current account type is normal member. Please log in and deposite to be Gold again.";
+                    }                   
+                    // Sent email to user
+                    $email_user = $emails->email;
+                    $title = "Account Expiration!";
+                    
+                    $email_sent = "admin@mysite.com";
+                    $name_sent = "Administrator";
+                    sendmail($email_user, $title, $content);
+                    
+                    // Sent email to admin
+                    $title_admin = "Users Expiration!";
+                    $content_admin = "Gold account '" . $emails->fullname . "'  has expired.";
+                    sendmail($admins->email, $title_admin, $content_admin);                   
                 }
             }
         }
