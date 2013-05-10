@@ -27,7 +27,7 @@
     </div>
 </div>
 <div class="user">
-    <strong>Current Balance: </strong>$<?php echo $balance->balance ?><br>
+    <strong>Current Balance: </strong>$<?php echo number_format($balance->balance, 2, '.', ',') ?><br>
 </div>
 <div class="datalist-filter">
     <div class="datalist-search">

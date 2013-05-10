@@ -28,8 +28,8 @@
                             <?php foreach ($transfers as $history) { ?>
                                 <tr class="row">
                                     <td><div><?php echo $history['fullname']; ?></div></td>
-                                    <td><div><?php echo $history['fees']; ?></div></td>
-                                    <td><div><?php echo $history['total']; ?></div></td>
+                                    <td style="text-align: right"><div><?php echo number_format($history['fees'], 2, '.', ','); ?></div></td>
+                                    <td style="text-align: right"><div><?php echo number_format($history['total'], 2, '.', ','); ?></div></td>
                                     <td><div><?php echo $history['transaction_type']; ?></div></td>
                                     <td><div><?php echo $history['transaction_source']; ?></div></td>
                                     <td><div><?php echo $history['payment_status']; ?></div></td>
