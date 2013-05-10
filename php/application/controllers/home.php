@@ -38,7 +38,7 @@ class Home extends MY_Controller {
 
     public function index() {
         $this->data['main_content'] = 'includes/main_content.php';
-        $this->data['title'] = 'Job Management | William Loud Australia PTY LTD';
+        $this->data['title'] = 'Multi Level Marketing';
         $this->load->View('home', $this->data);
     }
 
