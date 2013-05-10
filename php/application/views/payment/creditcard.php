@@ -6,8 +6,8 @@
         <input type="radio"  name="payment" id="payment" value="creditcard"/> Credit Card
     </td>
 </tr>
-<tr>
-    <td class="creditcard">Card Owner</td>
+<tr class="creditcard">
+    <td >Card Owner</td>
     <td>
         <input type="text"  name="cc_owner" id="cc_owner" value=""/> 
     </td>
