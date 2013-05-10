@@ -41,6 +41,8 @@ class Adminreport extends MY_Controller {
         $this->data['start_date']= $start_date;
         $this->data['end_date']= $end_date;
         $data = array();
+        
+        $data['permission'] = null;
         if(!empty($start_date))
             $data['created_on >='] = $start_date .' 00:00:00'; 
         if(!empty($end_date))
