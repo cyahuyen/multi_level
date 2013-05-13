@@ -498,6 +498,46 @@ class Account extends MY_Controller {
         }
     }
 
+    public function withdrawal() {
+        $this->data['title'] = 'Withdrawal';
+        $this->data['menu_config'] = $this->menu_config_5;
+        $user_session = $this->data['user_session'];
+
+        $this->load->model('user_model', 'user');
+        $this->load->model('transaction_model', 'transaction');
+        $this->load->model('config_model', 'configs');
+        $this->load->model('balance_model', 'balance');
+        $this->data['balance'] = $this->transaction->getTotalTransfer($user_session['user_id']);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $amount = $this->input->post('entry_amount');
+            if (floatval($amount) > $this->data['balance']) {
+                $error = array('error', 'darkred', 'Payment Request errors', 'Amount Request greater than Max Amount');
+                $this->data['usermessage'] = $error;
+            } else {
+                $data['email_paypal'] = $this->input->post('email_paypal');
+                $data['balance'] = $amount;
+                $data['user_id'] = $user_session['user_id'];
+
+                $user = $this->user->getUserById($user_session['user_id']);
+                $this->transaction->insertHistory($data);
+
+                $adminEmaildata['fullname'] = $user->fullname;
+                $adminEmaildata['email'] = $user->email;
+                $adminEmaildata['email_paypal'] = $data['email_paypal'];
+                $adminEmaildata['amount'] = $amount;
+                sendmailform(null, 'withdrawal', $adminEmaildata);
+
+                $this->data['usermessage'] = array('success', 'green', 'Withdrawal Success', '');
+                $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
+                redirect('account/withdrawal');
+            }
+        }
+
+        $this->data['main_content'] = 'account/withdrawal';
+        $this->load->view('home', $this->data);
+    }
+
     public function creditcard() {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
             redirect('account/transaction');
@@ -578,7 +618,7 @@ class Account extends MY_Controller {
         $this->session->set_flashdata('usermessage', $data['usermessage']);
         $adminHtml = 'Full Name: ' . $user->fullname . '<br>';
         $adminHtml .= 'Amount: ' . $money;
-        
+
         $adminEmaildata['full_name'] = $user->fullname;
         $adminEmaildata['email'] = $user->email;
         $adminEmaildata['amount'] = $money;
