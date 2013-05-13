@@ -7,17 +7,17 @@ if (!function_exists('sendmail')) {
     function sendmail($emailTo, $subject, $content, $emailFrom = null, $name = null, $mailtype = 'html') {
         $CI = & get_instance();
 
-        
-        
-        
+
+
+
         $CI->load->library('email');
         $CI->load->model('config_model', 'configs');
         $CI->email->clear();
         $emailConfig = $CI->configs->getConfigs('emails');
         $CI->email->from($emailConfig['smtp_user'], $emailConfig['email_admin']);
-        
-        
-        
+
+
+
         $config = Array(
             'protocol' => $emailConfig['protocol'],
             'smtp_host' => $emailConfig['smtp_host'],
@@ -31,7 +31,7 @@ if (!function_exists('sendmail')) {
             'smtp_timeout' => $emailConfig['smtp_timeout'],
             'email_admin' => $emailConfig['email_admin']
         );
-        
+
         if ($emailFrom)
             $CI->email->reply_to($emailFrom, $name);
         if (!$emailTo)
@@ -48,3 +48,37 @@ if (!function_exists('sendmail')) {
     }
 
 }
+
+
+if (!function_exists('sendmailform')) {
+
+    function sendmailform($emailTo, $code, $data, $emailFrom = null, $name = null, $mailtype = 'html') {
+        $CI = & get_instance();
+        $CI->load->model('emailtemplate_model', 'emailtemplate');
+
+        $email = $CI->emailtemplate->getEmailByCode($code);
+        
+        if($email){
+            $subject = replace_data($email['subject'],$data);
+            $content = replace_data($email['content'],$data);
+            sendmail($emailTo, $subject, $content, $emailFrom = null, $name = null, $mailtype = 'html');
+        }
+    }
+
+}
+
+if (!function_exists('replace_data')) {
+
+    function replace_data($string, $data) {
+//        preg_match_all('/{{(.*?)}}/is', $string, $matches);
+//        foreach($matches[1] as $code){
+//        }
+        foreach ($data as $code => $str_relpace) {
+            $string = str_replace('{{' . $code . '}}', $str_relpace, $string);
+        }
+        return $string;
+    }
+
+}
+
+

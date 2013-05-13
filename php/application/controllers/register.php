@@ -32,6 +32,8 @@ class Register extends MY_Controller {
         if ($msg) {
             $this->data['usermessage'] = $msg;
         }
+        
+        sendmailform(null, '34', array());die;
     }
 
     public function index() {
