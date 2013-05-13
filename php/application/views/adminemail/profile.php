@@ -44,6 +44,12 @@ tinymce.init({
                     <textarea name="content"><?php echo!empty($emaildata->content) ? $emaildata->content : '' ?></textarea>
                 </td>
             </tr>
+            <tr>
+                <td>Slug</td>
+                <td>
+                    <textarea name="slug"><?php echo!empty($emaildata->slug) ? $emaildata->slug : '' ?></textarea>
+                </td>
+            </tr>
         </tbody>
     </table>
 </form>

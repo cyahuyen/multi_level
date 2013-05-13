@@ -59,8 +59,8 @@ if (!function_exists('sendmailform')) {
         $email = $CI->emailtemplate->getEmailByCode($code);
         
         if($email){
-            $subject = replace_data($email['subject'],$data);
-            $content = replace_data($email['content'],$data);
+            $subject = replace_data($email->subject,$data);
+            $content = replace_data($email->content,$data);
             sendmail($emailTo, $subject, $content, $emailFrom = null, $name = null, $mailtype = 'html');
         }
     }

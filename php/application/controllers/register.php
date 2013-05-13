@@ -27,13 +27,11 @@ class Register extends MY_Controller {
         $this->load->model('transaction_model', 'transaction', TRUE);
         $this->data['user_session'] = $this->session->userdata('user');
         $this->data['menu_config'] = $this->menu_config_2;
-        
+
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {
             $this->data['usermessage'] = $msg;
         }
-        
-        sendmailform(null, '34', array());die;
     }
 
     public function index() {
@@ -189,7 +187,7 @@ class Register extends MY_Controller {
 
             $adminBalance = $dataTransaction['total'];
             if ($posts['mc_gross'] > $transaction_fees['open_fee']) {
-                $this->user->updateTransaction($user_id,$adminBalance);
+                $this->user->updateTransaction($user_id, $adminBalance);
             }
 
             $userHtml = '
@@ -200,19 +198,22 @@ class Register extends MY_Controller {
                 $userHtml .= 'Payment :' . $posts['mc_gross'] - $transaction_fees['open_fee'] . '<br>';
             }
 
-            sendmail($postsData['email'], 'Thank you for registering', $userHtml, null, 'Admin Manager', 'html');
+            $userEmailData['user_type'] = $this->usertype[$postsData['usertype']];
+            $userEmailData['entry_amount'] = $posts['entry_amount'];
 
-            $adminHtml = 'Have just new member register<br>';
-            $adminHtml .= 'Full name: ' . $postsData['fullname'] . '<br>';
-            $adminHtml .= 'Address: ' . $postsData['address'] . '<br>';
-            $adminHtml .= 'Phone: ' . $postsData['phone'] . '<br>';
-            $adminHtml .= 'Email: ' . $postsData['email'] . '<br>';
-            $adminHtml .= 'Birthday: ' . $postsData['birthday'] . '<br>';
-            $adminHtml .= 'Birthday: ' . $postsData['birthday'] . '<br>';
-            $adminHtml .= 'payment: ' . $posts['mc_gross'] . '<br>';
-            $adminHtml .= 'Type: ' . $this->usertype[$postsData['usertype']] . '<br>';
+            sendmailform($postsData['email'], 'register', $userEmailData, null, 'Admin Manager', 'html');
 
-            sendmail(null, 'Have just new member register', $adminHtml);
+
+            $adminEmailData = array(
+                'full_name' => $postsData['fullname'],
+                'address' => $postsData['address'],
+                'phone' => $postsData['phone'],
+                'email' => $postsData['email'],
+                'payment' => $money,
+                'user_type' => $this->usertype[$postsData['usertype']],
+            );
+
+            sendmailform(null, 'new_member', $adminEmailData);
 
             if (!empty($postsData['referring'])) {
                 $email_referring = $this->register_model->getEmailbyUser($postsData['referring']);
@@ -232,8 +233,11 @@ class Register extends MY_Controller {
                 }
 
 
-                $referringHtml = 'Your referring member ' . $postsData['fullname'] . ' just sign up at.';
-                sendmail($email_referring, 'Your referring member', $referringHtml, null, null, 'html');
+                $referringEmailData = array(
+                    'fullname' => $postsData['fullname'],
+                    'email' => $postsData['email']
+                );
+                sendmailform($email_referring, 'referring', $referringEmailData);
             }
 
             $this->balance->updateAdminBalance($adminBalance);
@@ -262,8 +266,8 @@ class Register extends MY_Controller {
         }
 
         $money = $transaction_fees['open_fee'] + $posts['entry_amount'];
-        
-        
+
+
         $dataTransactionFees = array(
             'card_num' => $posts['card_num'],
             'cc_owner' => $posts['cc_owner'],
@@ -282,7 +286,7 @@ class Register extends MY_Controller {
 
 
         $postsData = $posts;
-       
+
         if ($posts['entry_amount'] >= 100)
             $postsData['usertype'] = 2;
         else
@@ -312,7 +316,7 @@ class Register extends MY_Controller {
 
         $adminBalance = $dataTransaction['total'];
         if ($posts['entry_amount'] >= 0) {
-            $this->user->updateTransaction($user_id,$adminBalance);
+            $this->user->updateTransaction($user_id, $adminBalance);
         }
 
         $userHtml = '
@@ -323,19 +327,22 @@ class Register extends MY_Controller {
             $userHtml .= 'Payment :' . $posts['entry_amount'] . '<br>';
         }
 
-        sendmail($postsData['email'], 'Thank you for registering', $userHtml, null, 'Admin Manager', 'html');
+        $userEmailData['user_type'] = $this->usertype[$postsData['usertype']];
+        $userEmailData['entry_amount'] = $posts['entry_amount'];
 
-        $adminHtml = 'Have just new member register<br>';
-        $adminHtml .= 'Full name: ' . $postsData['fullname'] . '<br>';
-        $adminHtml .= 'Address: ' . $postsData['address'] . '<br>';
-        $adminHtml .= 'Phone: ' . $postsData['phone'] . '<br>';
-        $adminHtml .= 'Email: ' . $postsData['email'] . '<br>';
-        $adminHtml .= 'Birthday: ' . $postsData['birthday'] . '<br>';
-        $adminHtml .= 'Birthday: ' . $postsData['birthday'] . '<br>';
-        $adminHtml .= 'payment: ' . $money . '<br>';
-        $adminHtml .= 'Type: ' . $this->usertype[$postsData['usertype']] . '<br>';
+        sendmailform($postsData['email'], 'register', $userEmailData, null, 'Admin Manager', 'html');
 
-        sendmail(null, 'Have just new member register', $adminHtml);
+
+        $adminEmailData = array(
+            'full_name' => $postsData['fullname'],
+            'address' => $postsData['address'],
+            'phone' => $postsData['phone'],
+            'email' => $postsData['email'],
+            'payment' => $money,
+            'user_type' => $this->usertype[$postsData['usertype']],
+        );
+
+        sendmailform(null, 'new_member', $adminEmailData);
 
         if (!empty($postsData['referring'])) {
             $email_referring = $this->register_model->getEmailbyUser($postsData['referring']);
@@ -355,8 +362,14 @@ class Register extends MY_Controller {
             }
 
 
-            $referringHtml = 'Your referring member ' . $postsData['fullname'] . ' just sign up at.';
-            sendmail($email_referring, 'Your referring member', $referringHtml, null, null, 'html');
+//            $referringHtml = 'Your referring member ' . $postsData['fullname'] . ' just sign up at.';
+
+
+            $referringEmailData = array(
+                'fullname' => $postsData['fullname'],
+                'email' => $postsData['email']
+            );
+            sendmailform($email_referring, 'referring', $referringEmailData);
         }
 
         $this->balance->updateAdminBalance($adminBalance);
@@ -393,9 +406,8 @@ class Register extends MY_Controller {
                 $this->data['main_content'] = 'register/reset_pass_step2.php';
                 $this->register_model->update($id, array('forgotten_password_code' => $this->data['forget_code']));
                 //======================= Send Email ====================================
-                $title = "Forget Password";
-                $content = "Code forget Password: '" . $this->data['forget_code'] . "'";
-                sendmail($email_to, $title, $content, 'admin@website.com', 'Admin Manager', 'html');
+                $contentEmail['forget_code'] = $this->data['forget_code'];
+                sendmailform($email_to, $contentEmail, 'forgot_password', 'admin@website.com', 'Admin Manager', 'html');
                 $this->load->view('home', $this->data);
                 //==========================End send mail====================
             }

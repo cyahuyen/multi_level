@@ -45,7 +45,7 @@
                 <a href="<?php echo site_url('adminreport') ?>">Report</a>
             </li>
             <li class="<?php echo $menu_config[5] ?>"><a href="<?php echo site_url('admintransfer') ?>">Transaction</a></li>
-            <li class="<?php echo $menu_config[6] ?>"><a href="<?php echo site_url('adminemail') ?>">Email Manager</a></li>
+            <li class="<?php echo $menu_config[6] ?>"><a href="<?php echo site_url('adminemail/manager') ?>">Email Manager</a></li>
         </ul>
         <div class="clearer"></div>
     </div>

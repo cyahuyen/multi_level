@@ -25,23 +25,24 @@ class CheckExpiration extends MY_Controller {
                     $refereds = $this->expiration_model->getReferedsbyId($emails->user_id);
                     if (!empty($refereds)) {
                         $this->expiration_model->updateUser($emails->user_id, 1);
-                        $content = "Your Gold account has expired. Your current account type is Silver. Please log in and deposite to be Gold again.";
+                        $contentEmailUser['user_type'] = "Silver";
                     } else {
                         $this->expiration_model->updateUser($emails->user_id, 0);
-                        $content = "Your Gold account has expired. Your current account type is normal member. Please log in and deposite to be Gold again.";
-                    }                   
+                        $contentEmailUser['user_type'] = "normal member";
+                    }
                     // Sent email to user
                     $email_user = $emails->email;
                     $title = "Account Expiration!";
-                    
+
                     $email_sent = "admin@mysite.com";
                     $name_sent = "Administrator";
-                    sendmail($email_user, $title, $content);
-                    
+                    sendmailform($email_user, 'acount_expiration', $contentEmailUser);
+
                     // Sent email to admin
                     $title_admin = "Users Expiration!";
                     $content_admin = "Gold account '" . $emails->fullname . "'  has expired.";
-                    sendmail($admins->email, $title_admin, $content_admin);                   
+                    $datamail['fullname'] = $emails->fullname;
+                    sendmailform($admins->email, 'user_expiration', $datamail);
                 }
             }
         }
@@ -76,7 +77,14 @@ class CheckExpiration extends MY_Controller {
                 $this->transaction->insert($dataTransaction);
                 $title = "Profit from " . $silver->transaction_start . " to " . $silver->transaction_finish;
                 $content = "You have just received: $" . $blanceFees . 'from ' . $silver->transaction_start . ' to ' . $silver->transaction_finish;
-                sendmail($silver->email, $title, $content);
+
+                $dataProfit = array(
+                    'transaction_start' => $silver->transaction_start,
+                    'transaction_finish' => $silver->transaction_finish,
+                    'blance_fees' => '$'.$blanceFees,
+                );
+                sendmailform($silver->email, 'profit', $dataProfit);
+                
                 $dataAdmin[$silver->user_id] = array(
                     'fullname' => $silver->fullname,
                     'amount' => $blanceFees
@@ -105,21 +113,25 @@ class CheckExpiration extends MY_Controller {
                 $this->transaction->insert($dataTransaction);
                 $title = "Profit from " . $gold->transaction_start . " to " . $gold->transaction_finish;
                 $content = "You have just received: $" . $blanceFees . 'from ' . $gold->transaction_start . ' to ' . $gold->transaction_finish;
-                sendmail($gold->email, $title, $content);
+                $dataProfit = array(
+                    'transaction_start' => $gold->transaction_start,
+                    'transaction_finish' => $gold->transaction_finish,
+                    'blance_fees' => '$'.$blanceFees,
+                );
+                sendmailform($silver->email, 'profit', $dataProfit);
                 $dataAdmin[$gold->user_id] = array(
                     'fullname' => $gold->fullname,
                     'amount' => $blanceFees
                 );
             }
         }
-        if(!empty($dataAdmin)){
+        if (!empty($dataAdmin)) {
             $content = '';
-            foreach ($dataAdmin as $data){
-                $content .= $data['fullname'] .': '.$data['amount'].'<br>';
+            foreach ($dataAdmin as $data) {
+                $content .= $data['fullname'] . ': ' . $data['amount'] . '<br>';
             }
             sendmail(null, 'Profit', $content);
         }
-        
     }
 
 }

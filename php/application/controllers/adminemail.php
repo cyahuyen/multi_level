@@ -18,7 +18,7 @@ class Adminemail extends MY_Controller{
         parent::__construct();
         
         $this->load->model('emailtemplate_model', 'emailtemplate');
-        $this->data['menu_config'] = $this->menu_config_1;
+        $this->data['menu_config'] = $this->menu_config_7;
         
        
         $user_session = $this->session->userdata('user');

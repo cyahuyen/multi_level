@@ -36,9 +36,9 @@ class Account extends MY_Controller {
         if ($msg) {
             $this->data['usermessage'] = $msg;
         }
-        
+
         $user_session = $this->session->userdata('user');
-        if(!empty($user_session) && $user_session['permission'] == 'administrator'){
+        if (!empty($user_session) && $user_session['permission'] == 'administrator') {
             redirect(site_url('admin'));
         }
     }
@@ -487,7 +487,11 @@ class Account extends MY_Controller {
             $this->session->set_flashdata('usermessage', $data['usermessage']);
             $adminHtml = 'Full Name: ' . $user->fullname . '<br>';
             $adminHtml .= 'Amount: ' . $posts['mc_gross'];
-            sendmail(null, 'Have just new member deposite', $adminHtml);
+
+            $adminEmaildata['full_name'] = $user->fullname;
+            $adminEmaildata['email'] = $user->email;
+            $adminEmaildata['amount'] = $posts['mc_gross'];
+            sendmailform(null, 'deposite', $adminEmaildata);
 
 
             redirect('account/transaction');
@@ -574,7 +578,14 @@ class Account extends MY_Controller {
         $this->session->set_flashdata('usermessage', $data['usermessage']);
         $adminHtml = 'Full Name: ' . $user->fullname . '<br>';
         $adminHtml .= 'Amount: ' . $money;
-        sendmail(null, 'Have just new member deposite', $adminHtml);
+        
+        $adminEmaildata['full_name'] = $user->fullname;
+        $adminEmaildata['email'] = $user->email;
+        $adminEmaildata['amount'] = $money;
+        sendmailform(null, 'deposite', $adminEmaildata);
+
+
+        redirect('account/transaction');
 
 
         redirect('account/transaction');
