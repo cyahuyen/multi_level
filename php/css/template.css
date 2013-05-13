@@ -98,6 +98,12 @@ a:hover {
 .logo {
     float: left;
     height:40px;
+    float: left;
+    height: 50px;
+    color: white;
+    font-size: 30px;
+    padding-top: 10px;
+    padding-left: 20px;
 }
 
 .logo a {
