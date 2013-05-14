@@ -19,7 +19,6 @@ class Adminwithdrawal extends MY_Controller {
         parent::__construct();
 
         $this->load->model('transaction_model', 'transaction');
-        $this->data['menu_config'] = $this->menu_config_8;
 
 
         $user_session = $this->session->userdata('user');
@@ -28,7 +27,7 @@ class Adminwithdrawal extends MY_Controller {
             redirect(site_url('home'));
         }
 
-        $this->data['menu_config'] = $this->menu_config_2;
+        $this->data['menu_config'] = $this->menu_config_8;
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {
             $this->data['usermessage'] = $msg;

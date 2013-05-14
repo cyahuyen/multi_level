@@ -3,7 +3,7 @@
 <table class="datatable">
     <thead>
         <tr>
-            <td colspan="2"><h1>Deposite Amount</h1></td>
+            <td colspan="2"><h1>Withdrawal</h1></td>
         </tr>
     </thead>
     <tbody>

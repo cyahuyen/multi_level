@@ -512,8 +512,19 @@ class Account extends MY_Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $amount = $this->input->post('entry_amount');
             if (floatval($amount) > $this->data['balance']) {
-                $error = array('error', 'darkred', 'Payment Request errors', 'Amount Request greater than Max Amount');
-                $this->data['usermessage'] = $error;
+                $validationErrors['entry_amount'] = "Amount litter than max amount";
+            } elseif (floatval($amount) < 0) {
+                $validationErrors['entry_amount'] = "Amount greater than 0";
+            }
+
+            $this->load->helper('email');
+            $email = $this->input->post('email_paypal');
+            if (!valid_email($email)) {
+                $validationErrors['email_paypal'] = "email is not valid";
+            }
+            if (count($validationErrors) != 0) {
+                $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
+                $this->data['fielderrors'] = $validationErrors;
             } else {
                 $data['email_paypal'] = $this->input->post('email_paypal');
                 $data['balance'] = $amount;
