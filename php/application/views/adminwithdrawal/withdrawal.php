@@ -4,6 +4,7 @@
             <td style="width:20px;text-align: center;"><div>#</div></td>
             <td style="width:110px"><div>Email</div></td>
             <td style="width:110px"><div>Full name</div></td>
+            <td style="width:110px"><div>Amount</div></td>
             <td style="width:80px"><div>Email Paypal</div></td>
             <td style="width:60px"><div>Status</div></td>
             <td style="width:100px"><div>Action</div></td>
@@ -16,6 +17,8 @@
                 <td><div><?php echo $wallist->email; ?></div></td>
 
                 <td><div><?php echo $wallist->fullname; ?></div></td>
+                
+                <td><div>$<?php echo $wallist->balance; ?></div></td>
 
                 <td><div><?php echo $wallist->email_paypal; ?></div></td>
 
