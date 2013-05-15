@@ -161,6 +161,7 @@ class Transaction_model extends CI_Model {
 
     public function updateHistory($data, $id) {
         $this->db->where("id", $id);
+        $this->db->set('confirm_date', 'NOW()', FALSE);
         return $this->db->update('payment_history', $data);
     }
 
