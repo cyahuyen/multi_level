@@ -87,16 +87,8 @@ class Register extends MY_Controller {
         } else {
             $this->data['email'] = '';
         }
-        if (isset($posts['fax'])) {
-            $this->data['fax'] = $posts['fax'];
-        } else {
-            $this->data['fax'] = '';
-        }
-        if (isset($posts['birthday'])) {
-            $this->data['birthday'] = $posts['birthday'];
-        } else {
-            $this->data['birthday'] = '';
-        }
+       
+        
         if (isset($posts['referring'])) {
             $this->data['referring'] = $posts['referring'];
         } else {
@@ -221,7 +213,6 @@ class Register extends MY_Controller {
                 'address' => $postsData['address'],
                 'phone' => $postsData['phone'],
                 'email' => $postsData['email'],
-                'birthday' => $posts['birthday'],
                 'payment' => $money,
                 'user_type' => $this->usertype[$postsData['usertype']],
             );
@@ -385,7 +376,6 @@ class Register extends MY_Controller {
             'address' => $postsData['address'],
             'phone' => $postsData['phone'],
             'email' => $postsData['email'],
-            'birthday' => $posts['birthday'],
             'payment' => $money,
             'user_type' => $this->usertype[$postsData['usertype']],
         );

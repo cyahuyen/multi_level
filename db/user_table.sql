@@ -7,3 +7,9 @@ ALTER TABLE `user`
 ALTER TABLE `user`
 	ADD COLUMN `username` VARCHAR(200) NOT NULL AFTER `user_id`,
 	CHANGE COLUMN `fullname` `fullname` VARCHAR(200) NULL COLLATE 'utf16_bin' AFTER `username`;
+
+
+ALTER TABLE `user`
+	DROP COLUMN `fullname`,
+	DROP COLUMN `fax`,
+	DROP COLUMN `birthday`;

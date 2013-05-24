@@ -45,20 +45,8 @@
                 <span class="fr-error"><?php echo form_error('email'); ?></span>
             </td>
         </tr>
-        <tr>
-            <td><div>Fax: </div></td>
-            <td>
-                <input name="fax" type="text" id="fax" style="width:300px" value="<?php echo set_value('fax', $fax); ?>" />
-                <span class="fr-error"><?php echo form_error('fax'); ?></span>
-            </td>
-        </tr>
-        <tr>
-            <td><div>Birthday: </div></td>
-            <td>
-                <input name="birthday" type="text" id="birthday" style="width:300px" value="<?php echo set_value('birthday', $birthday); ?>" />
-                <span class="fr-error"><?php echo form_error('birthday'); ?></span>
-            </td>
-        </tr>
+        
+        
         <tr>
             <td><div>Referring Member: </div></td>
             <td>
@@ -151,10 +139,9 @@
         var payment = $('input[name=payment]:checked').val();
         var address = $('#address').val();
         var phone = $('#phone').val();
-        var fax = $('#fax').val();
-        var birthday = $('#birthday').val();
+       
         var referring = $('#referring').val();
-        $('#custom').val('firstname=' + firstname + '|lastname=' + lastname + '|email=' + email + '|entry_amount=' + entry_amount + '|address=' + address + '|phone=' + phone + '|fax=' + fax + '|birthday=' + birthday + '|referring=' + referring + '|entry_amount=' + entry_amount)
+        $('#custom').val('firstname=' + firstname + '|lastname=' + lastname + '|email=' + email + '|entry_amount=' + entry_amount + '|address=' + address + '|phone=' + phone + '|referring=' + referring + '|entry_amount=' + entry_amount)
         if (!isNaN(entry_amount) && entry_amount > 0) {
             if (entry_amount.length == 0)
                 entry_amount = 0
