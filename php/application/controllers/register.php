@@ -57,10 +57,15 @@ class Register extends MY_Controller {
             $this->data['success'] = '';
         }
 
-        if (isset($posts['fullname'])) {
-            $this->data['fullname'] = $posts['fullname'];
+        if (isset($posts['firstname'])) {
+            $this->data['firstname'] = $posts['firstname'];
         } else {
-            $this->data['fullname'] = '';
+            $this->data['firstname'] = '';
+        }
+        if (isset($posts['lastname'])) {
+            $this->data['lastname'] = $posts['lastname'];
+        } else {
+            $this->data['lastname'] = '';
         }
         if (isset($posts['password'])) {
             $this->data['password'] = $posts['password'];
@@ -170,7 +175,13 @@ class Register extends MY_Controller {
                 }
             }
 
-            $user_id = $this->register_model->save($postsData);
+            $reffing_default_config = $this->configs->getConfigs('referraldefault');
+            $postsData['username'] = 'U' . time();
+            $postsData['password'] = hash_hmac('crc32b', $postsData['username'] . $this->config->item('prefix_key'), 'secret');
+            $dataUserInsert = $postsData;
+            if (empty($dataUserInsert['referring'])) {
+                $dataUserInsert['referring'] = !empty($reffing_default_config['default_referral_user']) ? $reffing_default_config['default_referral_user'] : 0;
+            }
 
             $dataTransaction['user_id'] = $user_id;
             $dataTransaction['fees'] = $transaction_fees['open_fee'];
@@ -200,15 +211,17 @@ class Register extends MY_Controller {
 
             $userEmailData['user_type'] = $this->usertype[$postsData['usertype']];
             $userEmailData['entry_amount'] = $posts['entry_amount'];
-
+            $userEmailData['username'] = $postsData['username'];
+            $userEmailData['password'] = $postsData['password'];
             sendmailform($postsData['email'], 'register', $userEmailData, null, 'Admin Manager', 'html');
 
 
             $adminEmailData = array(
-                'full_name' => $postsData['fullname'],
+                'full_name' => $posts['firstname'] . ' ' . $posts['lastname'],
                 'address' => $postsData['address'],
                 'phone' => $postsData['phone'],
                 'email' => $postsData['email'],
+                'birthday' => $posts['birthday'],
                 'payment' => $money,
                 'user_type' => $this->usertype[$postsData['usertype']],
             );
@@ -234,10 +247,36 @@ class Register extends MY_Controller {
 
 
                 $referringEmailData = array(
-                    'fullname' => $postsData['fullname'],
+                    'fullname' => $postsData['firstname'] . ' ' . $postsData['lastname'],
                     'email' => $postsData['email']
                 );
                 sendmailform($email_referring, 'referring', $referringEmailData);
+            }else {
+                if (!empty($referral_config['default_referral_user'])) {
+                    $email_referring = $this->register_model->getEmailbyUser($reffing_default_config['default_referral_user']);
+                    $this->user->updateUserType($reffing_default_config['default_referral_user']);
+                    $this->transaction->updateRefereFees($reffing_default_config['default_referral_user']);
+                    $userReferring = $this->user->getUserById($reffing_default_config['default_referral_user']);
+                    if ($userReferring) {
+                        $referral_config = $this->configs->getConfigs('referral');
+                        $total_refere_fees = 0;
+                        if ($userReferring->usertype == 1)
+                            $total_refere_fees = $referral_config['silver_fees'];
+                        elseif ($userReferring->usertype == 2)
+                            $total_refere_fees = $referral_config['gold_fees'];
+                        $this->balance->updateBalance($reffing_default_config['default_referral_user'], $total_refere_fees);
+
+                        $adminBalance = $adminBalance - $total_refere_fees;
+                    }
+
+
+
+                    $referringEmailData = array(
+                        'fullname' => $postsData['firstname'] . ' ' . $postsData['lastname'],
+                        'email' => $postsData['email']
+                    );
+                    sendmailform($email_referring, 'referring', $referringEmailData);
+                }
             }
 
             $this->balance->updateAdminBalance($adminBalance);
@@ -299,7 +338,14 @@ class Register extends MY_Controller {
             }
         }
 
-        $user_id = $this->register_model->save($postsData);
+        $reffing_default_config = $this->configs->getConfigs('referraldefault');
+        $postsData['username'] = 'U' . time();
+        $postsData['password'] = hash_hmac('crc32b', $postsData['username'] . $this->config->item('prefix_key'), 'secret');
+        $dataUserInsert = $postsData;
+        if (empty($dataUserInsert['referring'])) {
+            $dataUserInsert['referring'] = !empty($reffing_default_config['default_referral_user']) ? $reffing_default_config['default_referral_user'] : 0;
+        }
+        $user_id = $this->user->save($dataUserInsert);
 
         $dataTransaction['user_id'] = $user_id;
         $dataTransaction['fees'] = $transaction_fees['open_fee'];
@@ -329,15 +375,17 @@ class Register extends MY_Controller {
 
         $userEmailData['user_type'] = $this->usertype[$postsData['usertype']];
         $userEmailData['entry_amount'] = $posts['entry_amount'];
-
+        $userEmailData['username'] = $postsData['username'];
+        $userEmailData['password'] = $postsData['password'];
         sendmailform($postsData['email'], 'register', $userEmailData, null, 'Admin Manager', 'html');
 
 
         $adminEmailData = array(
-            'full_name' => $postsData['fullname'],
+            'full_name' => $posts['firstname'] . ' ' . $posts['lastname'],
             'address' => $postsData['address'],
             'phone' => $postsData['phone'],
             'email' => $postsData['email'],
+            'birthday' => $posts['birthday'],
             'payment' => $money,
             'user_type' => $this->usertype[$postsData['usertype']],
         );
@@ -362,20 +410,44 @@ class Register extends MY_Controller {
             }
 
 
-//            $referringHtml = 'Your referring member ' . $postsData['fullname'] . ' just sign up at.';
-
 
             $referringEmailData = array(
-                'fullname' => $postsData['fullname'],
+                'fullname' => $postsData['firstname'] . ' ' . $postsData['lastname'],
                 'email' => $postsData['email']
             );
             sendmailform($email_referring, 'referring', $referringEmailData);
+        }else {
+            if (!empty($reffing_default_config['default_referral_user'])) {
+                $email_referring = $this->register_model->getEmailbyUser($reffing_default_config['default_referral_user']);
+                $this->user->updateUserType($reffing_default_config['default_referral_user']);
+                $this->transaction->updateRefereFees($reffing_default_config['default_referral_user']);
+                $userReferring = $this->user->getUserById($reffing_default_config['default_referral_user']);
+                if ($userReferring) {
+                    $referral_config = $this->configs->getConfigs('referral');
+                    $total_refere_fees = 0;
+                    if ($userReferring->usertype == 1)
+                        $total_refere_fees = $referral_config['silver_fees'];
+                    elseif ($userReferring->usertype == 2)
+                        $total_refere_fees = $referral_config['gold_fees'];
+                    $this->balance->updateBalance($reffing_default_config['default_referral_user'], $total_refere_fees);
+
+                    $adminBalance = $adminBalance - $total_refere_fees;
+                }
+
+
+                $referringEmailData = array(
+                    'fullname' => $postsData['firstname'] . ' ' . $postsData['lastname'],
+                    'email' => $postsData['email']
+                );
+                sendmailform($email_referring, 'referring', $referringEmailData);
+            }
         }
 
         $this->balance->updateAdminBalance($adminBalance);
 
         $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
         $this->session->set_flashdata('usermessage', $data['usermessage']);
+        redirect('home');
     }
 
     public function cancel_return() {

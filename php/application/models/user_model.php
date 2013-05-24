@@ -47,7 +47,7 @@ class User_model extends CI_Model {
     }
 
     public function updateTransactionWithoutDate($id, $balance) {
-        
+
         $this->db->where('user_id', $id);
         $data = array();
         if ($balance >= 100) {
@@ -56,7 +56,7 @@ class User_model extends CI_Model {
             $data['usertype'] = 1;
         }
         if (!empty($data))
-             $this->db->update('user', $data);
+            $this->db->update('user', $data);
         return FALSE;
     }
 
@@ -83,7 +83,7 @@ class User_model extends CI_Model {
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 if ($key == 'searchby') {
-                    $where = "( fullname LIKE '%" . $val . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
+                    $where = "( firstname LIKE '%" . $path . "%' OR lastname LIKE '%" . $path . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
                     $this->db->where($where);
                 }
                 else
@@ -107,6 +107,18 @@ class User_model extends CI_Model {
         return $query->result();
     }
 
+    public function searchUser($path,$limit) {
+        $this->db->select("*");
+        $this->db->from("user");
+        $where = "( firstname LIKE '%" . $path . "%' OR lastname LIKE '%" . $path . "%')";
+        $this->db->where($where);
+        $limit = $this->config->item('limit_page', 'my_config');
+         if ($limit)
+            $this->db->limit((int) $limit);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function listUserBouns($type) {
         $this->db->select("*");
         $this->db->from("user");
@@ -124,7 +136,7 @@ class User_model extends CI_Model {
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 if ($key == 'searchby') {
-                    $where = "( fullname LIKE '%" . $val . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
+                    $where = "( firstname LIKE '%" . $path . "%' OR lastname LIKE '%" . $path . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
                     $this->db->where($where);
                 }
                 else
@@ -210,7 +222,7 @@ class User_model extends CI_Model {
 
     function save($data) {
         $password = md5($data['password']);
-        $this->db->query("INSERT INTO " . $this->tbl . " SET fullname = '" . $data['fullname'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',fax = '" . $data['fax'] . "',birthday = '" . $data['birthday'] . "',referring = '" . $data['referring'] . "', created_on = NOW()");
+        $this->db->query("INSERT INTO " . $this->tbl . " SET firstname = '" . $data['firstname'] . "',username = '" . $data['username'] . "',lastname = '" . $data['lastname'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',fax = '" . $data['fax'] . "',birthday = '" . $data['birthday'] . "',referring = '" . $data['referring'] . "', created_on = NOW()");
         return $this->db->insert_id();
     }
 

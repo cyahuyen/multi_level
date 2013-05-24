@@ -83,7 +83,7 @@ $autoload['helper'] = array('url', 'file', 'form', 'sendmail');
   |
  */
 
-$autoload['config'] = array('cya_config', 'email');
+$autoload['config'] = array('cya_config', 'email','my_config');
 
 
 /*

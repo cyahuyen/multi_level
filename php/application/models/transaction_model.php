@@ -42,11 +42,12 @@ class Transaction_model extends CI_Model {
 
         $this->load->model('config_model', 'configs');
         $referral = $this->configs->getConfigs('referral');
-
+        
         $this->load->model('user_model', 'user');
         $user = $this->user->getUserById($user_id);
 
         if (!empty($user)) {
+            $data['total'] = 0;
             if ($user->usertype == 1)
                 $data['total'] = $referral['silver_fees'];
             elseif ($user->usertype == 2)

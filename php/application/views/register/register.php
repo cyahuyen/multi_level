@@ -10,26 +10,20 @@
             <td><a href="<?php echo site_url('register/forgot') ?>">(if you forgot password ?)</a></td>
         </tr>
         <tr>
-            <td><div>FullName: </div></td>
+            <td><div>FirstName: </div></td>
             <td>
-                <input type="text" name="fullname" class="mandatory"  id="fullname" value="<?php echo set_value('fullname', $fullname); ?>" style="width:300px">
-                <span class="fr-error"><?php echo form_error('fullname'); ?></span>
+                <input type="text" name="firstname" class="mandatory"  id="firstname" value="<?php echo set_value('firstname', $firstname); ?>" style="width:300px">
+                <span class="fr-error"><?php echo form_error('firstname'); ?></span>
             </td>
         </tr>
         <tr>
-            <td><div>Password: </div></td>
+            <td><div>LastName: </div></td>
             <td>
-                <input name="password" type="password" class="mandatory" id="password" style="width:300px" value="" />
-                <span class="fr-error"><?php echo form_error('password'); ?></span>
+                <input type="text" name="lastname" class="mandatory"  id="lastname" value="<?php echo set_value('lastname', $lastname); ?>" style="width:300px">
+                <span class="fr-error"><?php echo form_error('lastname'); ?></span>
             </td>
         </tr>
-        <tr>
-            <td><div>Confirm Password: </div></td>
-            <td>
-                <input name="repass" type="password" class="mandatory" id="repass" style="width:300px" value="" />
-                <span class="fr-error"><?php echo form_error('repassword'); ?></span>
-            </td>
-        </tr>
+        
         <tr>
             <td><div>Address: </div></td>
             <td>
@@ -150,9 +144,8 @@
         var min_enrolment_entry_amount = '<?php echo $transaction_fees['min_enrolment_entry_amount']; ?>';
         var max_enrolment_entry_amount = '<?php echo $transaction_fees['max_enrolment_entry_amount']; ?>';
         e = $(this);
-        var fullname = $('#fullname').val();
-        var password = $('#password').val();
-        var repassword = $('#repass').val();
+        var firstname = $('#firstname').val();
+        var lastname = $('#lastname').val();
         var email = $('#email').val();
         var entry_amount = $('#entry_amount').val();
         var payment = $('input[name=payment]:checked').val();
@@ -161,7 +154,7 @@
         var fax = $('#fax').val();
         var birthday = $('#birthday').val();
         var referring = $('#referring').val();
-        $('#custom').val('fullname=' + fullname + '|password=' + password + '|email=' + email + '|entry_amount=' + entry_amount + '|address=' + address + '|phone=' + phone + '|fax=' + fax + '|birthday=' + birthday + '|referring=' + referring + '|entry_amount=' + entry_amount)
+        $('#custom').val('firstname=' + firstname + '|lastname=' + lastname + '|email=' + email + '|entry_amount=' + entry_amount + '|address=' + address + '|phone=' + phone + '|fax=' + fax + '|birthday=' + birthday + '|referring=' + referring + '|entry_amount=' + entry_amount)
         if (!isNaN(entry_amount) && entry_amount > 0) {
             if (entry_amount.length == 0)
                 entry_amount = 0
@@ -172,18 +165,15 @@
         }
         var flag = true;
         removeCompMsgs();
-        if (fullname.length == 0) {
-            $('#msgContainer').append('<input type="hidden" id="cmsgfullname" value="Full name is not null"/>');
+        if (firstname.length == 0) {
+            $('#msgContainer').append('<input type="hidden" id="cmsgfirstname" value="Firstname is not null"/>');
             flag = false;
         }
-        if (password.length < 6) {
-            $('#msgContainer').append('<input type="hidden" id="cmsgpassword" value="password greater than 6 character"/>');
+        if (lastname.length == 0) {
+            $('#msgContainer').append('<input type="hidden" id="cmsglastname" value="Lastname is not null"/>');
             flag = false;
         }
-        if (password != repassword) {
-            $('#msgContainer').append('<input type="hidden" id="cmsgrepass" value="Repassword wrong"/>');
-            flag = false;
-        }
+        
         if (!validateEmail(email)) {
             $('#msgContainer').append('<input type="hidden" id="cmsgemail" value="Email wrong"/>');
             flag = false;
@@ -209,7 +199,6 @@
                 flag = false;
             }
         }
-
         if (flag == false) {
             showmessage('error', 'Validation errors found', 'Please see below');
             showCompMsgs();
