@@ -83,7 +83,7 @@ class User_model extends CI_Model {
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 if ($key == 'searchby') {
-                    $where = "( firstname LIKE '%" . $path . "%' OR lastname LIKE '%" . $path . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
+                    $where = "( firstname LIKE '%" . $val . "%' OR lastname LIKE '%" . $val . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
                     $this->db->where($where);
                 }
                 else
@@ -136,7 +136,7 @@ class User_model extends CI_Model {
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 if ($key == 'searchby') {
-                    $where = "( firstname LIKE '%" . $path . "%' OR lastname LIKE '%" . $path . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
+                    $where = "( firstname LIKE '%" . $val . "%' OR lastname LIKE '%" . $val . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
                     $this->db->where($where);
                 }
                 else

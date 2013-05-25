@@ -37,7 +37,7 @@ class Expiration_model extends CI_Model {
     }
 
     function getUsersLimit($currentdata, $type) {
-        $sql = "SELECT user_id,email,fullname FROM user WHERE transaction_finish <='" . $currentdata . "' AND usertype=" . $type . "";
+        $sql = "SELECT user_id,email,CONCAT(firstname,' ', lastname) as fullname FROM user WHERE transaction_finish <='" . $currentdata . "' AND usertype=" . $type . "";
         $data = $this->db->query($sql)->result();
         return $data;
     }

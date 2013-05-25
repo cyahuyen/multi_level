@@ -14,19 +14,19 @@
         <?php foreach ($users as $user) { ?>
             <tr class="row" id="row_<?php echo $user->user_id; ?>"> 
                 <td style="text-align: center;"><div><?php echo $user->user_id; ?></div></td>
-                <td onClick="window.location = '<?php echo site_url('adminuser/profile'); ?>/<?php echo $user->user_id; ?>'"><div><?php echo $user->fullname; ?></div></td>
+                <td onClick="window.location = '<?php echo site_url('adminuser/profile'); ?>/<?php echo $user->user_id; ?>'"><div><?php echo $user->firstname . ' ' . $user->lastname; ?></div></td>
                 <td><div><?php
-                        if ($user->usertype == 2) {
-                            echo 'Gold';
-                        } elseif ($user->usertype == 2) {
-                            echo 'Silver';
-                        } else {
-                            echo 'Member';
-                        }
-                        ?></div></td>
+        if ($user->usertype == 2) {
+            echo 'Gold';
+        } elseif ($user->usertype == 2) {
+            echo 'Silver';
+        } else {
+            echo 'Member';
+        }
+            ?></div></td>
                 <td><div><?php echo $user->email; ?></div></td>
                 <td><div><?php echo $user->phone; ?></div></td>
-                <td><div><?php echo !empty($user->status)?'Active':'De-Active' ?></div></td>
+                <td><div><?php echo!empty($user->status) ? 'Active' : 'De-Active' ?></div></td>
                 <td><div>
                         <?php if ($user->status == 1) { ?>
                             <a href="javascript:void(0);" class="activate" id="disable_<?php echo $user->user_id; ?>" rel="<?php echo $user->user_id; ?>"><img src='<?php echo base_url(); ?>img/actions/deactivate.png' alt='Activate' title='Activate'/></a>

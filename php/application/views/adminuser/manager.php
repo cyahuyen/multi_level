@@ -113,7 +113,7 @@
                 <div class="datalist-sort">
                     <span>Order by<span style="padding:4px">
                             <select id="datalist-sort-order"  onchange="search()"> 
-                                <option <?php echo (!empty($userlist['sort']) && $userlist['sort'] == 'fullname') ? 'selected' : '' ?> value="fullname">Person name</option>
+                                <option <?php echo (!empty($userlist['sort']) && $userlist['sort'] == 'firstname') ? 'selected' : '' ?> value="firstname">Person name</option>
                                 <option <?php echo (!empty($userlist['sort']) && $userlist['sort'] == 'email') ? 'selected' : '' ?> value="email">Email</option>
                                 <option <?php echo (!empty($userlist['sort']) && $userlist['sort'] == 'usertype') ? 'selected' : '' ?>  value="usertype">User type</option>
                             </select>
