@@ -31,24 +31,31 @@ if (!function_exists('sendmail')) {
             'smtp_timeout' => $emailConfig['smtp_timeout'],
             'email_admin' => $emailConfig['email_admin']
         );
-
-        if ($emailFrom)
-            $CI->email->reply_to($emailFrom, $name);
-        if (!$emailTo)
-            $CI->email->to($emailConfig['email_admin']);
-        else
-            $CI->email->to($emailTo);
-        $CI->email->subject($subject);
-        $CI->email->message($content);
-        if ($CI->email->send())
-            return true;
-        return FALSE;
-//        echo($CI->email->print_debugger());
-//        die;
+        if ($emailConfig['protocol'] == 'mail') {
+            if ($emailFrom)
+                $CI->email->reply_to($emailFrom, $name);
+            if (!$emailTo)
+                $CI->email->to($emailConfig['email_admin']);
+            else
+                $CI->email->to($emailTo);
+            $CI->email->subject($subject);
+            $CI->email->message($content);
+            if ($CI->email->send())
+                return true;
+            return FALSE;
+        }
+        $headers = '';
+        if ($mailtype == 'html') {
+            $headers .= 'MIME-Version: 1.0' . "\r\n";
+            $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        }
+        $headers .= 'From: ' . $emailConfig['email_admin'] . "\r\n" .
+                'Reply-To: ' . $emailConfig['email_admin'] . "\r\n" .
+                'X-Mailer: PHP/' . phpversion();
+        return mail($emailTo, $subject, $content, $headers);
     }
 
 }
-
 
 if (!function_exists('sendmailform')) {
 
@@ -57,10 +64,11 @@ if (!function_exists('sendmailform')) {
         $CI->load->model('emailtemplate_model', 'emailtemplate');
 
         $email = $CI->emailtemplate->getEmailByCode($code);
-        
-        if($email){
-            $subject = replace_data($email->subject,$data);
-            $content = replace_data($email->content,$data);
+
+        if ($email) {
+            $subject = replace_data($email->subject, $data);
+            $content = replace_data($email->content, $data);
+
             sendmail($emailTo, $subject, $content, $emailFrom = null, $name = null, $mailtype = 'html');
         }
     }

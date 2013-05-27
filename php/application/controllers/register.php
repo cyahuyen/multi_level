@@ -204,18 +204,17 @@ class Register extends MY_Controller {
             }
 
             $userEmailData['user_type'] = $this->usertype[$postsData['usertype']];
-            $userEmailData['entry_amount'] = $posts['entry_amount'];
+            $userEmailData['entry_amount'] = $posts['mc_gross'];
             $userEmailData['username'] = $postsData['username'];
             $userEmailData['password'] = $postsData['password'];
             sendmailform($postsData['email'], 'register', $userEmailData, null, 'Admin Manager', 'html');
 
-
             $adminEmailData = array(
-                'full_name' => $posts['firstname'] . ' ' . $posts['lastname'],
+                'full_name' => $postsData['firstname'] . ' ' . $postsData['lastname'],
                 'address' => $postsData['address'],
                 'phone' => $postsData['phone'],
                 'email' => $postsData['email'],
-                'payment' => $money,
+                'payment' => $posts['mc_gross'],
                 'user_type' => $this->usertype[$postsData['usertype']],
             );
 
