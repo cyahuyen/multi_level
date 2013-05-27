@@ -174,6 +174,8 @@ class Register extends MY_Controller {
             if (empty($dataUserInsert['referring'])) {
                 $dataUserInsert['referring'] = !empty($reffing_default_config['default_referral_user']) ? $reffing_default_config['default_referral_user'] : 0;
             }
+            
+            $user_id = $this->user->save($dataUserInsert);
 
             $dataTransaction['user_id'] = $user_id;
             $dataTransaction['fees'] = $transaction_fees['open_fee'];
@@ -337,7 +339,6 @@ class Register extends MY_Controller {
             $dataUserInsert['referring'] = !empty($reffing_default_config['default_referral_user']) ? $reffing_default_config['default_referral_user'] : 0;
         }
         $user_id = $this->user->save($dataUserInsert);
-
         $dataTransaction['user_id'] = $user_id;
         $dataTransaction['fees'] = $transaction_fees['open_fee'];
         $dataTransaction['total'] = $money;
