@@ -12,18 +12,17 @@
  */
 class Balance_model extends CI_Model {
 
-    public function updateBalance($user_id, $balance) {
+    public function updateBalance($referring, $balance) {
         $this->load->model('user_model', 'user');
-        $user = $this->user->getUserById($user_id);
-
+        $user = $this->user->getUserByReferral($referring);
         if (!empty($user)) {
-            $balanceData = $this->getBalance($user_id);
+            $balanceData = $this->getBalance($user->user_id);
             if (!empty($balanceData)) {
                 $data['balance'] = $balanceData->balance + $balance;
-                $this->update($user_id, $data);
+                $this->update($user->user_id, $data);
             } else {
                 $data['balance'] = $balance;
-                $data['user_id'] = $user_id;
+                $data['user_id'] = $user->user_id;
                 $this->insert($data);
             }
         }
@@ -32,16 +31,26 @@ class Balance_model extends CI_Model {
     public function updateAdminBalance($balance) {
         $this->load->model('user_model', 'user');
         $user = $this->user->getAdmin();
-        $this->updateBalance($user->user_id, $balance);
+        if (!empty($user)) {
+            $balanceData = $this->getBalance($user->user_id);
+            if (!empty($balanceData)) {
+                $data['balance'] = $balanceData->balance + $balance;
+                $this->update($user->user_id, $data);
+            } else {
+                
+                $data['balance'] = $balance;
+                $data['user_id'] = $user->user_id;
+                $this->insert($data);
+            }
+        }
     }
-    
+
     public function getAdminBalance() {
         $this->load->model('user_model', 'user');
         $user = $this->user->getAdmin();
-        
+
         return $this->getBalance($user->user_id);
     }
-    
 
     public function insert($data) {
         $this->db->insert('balance', $data);

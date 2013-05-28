@@ -42,7 +42,7 @@ class Admin extends MY_Controller {
 
         $results = array();
         foreach ($data as $sub) {
-            $results[$sub->user_id] = $sub->firstname . ' ' . $sub->lastname;
+            $results[$sub->username] = $sub->email;
         }
         //var_dump($results);die;
         echo json_encode($results);

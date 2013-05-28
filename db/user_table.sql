@@ -1,15 +1,5 @@
 ALTER TABLE `user`
-	ADD COLUMN `firstname` VARCHAR(200) NOT NULL AFTER `fullname`,
-	ADD COLUMN `lastname` VARCHAR(200) NOT NULL AFTER `firstname`;
+	CHANGE COLUMN `referring` `referring` VARCHAR(200) NULL DEFAULT '0' AFTER `email`;
 
-ALTER TABLE `user`
-	ALTER `fullname` DROP DEFAULT;
-ALTER TABLE `user`
-	ADD COLUMN `username` VARCHAR(200) NOT NULL AFTER `user_id`,
-	CHANGE COLUMN `fullname` `fullname` VARCHAR(200) NULL COLLATE 'utf16_bin' AFTER `username`;
-
-
-ALTER TABLE `user`
-	DROP COLUMN `fullname`,
-	DROP COLUMN `fax`,
-	DROP COLUMN `birthday`;
+ALTER TABLE `multilevel_sessions`
+	ADD COLUMN `created` DATETIME NOT NULL AFTER `user_data`;

@@ -37,22 +37,19 @@ class Transaction_model extends CI_Model {
         }
     }
 
-    public function updateRefereFees($user_id) {
+    public function updateRefereFees($referring, $total_fees) {
         $this->db->set('created', 'NOW()', FALSE);
 
         $this->load->model('config_model', 'configs');
         $referral = $this->configs->getConfigs('referral');
-        
+
         $this->load->model('user_model', 'user');
-        $user = $this->user->getUserById($user_id);
-
+        $user = $this->user->getUserByReferral($referring);
         if (!empty($user)) {
-            $data['total'] = 0;
-            if ($user->usertype == 1)
-                $data['total'] = $referral['silver_fees'];
-            elseif ($user->usertype == 2)
-                $data['total'] = $referral['gold_fees'];
+            if ($user->usertype < 2)
+                return FALSE;
 
+            $data['total'] = $total_fees;
             $data['payment_status'] = 'Completed';
             $data['transaction_type'] = 'refere';
             $data['status'] = 0;

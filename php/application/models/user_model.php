@@ -38,10 +38,12 @@ class User_model extends CI_Model {
         $this->db->set('transaction_start', 'NOW()', FALSE);
         $this->db->set('transaction_finish', 'DATE_ADD(NOW(),INTERVAL 30 DAY )', FALSE);
         $data = array();
-        if ($balance > 100) {
+        if ($balance >= 100) {
             $data['usertype'] = 2;
         } elseif ($balance < 100 & $balance > 0) {
             $data['usertype'] = 1;
+        }else{
+            $data['usertype'] = 0;
         }
         return $this->update($id, $data);
     }
@@ -60,10 +62,10 @@ class User_model extends CI_Model {
         return FALSE;
     }
 
-    public function updateUserType($id) {
-        $user = $this->getUserById($id);
+    public function updateUserType($refferal) {
+        $user = $this->getUserByReferral($refferal);
         if (!empty($user) && $user->usertype == 0) {
-            $this->db->where('user_id', $id);
+            $this->db->where('username', $refferal);
             $this->db->set('transaction_start', 'NOW()', FALSE);
             $this->db->set('transaction_finish', 'DATE_ADD(NOW(),INTERVAL 30 DAY )', FALSE);
             $this->db->update('user', array('usertype' => 1));
@@ -102,18 +104,18 @@ class User_model extends CI_Model {
                 $this->db->order_by($key, $value);
             }
         }
-
+        
         $query = $this->db->get();
         return $query->result();
     }
 
-    public function searchUser($path,$limit) {
+    public function searchUser($path, $limit) {
         $this->db->select("*");
         $this->db->from("user");
-        $where = "( firstname LIKE '%" . $path . "%' OR lastname LIKE '%" . $path . "%')";
+        $where = "( email LIKE '%" . $path . "%')";
         $this->db->where($where);
         $limit = $this->config->item('limit_page', 'my_config');
-         if ($limit)
+        if ($limit)
             $this->db->limit((int) $limit);
         $query = $this->db->get();
         return $query->result();
@@ -156,7 +158,17 @@ class User_model extends CI_Model {
 
         $query = $this->db->get();
         $result = $query->result();
-        return $result[0];
+        return !empty($result[0]) ? $result[0] : array();
+    }
+    public function getUserByReferral($referral) {
+        $this->db->select("*");
+        $this->db->from("user");
+
+        $this->db->where('username', $referral);
+
+        $query = $this->db->get();
+        $result = $query->result();
+        return !empty($result[0]) ? $result[0] : array();
     }
 
     public function getAdmin() {
@@ -222,7 +234,7 @@ class User_model extends CI_Model {
 
     function save($data) {
         $password = md5($data['password']);
-        $this->db->query("INSERT INTO " . $this->tbl . " SET firstname = '" . $data['firstname'] . "',username = '" . $data['username'] . "',lastname = '" . $data['lastname'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',referring = '" . $data['referring'] . "', created_on = NOW()");
+        $this->db->query("INSERT INTO " . $this->tbl . " SET firstname = '" . $data['firstname'] . "',username = '" . $data['username'] . "',lastname = '" . $data['lastname'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',referring = '" . $data['referring'] ."',usertype = '" . $data['usertype'] . "', created_on = NOW()");
         return $this->db->insert_id();
     }
 

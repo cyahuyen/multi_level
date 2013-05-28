@@ -12,11 +12,12 @@ class Register_model extends CI_Model {
     function get_auto($email) {
         $this->db->select('*');
         $this->db->like('email', $email);
+        $this->db->where('permission is null', '', FALSE);
         $query = $this->db->get('user');
         if ($query->num_rows > 0) {
             foreach ($query->result_array() as $row) {
                 $new_row['label'] = htmlentities(stripslashes($row['email']));
-                $new_row['value'] = htmlentities(stripslashes($row['user_id']));
+                $new_row['value'] = htmlentities(stripslashes($row['username']));
                 $row_set[] = $new_row;
             }
             echo json_encode($row_set);
@@ -54,8 +55,8 @@ class Register_model extends CI_Model {
         }
     }
 
-    function getEmailbyUser($id) {
-        $data = $this->db->get_where($this->tbl, array('user_id' => $id))->result();
+    function getEmailbyUser($username) {
+        $data = $this->db->get_where($this->tbl, array('username' => $username))->result();
         if ($data) {
             return $data[0]->email;
         }
