@@ -21,20 +21,16 @@
                         <tr class="heading">
                             <td style="width:35px"><div>Id</div></td>
                             <td style="width:120px"><div>Full Name</div></td>
-                            <td style="width:60px"><div>Birthday</div></td>
                             <td style="width:80px"><div>Email</div></td>
                             <td style="width:50px"><div>Phone</div></td>
-                            <td style="width:80px"><div>Referred Date</div></td>
                         </tr>
                         <?php if ($refereds) { ?>
                             <?php foreach ($refereds as $refered) { ?>
                                 <tr class="row">
                                     <td><div><?php echo $refered->user_id; ?></div></td>
-                                    <td><div><?php echo $refered->fullname; ?></div></td>
-                                    <td><div><?php echo $refered->birthday; ?></div></td>
+                                    <td><div><?php echo $refered->firstname . ' ' . $refered->lastname; ?></div></td>
                                     <td><div><?php echo $refered->email; ?></div></td>
                                     <td><div><?php echo $refered->phone; ?></div></td>
-                                    <td><div><?php echo $refered->created_on; ?></div></td>
                                 </tr>
                                 <?php
                             }

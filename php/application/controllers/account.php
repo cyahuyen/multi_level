@@ -27,12 +27,12 @@ class Account extends MY_Controller {
         $this->lang->load('recaptcha');
         $this->load->model('user_model', '', TRUE);
         $this->data['menu_config'] = $this->menu_config_user_home;
-       
+
 
         if (!$this->session->userdata('user')) {
             redirect('authentication', 'refresh');
         }
-         $this->data['user_session'] = $this->session->userdata('user');
+        $this->data['user_session'] = $this->session->userdata('user');
         $this->data['menu_config'] = $this->menu_config_2;
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {
@@ -109,16 +109,19 @@ class Account extends MY_Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $posts = $this->input->post();
             $validationErrors = array();
-            
-            if ($posts['email'] != $posts['old_email']) {
-                if ($posts['email'] == '' || !($this->checkEmail($posts['email'])) || !($this->isEmail($posts['email']))) {
-                    $validationErrors['email'] = "Email cannot be blank";
-                }
-            } else {
-                if ($posts['email'] == '') {
-                    $validationErrors['email'] = "Email cannot be blank";
-                }
+
+            if ($posts['firstname'] == '') {
+                $validationErrors['firstname'] = "Your name is FirstName cannot be blank";
             }
+            if ($posts['lastname'] == '') {
+                $validationErrors['firstname'] = "Your name is Lastnamr cannot be blank";
+            }
+            if ($posts['email'] == '') {
+                $validationErrors['email'] = "Email cannot be blank";
+            } elseif ($this->user_model->checkEmailExists($posts['email'], $id) == true) {
+                $validationErrors['email'] = "Email is exists";
+            }
+            
             $this->data['posts'] = $posts;
             foreach ($posts as $key => $val) {
                 $this->data['userdata']->$key = $val;
@@ -129,12 +132,10 @@ class Account extends MY_Controller {
             } else {
                 unset($posts['save-btn']);
                 $data = array(
-                    'fullname' => $posts['fullname'],
-                    'address' => $posts['address'],
+                    'firstname' => $posts['firstname'],
+                    'lastname' => $posts['lastname'],
                     'phone' => $posts['phone'],
                     'email' => $posts['email'],
-                    'fax' => $posts['fax'],
-                    'birthday' => $posts['birthday']
                 );
                 if ($this->user_model->update($id, $data))
                     $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
@@ -247,7 +248,8 @@ class Account extends MY_Controller {
         //       Begin pagination
         $this->load->library("pagination");
         $config = array();
-        $config["total_rows"] = $this->user_model->totalRefered($id);
+        $user = $this->user_model->getUserById($id);
+        $config["total_rows"] = $this->user_model->totalRefered($user->referring);
         $config["base_url"] = site_url('account/refered');
         $config["per_page"] = $limit;
         $page = $start;
@@ -273,7 +275,7 @@ class Account extends MY_Controller {
         $this->pagination->initialize($config);
         $this->data["links"] = $this->pagination->create_links();
         //       End pagination
-        $this->data['refereds'] = $this->user_model->getRefereds($id, $limit, $start);
+        $this->data['refereds'] = $this->user_model->getRefereds($user->referring, $limit, $start);
         $this->data['main_content'] = 'account/refered';
         $this->load->view('home', $this->data);
     }

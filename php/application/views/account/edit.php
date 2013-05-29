@@ -13,9 +13,21 @@
     </thead>
     <tbody>
         <tr>
-            <td><div>FullName: </div></td>
+            <td><div>Acount number: </div></td>
             <td>
-                <input type="text" name="fullname"  id="fullname" value="<?php echo!empty($userdata->fullname) ? $userdata->fullname : '' ?>" style="width:300px">
+                <?php echo!empty($userdata->username) ? $userdata->username : '' ?>
+            </td>
+        </tr>
+        <tr>
+            <td><div>Firstname: </div></td>
+            <td>
+                <input type="text" name="firstname"  id="firstname" value="<?php echo!empty($userdata->firstname) ? $userdata->firstname : '' ?>" style="width:300px">
+            </td>
+        </tr>
+        <tr>
+            <td><div>Lastname: </div></td>
+            <td>
+                <input type="text" name="lastname"  id="firstname" value="<?php echo!empty($userdata->lastname) ? $userdata->lastname : '' ?>" style="width:300px">
             </td>
         </tr>
         <tr>
@@ -37,18 +49,7 @@
                 <input name="old_email" type="hidden" id="old_email" style="width:300px" value="<?php echo!empty($userdata->email) ? $userdata->email : '' ?>" />
             </td>
         </tr>
-        <tr>
-            <td><div>Fax: </div></td>
-            <td>
-                <input name="fax" type="text" id="fax" style="width:300px" value="<?php echo!empty($userdata->fax) ? $userdata->fax : '' ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td><div>Birthday: </div></td>
-            <td>
-                <input name="birthday" type="text" id="birthday" style="width:300px" value="<?php echo!empty($userdata->birthday) ? $userdata->birthday : '' ?>" />
-            </td>
-        </tr>
+        
         <tr>
             <td colspan="2">
                 <div style="padding-left: 150px;">
