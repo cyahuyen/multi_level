@@ -54,7 +54,7 @@ class User_model extends CI_Model {
         $data = array();
         if ($balance >= 100) {
             $data['usertype'] = 2;
-        } elseif ($balance < 100 & $balance > 0) {
+        } elseif ($balance < 100 && $balance > 0) {
             $data['usertype'] = 1;
         }
         if (!empty($data))

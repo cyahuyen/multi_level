@@ -36,6 +36,19 @@
                 </td>
             </tr>
             <tr>
+                <td>Bonus percentage of Silver</td>
+                <td>
+                    <input type="text" id="bonus_percentage_silver" class="" name="bonus_percentage_silver" value="<?php echo!empty($data_configs['bonus_percentage_silver']) ? $data_configs['bonus_percentage_silver'] : '' ?>" class="" style="width:240px">%
+                </td>
+            </tr>
+            <tr>
+                <td>Bonus percentage of Gold</td>
+                <td>
+                    <input type="text" id="bonus_percentage_gold" class="" name="bonus_percentage_gold" value="<?php echo!empty($data_configs['bonus_percentage_gold']) ? $data_configs['bonus_percentage_gold'] : '' ?>" class="" style="width:240px">%
+
+                </td>
+            </tr>
+            <tr>
                 <td>Referral fee for Gold</td>
                 <td>
                     <input type="text" id="gold_fees" class="" name="gold_fees" value="<?php echo!empty($data_configs['gold_fees']) ? $data_configs['gold_fees'] : '' ?>" style="width:240px">$

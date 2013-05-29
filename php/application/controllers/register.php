@@ -16,6 +16,7 @@ class Register extends MY_Controller {
 
     function __construct() {
         parent::__construct();
+
         $this->load->library('form_validation');
         $this->load->database();
         $this->load->library('session');
@@ -177,8 +178,13 @@ class Register extends MY_Controller {
 
             $user_id = $this->user->save($dataUserInsert);
 
+            $open_fees = $transaction_fees['open_fee'];
+            if ($posts['mc_gross'] > $open_fees) {
+                $open_fees += $transaction_fees['transaction_fee'];
+            }
+
             $dataTransaction['user_id'] = $user_id;
-            $dataTransaction['fees'] = $transaction_fees['open_fee'];
+            $dataTransaction['fees'] = $open_fees;
             $dataTransaction['total'] = $posts['mc_gross'];
             $dataTransaction['transaction_id'] = $posts['txn_id'];
             $dataTransaction['payment_status'] = $posts['payment_status'];
@@ -186,12 +192,11 @@ class Register extends MY_Controller {
             $dataTransaction['transaction_type'] = 'register';
             $this->transaction->insert($dataTransaction);
 
-            $current_fees = $dataTransaction['total'] - $dataTransaction['fees'];
-            $this->balance->updateBalance($user_id, $current_fees);
-
+            $current_fees = $dataTransaction['total'] - $open_fees;
+            $this->balance->updateBalanceByUserId($user_id, $current_fees);
 
             $adminBalance = $dataTransaction['total'];
-            if ($posts['mc_gross'] > $transaction_fees['open_fee']) {
+            if ($posts['mc_gross'] > $open_fees) {
                 $this->user->updateTransaction($user_id, $adminBalance);
             }
 
@@ -199,8 +204,8 @@ class Register extends MY_Controller {
                 Thank you for registering <br>
                 You just sign up at. Please login to check your account';
             $userHtml .= 'Acount Type: ' . $this->usertype[$postsData['usertype']] . '<br>';
-            if ($posts['mc_gross'] > $transaction_fees['open_fee']) {
-                $userHtml .= 'Payment :' . $posts['mc_gross'] - $transaction_fees['open_fee'] . '<br>';
+            if ($posts['mc_gross'] > $open_fees) {
+                $userHtml .= 'Payment :' . $posts['mc_gross'] - $open_fees . '<br>';
             }
 
             $userEmailData['user_type'] = $this->usertype[$postsData['usertype']];
@@ -223,7 +228,7 @@ class Register extends MY_Controller {
             if (empty($postsData['referring'])) {
                 $postsData['referring'] = $reffing_default_config['default_referral_user'];
             }
-            
+
             $adminBalance = $this->updateReffering($postsData, $posts['mc_gross']);
 
             $this->balance->updateAdminBalance($adminBalance);
@@ -251,7 +256,12 @@ class Register extends MY_Controller {
             redirect('register');
         }
 
-        $money = $transaction_fees['open_fee'] + $posts['entry_amount'];
+        $open_fees = $transaction_fees['open_fee'];
+        if ($posts['entry_amount'] > 0) {
+            $open_fees += $transaction_fees['transaction_fee'];
+        }
+
+        $money = $open_fees + $posts['entry_amount'];
 
 
         $dataTransactionFees = array(
@@ -292,9 +302,11 @@ class Register extends MY_Controller {
         if (empty($dataUserInsert['referring'])) {
             $dataUserInsert['referring'] = !empty($reffing_default_config['default_referral_user']) ? $reffing_default_config['default_referral_user'] : 0;
         }
+        
+        
         $user_id = $this->user->save($dataUserInsert);
         $dataTransaction['user_id'] = $user_id;
-        $dataTransaction['fees'] = $transaction_fees['open_fee'];
+        $dataTransaction['fees'] = $open_fees;
         $dataTransaction['total'] = $money;
         $dataTransaction['transaction_id'] = $payment_status['transaction_id'];
         $dataTransaction['payment_status'] = 'Completed';
@@ -303,7 +315,7 @@ class Register extends MY_Controller {
         $this->transaction->insert($dataTransaction);
 
         $current_fees = $dataTransaction['total'] - $dataTransaction['fees'];
-        $this->balance->updateBalance($user_id, $current_fees);
+        $this->balance->updateBalanceByUserId($user_id, $current_fees);
 
         $adminBalance = $dataTransaction['total'];
         if ($current_fees > 0) {
@@ -367,7 +379,7 @@ class Register extends MY_Controller {
             elseif ($userReferring->usertype == 2)
                 $total_refere_fees = $referral_config['gold_fees'];
             $total_fees = $total_refere_fees;
-            if ($postsData['entry_amount'] >= 100)
+            if ($postsData['entry_amount'] >= 100 && $userReferring->usertype == 2)
                 $total_fees += $referral_config['percentage_gold'] * $postsData['entry_amount'] / 100;
 
             $this->transaction->updateRefereFees($postsData['referring'], $total_fees);

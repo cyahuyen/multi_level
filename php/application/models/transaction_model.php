@@ -32,6 +32,7 @@ class Transaction_model extends CI_Model {
             $this->db->where("status", 1);
             $query = $this->db->get();
             return $query->result();
+            
         } else {
             return array();
         }
@@ -229,6 +230,9 @@ class Transaction_model extends CI_Model {
         $query = $this->db->get();
         return $query->num_rows();
     }
+    
+    
+    
 
 }
 

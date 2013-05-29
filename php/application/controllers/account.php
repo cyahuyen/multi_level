@@ -17,20 +17,22 @@ class Account extends MY_Controller {
     var $menu_config_admin_reports = array('', '', 'active');
 
     function __construct() {
+
         parent::__construct();
+
         $this->load->library('form_validation');
         $this->load->database();
-        $this->load->library('session');
         $this->load->helper('form');
-        $this->load->helper('url');
         $this->load->library('recaptcha');
         $this->lang->load('recaptcha');
         $this->load->model('user_model', '', TRUE);
         $this->data['menu_config'] = $this->menu_config_user_home;
-        $this->data['user_session'] = $this->session->userdata('user');
+       
+
         if (!$this->session->userdata('user')) {
             redirect('authentication', 'refresh');
         }
+         $this->data['user_session'] = $this->session->userdata('user');
         $this->data['menu_config'] = $this->menu_config_2;
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {
@@ -107,9 +109,7 @@ class Account extends MY_Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $posts = $this->input->post();
             $validationErrors = array();
-            if ($posts['fullname'] == '') {
-                $validationErrors['fullname'] = "Your name is Fullname cannot be blank";
-            }
+            
             if ($posts['email'] != $posts['old_email']) {
                 if ($posts['email'] == '' || !($this->checkEmail($posts['email'])) || !($this->isEmail($posts['email']))) {
                     $validationErrors['email'] = "Email cannot be blank";
@@ -395,9 +395,11 @@ class Account extends MY_Controller {
         $dataConfig['title'] = 'Deposite';
 
         $payments = $this->configs->listActivepayment();
-
+        $startdate = date('Y-m-d h:i:s', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'));
+        $enddate = date('Y-m-d h:i:s', strtotime('-1 second', strtotime('+1 month', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'))));
         //get transaction
-        $transactions = $this->transaction->getTransactionNotExpiration($id, $user->transaction_start, $user->transaction_finish);
+        $transactions = $this->transaction->getTransactionNotExpiration($id, $startdate, $enddate);
+
         $max_entry_amount = $transaction_config['max_enrolment_entry_amount'];
         $totalTransaction = 0;
         if (!empty($transactions)) {
@@ -406,6 +408,7 @@ class Account extends MY_Controller {
             }
         }
         $this->data['max_entry_amount'] = $max_entry_amount - $totalTransaction;
+        $this->data['total_transaction'] = $totalTransaction;
 
         $payments = $this->configs->listActivepayment();
         $data['payments'] = array();
@@ -425,6 +428,7 @@ class Account extends MY_Controller {
             redirect('account/transaction');
 
         $user_session = $this->session->userdata('user');
+
         $id = $user_session['user_id'];
         $this->load->model('user_model', 'user');
         $this->load->model('transaction_model', 'transaction');
@@ -440,8 +444,11 @@ class Account extends MY_Controller {
 
         $payments = $this->configs->listActivepayment();
 
+        $startdate = date('Y-m-d h:i:s', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'));
+        $enddate = date('Y-m-d h:i:s', strtotime('-1 second', strtotime('+1 month', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'))));
         //get transaction
-        $transactions = $this->transaction->getTransactionNotExpiration($id, $user->transaction_start, $user->transaction_finish);
+        $transactions = $this->transaction->getTransactionNotExpiration($id, $startdate, $enddate);
+
         $max_entry_amount = $transaction_config['max_enrolment_entry_amount'];
         $totalTransaction = 0;
         if (!empty($transactions)) {
@@ -474,21 +481,42 @@ class Account extends MY_Controller {
             }
 
             $current_fees = $posts['mc_gross'] - $transaction_fees['transaction_fee'];
+
+            $totalInMonth = $current_fees + $totalTransaction;
+
             $this->transaction->insert($dataTransaction);
             $this->balance->updateBalance($id, $current_fees);
-            $this->balance->updateAdminBalance($dataTransaction['total']);
 
-            if (empty($transactions)) {
-                $this->user->updateTransaction($id, $current_fees);
-            } else {
-                $this->user->updateTransactionWithoutDate($id, $current_fees);
+            $this->user->updateTransaction($id, $current_fees);
+
+            $referral_config = $this->configs->getConfigs('referral');
+            //referral fee
+            $referring = 0;
+            $user_refferral = $this->user->getUserByReferral($user->referring);
+
+            if ($user_refferral) {
+                if ($user_refferral->usertype == 2 && $current_fees >= 100) {
+                    $referring = $referral_config['percentage_gold'] * $current_fees / 100;
+                    $this->transaction->updateRefereFees($user->referring, $referring);
+                    $this->balance->updateBalance($user->referring, $referring);
+
+                    $referringEmaildata['fullname'] = $user_refferral->firstname . ' ' . $user_refferral->lastname;
+                    $referringEmaildata['user_fullname'] = $user->firstname . ' ' . $user->lastname;
+                    $referringEmaildata['amount'] = $referring;
+                    sendmailform($user_refferral->email, 'referring_deposit', $referringEmaildata);
+                }
             }
+
+            $admin_amount = $posts['mc_gross'] - $referring;
+            $this->balance->updateAdminBalance($admin_amount);
+
+
             $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
             $this->session->set_flashdata('usermessage', $data['usermessage']);
-            $adminHtml = 'Full Name: ' . $user->fullname . '<br>';
+            $adminHtml = 'Full Name: ' . $user->firstname . ' ' . $user->lastname . '<br>';
             $adminHtml .= 'Amount: ' . $posts['mc_gross'];
 
-            $adminEmaildata['full_name'] = $user->fullname;
+            $adminEmaildata['full_name'] = $user->firstname . ' ' . $user->lastname;
             $adminEmaildata['email'] = $user->email;
             $adminEmaildata['amount'] = $posts['mc_gross'];
             sendmailform(null, 'deposite', $adminEmaildata);
@@ -533,7 +561,7 @@ class Account extends MY_Controller {
                 $user = $this->user->getUserById($user_session['user_id']);
                 $this->transaction->insertHistory($data);
 
-                $adminEmaildata['fullname'] = $user->fullname;
+                $adminEmaildata['fullname'] = $user->firstname . ' ' . $user->lastname;
                 $adminEmaildata['email'] = $user->email;
                 $adminEmaildata['email_paypal'] = $data['email_paypal'];
                 $adminEmaildata['amount'] = $amount;
@@ -576,8 +604,12 @@ class Account extends MY_Controller {
 
         $payments = $this->configs->listActivepayment();
 
+        $startdate = date('Y-m-d h:i:s', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'));
+        $enddate = date('Y-m-d h:i:s', strtotime('-1 second', strtotime('+1 month', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'))));
         //get transaction
-        $transactions = $this->transaction->getTransactionNotExpiration($id, $user->transaction_start, $user->transaction_finish);
+        $transactions = $this->transaction->getTransactionNotExpiration($id, $startdate, $enddate);
+
+
         $max_entry_amount = $transaction_config['max_enrolment_entry_amount'];
         $totalTransaction = 0;
         if (!empty($transactions)) {
@@ -590,6 +622,20 @@ class Account extends MY_Controller {
 
 
         $money = $transaction_fees['transaction_fee'] + $posts['entry_amount'];
+
+        $totalInMonth = $posts['entry_amount'] + $totalTransaction;
+        if ($user->usertype == 1) {
+            if (($posts['entry_amount'] < $transaction_config['max_enrolment_silver_amount']) && ($totalInMonth % 10 != 0)) {
+                $error = array('error', 'darkred', 'Payment errors', 'Deposite Amount litter than $' . $transaction_config['max_enrolment_silver_amount'] . ' and divisible for 10 or greater than $' . $transaction_config['min_enrolment_entry_amount'] . ' and divisible for 100');
+                $this->session->set_flashdata(array('usermessage' => $error));
+                redirect('account/transaction');
+            } elseif ($posts['entry_amount'] > $transaction_config['max_enrolment_silver_amount'] && ($posts['entry_amount'] < $transaction_config['min_enrolment_entry_amount'] || ($totalInMonth > $this->data['max_entry_amount']) || ($posts['entry_amount'] % 100 != 0))) {
+                $error = array('error', 'darkred', 'Payment errors', 'Deposite Amount litter than $' . $this->data['max_entry_amount'] . ', greater than $' . $transaction_config['min_enrolment_entry_amount'] . ' and divisible for 100');
+                $this->session->set_flashdata(array('usermessage' => $error));
+                redirect('account/transaction');
+            }
+        }
+
         $dataTransactionFees = array(
             'card_num' => $posts['card_num'],
             'cc_owner' => $posts['cc_owner'],
@@ -617,20 +663,35 @@ class Account extends MY_Controller {
         $current_fees = $posts['entry_amount'];
         $this->transaction->insert($dataTransaction);
         $this->balance->updateBalance($id, $current_fees);
-        $this->balance->updateAdminBalance($money);
 
-        if (empty($transactions)) {
-            $this->user->updateTransaction($id, $current_fees);
-        } else {
-            $this->user->updateTransactionWithoutDate($id, $current_fees);
+        $this->user->updateTransaction($id, $posts['entry_amount']);
+
+        $referral_config = $this->configs->getConfigs('referral');
+        //referral fee
+        $referring = 0;
+        $user_refferral = $this->user->getUserByReferral($user->referring);
+        $user->fullname = $user->firstname . ' ' . $user->lastname;
+        if ($user_refferral) {
+            if ($user_refferral->usertype == 2 && $posts['entry_amount'] >= 100) {
+                $referring = $referral_config['percentage_gold'] * $current_fees / 100;
+                $this->transaction->updateRefereFees($user->referring, $referring);
+                $this->balance->updateBalance($user->referring, $referring);
+
+                $referringEmaildata['fullname'] = $user_refferral->fullname;
+                $referringEmaildata['user_fullname'] = $user->fullname;
+                $referringEmaildata['amount'] = $referring;
+                sendmailform($user_refferral->email, 'referring_deposit', $referringEmaildata);
+            }
         }
+        $admin_amount = $money - $referring;
+        $this->balance->updateAdminBalance($admin_amount);
 
         $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
         $this->session->set_flashdata('usermessage', $data['usermessage']);
-        $adminHtml = 'Full Name: ' . $user->fullname . '<br>';
+        $adminHtml = 'Full Name: ' . $user->firstname . ' ' . $user->lastname . '<br>';
         $adminHtml .= 'Amount: ' . $money;
 
-        $adminEmaildata['full_name'] = $user->fullname;
+        $adminEmaildata['full_name'] = $user->firstname . ' ' . $user->lastname;
         $adminEmaildata['email'] = $user->email;
         $adminEmaildata['amount'] = $money;
         sendmailform(null, 'deposite', $adminEmaildata);

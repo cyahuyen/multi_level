@@ -69,6 +69,12 @@
             </td>
         </tr>
         <tr>
+            <td><div>Deposite Fees: </div></td>
+            <td>
+                <span id="deposite" class="currency">$0</span>
+            </td>
+        </tr>
+        <tr>
             <td><div>Total Fees: </div></td>
             <td>
                 <span class="currency" id="total_fees">$<?php echo $transaction_fees['open_fee']; ?></span>
@@ -112,20 +118,28 @@
         });
     });
     function totalfees() {
+        var open_fee = '<?php echo $transaction_fees['open_fee']; ?>';
         var entry_amount = $('#entry_amount').val();
+        var deposite = '<?php echo $transaction_fees['transaction_fee'] ?>';
         if (!isNaN(entry_amount) && entry_amount > 0) {
             if (entry_amount.length == 0)
                 entry_amount = 0
-            total_fees = parseInt(open_fee) + parseInt(entry_amount);
+            var total_fees = parseInt(open_fee) + parseInt(entry_amount) + parseInt(deposite);
             $('#total_fees').text('$' + total_fees);
         }
     }
 
     $(document).ready(function() {
         totalfees()
+        getAmount();
     })
     $('#entry_amount').keyup(function() {
         totalfees()
+        getAmount();
+    });
+    $('#entry_amount').blur(function() {
+        totalfees()
+        getAmount();
     });
     $('#save-btn').live('click', function() {
         var open_fee = '<?php echo $transaction_fees['open_fee']; ?>';
@@ -139,13 +153,14 @@
         var payment = $('input[name=payment]:checked').val();
         var address = $('#address').val();
         var phone = $('#phone').val();
+        var deposite = '<?php echo $transaction_fees['transaction_fee'] ?>';
        
         var referring = $('#referring').val();
         $('#custom').val('firstname=' + firstname + '|lastname=' + lastname + '|email=' + email + '|entry_amount=' + entry_amount + '|address=' + address + '|phone=' + phone + '|referring=' + referring + '|entry_amount=' + entry_amount)
         if (!isNaN(entry_amount) && entry_amount > 0) {
             if (entry_amount.length == 0)
                 entry_amount = 0
-            var total_fees = parseInt(open_fee) + parseInt(entry_amount);
+            var total_fees = parseInt(open_fee) + parseInt(entry_amount) + parseInt(deposite);
             $('#amount').val(total_fees);
         } else {
             $('#amount').val(open_fee);
@@ -232,6 +247,8 @@
 
     function getAmount() {
         var payment = $('input[name=payment]:checked').val();
+        var deposite = '<?php echo $transaction_fees['transaction_fee'] ?>';
+        
         $('.creditcard').hide();
         if (payment == 'paypal') {
             $('form').attr('action', 'https://www.<?php echo ($config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
@@ -245,9 +262,11 @@
         if (!isNaN(entry_amount) && entry_amount > 0) {
             if (entry_amount.length == 0)
                 entry_amount = 0
-            var total_fees = parseInt(open_fee) + parseInt(entry_amount);
+            var total_fees = parseInt(open_fee) + parseInt(entry_amount) + parseInt(deposite);
             $('#amount').val(total_fees);
+            $('#deposite').text('$'+deposite);
         } else {
+            $('#deposite').text('$0');
             $('#amount').val(open_fee);
         }
     }
