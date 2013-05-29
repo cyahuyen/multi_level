@@ -68,65 +68,38 @@
                 </td>
             </tr>
             <tr>
-                <td>Full name</td>
+                <td>FirstName: </td>
                 <td>
-                    <input type="text" style="width:240px" class="mandatory" value="<?php echo!empty($userdata->fullname) ? $userdata->fullname : '' ?>" name="fullname" id="fullname"><img class="mandatory" src="<?php echo base_url() ?>/img/sev/required.jpg" title="This is a required value">
+                    <input type="text" style="width:300px" value="<?php echo!empty($userdata->firstname) ? $userdata->firstname : '' ?>" id="firstname" class="mandatory" name="firstname"><img class="mandatory" src="http://multilevel.lc/img/sev/required.jpg" title="This is a required value">
                 </td>
             </tr>
             <tr>
-                <td>Password</td>
+                <td><div>LastName: </div></td>
                 <td>
-                    <input type="password" style="width:240px" class="mandatory" value="" name="password" id="password"><img class="mandatory" src="<?php echo base_url() ?>/img/sev/required.jpg" title="This is a required value">
+                    <input type="text" style="width:300px" value="<?php echo!empty($userdata->lastname) ? $userdata->lastname : '' ?>" id="lastname" class="mandatory" name="lastname"><img class="mandatory" src="http://multilevel.lc/img/sev/required.jpg" title="This is a required value">
+                    <span class="fr-error"></span>
                 </td>
-            </tr>               
-            <tr>
-                <td>Re-Password</td>
-                <td>
-                    <input type="password" style="width:240px" class="mandatory" value="" name="repassword" id="repassword"><img class="mandatory" src="<?php echo base_url() ?>/img/sev/required.jpg" title="This is a required value">
-                </td>
-            </tr>               
-            
-            <tr>
-                <td>User type</td>
-                <td>
-                    <select onchange="" style="width:160px" id="usertype" name="usertype">
-                        <?php foreach ($usertype as $key => $val) { ?>
-                            <option value="<?php echo $key ?>" <?php echo(!empty($userdata->usertype) && ($key == $userdata->usertype)) ? 'selected' : '' ?>><?php echo $val ?></option>
-                        <?php } ?>
-                    </select>
-
-                </td>
-            </tr>
+            </tr>            
 
             <tr>
-                <td>Email</td>
+                <td><div>Address: </div></td>
                 <td>
-                    <input type="text" style="width:240px" class="mandatory" value="<?php echo!empty($userdata->email) ? $userdata->email : '' ?>" name="email" id="email"><img class="mandatory" src="<?php echo base_url() ?>/img/sev/required.jpg" title="This is a required value">
+                    <input type="text" value="<?php echo!empty($userdata->address) ? $userdata->address : '' ?>" style="width:300px" id="address" name="address">
+                    <span class="fr-error"></span>
                 </td>
             </tr>
             <tr>
-                <td>Birthday</td>
+                <td><div>Phone: </div></td>
                 <td>
-                    <input type="text" style="width:240px" class="mandatory" value="<?php echo!empty($userdata->birthday) ? $userdata->birthday : '' ?>" name="birthday" id="birthday">
-                    <script>$("#birthday").datepicker({dateFormat: "yy-mm-dd"});</script>
+                    <input type="text" value="<?php echo!empty($userdata->phone) ? $userdata->phone : '' ?>" style="width:300px" id="phone" name="phone">
+                    <span class="fr-error"></span>
                 </td>
             </tr>
             <tr>
-                <td>Phone</td>
+                <td><div>Email: </div></td>
                 <td>
-                    <input type="text" style="width:180px" value="<?php echo!empty($userdata->phone) ? $userdata->phone : '' ?>" name="phone" id="phone" >
-                </td>
-            </tr>
-            <tr>
-                <td>Fax</td>
-                <td>
-                    <input type="text" style="width:180px" value="<?php echo!empty($userdata->fax) ? $userdata->fax : '' ?>" name="fax" id="fax" >
-                </td>
-            </tr>
-            <tr>
-                <td>Address</td>
-                <td>
-                    <textarea style="width:240px" name="address"><?php echo!empty($userdata->address) ? $userdata->address : '' ?></textarea>
+                    <input type="text" value="<?php echo!empty($userdata->email) ? $userdata->email : '' ?>" style="width:300px" id="email" class="mandatory" name="email"><img class="mandatory" src="http://multilevel.lc/img/sev/required.jpg" title="This is a required value">
+                    <span class="fr-error"></span>
                 </td>
             </tr>
         </tbody>

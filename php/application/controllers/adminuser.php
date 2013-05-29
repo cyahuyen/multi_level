@@ -11,7 +11,6 @@ if (!defined('BASEPATH'))
 class Adminuser extends MY_Controller {
 
     private $data;
-    
     var $navstack = null;
     var $usertype = array('0' => 'Member', '1' => 'Silver', '2' => 'Gold');
 
@@ -101,27 +100,16 @@ class Adminuser extends MY_Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $posts = $this->input->post();
             $validationErrors = array();
-            if ($posts['fullname'] == '') {
-                $validationErrors['fullname'] = "Your name is Fullname cannot be blank";
+            if ($posts['firstname'] == '') {
+                $validationErrors['firstname'] = "Your name is FirstName cannot be blank";
+            }
+            if ($posts['lastname'] == '') {
+                $validationErrors['firstname'] = "Your name is Lastnamr cannot be blank";
             }
             if ($posts['email'] == '') {
                 $validationErrors['email'] = "Email cannot be blank";
-            }
-            if (!empty($id) && !empty($posts['password'])) {
-                if (strlen($posts['password']) < 6) {
-                    $validationErrors['password'] = "Password must greater than 6 characters";
-                }
-
-                if ($posts['password'] != $posts['repassword']) {
-                    $validationErrors['repassword'] = "Password wrong";
-                }
-            }
-            if (empty($id)) {
-                if (strlen($posts['password']) < 6) {
-                    $validationErrors['password'] = "Password must greater than 6 characters";
-                } elseif ($posts['password'] != $posts['repassword']) {
-                    $validationErrors['repassword'] = "Password wrong";
-                }
+            } elseif ($this->user->checkEmailExists($posts['email'], $id) == true) {
+                $validationErrors['email'] = "Email is exists";
             }
 
             $this->data['posts'] = $posts;
@@ -134,23 +122,31 @@ class Adminuser extends MY_Controller {
             } else {
                 $posts['status'] = 1;
                 unset($posts['save-btn']);
-                unset($posts['repassword']);
+
                 $id = (int) $id;
                 if (empty($id)) {
-                    $posts['password'] = md5($posts['password']);
+                    $posts['usertype'] = 0;
+                    $posts['username'] = 'U' . time();
+                    $pass = hash_hmac('crc32b', $postsData['username'] . $this->config->item('prefix_key'), 'secret');
+                    $posts['password'] = md5($pass);
                     $id = $this->user->insert($posts);
-                    if (!empty($id))
+                    if (!empty($id)) {
                         $this->data['usermessage'] = array('success', 'green', 'Successfully saved ', '');
+                        
+                        $userEmailData['user_type'] = $this->usertype[$posts['usertype']];
+                        $userEmailData['entry_amount'] = $posts['entry_amount'];
+                        $userEmailData['username'] = $posts['username'];
+                        $userEmailData['password'] = $pass;
+                        
+                        sendmailform($posts['email'], 'register', $userEmailData, null, 'Admin Manager', 'html');
+                    }
+
                     else
                         $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');
                     $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
                     redirect(site_url('adminuser/profile/' . $id));
                 } else {
-                    if (empty($posts['password'])) {
-                        unset($posts['password']);
-                    } else {
-                        $posts['password'] = md5($posts['password']);
-                    }
+
                     if ($this->user->update($id, $posts))
                         $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
                     else

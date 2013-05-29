@@ -18,14 +18,7 @@
                 <td><div style="font-weight: bold;color: #000;">Amount: </div></td>
                 <td><div style="font-weight: bold;color: red;padding-left: 50px;padding-top: 5px;">$<?php echo number_format($amout, 2, '.', ','); ?> </div></td>
             </tr>
-            <tr>
-                <td><div style="font-weight: bold;color: #000;">Created Date: </div></td>
-                <td><div style="font-weight: bold;color: red;padding-left: 50px;padding-top: 5px;"><?php echo $transaction_start; ?> </div></td>
-                <?php if ($inforcheck->usertype == 2) { ?>
-                <td><div style="font-weight: bold;color: #000;">Expiration Date: </div></td>
-                <td><div style="font-weight: bold;color: red;padding-left: 50px;padding-top: 5px;"><?php echo $transaction_finish; ?> </div></td>
-                <?php }?>
-            </tr>
+            
         <?php } else { ?>
             <tr>
                 <td><div style="font-weight: bold;color: #000;">UserType: </div></td>

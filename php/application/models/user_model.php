@@ -42,7 +42,7 @@ class User_model extends CI_Model {
             $data['usertype'] = 2;
         } elseif ($balance < 100 & $balance > 0) {
             $data['usertype'] = 1;
-        }else{
+        } else {
             $data['usertype'] = 0;
         }
         return $this->update($id, $data);
@@ -104,7 +104,7 @@ class User_model extends CI_Model {
                 $this->db->order_by($key, $value);
             }
         }
-        
+
         $query = $this->db->get();
         return $query->result();
     }
@@ -119,6 +119,19 @@ class User_model extends CI_Model {
             $this->db->limit((int) $limit);
         $query = $this->db->get();
         return $query->result();
+    }
+
+    public function checkEmailExists($email, $id = 0) {
+        $this->db->select("*");
+        $this->db->from("user");
+        $this->db->where('email', $email);
+        if (!empty($id)) {
+            $this->db->where('user_id != ', $id);
+        }
+        $query = $this->db->get();
+        if($query->result())
+            return TRUE;
+        return FALSE;
     }
 
     public function listUserBouns($type) {
@@ -160,6 +173,7 @@ class User_model extends CI_Model {
         $result = $query->result();
         return !empty($result[0]) ? $result[0] : array();
     }
+
     public function getUserByReferral($referral) {
         $this->db->select("*");
         $this->db->from("user");
@@ -234,7 +248,7 @@ class User_model extends CI_Model {
 
     function save($data) {
         $password = md5($data['password']);
-        $this->db->query("INSERT INTO " . $this->tbl . " SET firstname = '" . $data['firstname'] . "',username = '" . $data['username'] . "',lastname = '" . $data['lastname'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',referring = '" . $data['referring'] ."',usertype = '" . $data['usertype'] . "', created_on = NOW()");
+        $this->db->query("INSERT INTO " . $this->tbl . " SET firstname = '" . $data['firstname'] . "',username = '" . $data['username'] . "',lastname = '" . $data['lastname'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',referring = '" . $data['referring'] . "',usertype = '" . $data['usertype'] . "', created_on = NOW()");
         return $this->db->insert_id();
     }
 
