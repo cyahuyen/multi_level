@@ -2,7 +2,9 @@
     <thead>
         <tr class="heading">
             <td style="width:20px;text-align: center;"><div>#</div></td>
+            <td style="width:110px"><div>Acount Number</div></td>
             <td style="width:110px"><div>Full Name</div></td>
+            <td style="width:110px"><div>Referre</div></td>
             <td style="width:80px"><div>User type</div></td>
             <td style="width:110px"><div>Email</div></td>
             <td style="width:80px"><div>Phone</div></td>
@@ -14,11 +16,13 @@
         <?php foreach ($users as $user) { ?>
             <tr class="row" id="row_<?php echo $user->user_id; ?>"> 
                 <td style="text-align: center;"><div><?php echo $user->user_id; ?></div></td>
+                <td onClick="window.location = '<?php echo site_url('adminuser/profile'); ?>/<?php echo $user->user_id; ?>'"><div><?php echo $user->username; ?></div></td>
                 <td onClick="window.location = '<?php echo site_url('adminuser/profile'); ?>/<?php echo $user->user_id; ?>'"><div><?php echo $user->firstname . ' ' . $user->lastname; ?></div></td>
+                <td onClick="window.location = '<?php echo site_url('adminuser/profile'); ?>/<?php echo $user->user_id; ?>'"><div><?php echo $user->referring  ?></div></td>
                 <td><div><?php
         if ($user->usertype == 2) {
             echo 'Gold';
-        } elseif ($user->usertype == 2) {
+        } elseif ($user->usertype == 1) {
             echo 'Silver';
         } else {
             echo 'Member';

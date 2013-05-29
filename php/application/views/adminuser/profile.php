@@ -37,13 +37,13 @@
 <form action="" method="post">
     <div class="content-header">
         <div class="content-title">
-            <?php if (!empty($userdata->id)) { ?>
+            <?php if (!empty($userdata->user_id)) { ?>
                 <h1>View/Edit User</h1>
-                <span><?php echo!empty($userdata->fullname) ? $userdata->fullname : '' ?> ( <?php echo!empty($userdata->usertype) ? $userdata->usertype : '' ?> )</span>
             <?php } else { ?>
                 <h1>Add User</h1>
             <?php } ?>
         </div>
+
         <div class="content-actions">
             <input type="submit" value="Save" class="button" name="save-btn" id="save-btn">
             <a class="button checkdirty" href="<?php echo site_url('user/manage') ?>">Cancel</a>
@@ -61,6 +61,28 @@
     <br><br>
     <table class="datatable">
         <tbody>
+            <?php if (!empty($userdata->user_id)) { ?>
+                <tr>
+                    <td>User Name</td>
+                    <td>
+                        <?php echo $userdata->username; ?>            
+                    </td>
+                </tr>
+                <tr>
+                    <td>User Type</td>
+                    <td>
+                        <?php
+                        if ($userdata->usertype == 2) {
+                            echo 'Gold';
+                        } elseif ($userdata->usertype == 1) {
+                            echo 'Silver';
+                        } else {
+                            echo 'Member';
+                        }
+                        ?>
+                    </td>
+                </tr>
+            <?php } ?>
             <tr>
                 <td>Status</td>
                 <td>
