@@ -172,9 +172,9 @@ class Transaction_model extends CI_Model {
     }
 
     function getUser($id) {
-        $sql = $this->db->query("SELECT CONCAT(firstname,' ', lastname) as fullname FROM user WHERE user_id='" . (int) $id . "' ")->result();
+        $sql = $this->db->query("SELECT CONCAT(firstname,' ', lastname) as fullname, username FROM user WHERE user_id='" . (int) $id . "' ")->result();
         if ($sql)
-            return $sql[0]->fullname;
+            return $sql[0]->username;
         else {
             return 0;
         }

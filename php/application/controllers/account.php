@@ -121,7 +121,7 @@ class Account extends MY_Controller {
             } elseif ($this->user_model->checkEmailExists($posts['email'], $id) == true) {
                 $validationErrors['email'] = "Email is exists";
             }
-            
+
             $this->data['posts'] = $posts;
             foreach ($posts as $key => $val) {
                 $this->data['userdata']->$key = $val;
@@ -249,7 +249,7 @@ class Account extends MY_Controller {
         $this->load->library("pagination");
         $config = array();
         $user = $this->user_model->getUserById($id);
-        $config["total_rows"] = $this->user_model->totalRefered($user->referring);
+        $config["total_rows"] = $this->user_model->totalRefered($user->username);
         $config["base_url"] = site_url('account/refered');
         $config["per_page"] = $limit;
         $page = $start;
@@ -275,7 +275,7 @@ class Account extends MY_Controller {
         $this->pagination->initialize($config);
         $this->data["links"] = $this->pagination->create_links();
         //       End pagination
-        $this->data['refereds'] = $this->user_model->getRefereds($user->referring, $limit, $start);
+        $this->data['refereds'] = $this->user_model->getRefereds($user->username, $limit, $start);
         $this->data['main_content'] = 'account/refered';
         $this->load->view('home', $this->data);
     }
@@ -487,7 +487,9 @@ class Account extends MY_Controller {
             $totalInMonth = $current_fees + $totalTransaction;
 
             $this->transaction->insert($dataTransaction);
-            $this->balance->updateBalance($id, $current_fees);
+            $balance_amount = !empty($balance_user) ? $balance_user->balance : 0;
+            $balance_amount = $balance_amount + $current_fees;
+            $this->balance->updateBalanceByUserId($id, $balance_amount);
 
             $this->user->updateTransaction($id, $current_fees);
 
@@ -664,7 +666,10 @@ class Account extends MY_Controller {
 
         $current_fees = $posts['entry_amount'];
         $this->transaction->insert($dataTransaction);
-        $this->balance->updateBalance($id, $current_fees);
+        $balance_user = $this->balance->getBalance($id);
+        $balance_amount = !empty($balance_user) ? $balance_user->balance : 0;
+        $balance_amount = $balance_amount + $current_fees;
+        $this->balance->updateBalanceByUserId($id, $balance_amount);
 
         $this->user->updateTransaction($id, $posts['entry_amount']);
 

@@ -72,7 +72,9 @@
                     <td>User Type</td>
                     <td>
                         <?php
-                        if ($userdata->usertype == 2) {
+                        if ($userdata->permission == 'administrator') {
+                            echo 'Administrator';
+                        } elseif ($userdata->usertype == 2) {
                             echo 'Gold';
                         } elseif ($userdata->usertype == 1) {
                             echo 'Silver';

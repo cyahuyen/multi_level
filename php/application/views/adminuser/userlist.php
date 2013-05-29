@@ -18,9 +18,11 @@
                 <td style="text-align: center;"><div><?php echo $user->user_id; ?></div></td>
                 <td onClick="window.location = '<?php echo site_url('adminuser/profile'); ?>/<?php echo $user->user_id; ?>'"><div><?php echo $user->username; ?></div></td>
                 <td onClick="window.location = '<?php echo site_url('adminuser/profile'); ?>/<?php echo $user->user_id; ?>'"><div><?php echo $user->firstname . ' ' . $user->lastname; ?></div></td>
-                <td onClick="window.location = '<?php echo site_url('adminuser/profile'); ?>/<?php echo $user->user_id; ?>'"><div><?php echo $user->referring  ?></div></td>
+                <td onClick="window.location = '<?php echo site_url('adminuser/profile'); ?>/<?php echo $user->user_id; ?>'"><div><?php echo $user->referring ?></div></td>
                 <td><div><?php
-        if ($user->usertype == 2) {
+        if ($user->permission == 'administrator') {
+            echo 'Administrator';
+        } elseif ($user->usertype == 2) {
             echo 'Gold';
         } elseif ($user->usertype == 1) {
             echo 'Silver';
