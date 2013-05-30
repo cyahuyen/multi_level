@@ -34,15 +34,32 @@ class Admintransfer extends MY_Controller {
             'href' => site_url('admintransfer/index'),
             'separator' => ' :: '
         );
+
+        $this->data['main_content'] = 'admintransfer/index';
+        $this->load->view('administrator', $this->data);
+    }
+
+    public function listtransfer() {
+
         $posts = $this->input->post();
-        $this->config->load('my_config', TRUE);
+        $this->config->load('cya_config', TRUE);
+        $dataWhere = array();
+        if ($posts['type'] != '')
+            $dataWhere['transaction.transaction_type'] = $posts['type'];
+        $dataWhere['searchby'] = $posts['searchby'];
         $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $sort = array();
+        if (!empty($posts['asc'])) {
+            $sort[$posts['sort']] = 'ASC';
+        } else {
+            $sort[$posts['sort']] = 'DESC';
+        }
 
 //       Begin pagination
         $this->load->library("pagination");
         $config = array();
-        $config["total_rows"] = $this->transfer->totalTransfer($this->input->get('search'));
+        $config["total_rows"] = $this->transfer->totalTransfer($dataWhere);
         $config["base_url"] = site_url('admintransfer/index');
         $config["per_page"] = $limit;
         $page = $start;
@@ -65,14 +82,13 @@ class Admintransfer extends MY_Controller {
         $config['next_tag_open'] = "<div class='nav-button'>";
         $config['next_tag_close'] = '</div>';
         $this->pagination->initialize($config);
-        $this->data["links"] = $this->pagination->create_links();
+        $json["links"] = $this->pagination->create_links();
 //       End pagination
-        $transfers = $this->transfer->getTransfers($this->input->get('search'),$limit, $start);
+        $transfers = $this->transfer->getTransfers($dataWhere, $limit, $start, $sort);
         $this->data['transfers'] = array();
         foreach ($transfers as $transfer) {
-            $username = $this->transfer->getUser($transfer->user_id);
             $this->data['transfers'][] = array(
-                'username' => $username,
+                'username' => $transfer->username,
                 'fees' => $transfer->fees,
                 'total' => $transfer->total,
                 'transaction_type' => $transfer->transaction_type,
@@ -81,8 +97,9 @@ class Admintransfer extends MY_Controller {
                 'created' => $transfer->created,
             );
         }
-        $this->data['main_content'] = 'admintransfer/index';
-        $this->load->view('administrator', $this->data);
+
+        $json['users'] = $this->load->view('admintransfer/listtransfer', $this->data, true);
+        echo json_encode($json);
     }
 
 }

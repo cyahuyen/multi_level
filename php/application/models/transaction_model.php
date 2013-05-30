@@ -75,13 +75,22 @@ class Transaction_model extends CI_Model {
             return FALSE;
         return TRUE;
     }
-
-    public function getTransfers($search = null, $limit = null, $start = null) {
+    
+    public function getTransfers($data, $limit = null, $start = null, $sort = null) {
         $this->db->select("*");
         $this->db->from("transaction");
-        if ($search) {
-            $this->db->where('transaction_type',$search);
+        $this->db->join("user",'user.user_id = transaction.user_id');
+        if (!empty($data)) {
+            foreach ($data as $key => $val) {
+                if ($key == 'searchby') {
+                    $where = "( user.username LIKE '%" . $val . "%')";
+                    $this->db->where($where);
+                }
+                else
+                    $this->db->where($key, $val);
+            }
         }
+
         if ($limit)
             $this->db->limit((int) $limit);
 
@@ -94,13 +103,35 @@ class Transaction_model extends CI_Model {
             }
         }
 
-        if ($search) {
-            $this->db->where('transaction_type',$search);
-        }
-
         $query = $this->db->get();
         return $query->result();
     }
+
+//    public function getTransfers($search = null, $limit = null, $start = null) {
+//        $this->db->select("*");
+//        $this->db->from("transaction");
+//        if ($search) {
+//            $this->db->where('transaction_type',$search);
+//        }
+//        if ($limit)
+//            $this->db->limit((int) $limit);
+//
+//        if ($limit && $start)
+//            $this->db->limit((int) $limit, (int) $start);
+//
+//        if (!empty($sort)) {
+//            foreach ($sort as $key => $value) {
+//                $this->db->order_by($key, $value);
+//            }
+//        }
+//
+//        if ($search) {
+//            $this->db->where('transaction_type',$search);
+//        }
+//
+//        $query = $this->db->get();
+//        return $query->result();
+//    }
 
     public function getTotalTransfer($user_id) {
         $totalPaymentRequest = $this->getTotalPaymentRequest($user_id);
@@ -170,11 +201,19 @@ class Transaction_model extends CI_Model {
         return $this->db->update('payment_history', $data);
     }
 
-    public function totalTransfer($search= null) {
+    public function totalTransfer($data) {
         $this->db->select("*");
         $this->db->from("transaction");
-        if ($search) {
-            $this->db->where('transaction_type',$search);
+        $this->db->join("user",'user.user_id = transaction.user_id');
+        if (!empty($data)) {
+            foreach ($data as $key => $val) {
+                if ($key == 'searchby') {
+                    $where = "( user.username LIKE '%" . $val . "%')";
+                    $this->db->where($where);
+                }
+                else
+                    $this->db->where($key, $val);
+            }
         }
         $query = $this->db->get();
         return $query->num_rows();
