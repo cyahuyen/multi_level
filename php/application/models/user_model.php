@@ -32,6 +32,12 @@ class User_model extends CI_Model {
         $this->db->where('user_id', $id);
         return $this->db->update('user', $data);
     }
+    
+    public function updateWithdrawalDate($id){
+        $this->db->where('user_id', $id);
+        $this->db->set('withdrawal_date', 'NOW()', FALSE);
+        return $this->db->update('user');
+    }
 
     public function updateTransaction($id, $balance) {
         $this->db->where('user_id', $id);
@@ -66,8 +72,8 @@ class User_model extends CI_Model {
         $user = $this->getUserByReferral($refferal);
         if (!empty($user) && $user->usertype == 0) {
             $this->db->where('username', $refferal);
-            $this->db->set('transaction_start', 'NOW()', FALSE);
-            $this->db->set('transaction_finish', 'DATE_ADD(NOW(),INTERVAL 30 DAY )', FALSE);
+            if (empty($user->withdrawal_date))
+                $this->db->set('withdrawal_date', 'NOW()', FALSE);
             $this->db->update('user', array('usertype' => 1));
         }
     }
@@ -133,6 +139,8 @@ class User_model extends CI_Model {
             return TRUE;
         return FALSE;
     }
+    
+    
 
     public function listUserBouns($type) {
         $this->db->select("*");
@@ -248,7 +256,10 @@ class User_model extends CI_Model {
 
     function save($data) {
         $password = md5($data['password']);
-        $this->db->query("INSERT INTO " . $this->tbl . " SET firstname = '" . $data['firstname'] . "',username = '" . $data['username'] . "',lastname = '" . $data['lastname'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',referring = '" . $data['referring'] . "',usertype = '" . $data['usertype'] . "', created_on = NOW()");
+        if ($data['usertype'] == 2)
+            $this->db->query("INSERT INTO " . $this->tbl . " SET firstname = '" . $data['firstname'] . "',username = '" . $data['username'] . "',lastname = '" . $data['lastname'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',referring = '" . $data['referring'] . "',usertype = '" . $data['usertype'] . "', created_on = NOW() , withdrawal_date = NOW()");
+        else
+            $this->db->query("INSERT INTO " . $this->tbl . " SET firstname = '" . $data['firstname'] . "',username = '" . $data['username'] . "',lastname = '" . $data['lastname'] . "',password = '" . $password . "', address = '" . $data['address'] . "',  phone = '" . $data['phone'] . "', email = '" . $data['email'] . "',referring = '" . $data['referring'] . "',usertype = '" . $data['usertype'] . "', created_on = NOW()");
         return $this->db->insert_id();
     }
 

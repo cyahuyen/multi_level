@@ -48,7 +48,6 @@ class Balance_model extends CI_Model {
                 $data['balance'] = $balanceData->balance + $balance;
                 $this->update($user->user_id, $data);
             } else {
-
                 $data['balance'] = $balance;
                 $data['user_id'] = $user->user_id;
                 $this->insert($data);

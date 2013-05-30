@@ -8,25 +8,43 @@
     </thead>
     <tbody>
         <tr>
+            <td><div>Total Amount: </div></td>
+            <td>
+                <span class="currency">$<?php echo (($balance) > 0) ? number_format($balance, 2, '.', ' ') : 0; ?></span>
+            </td>
+        </tr>
+        <tr>
             <td><div>Max Withdrawal Amount: </div></td>
             <td>
-                <span class="currency">$<?php echo $balance; ?></span>
+                <span class="currency">$<?php echo (($max_balance-$fees) > 0) ? number_format($max_balance-$fees, 2, '.', ' ') : 0; ?></span>
+            </td>
+        </tr>
+        <tr>
+            <td><div>Withdrawal Fees: </div></td>
+            <td>
+                <span class="currency">$<?php echo number_format($fees, 2, '.', ' '); ?></span>
+            </td>
+        </tr>
+        <tr>
+            <td><div>Date Of Withdrawal: </div></td>
+            <td>
+                <span class="date"><?php echo!empty($withdrawal_date) ? $withdrawal_date : ''; ?></span>
             </td>
         </tr>
         <tr>
             <td><div>Withdrawal Amount: </div></td>
             <td>
-                <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="" />
+                <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="<?php echo $this->input->post('entry_amount') ?>" />
             </td>
         </tr>
         <tr>
             <td><div>Email paypal: </div></td>
             <td>
-                <input name="email_paypal" type="text" id="email_paypal" style="width:300px" value="" />
+                <input name="email_paypal" type="text" id="email_paypal" style="width:300px" value="<?php echo $this->input->post('email_paypal') ?>" />
             </td>
         </tr>
 
-        
+
         <tr>
             <td colspan="2">
                 <div style="padding-left: 130px;">

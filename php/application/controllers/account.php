@@ -240,8 +240,8 @@ class Account extends MY_Controller {
             'href' => site_url('account/refered'),
             'separator' => ' :: '
         );
-        $dataWhere= array();
-        if($this->input->get('search')){
+        $dataWhere = array();
+        if ($this->input->get('search')) {
             $dataWhere['search'] = $this->input->get('search');
         }
 
@@ -253,7 +253,7 @@ class Account extends MY_Controller {
         $this->load->library("pagination");
         $config = array();
         $user = $this->user_model->getUserById($id);
-        $config["total_rows"] = $this->user_model->totalRefered($user->username,$dataWhere);
+        $config["total_rows"] = $this->user_model->totalRefered($user->username, $dataWhere);
         $config["base_url"] = site_url('account/refered');
         $config["per_page"] = $limit;
         $page = $start;
@@ -279,7 +279,7 @@ class Account extends MY_Controller {
         $this->pagination->initialize($config);
         $this->data["links"] = $this->pagination->create_links();
         //       End pagination
-        $this->data['refereds'] = $this->user_model->getRefereds($user->username, $dataWhere , $limit, $start);
+        $this->data['refereds'] = $this->user_model->getRefereds($user->username, $dataWhere, $limit, $start);
         $this->data['main_content'] = 'account/refered';
         $this->load->view('home', $this->data);
     }
@@ -305,11 +305,11 @@ class Account extends MY_Controller {
 
         $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        
+
         //       Begin pagination
         $this->load->library("pagination");
         $config = array();
-        $config["total_rows"] = $this->user_model->totalHistory($id,$this->input->get('search'));
+        $config["total_rows"] = $this->user_model->totalHistory($id, $this->input->get('search'));
         $config["base_url"] = site_url('account/history');
         $config["per_page"] = $limit;
         $page = $start;
@@ -335,7 +335,7 @@ class Account extends MY_Controller {
         $this->pagination->initialize($config);
         $this->data["links"] = $this->pagination->create_links();
         //       End pagination
-        $this->data['historys'] = $this->user_model->getHistorys($id,$this->input->get('search'), $limit, $start);
+        $this->data['historys'] = $this->user_model->getHistorys($id, $this->input->get('search'), $limit, $start);
         $this->data['main_content'] = 'account/history';
         $this->load->view('home', $this->data);
     }
@@ -543,11 +543,46 @@ class Account extends MY_Controller {
         $this->load->model('transaction_model', 'transaction');
         $this->load->model('config_model', 'configs');
         $this->load->model('balance_model', 'balance');
-        $this->data['balance'] = $this->transaction->getTotalTransfer($user_session['user_id']);
+
+        $balance_info = $this->balance->getBalance($user_session['user_id']);
+        $user = $this->user->getUserById($user_session['user_id']);
+        $this->data['user'] = $user;
+
+
+        $balance = !empty($balance_info->balance) ? $balance_info->balance : 0;
+
+        $withdrawal_config = $this->configs->getConfigs('withdrawal');
+        $withdrawal_min_amount = 0;
+        $withdrawal_days = 0;
+        if ($user->usertype == 1) {
+            $withdrawal_min_amount = $withdrawal_config['min_of_silver'];
+            $withdrawal_days = $withdrawal_config['days_space_silver'];
+        }
+
+        if ($user->usertype == 2) {
+            $withdrawal_min_amount = $withdrawal_config['min_of_gold'];
+            $withdrawal_days = $withdrawal_config['days_space_gold'];
+        }
+
+        if (!empty($user->withdrawal_date)) {
+            $withdrawal_date = date("Y-m-d", strtotime("+ {$withdrawal_days} day", strtotime($user->withdrawal_date)));
+            $this->data['withdrawal_date'] = $withdrawal_date;
+        }
+
+        $transaction_config = $this->configs->getConfigs('transaction_fees');
+        $fees = $transaction_config['transaction_fee'];
+        $this->data['fees'] = $fees;
+
+        $max_balance = $balance - $withdrawal_min_amount;
+        $this->data['max_balance'] = $max_balance;
+        $this->data['balance'] = $balance;
+
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $amount = $this->input->post('entry_amount');
-            if (floatval($amount) > $this->data['balance']) {
+            $total = $amount + $fees;
+            $validationErrors = array();
+            if (floatval($total) > $max_balance) {
                 $validationErrors['entry_amount'] = "Amount litter than max amount";
             } elseif (floatval($amount) < 0) {
                 $validationErrors['entry_amount'] = "Amount greater than 0";
@@ -558,24 +593,40 @@ class Account extends MY_Controller {
             if (!valid_email($email)) {
                 $validationErrors['email_paypal'] = "email is not valid";
             }
+
+
             if (count($validationErrors) != 0) {
                 $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
                 $this->data['fielderrors'] = $validationErrors;
+            } elseif (empty($withdrawal_date) || (!empty($withdrawal_date) && ($withdrawal_date > date('Y-m-d')))) {
+                $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'You don\'t to the date of withdrawal');
+                $this->data['fielderrors'] = array();
             } else {
                 $data['email_paypal'] = $this->input->post('email_paypal');
-                $data['balance'] = $amount;
+                $data['total'] = $total;
+                $data['fees'] = $fees;
                 $data['user_id'] = $user_session['user_id'];
 
                 $user = $this->user->getUserById($user_session['user_id']);
                 $this->transaction->insertHistory($data);
+                $this->user->updateWithdrawalDate($user_session['user_id']);
 
                 $adminEmaildata['fullname'] = $user->firstname . ' ' . $user->lastname;
+                $adminEmaildata['username'] = $user->username;
                 $adminEmaildata['email'] = $user->email;
                 $adminEmaildata['email_paypal'] = $data['email_paypal'];
-                $adminEmaildata['amount'] = $amount;
-                sendmailform(null, 'withdrawal', $adminEmaildata);
+                $adminEmaildata['amount'] = $total;
+                sendmailform(null, 'admin_withdrawal', $adminEmaildata);
 
-                $this->data['usermessage'] = array('success', 'green', 'Withdrawal Success', '');
+                $userEmaildata['fullname'] = $user->firstname . ' ' . $user->lastname;
+                $userEmaildata['email'] = $user->email;
+                $userEmaildata['email_paypal'] = $data['email_paypal'];
+                $userEmaildata['amount'] = $total - $fees;
+                $userEmaildata['fees'] = $fees;
+                $userEmaildata['total'] = $total;
+                sendmailform($user->email, 'user_withdrawal', $userEmaildata);
+
+                $this->data['usermessage'] = array('success', 'green', 'Withdrawal Request Success', '');
                 $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
                 redirect('account/withdrawal');
             }
@@ -596,6 +647,8 @@ class Account extends MY_Controller {
         $this->load->model('config_model', 'configs');
         $this->load->model('balance_model', 'balance');
         $user = $this->user->getUserById($id);
+
+
         $transaction_config = $this->configs->getConfigs('transaction_fees');
         $this->data['transaction_fees'] = $transaction_config;
 

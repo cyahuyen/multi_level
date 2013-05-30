@@ -19,6 +19,7 @@ class Adminwithdrawal extends MY_Controller {
         parent::__construct();
 
         $this->load->model('transaction_model', 'transaction');
+        $this->load->model('balance_model', 'balance');
 
 
         $user_session = $this->session->userdata('user');
@@ -43,7 +44,8 @@ class Adminwithdrawal extends MY_Controller {
     public function payment_sucess($id = 0) {
         if ($this->transaction->updateHistory(array('payment_status' => 1), $id)) {
             $history = $this->transaction->getHistoryById($id);
-            $data['total'] = $history->balance;
+            $data['total'] = $history->total;
+            $data['fees'] = $history->fees;
             $data['user_id'] = $history->user_id;
             $data['payment_status'] = 'Completed';
             $data['transaction_type'] = 'withdrawal';
@@ -53,8 +55,19 @@ class Adminwithdrawal extends MY_Controller {
 
             $this->transaction->insert($data);
 
-            $email['amount'] = $history->balance;
-            $email['fullname'] = $history->fullname;
+            $balance_info = $this->balance->getBalance($history->user_id);
+            $amount_current = !empty($balance_info->balance) ? $balance_info->balance : 0;
+
+            $balance = $amount_current - $history->total;
+
+            $this->balance->updateBalanceByUserId($history->user_id, $balance);
+
+            $adminBalance = $history->fees - $history->total;
+            
+            $this->balance->updateAdminBalance($adminBalance);
+
+            $email['amount'] = $history->total - $history->fees;
+            $email['fullname'] = $history->firstname . ' ' . $history->lastname;
 
             sendmailform($history->email, 'payment_sucess', $email);
 
@@ -63,6 +76,8 @@ class Adminwithdrawal extends MY_Controller {
             redirect('adminwithdrawal/manager');
         } else {
             $error = array('error', 'darkred', 'Withdrawal errors', '');
+
+
             $this->session->set_flashdata(array('usermessage' => $error));
             redirect('adminwithdrawal/manager');
         }
@@ -72,6 +87,15 @@ class Adminwithdrawal extends MY_Controller {
         $this->transaction->updateHistory(array('payment_status' => 2), $id);
         $this->data['usermessage'] = array('success', 'green', 'Withdrawal Cancel Success', '');
         $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
+
+        $history = $this->transaction->getHistoryById($id);
+        if ($history) {
+            $data['amount'] = $history->total - $history->fees;
+            $data['fullname'] = $history->firstname . ' ' . $history->lastname;
+
+            sendmailform($history->email, 'payment_cancel', $data);
+        }
+
         redirect('adminwithdrawal/manager');
     }
 

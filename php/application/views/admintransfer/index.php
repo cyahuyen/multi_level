@@ -21,6 +21,7 @@
                             <option value="refere" <?php echo ($search == 'refere')?'selected':'' ?>>refere</option>
                             <option value="deposit" <?php echo ($search == 'deposit')?'selected':'' ?>>deposit</option>
                             <option value="bonus" <?php echo ($search == 'bonus')?'selected':'' ?>>bonus</option>
+                            <option value="withdrawal" <?php echo ($search == 'withdrawal')?'selected':'' ?>>withdrawal</option>
                         </select>
                     </div>
                     <input type="submit" value="Search" class="button" id="Search">
