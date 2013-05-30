@@ -5,12 +5,20 @@
     <div style="clear:both;"></div>
 </div>
 <div class="content">
-    <div class="content-header">
-        <div class="content-title">
-            <h1>Referred Members</h1>
+    <div class="content-header" style="max-height: none;height: 48px;">
+        <div class="content-title" >
+            <h1>Referred Members </h1>
+            <h4 >Total members : <?php echo count($refereds); ?></h4>
         </div>
-        <div style="padding:5px 25px;float: left;">
-            <h4>Total members : <?php echo count($refereds); ?></h4>
+        <div style="">
+            <div class="flr">
+                <form action="">
+                    <div style="float:left;padding-right:6px" class="ui-widget">
+                        <input type="text" class="searchresults" id="tags" name="search" placeholder="Search..." style="width:200px" value="<?php echo $this->input->get('search') ?>">
+                    </div>
+                    <input type="submit" value="Search" class="button" id="Search">
+                </form>
+            </div>
         </div>
     </div>
     <div class="content-body">
@@ -21,6 +29,7 @@
                         <tr class="heading">
                             <td style="width:35px"><div>Acount Number</div></td>
                             <td style="width:120px"><div>Full Name</div></td>
+                            <td style="width:120px"><div>Created</div></td>
                             <td style="width:80px"><div>Email</div></td>
                             <td style="width:50px"><div>Phone</div></td>
                         </tr>
@@ -29,6 +38,7 @@
                                 <tr class="row">
                                     <td><div><?php echo $refered->username; ?></div></td>
                                     <td><div><?php echo $refered->firstname . ' ' . $refered->lastname; ?></div></td>
+                                    <td><div><?php echo $refered->created_on; ?></div></td>
                                     <td><div><?php echo $refered->email; ?></div></td>
                                     <td><div><?php echo $refered->phone; ?></div></td>
                                 </tr>

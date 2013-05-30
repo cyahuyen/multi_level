@@ -42,7 +42,7 @@ class Admintransfer extends MY_Controller {
 //       Begin pagination
         $this->load->library("pagination");
         $config = array();
-        $config["total_rows"] = $this->transfer->totalTransfer();
+        $config["total_rows"] = $this->transfer->totalTransfer($this->input->get('search'));
         $config["base_url"] = site_url('admintransfer/index');
         $config["per_page"] = $limit;
         $page = $start;
@@ -67,7 +67,7 @@ class Admintransfer extends MY_Controller {
         $this->pagination->initialize($config);
         $this->data["links"] = $this->pagination->create_links();
 //       End pagination
-        $transfers = $this->transfer->getTransfers($limit, $start);
+        $transfers = $this->transfer->getTransfers($this->input->get('search'),$limit, $start);
         $this->data['transfers'] = array();
         foreach ($transfers as $transfer) {
             $username = $this->transfer->getUser($transfer->user_id);

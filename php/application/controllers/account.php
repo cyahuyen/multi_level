@@ -240,6 +240,10 @@ class Account extends MY_Controller {
             'href' => site_url('account/refered'),
             'separator' => ' :: '
         );
+        $dataWhere= array();
+        if($this->input->get('search')){
+            $dataWhere['search'] = $this->input->get('search');
+        }
 
         $user_session = $this->session->userdata('user');
         $id = $user_session['user_id'];
@@ -249,7 +253,7 @@ class Account extends MY_Controller {
         $this->load->library("pagination");
         $config = array();
         $user = $this->user_model->getUserById($id);
-        $config["total_rows"] = $this->user_model->totalRefered($user->username);
+        $config["total_rows"] = $this->user_model->totalRefered($user->username,$dataWhere);
         $config["base_url"] = site_url('account/refered');
         $config["per_page"] = $limit;
         $page = $start;
@@ -275,7 +279,7 @@ class Account extends MY_Controller {
         $this->pagination->initialize($config);
         $this->data["links"] = $this->pagination->create_links();
         //       End pagination
-        $this->data['refereds'] = $this->user_model->getRefereds($user->username, $limit, $start);
+        $this->data['refereds'] = $this->user_model->getRefereds($user->username, $dataWhere , $limit, $start);
         $this->data['main_content'] = 'account/refered';
         $this->load->view('home', $this->data);
     }

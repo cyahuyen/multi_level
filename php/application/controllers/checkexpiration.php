@@ -62,6 +62,7 @@ class CheckExpiration extends MY_Controller {
                 $dataTransaction['payment_status'] = 'Completed';
                 $dataTransaction['transaction_source'] = 'system';
                 $dataTransaction['transaction_type'] = 'bonus';
+                $dataTransaction['status'] = 0;
                 $this->transaction->insert($dataTransaction);
 
                 $dataAdmin[$user->user_id] = array(
@@ -107,6 +108,7 @@ class CheckExpiration extends MY_Controller {
                 $dataTransaction['payment_status'] = 'Completed';
                 $dataTransaction['transaction_source'] = 'system';
                 $dataTransaction['transaction_type'] = 'bonus';
+                $dataTransaction['status'] = 0;
                 $this->transaction->insert($dataTransaction);
 
                 $dataAdmin[$user->user_id] = array(

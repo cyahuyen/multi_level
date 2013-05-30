@@ -129,7 +129,7 @@ class User_model extends CI_Model {
             $this->db->where('user_id != ', $id);
         }
         $query = $this->db->get();
-        if($query->result())
+        if ($query->result())
             return TRUE;
         return FALSE;
     }
@@ -266,12 +266,17 @@ class User_model extends CI_Model {
         }
     }
 
-    public function getRefereds($id, $limit = null, $start = null) {
+    public function getRefereds($id, $dataWhere, $limit = null, $start = null) {
         $this->db->select("*");
         $this->db->from($this->tbl);
 
         if ($id) {
             $this->db->where('referring', $id);
+        }
+
+        if (!empty($dataWhere['search'])) {
+            $where = "( firstname LIKE '%" . $dataWhere['search'] . "%' OR lastname LIKE '%" . $dataWhere['search'] . "%' OR email LIKE '%" . $dataWhere['search'] . "%' )";
+            $this->db->where($where);
         }
         if ($limit)
             $this->db->limit((int) $limit);
@@ -285,10 +290,14 @@ class User_model extends CI_Model {
         return $query->result();
     }
 
-    public function totalRefered($id) {
+    public function totalRefered($id, $dataWhere) {
         $this->db->select("*");
         $this->db->from($this->tbl);
         $this->db->where('referring', $id);
+        if (!empty($dataWhere['search'])) {
+            $where = "( firstname LIKE '%" . $dataWhere['search'] . "%' OR lastname LIKE '%" . $dataWhere['search'] . "%' OR email LIKE '%" . $dataWhere['search'] . "%' )";
+            $this->db->where($where);
+        }
         $query = $this->db->get();
         return $query->num_rows();
     }

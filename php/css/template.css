@@ -4,6 +4,9 @@
     outline: none;
 }
 
+.fll{float: left}
+.flr{float: right}
+
 body {
     background: #D1D3D4 none 0 0 no-repeat;
 }

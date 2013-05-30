@@ -32,7 +32,6 @@ class Transaction_model extends CI_Model {
             $this->db->where("status", 1);
             $query = $this->db->get();
             return $query->result();
-            
         } else {
             return array();
         }
@@ -77,9 +76,12 @@ class Transaction_model extends CI_Model {
         return TRUE;
     }
 
-    public function getTransfers($limit = null, $start = null) {
+    public function getTransfers($search = null, $limit = null, $start = null) {
         $this->db->select("*");
         $this->db->from("transaction");
+        if ($search) {
+            $this->db->where('transaction_type',$search);
+        }
         if ($limit)
             $this->db->limit((int) $limit);
 
@@ -90,6 +92,10 @@ class Transaction_model extends CI_Model {
             foreach ($sort as $key => $value) {
                 $this->db->order_by($key, $value);
             }
+        }
+
+        if ($search) {
+            $this->db->where('transaction_type',$search);
         }
 
         $query = $this->db->get();
@@ -164,9 +170,12 @@ class Transaction_model extends CI_Model {
         return $this->db->update('payment_history', $data);
     }
 
-    public function totalTransfer() {
+    public function totalTransfer($search= null) {
         $this->db->select("*");
         $this->db->from("transaction");
+        if ($search) {
+            $this->db->where('transaction_type',$search);
+        }
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -230,9 +239,6 @@ class Transaction_model extends CI_Model {
         $query = $this->db->get();
         return $query->num_rows();
     }
-    
-    
-    
 
 }
 
