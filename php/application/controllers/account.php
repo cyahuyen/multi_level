@@ -305,11 +305,11 @@ class Account extends MY_Controller {
 
         $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-
+        
         //       Begin pagination
         $this->load->library("pagination");
         $config = array();
-        $config["total_rows"] = $this->user_model->totalHistory($id);
+        $config["total_rows"] = $this->user_model->totalHistory($id,$this->input->get('search'));
         $config["base_url"] = site_url('account/history');
         $config["per_page"] = $limit;
         $page = $start;
@@ -335,7 +335,7 @@ class Account extends MY_Controller {
         $this->pagination->initialize($config);
         $this->data["links"] = $this->pagination->create_links();
         //       End pagination
-        $this->data['historys'] = $this->user_model->getHistorys($id, $limit, $start);
+        $this->data['historys'] = $this->user_model->getHistorys($id,$this->input->get('search'), $limit, $start);
         $this->data['main_content'] = 'account/history';
         $this->load->view('home', $this->data);
     }

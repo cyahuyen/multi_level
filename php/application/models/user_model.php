@@ -266,7 +266,7 @@ class User_model extends CI_Model {
         }
     }
 
-    public function getRefereds($id, $dataWhere, $limit = null, $start = null) {
+    public function getRefereds($id, $dataWhere = array(), $limit = null, $start = null) {
         $this->db->select("*");
         $this->db->from($this->tbl);
 
@@ -290,7 +290,7 @@ class User_model extends CI_Model {
         return $query->result();
     }
 
-    public function totalRefered($id, $dataWhere) {
+    public function totalRefered($id, $dataWhere = array()) {
         $this->db->select("*");
         $this->db->from($this->tbl);
         $this->db->where('referring', $id);
@@ -302,12 +302,15 @@ class User_model extends CI_Model {
         return $query->num_rows();
     }
 
-    public function getHistorys($id, $limit = null, $start = null) {
+    public function getHistorys($id, $search = null, $limit = null, $start = null) {
         $this->db->select("*");
         $this->db->from("transaction");
 
         if ($id) {
             $this->db->where('user_id', $id);
+        }
+        if ($search) {
+            $this->db->where('transaction_type', $search);
         }
         if ($limit)
             $this->db->limit((int) $limit);
@@ -321,9 +324,12 @@ class User_model extends CI_Model {
         return $query->result();
     }
 
-    public function totalHistory($id) {
+    public function totalHistory($id, $search = null) {
         $this->db->select("*");
         $this->db->from("transaction");
+        if ($search) {
+            $this->db->where('transaction_type', $search);
+        }
         $this->db->where('user_id', $id);
         $query = $this->db->get();
         return $query->num_rows();

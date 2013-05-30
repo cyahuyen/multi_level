@@ -44,6 +44,10 @@ class Adminuser extends MY_Controller {
         if ($posts['status'] != 'all')
             $dataWhere['status'] = $posts['status'];
         $dataWhere['searchby'] = $posts['searchby'];
+        
+        if(isset($posts['usertype']) && $posts['usertype'] != 'all'){
+            $dataWhere['usertype'] = $posts['usertype'];
+        }
         $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         if (!empty($posts['asc'])) {

@@ -8,13 +8,13 @@
         var status = $('#datalist-filter-type').val();
         var sort = $('#datalist-sort-order').val();
         var asc = $('#datalist-sort-asc:checked').val();
-
+        var usertype = $('#datalist-usertype').val();
         if (isEmpty(page)) {
             var page = 0;
         }
         $.ajax({
             type: "post",
-            data: {searchby: search, sort: sort, asc: asc, page: page, status: status},
+            data: {searchby: search, sort: sort, asc: asc, page: page, status: status,usertype:usertype},
             url: "<?php echo site_url('adminuser/userlist') ?>/" + page,
             success: function(data) {
                 var obj = jQuery.parseJSON(data);
@@ -31,6 +31,10 @@
 
     $('.nav-page a').live('click', function() {
         search($(this).text());
+        return false;
+    })
+    $('#datalist-usertype').live('click', function() {
+        search();
         return false;
     })
 
@@ -107,6 +111,14 @@
                             <option value="all" <?php echo (!empty($userlist['status']) && $userlist['status'] == 'all') ? 'selected' : '' ?>>Show both active and inactive users</option>
                             <option <?php echo (!isset($userlist['status']) || $userlist['status'] == '1') ? 'selected' : '' ?> value="1">Active users only</option>
                             <option value="0" <?php echo (isset($userlist['status'])) ? 'selected' : '' ?>>Inactive users only</option>
+                        </select>
+                    </div>
+                    <div style="float:left;padding-right:6px">
+                        <select id="datalist-usertype">
+                            <option value="all" <?php echo (isset($userlist['usertype']) && $userlist['usertype'] == 'all') ? 'selected' : '' ?>>All</option>
+                            <option value="0" <?php echo (isset($userlist['usertype']) && $userlist['usertype'] == '0') ? 'selected' : '' ?>>Member</option>
+                            <option value="1" <?php echo (isset($userlist['usertype']) && $userlist['usertype'] == '1') ? 'selected' : '' ?> >Silver</option>
+                            <option value="2" <?php echo (isset($userlist['usertype']) && $userlist['usertype'] == '2') ? 'selected' : '' ?>>Gold</option>
                         </select>
                     </div>
                 </div>
