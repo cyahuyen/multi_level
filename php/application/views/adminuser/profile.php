@@ -9,9 +9,9 @@
                 $.ajax({
                     type: "post",
                     data: {id: "<?php echo$userdata->id ?>"},
-                    url: "<?php echo site_url('user/deactive') ?>",
+                    url: "<?php echo site_url('adminuser/deactive') ?>",
                     success: function(data) {
-                        //window.location = "<?php echo site_url('user/manage') ?>"
+                        //window.location = "<?php echo site_url('adminuser/manager') ?>"
                         showmessage('info', 'User de-activated', 'The user has now been de-activated')
                     }
                 });
@@ -24,7 +24,7 @@
                 $.ajax({
                     type: "post",
                     data: {id: "<?php echo$userdata->id ?>"},
-                    url: "<?php echo site_url('user/active') ?>",
+                    url: "<?php echo site_url('adminuser/active') ?>",
                     success: function(data) {
                         //window.location = "<?php echo site_url('user/manage') ?>"
                         showmessage('info', 'User re-activated', 'The user has now been re-activated')
@@ -46,7 +46,7 @@
 
         <div class="content-actions">
             <input type="submit" value="Save" class="button" name="save-btn" id="save-btn">
-            <a class="button checkdirty" href="<?php echo site_url('user/manage') ?>">Cancel</a>
+            <a class="button checkdirty" href="<?php echo site_url('adminuser/manager') ?>">Cancel</a>
             <?php if (!empty($userdata->id)) { ?>
                 <?php if ($userdata->status == '1') { ?>
                     <input type="button" value="De-activate" class="button" name="deactivate-btn" id="deactivate-btn">

@@ -18,7 +18,7 @@ class Admin extends MY_Controller {
         parent::__construct();
 
         $this->load->model('user_model', 'user');
-        $this->data['menu_config'] = $this->menu_config_6;
+        $this->data['menu_config'] = $this->menu_config_1;
 
 
         $user_session = $this->session->userdata('user');

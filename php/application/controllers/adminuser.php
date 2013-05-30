@@ -17,10 +17,10 @@ class Adminuser extends MY_Controller {
     public function __construct() {
 
         parent::__construct();
-
         $this->load->model('user_model', 'user');
         $this->data['menu_config'] = $this->menu_config_2;
         $user_session = $this->session->userdata('user');
+        
         if (empty($user_session) || $user_session['permission'] != 'administrator') {
             redirect(site_url('home'));
         }
