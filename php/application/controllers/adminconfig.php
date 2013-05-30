@@ -18,6 +18,7 @@ class Adminconfig extends MY_Controller {
     var $referral = 'Referral';
     var $timeconfig = 'Time Config';
     var $referraldefault = 'Referral Default Config';
+    var $withdrawal = 'Withdrawal Config';
 
     public function __construct() {
 
@@ -31,6 +32,43 @@ class Adminconfig extends MY_Controller {
             redirect(site_url('home'));
         }
         $this->data['user_session'] = $user_session;
+    }
+    
+    public function withdrawal(){
+        $this->data['title'] = 'Config Emails';
+        $this->data['breadcrumbs'] = array();
+
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Home',
+            'href' => site_url('account'),
+            'separator' => false
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Configuration',
+            'href' => site_url('adminconfig'),
+            'separator' => ' :: '
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Withdrawal',
+            'href' => site_url('adminconfig/withdrawal'),
+            'separator' => ' :: '
+        );
+        $this->data['data_configs'] = $this->configs->getConfigs('withdrawal');
+        $msg = $this->session->flashdata('usermessage');
+        if ($msg) {
+            $this->data['usermessage'] = $msg;
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $posts = $this->input->post();
+            unset($posts['save-btn']);
+            $posts['group'] = 'config';
+            $this->configs->editConfigs('withdrawal', 'config', $posts);
+            $data['usermessage'] = array('success', 'green', 'Successfully saved ', '');
+            $this->session->set_flashdata(array('usermessage' => $data['usermessage']));
+            redirect('adminconfig/withdrawal');
+        }
+        $this->data['main_content'] = 'adminconfig/withdrawal';
+        $this->load->view('administrator', $this->data);
     }
 
     public function index() {
