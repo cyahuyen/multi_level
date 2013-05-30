@@ -5,8 +5,8 @@
     }
     function search(page) {
         var search = $('#tags').val();
-        var status = $('#datalist-filter-type').val();
         var sort = $('#datalist-sort-order').val();
+        var payment_status = $('#datalist-filter-type').val();
         var asc = $('#datalist-sort-asc:checked').val();
 
         if (isEmpty(page)) {
@@ -14,7 +14,7 @@
         }
         $.ajax({
             type: "post",
-            data: {searchby: search, sort: sort, asc: asc, page: page, status: status},
+            data: {searchby: search, sort: sort, asc: asc, page: page,  payment_status:payment_status},
             url: "<?php echo site_url('adminwithdrawal/withdrawallist') ?>/" + page,
             success: function(data) {
                 var obj = jQuery.parseJSON(data);
@@ -95,19 +95,26 @@
                     <div style="float:left;padding-right:6px" class="ui-widget">
                         <input type="text" class="searchresults" id="tags" placeholder="Search..." style="width:200px" value="<?php echo (!empty($emaillist['searchby'])) ? $emaillist['searchby'] : '' ?>"/>
                     </div>
-                    
+                    <div style="float:left;padding-right:6px">
+                        <select id="datalist-filter-type">
+                            <option value="all">All Withdrawal Request</option>
+                            <option selected="" value="0">Process</option>
+                            <option value="1">Payment</option>
+                            <option value="2">Cancel</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="datalist-sort">
                     <span>Order by<span style="padding:4px">
                             <select id="datalist-sort-order"  onchange="search()"> 
-                                <option value="user.email">Email</option>
-                                <option value="payment_history.email_paypal">Email Paypal</option>
+                                <option value="user.username">Username</option>
                                 <option value="payment_history.created">Created</option>
                             </select>
                             <span>
                                 <input type="checkbox" id="datalist-sort-asc" value="1" onchange="search()" <?php echo (!empty($emaillist['asc'])) ? 'checked' : '' ?>><label for="datalist-sort-asc" style="padding-left:4px">ascending</label>						
                             </span>
-                        </span></span>
+                        </span>
+                    </span>
                 </div>
             </div>
 

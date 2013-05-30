@@ -63,7 +63,7 @@ class Adminwithdrawal extends MY_Controller {
             $this->balance->updateBalanceByUserId($history->user_id, $balance);
 
             $adminBalance = $history->fees - $history->total;
-            
+
             $this->balance->updateAdminBalance($adminBalance);
 
             $email['amount'] = $history->total - $history->fees;
@@ -104,6 +104,8 @@ class Adminwithdrawal extends MY_Controller {
         $this->config->load('cya_config', TRUE);
 
         $dataWhere['searchby'] = $posts['searchby'];
+        if ($posts['payment_status'] != 'all')
+            $dataWhere['payment_status'] = $posts['payment_status'];
         $limit = $this->config->item('limit_page', 'my_config');
 
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
