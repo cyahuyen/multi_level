@@ -1,7 +1,10 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>js/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
 tinymce.init({
-	selector: "textarea"
+	// General options
+        mode: "textareas",
+        width: "500",
+        height: "300"
 	
 });
 </script>
@@ -41,7 +44,7 @@ tinymce.init({
             <tr>
                 <td>Content</td>
                 <td>
-                    <textarea name="content"><?php echo!empty($emaildata->content) ? $emaildata->content : '' ?></textarea>
+                    <textarea   name="content"><?php echo!empty($emaildata->content) ? $emaildata->content : '' ?></textarea>
                 </td>
             </tr>
             <tr>
