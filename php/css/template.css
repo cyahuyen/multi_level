@@ -686,3 +686,13 @@ table.datatable tr td span.currency{
 .creditcard{
     display: none;
 }
+
+.user_elm{
+    line-height: 0;
+    margin: 0 5px;
+}
+
+.user_list div.user_mng{
+    float: left;
+    margin-right: 5px;
+}
