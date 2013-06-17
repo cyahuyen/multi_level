@@ -49,6 +49,14 @@
             <li class="<?php echo $menu_config[5] ?>"><a href="<?php echo site_url('admintransfer') ?>">Transaction</a></li>
             <li class="<?php echo $menu_config[6] ?>"><a href="<?php echo site_url('adminemail/manager') ?>">Email Manager</a></li>
             <li class="<?php echo $menu_config[7] ?>"><a href="<?php echo site_url('adminwithdrawal/manager') ?>">Withdrawal Manager</a></li>
+            <li class="<?php echo $menu_config[8] ?>">
+                <a href="#">Tools</a>
+                <ul>
+                    <li>
+                        <a href="<?php echo site_url('admintool/sent_mail') ?>">Sent Mail</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
         <div class="clearer"></div>
     </div>

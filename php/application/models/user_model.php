@@ -32,8 +32,8 @@ class User_model extends CI_Model {
         $this->db->where('user_id', $id);
         return $this->db->update('user', $data);
     }
-    
-    public function updateWithdrawalDate($id){
+
+    public function updateWithdrawalDate($id) {
         $this->db->where('user_id', $id);
         $this->db->set('withdrawal_date', 'NOW()', FALSE);
         return $this->db->update('user');
@@ -93,6 +93,9 @@ class User_model extends CI_Model {
                 if ($key == 'searchby') {
                     $where = "( firstname LIKE '%" . $val . "%' OR lastname LIKE '%" . $val . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
                     $this->db->where($where);
+                } elseif ($key == 'term') {
+                    $where = "( email LIKE '%" . $val . "%' OR username LIKE '%" . $val . "%' )";
+                    $this->db->where($where);
                 }
                 else
                     $this->db->where($key, $val);
@@ -139,8 +142,6 @@ class User_model extends CI_Model {
             return TRUE;
         return FALSE;
     }
-    
-    
 
     public function listUserBouns($type) {
         $this->db->select("*");

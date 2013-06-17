@@ -11,7 +11,6 @@
                     data: {id: "<?php echo$userdata->id ?>"},
                     url: "<?php echo site_url('adminuser/deactive') ?>",
                     success: function(data) {
-                        //window.location = "<?php echo site_url('adminuser/manager') ?>"
                         showmessage('info', 'User de-activated', 'The user has now been de-activated')
                     }
                 });
@@ -26,7 +25,6 @@
                     data: {id: "<?php echo$userdata->id ?>"},
                     url: "<?php echo site_url('adminuser/active') ?>",
                     success: function(data) {
-                        //window.location = "<?php echo site_url('user/manage') ?>"
                         showmessage('info', 'User re-activated', 'The user has now been re-activated')
                     }
                 });
