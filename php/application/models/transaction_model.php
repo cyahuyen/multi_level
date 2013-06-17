@@ -75,11 +75,11 @@ class Transaction_model extends CI_Model {
             return FALSE;
         return TRUE;
     }
-    
+
     public function getTransfers($data, $limit = null, $start = null, $sort = null) {
         $this->db->select("*");
         $this->db->from("transaction");
-        $this->db->join("user",'user.user_id = transaction.user_id');
+        $this->db->join("user", 'user.user_id = transaction.user_id');
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 if ($key == 'searchby') {
@@ -204,7 +204,7 @@ class Transaction_model extends CI_Model {
     public function totalTransfer($data) {
         $this->db->select("*");
         $this->db->from("transaction");
-        $this->db->join("user",'user.user_id = transaction.user_id');
+        $this->db->join("user", 'user.user_id = transaction.user_id');
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 if ($key == 'searchby') {
@@ -277,6 +277,23 @@ class Transaction_model extends CI_Model {
 
         $query = $this->db->get();
         return $query->num_rows();
+    }
+
+    public function getTotalAmountPaid($data) {
+        $this->db->select("(SUM(transaction.total) - SUM(transaction.fees)) as total_paid");
+        $this->db->from("transaction");
+        $this->db->join("user", 'transaction.user_id = user.user_id');
+        if (!empty($data['usertype']))
+            $this->db->where("user.usertype", $data['usertype']);
+        if (!empty($data['start_date']))
+            $this->db->where("transaction.created >=", $data['start_date']);
+        if (!empty($data['end_date']))
+            $this->db->where("transaction.created <=", $data['end_date']);
+        if (!empty($data['transaction_type']))
+            $this->db->where_in('transaction_type', $data['transaction_type']);
+        $query = $this->db->get()->result();
+        return $query[0]->total_paid;
+        
     }
 
 }

@@ -210,7 +210,7 @@
                 data: 'email=' + email,
                 url: "<?php echo site_url('register/checkEmail') ?>",
                 success: function(data) {
-                    if (data == 'true') {
+                    if ($.trim(data) == 'true') {
                         $('#sign-up-form').submit();
                     }
                     else {

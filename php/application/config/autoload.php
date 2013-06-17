@@ -67,7 +67,7 @@ $autoload['libraries'] = array('database', 'session', 'xmlrpc','recaptcha');
   |	$autoload['helper'] = array('url', 'file');
  */
 
-$autoload['helper'] = array('url', 'file', 'form', 'sendmail');
+$autoload['helper'] = array('url', 'file', 'form', 'sendmail','tool');
 
 
 /*

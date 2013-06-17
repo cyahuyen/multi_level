@@ -33,28 +33,45 @@
     <div class="datalist-search">
         <form action="" method="GET">
             <div style="float:left;padding-right:6px" class="ui-widget">
-                <input type="text" class="searchresults" id="start_date" name="start_date" placeholder="Start Date" style="width:200px" value="<?php echo (!empty($start_date)) ? $start_date : '' ?>"/>
-            </div>
-            <div style="float:left;padding-top:4px;padding-left:4px;padding-right:8px;"><img style="width:16px;height:16px" title="Filter" src="<?php echo base_url() ?>/img/datalist/filter-icon.png"></div>
-            <div style="float:left;padding-right:6px" class="ui-widget">
-                <input type="text" class="searchresults" id="end_date" name="end_date" placeholder="End Date" style="width:200px" value="<?php echo (!empty($end_date)) ? $end_date : '' ?>"/>
-            </div>
-            <div style="float:left;padding-right:6px" class="ui-widget">
-                <input type="submit" class="button" id="" value="Search"/>
+                <input type="text" class="searchresults" id="date" name="date" placeholder="Date" style="width:200px" value="<?php echo (!empty($date)) ? $date : '' ?>"/>
             </div>
 
         </form>
     </div>
     <script>
-        $("#start_date").datepicker({dateFormat: "yy-mm-dd"});
-        $("#end_date").datepicker({dateFormat: "yy-mm-dd"});
+        $("#date").datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+        $("#date").change(function(){
+        })
     </script>
 </div>
+<div class="content-header">
+    <div class="content-title">
+        <h1>Report By Week</h1>
+    </div>
 
-<div class="user">
-    <strong>Total Users: </strong><?php echo $user_count ?><br>
-    <strong>Total Common Users: </strong><?php echo $member_count ?><br>
-    <strong>Total Silver Users: </strong><?php echo $silver_count ?><br>
-    <strong>Total Gold Users: </strong><?php echo $gold_count ?><br>
+</div>
+<div class="user_week">
+    <strong>Number of new members enrolled: </strong><?php echo $user_count_week ?><br>
+    <strong>Amount paid into Gold accounts : </strong><?php echo $gold_count_week ?><br>
+    <strong>Amount paid into silver accounts: </strong><?php echo $silver_count_week ?><br>
+    <strong>List of referring members with number referred: </strong><?php echo $silver_total_paid_amount_week ?><br>
+    <strong>Percentage of increase from previous week: </strong><?php echo '' ?><br>
+    <strong>Amount of referral commission paid: </strong><?php echo '' ?><br>
+    <strong>Year to date of all of above: </strong><?php echo '' ?><br>
+</div>
+<div class="content-header">
+    <div class="content-title">
+        <h1>Report By Month</h1>
+    </div>
 
+</div>
+<div class="user_month">
+    <strong>Total monthly new members: </strong><?php echo $user_count_month ?><br>
+    <strong>Total amount paid into Gold accounts: </strong><?php echo gold_count_month ?><br>
+    <strong>Total amount paid into Silver accounts: </strong><?php echo $silver_count_month ?><br>
+    <strong>Total dividends paid to members: </strong><?php echo $total_dividends_paid_amount ?><br>
+    <strong>Total referral commission paid to referring members: </strong><?php echo $member_count ?><br>
+    <strong>Total commission paid on referred members dividend: </strong><?php echo $silver_count ?><br>
 </div>

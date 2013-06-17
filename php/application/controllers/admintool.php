@@ -61,6 +61,7 @@ class Admintool extends MY_Controller {
                                 $content = replace_data($content, array('fullname' => $user->firstname . ' ' . $user->lastname));
                                 sendmail($user->email, $subject, $content);
                             }
+                            $this->data['usermessage'] = array('success', 'green', 'Sent mail Success', '');
                             break;
                         case 'gold':
                             $data_where = array(
@@ -71,6 +72,7 @@ class Admintool extends MY_Controller {
                                 $content = replace_data($content, array('fullname' => $user->firstname . ' ' . $user->lastname));
                                 sendmail($user->email, $subject, $content);
                             }
+                            $this->data['usermessage'] = array('success', 'green', 'Sent mail Success', '');
                             break;
                         case 'silver':
                             $data_where = array(
@@ -81,12 +83,14 @@ class Admintool extends MY_Controller {
                                 $content = replace_data($content, array('fullname' => $user->firstname . ' ' . $user->lastname));
                                 sendmail($user->email, $subject, $content);
                             }
+                            $this->data['usermessage'] = array('success', 'green', 'Sent mail Success', '');
                             break;
 
                         default:
                             $user = $this->user->getUserByReferral($user);
                             $content = replace_data($content, array('fullname' => $user->firstname . ' ' . $user->lastname));
                             sendmail($user->email, $subject, $content);
+                            $this->data['usermessage'] = array('success', 'green', 'Sent mail Success', '');
                             break;
                     }
                 }
