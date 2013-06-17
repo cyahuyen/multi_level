@@ -36,7 +36,7 @@
             <td colspan="2"></td>
         </tr>
         <tr>
-            <td colspan="2"><div><a href="<?php echo site_url('account/refered') ?>">Refered Member</a> </div></td>
+            <td colspan="2"><div><a href="<?php echo site_url('account/refered') ?>">Refered Members</a> </div></td>
             <td colspan="2"></td>
         </tr>
     </tbody>

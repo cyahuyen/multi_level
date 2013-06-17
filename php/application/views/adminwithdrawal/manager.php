@@ -98,16 +98,16 @@
                     <div style="float:left;padding-right:6px">
                         <select id="datalist-filter-type">
                             <option value="all">All Withdrawal Request</option>
-                            <option selected="" value="0">Process</option>
-                            <option value="1">Payment</option>
-                            <option value="2">Cancel</option>
+                            <option selected="" value="0">Processing</option>
+                            <option value="1">Paid</option>
+                            <option value="2">Canceled</option>
                         </select>
                     </div>
                 </div>
                 <div class="datalist-sort">
                     <span>Order by<span style="padding:4px">
                             <select id="datalist-sort-order"  onchange="search()"> 
-                                <option value="user.username">Username</option>
+                                <option value="user.username">Account number</option>
                                 <option value="payment_history.created">Created</option>
                             </select>
                             <span>

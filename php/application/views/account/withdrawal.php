@@ -8,7 +8,7 @@
     </thead>
     <tbody>
         <tr>
-            <td><div>Total Amount: </div></td>
+            <td><div>My Balance: </div></td>
             <td>
                 <span class="currency">$<?php echo (($balance) > 0) ? number_format($balance, 2, '.', ' ') : 0; ?></span>
             </td>
@@ -20,19 +20,19 @@
             </td>
         </tr>
         <tr>
-            <td><div>Withdrawal Fees: </div></td>
+            <td><div>Withdrawal Fee: </div></td>
             <td>
                 <span class="currency">$<?php echo number_format($fees, 2, '.', ' '); ?></span>
             </td>
         </tr>
         <tr>
-            <td><div>Date Of Withdrawal: </div></td>
+            <td><div>Avaiable Date Of Withdrawal: </div></td>
             <td>
                 <span class="date"><?php echo!empty($withdrawal_date) ? $withdrawal_date : ''; ?></span>
             </td>
         </tr>
         <tr>
-            <td><div>Withdrawal Amount: </div></td>
+            <td><div>Amount: </div></td>
             <td>
                 <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="<?php echo $this->input->post('entry_amount') ?>" />
             </td>
@@ -48,7 +48,7 @@
         <tr>
             <td colspan="2">
                 <div style="padding-left: 130px;">
-                    <input type="submit" id="save-btn" name="save-btn" class="button" value="Sent Request">
+                    <input type="submit" id="save-btn" name="save-btn" class="button" value="Send Request">
                 </div>
             </td>
         </tr>

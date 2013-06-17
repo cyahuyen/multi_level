@@ -25,10 +25,10 @@
                 <ul>
                     <li><a href="<?php echo site_url('adminconfig/emails') ?>">Email</a></li>
                     <li><a href="<?php echo site_url('adminconfig/transaction_fees') ?>">Transaction Fee</a></li>
-                    <li><a href="<?php echo site_url('adminconfig/referral') ?>">Referral</a></li>
+                    <li><a href="<?php echo site_url('adminconfig/referral') ?>">Referral/Commission</a></li>
                     <li><a href="<?php echo site_url('adminconfig/timeconfig') ?>">Date/Time</a></li>
-                    <li><a href="<?php echo site_url('adminconfig/referraldefault') ?>">Referral Default Config</a></li>
-                    <li><a href="<?php echo site_url('adminconfig/withdrawal') ?>">Withdrawal Config</a></li>
+                    <li><a href="<?php echo site_url('adminconfig/referraldefault') ?>">Referral Default</a></li>
+                    <li><a href="<?php echo site_url('adminconfig/withdrawal') ?>">Withdrawal</a></li>
                 </ul>
             </li>
             <li class="<?php echo $menu_config[3] ?>">

@@ -13,7 +13,7 @@
     </thead>
     <tbody>
         <tr>
-            <td><div>Acount number: </div></td>
+            <td><div>Account number: </div></td>
             <td>
                 <?php echo!empty($userdata->username) ? $userdata->username : '' ?>
             </td>

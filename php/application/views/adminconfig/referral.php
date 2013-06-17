@@ -7,7 +7,7 @@
 <form action="" method="post">
     <div class="content-header">
         <div class="content-title">
-            <h1>View/Edit Referal Configuration</h1>
+            <h1>View/Edit Referal/Commission Configuration</h1>
         </div>
 
     </div>
@@ -25,24 +25,24 @@
             <tr>
                 <td>Profit percentage of Silver</td>
                 <td>
-                    <input type="text" id="percentage_silver" class="" name="percentage_silver" value="<?php echo!empty($data_configs['percentage_silver']) ? $data_configs['percentage_silver'] : '' ?>" class="" style="width:240px">%
+                    <input type="text" id="percentage_silver" class="" name="percentage_silver" value="<?php echo!empty($data_configs['percentage_silver']) ? $data_configs['percentage_silver'] : '' ?>" class="" style="width:240px">% (When an additional deposit is made to the silver account)
                 </td>
             </tr>
             <tr>
                 <td>Profit percentage of Gold</td>
                 <td>
-                    <input type="text" id="percentage_gold" class="" name="percentage_gold" value="<?php echo!empty($data_configs['percentage_gold']) ? $data_configs['percentage_gold'] : '' ?>" class="" style="width:240px">%
+                    <input type="text" id="percentage_gold" class="" name="percentage_gold" value="<?php echo!empty($data_configs['percentage_gold']) ? $data_configs['percentage_gold'] : '' ?>" class="" style="width:240px">% (When an additional deposit is made to the gold account)
 
                 </td>
             </tr>
             <tr>
-                <td>Bonus percentage of Silver</td>
+                <td>Interest rate  of Silver</td>
                 <td>
-                    <input type="text" id="bonus_percentage_silver" class="" name="bonus_percentage_silver" value="<?php echo!empty($data_configs['bonus_percentage_silver']) ? $data_configs['bonus_percentage_silver'] : '' ?>" class="" style="width:240px">%
+                    <input type="text" id="bonus_percentage_silver" class="" name="bonus_percentage_silver" value="<?php echo!empty($data_configs['bonus_percentage_silver']) ? $data_configs['bonus_percentage_silver'] : '' ?>" class="" style="width:240px">% 
                 </td>
             </tr>
             <tr>
-                <td>Bonus percentage of Gold</td>
+                <td>Interest rate  of Gold</td>
                 <td>
                     <input type="text" id="bonus_percentage_gold" class="" name="bonus_percentage_gold" value="<?php echo!empty($data_configs['bonus_percentage_gold']) ? $data_configs['bonus_percentage_gold'] : '' ?>" class="" style="width:240px">%
 

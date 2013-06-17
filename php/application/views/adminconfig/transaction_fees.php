@@ -7,7 +7,7 @@
 <form action="" method="post">
     <div class="content-header">
         <div class="content-title">
-            <h1>View/Edit Transaction Fees config</h1>
+            <h1>View/Edit Transaction Fee Configuration</h1>
         </div>
 
     </div>
@@ -35,19 +35,19 @@
                 </td>
             </tr>
             <tr>
-                <td>Min Enrolment Entry Amount </td>
+                <td>Minimum Enrolment Entry Amount </td>
                 <td>
                     $<input type="text" id="min_enrolment_entry_amount" class="mandatory" name="min_enrolment_entry_amount" value="<?php echo!empty($data_configs['min_enrolment_entry_amount']) ? $data_configs['min_enrolment_entry_amount'] : '' ?>" class="" style="width:240px">
                 </td>
             </tr>
             <tr>
-                <td>Max Enrolment Entry Amount </td>
+                <td>Maximum Enrolment Entry Amount </td>
                 <td>
                    $<input type="text" id="max_enrolment_entry_amount" class="mandatory" name="max_enrolment_entry_amount" value="<?php echo!empty($data_configs['max_enrolment_entry_amount']) ? $data_configs['max_enrolment_entry_amount'] : '' ?>" class="" style="width:240px">
                 </td>
             </tr>
             <tr>
-                <td>Monthly Amount for Silver</td>
+                <td>Maximum Monthly Amount for Silver</td>
                 <td>
                    $<input type="text" id="max_enrolment_silver_amount" class="mandatory" name="max_enrolment_silver_amount" value="<?php echo!empty($data_configs['max_enrolment_silver_amount']) ? $data_configs['max_enrolment_silver_amount'] : '' ?>" class="" style="width:240px">
                 </td>

@@ -7,7 +7,7 @@
 <form action="" method="post">
     <div class="content-header">
         <div class="content-title">
-            <h1>View/Edit Emails config</h1>
+            <h1>View/Edit Email Configuration</h1>
         </div>
 
     </div>
@@ -69,7 +69,7 @@
                 </td>
             </tr>
             <tr>
-                <td>Email Admin:</td>
+                <td>Admin email address:</td>
                 <td>
                     <input type="text" id="email_admin" name="email_admin" value="<?php echo!empty($data_configs['email_admin']) ? $data_configs['email_admin'] : '' ?>" class="" style="width:240px">
                 </td>

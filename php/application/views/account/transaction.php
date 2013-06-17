@@ -26,13 +26,13 @@
         </tr>
 
         <tr>
-            <td><div>Fees: </div></td>
+            <td><div>Fee: </div></td>
             <td>
                 <span class="currency" id="fees">$<?php echo $transaction_fees['transaction_fee'] ?></span>
             </td>
         </tr>
         <tr>
-            <td><div>Total Amount: </div></td>
+            <td><div>Total: </div></td>
             <td>
                 <span class="currency" id="total_fees">$0</span>
             </td>
@@ -42,7 +42,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <td colspan="2"><h1>Payment</h1></td>
+                            <td colspan="2"><h1>Select Payment Method</h1></td>
                         </tr>
                     </thead>
                 </table>

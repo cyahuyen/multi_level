@@ -8,7 +8,7 @@
 <table class="datatable">
     <thead>
         <tr>
-            <td colspan="2"><h1>Edit Account</h1></td>
+            <td colspan="2"><h1>Change password</h1></td>
         </tr>
     </thead>
     <tbody>

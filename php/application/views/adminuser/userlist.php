@@ -2,14 +2,14 @@
     <thead>
         <tr class="heading">
             <td style="width:20px;text-align: center;"><div>#</div></td>
-            <td style="width:110px"><div>Acount Number</div></td>
+            <td style="width:110px"><div>Account Number</div></td>
             <td style="width:110px"><div>Full Name</div></td>
-            <td style="width:110px"><div>Referre</div></td>
+            <td style="width:110px"><div>Referred User</div></td>
             <td style="width:80px"><div>User type</div></td>
             <td style="width:110px"><div>Email</div></td>
             <td style="width:80px"><div>Phone</div></td>
             <td style="width:60px"><div>Status</div></td>
-            <td style="width:60px"><div>Active</div></td>
+            <td style="width:60px"><div>Action</div></td>
         </tr>
     </thead>
     <tbody>
@@ -32,7 +32,7 @@
             ?></div></td>
                 <td><div><?php echo $user->email; ?></div></td>
                 <td><div><?php echo $user->phone; ?></div></td>
-                <td><div><?php echo!empty($user->status) ? 'Active' : 'De-Active' ?></div></td>
+                <td><div><?php echo!empty($user->status) ? 'Active' : 'De-active' ?></div></td>
                 <td><div>
                         <?php if ($user->status == 1) { ?>
                             <a href="javascript:void(0);" class="activate" id="disable_<?php echo $user->user_id; ?>" rel="<?php echo $user->user_id; ?>"><img src='<?php echo base_url(); ?>img/actions/deactivate.png' alt='Activate' title='Activate'/></a>

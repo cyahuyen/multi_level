@@ -29,7 +29,7 @@
                         <tr class="heading">
                             <td style="width:35px"><div>Acount Number</div></td>
                             <td style="width:120px"><div>Full Name</div></td>
-                            <td style="width:120px"><div>Created</div></td>
+                            <td style="width:120px"><div>Referred Date</div></td>
                             <td style="width:80px"><div>Email</div></td>
                             <td style="width:50px"><div>Phone</div></td>
                         </tr>
