@@ -72,6 +72,7 @@ class User_model extends CI_Model {
         $this->db->from("user_main");
         $this->db->join("user", "user_main.main_id = user.main_user_id");
         $this->db->where('user_main.email', $email);
+        $this->db->where('user.usertype', $userType);
         $query = $this->db->get();
         $result = $query->result();
         return !empty($result[0]) ? $result[0] : array();

@@ -107,7 +107,6 @@ class Register extends MY_Controller {
         $this->load->view('home', $this->data);
     }
 
-
     public function paypal_return() {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
             redirect('register');
@@ -240,18 +239,12 @@ class Register extends MY_Controller {
 
         $this->load->model('user_model', 'user');
         $this->load->model('balance_model', 'balance');
+        $this->load->model('activity_model', 'activity');
 
         if (!$posts) {
             redirect(site_url('register'));
         }
 
-
-//      Validate Amount
-        if ($posts['entry_amount'] < $this->config_data['open_fee']) {
-            $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter than open fees');
-            $this->session->set_flashdata(array('usermessage' => $error));
-            redirect(site_url('register'));
-        }
 
 //      BOF  Transaction
         $open_fees = $this->config_data['open_fee'];
@@ -289,6 +282,7 @@ class Register extends MY_Controller {
             'address' => $posts['address'],
         );
         $main_user_id = $this->user->createMainAcount($dataMainUser);
+        $this->activity->addActivity($main_user_id, 'Registed');
 //      EOF Create Main Account
 //      BOF Check/Create Gold Account
         if (($posts['entry_amount'] >= $this->config_data['min_enrolment_entry_amount'])) {
@@ -297,7 +291,7 @@ class Register extends MY_Controller {
                 'acount_number' => 'G' . time(),
             );
             $gold_user_id = $this->user->createGoldAcount($dataGoldAcount);
-
+            $this->activity->addActivity($main_user_id, 'Created acount number ' . $dataGoldAcount['acount_number']);
 //      Update Balance 
             $this->balance->updateAdminBalance($money, '+');
             $dataBalanceUpdate = array(
@@ -305,6 +299,7 @@ class Register extends MY_Controller {
                 'balance' => $posts['entry_amount'],
             );
             $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
+            $this->activity->addActivity($main_user_id, 'Add Deposit to your acount ' . $dataGoldAcount['acount_number'] . ' with amount : $' . ($posts['entry_amount']), '+', $posts['entry_amount']);
         }
 //      EOF Check/Create Gold Account
 //      BOF Update Transaction
@@ -321,33 +316,36 @@ class Register extends MY_Controller {
             'status' => '1',
         );
         $this->transaction->upadateTransaction($dataTransactionUpdate);
+
 //      EOF Update Transaction
 //      BOF Check Reffering Member
         $postsData = $posts;
         if ($postsData['referring']) {
             $mainUser = $this->user->getMainUserByEmail($postsData['referring']);
         }
-
         if (!empty($mainUser)) {
             $userSilverReffering = $this->user->getUserByEmail($postsData['referring'], 1);
-            if (!$userSilverReffering) {
+            if (empty($userSilverReffering)) {
                 $dataSilverAcount = array(
-                    'main_user_id' => $main_user_id,
+                    'main_user_id' => $mainUser->main_id,
                     'acount_number' => 'S' . time(),
                 );
                 $rsilver_user_id = $this->user->createSilverAcount($dataSilverAcount);
+                $this->activity->addActivity($mainUser->main_id, 'Created acount number ' . $dataSilverAcount['acount_number']);
             }
         } else {
             $referringUserConfig = $this->config_data['default_referral_user'];
             $mainUser = $this->user->getMainUserByEmail($referringUserConfig);
             if (!empty($mainUser)) {
                 $userSilverReffering = $this->user->getUserByEmail($postsData['referring'], 1);
-                if (!$userSilverReffering) {
+                if (empty($userSilverReffering)) {
                     $dataSilverAcount = array(
-                        'main_user_id' => $main_user_id,
+                        'main_user_id' => $mainUser->main_id,
                         'acount_number' => 'S' . time(),
                     );
                     $rsilver_user_id = $this->user->createSilverAcount($dataSilverAcount);
+                    $this->activity->addActivity($mainUser->main_id, 'Created acount number ' . $dataSilverAcount['acount_number']);
+                    
                 }
             }
         }
@@ -362,15 +360,16 @@ class Register extends MY_Controller {
             $this->balance->updateAdminBalance($this->config_data['referral_fees'], '-');
 
             $dataBalanceUpdate = array(
-                'user_id' => $gold_user_id,
+                'user_id' => $userReffering->user_id,
                 'balance' => $this->config_data['referral_fees'],
             );
             $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
+            $this->activity->addActivity($userReffering->main_id, 'Add refere fees your acount ' . $userReffering->acount_number . ' with amount : $' . ($this->config_data['referral_fees']), '+', $this->config_data['referral_fees']);
 //      EOF Update Balance
 //      BOF Update Transaction
             $dataTransactionUpdate = array(
                 'user_id' => $userReffering->user_id,
-                'main_user_id' => $main_user_id,
+                'main_user_id' => $userReffering->main_id,
                 'fees' => 0,
                 'total' => $this->config_data['referral_fees'],
                 'payment_status' => 'Completed',
@@ -380,6 +379,7 @@ class Register extends MY_Controller {
                 'status' => '0',
             );
             $this->transaction->upadateTransaction($dataTransactionUpdate);
+
 //      EOF Update Transaction
         }
 
@@ -413,7 +413,7 @@ class Register extends MY_Controller {
         }
 //      EOF Send Mail
     }
-    
+
     public function cancel_return() {
         $error = array('error', 'darkred', 'Transaction is cancel', '');
         $this->session->set_flashdata(array('usermessage' => $error));
@@ -543,7 +543,7 @@ class Register extends MY_Controller {
             return FALSE;
         }
     }
-    
+
     public function ajax_search() {
         $this->load->model('user_model', 'user');
         $user = $_GET['term'];
