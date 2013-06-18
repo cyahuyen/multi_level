@@ -6,16 +6,7 @@
 
 class Config_model extends CI_Model {
 
-    public function getUserById($id) {
-        $this->db->select("*");
-        $this->db->from("user");
-
-        $this->db->where('user_id', $id);
-
-        $query = $this->db->get();
-        $result = $query->result();
-        return $result[0];
-    }
+    
 
     public function isActived($method_name) {
         $this->db->select("*");
@@ -50,6 +41,24 @@ class Config_model extends CI_Model {
         return $data;
     }
     
+    public function getAllConfigs(){
+        $this->db->select("*");
+        $this->db->from("config");
+        $query = $this->db->get();
+        $results = $query->result();
+        $data = array();
+        foreach ($results as $result) {
+            if (!$result->serialized) {
+                $data[$result->key] = $result->value;
+            } else {
+                $data[$result->key] = unserialize($result->value);
+            }
+        }
+
+        return $data;
+    }
+
+
     public function listPayment(){
         $this->db->select("code");
         $this->db->select("value");

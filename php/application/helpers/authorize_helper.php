@@ -109,8 +109,8 @@ if (!function_exists('payment_creditcard')) {
 
         if (curl_error($curl)) {
             $json['error'] = 'CURL ERROR: ' . curl_errno($curl) . '::' . curl_error($curl);
-            $dataReturn['message'] = 'success';
-            $dataReturn['transaction_id'] = 'CURL ERROR: ' . curl_errno($curl) . '::' . curl_error($curl);
+            $dataReturn['message'] = 'error';
+            $dataReturn['error'] = 'CURL ERROR: ' . curl_errno($curl) . '::' . curl_error($curl);
         } elseif ($response) {
             $i = 1;
 

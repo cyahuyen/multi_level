@@ -37,14 +37,12 @@ class Admin extends MY_Controller {
     public function ajax_search() {
         $this->load->model('user_model', 'user');
         $user = $_GET['part'];
-        $limit = $this->config->item('limit_page', 'my_config');
-        $data = $this->user->searchUser($user, $limit);
+        $data = $this->user->searchUser($user);
 
         $results = array();
         foreach ($data as $sub) {
-            $results[$sub->username] = $sub->email;
+            $results[$sub->email] = $sub->email;
         }
-        //var_dump($results);die;
         echo json_encode($results);
     }
 

@@ -28,10 +28,12 @@ class MY_Controller extends CI_Controller {
     var $menu_config_13 = array('', '', '', '', '', '', '', '', '', '', '', '', 'active', '', '');
     var $menu_config_14 = array('', '', '', '', '', '', '', '', '', '', '', '', '', 'active', '');
     var $menu_config_15 = array('', '', '', '', '', '', '', '', '', '', '', '', '', '', 'active');
+    protected $config_data;
 
     public function __construct() {
         parent::__construct();
-
+        $this->load->model('config_model', 'configs');
+        $this->config_data = $this->configs->getAllConfigs();
     }
 
 }

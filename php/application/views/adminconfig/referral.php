@@ -49,17 +49,12 @@
                 </td>
             </tr>
             <tr>
-                <td>Referral fee for Gold</td>
+                <td>Referral fees</td>
                 <td>
-                    <input type="text" id="gold_fees" class="" name="gold_fees" value="<?php echo!empty($data_configs['gold_fees']) ? $data_configs['gold_fees'] : '' ?>" style="width:240px">$
+                    <input type="text" id="referral_fees" class="" name="referral_fees" value="<?php echo!empty($data_configs['referral_fees']) ? $data_configs['referral_fees'] : '' ?>" style="width:240px">$
                 </td>
             </tr>
-            <tr>
-                <td>Referral fee for Silver</td>
-                <td>
-                    <input type="text" id="silver_fees" class="" name="silver_fees" value="<?php echo!empty($data_configs['silver_fees']) ? $data_configs['silver_fees'] : '' ?>" style="width:240px">$
-                </td>
-            </tr>
+            
 
             <tr>
                 <td></td>

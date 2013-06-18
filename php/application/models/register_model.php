@@ -25,7 +25,7 @@ class Register_model extends CI_Model {
     }
 
     function checkEmail($email) {
-        $data = $this->db->get_where($this->tbl, array('email' => $email))->result();
+        $data = $this->db->get_where('user_main', array('email' => $email))->result();
         if ($data) {
             return true;
         } else {

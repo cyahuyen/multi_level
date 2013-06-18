@@ -22,6 +22,9 @@ class Home extends MY_Controller {
         if ($msg) {
             $this->data['usermessage'] = $msg;
         }
+        if (!$this->session->userdata('user')) {
+            redirect('authentication', 'refresh');
+        }
         $this->data['user_session'] = $this->session->userdata('user');
         $user_session = $this->session->userdata('user');
         if (!empty($user_session) && $user_session['permission'] == 'administrator') {
@@ -31,12 +34,12 @@ class Home extends MY_Controller {
 
     public function index() {
 
-        
-
         $this->data['main_content'] = 'includes/main_content.php';
         $this->data['title'] = 'Multi Level Marketing';
         $this->load->View('home', $this->data);
     }
+    
+    
 
 }
 

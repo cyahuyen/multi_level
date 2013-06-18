@@ -114,7 +114,7 @@
     var open_fee = '<?php echo $transaction_fees['open_fee']; ?>';
     $(document).ready(function() {
         $("#referring").autocomplete({
-            source: "<?php echo site_url('register/get_suggest') ?>"
+            source: "<?php echo site_url('register/ajax_search') ?>"
         });
     });
     function totalfees() {
