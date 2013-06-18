@@ -444,6 +444,9 @@ class Register extends MY_Controller {
             sendmailform($userReffering->email, 'referring', $referringEmailData);
         }
 //      EOF Send Mail
+        $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
+        $this->session->set_flashdata('usermessage', $data['usermessage']);
+        redirect('home');
     }
 
     public function cancel_return() {
