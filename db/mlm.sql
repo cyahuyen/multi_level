@@ -3,7 +3,7 @@
 -- Server version:               5.5.16 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2013-06-18 16:11:29
+-- Date/time:                    2013-06-18 17:29:39
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,18 +26,23 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `amount` float(10,2) DEFAULT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table multi_level.activity: ~0 rows (approximately)
 DELETE FROM `activity`;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
 INSERT INTO `activity` (`id`, `main_user_id`, `created`, `status`, `amount`, `description`) VALUES
-	(1, 16, '2013-06-18 16:05:47', NULL, NULL, 'Registed'),
-	(2, 16, '2013-06-18 16:05:47', NULL, NULL, 'Created acount number G1371546347'),
-	(3, 16, '2013-06-18 16:05:47', '+', 300.00, 'Add Deposit to your acount G1371546347 with amount : $300'),
-	(4, 17, '2013-06-18 16:08:41', NULL, NULL, 'Registed'),
-	(5, 16, '2013-06-18 16:08:41', NULL, NULL, 'Created acount number S1371546521'),
-	(6, 16, '2013-06-18 16:08:42', '+', 5.00, 'Add refere fees your acount S1371546521 with amount : $5');
+	(1, 26, '2013-06-18 17:26:33', NULL, NULL, 'Registed'),
+	(2, 26, '2013-06-18 17:26:33', NULL, NULL, 'Created gold account number G1371551193'),
+	(3, 26, '2013-06-18 17:26:33', '+', 400.00, 'Add Deposit to your acount G1371551193 with amount : $400'),
+	(4, 27, '2013-06-18 17:27:14', NULL, NULL, 'Registed'),
+	(5, 27, '2013-06-18 17:27:14', NULL, NULL, 'Created gold account number G1371551234'),
+	(6, 27, '2013-06-18 17:27:14', '+', 200.00, 'Add Deposit to your acount G1371551234 with amount : $200'),
+	(7, 26, '2013-06-18 17:27:14', NULL, NULL, 'Created silver account number S1371551234'),
+	(8, 26, '2013-06-18 17:27:15', '+', 5.00, 'Add refere fees your acount S1371551234 with amount : $5'),
+	(9, 26, '2013-06-18 17:27:15', '+', 10.00, 'Add refere fees your acount G1371551193 with amount : $10'),
+	(10, 28, '2013-06-18 17:29:04', NULL, NULL, 'Registed'),
+	(11, 26, '2013-06-18 17:29:04', '+', 5.00, 'Add refere fees your acount S1371551234 with amount : $5');
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
 
 
@@ -48,15 +53,16 @@ CREATE TABLE IF NOT EXISTS `balance` (
   `user_id` int(10) NOT NULL,
   `balance` double(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table multi_level.balance: ~0 rows (approximately)
 DELETE FROM `balance`;
 /*!40000 ALTER TABLE `balance` DISABLE KEYS */;
 INSERT INTO `balance` (`id`, `user_id`, `balance`) VALUES
-	(1, 1, 330.00),
-	(2, 2, 300.00),
-	(3, 3, 5.00);
+	(1, 1, 650.00),
+	(2, 9, 410.00),
+	(3, 10, 200.00),
+	(4, 11, 10.00);
 /*!40000 ALTER TABLE `balance` ENABLE KEYS */;
 
 
@@ -143,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `email_template` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.email_template: ~5 rows (approximately)
+-- Dumping data for table multi_level.email_template: ~23 rows (approximately)
 DELETE FROM `email_template`;
 /*!40000 ALTER TABLE `email_template` DISABLE KEYS */;
 INSERT INTO `email_template` (`id`, `code`, `subject`, `content`, `slug`) VALUES
@@ -222,15 +228,18 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `transaction_source` varchar(100) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table multi_level.transaction: ~0 rows (approximately)
 DELETE FROM `transaction`;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `user_id`, `main_user_id`, `fees`, `total`, `created`, `transaction_id`, `payment_status`, `transaction_type`, `transaction_text`, `transaction_source`, `status`) VALUES
-	(1, 2, 16, 35.0000, 335.0000, '2013-06-18 16:05:47', '2194573191', 'Completed', 'register', '+', 'creditcard', 1),
-	(2, NULL, 17, 25.0000, 25.0000, '2013-06-18 16:08:41', '2194573298', 'Completed', 'register', '+', 'creditcard', 1),
-	(3, 3, 16, 0.0000, 5.0000, '2013-06-18 16:08:42', NULL, 'Completed', 'refere', '+', 'system', 0);
+	(1, 9, 26, 35.0000, 435.0000, '2013-06-18 17:26:33', '2194575055', 'Completed', 'register', '+', 'creditcard', 1),
+	(2, 10, 27, 35.0000, 235.0000, '2013-06-18 17:27:14', '2194575064', 'Completed', 'register', '+', 'creditcard', 1),
+	(3, 11, 26, 0.0000, 5.0000, '2013-06-18 17:27:15', NULL, 'Completed', 'refere', '+', 'system', 0),
+	(4, 9, 26, 0.0000, 10.0000, '2013-06-18 17:27:15', NULL, 'Completed', 'refere', '+', 'system', 0),
+	(5, NULL, 28, 25.0000, 25.0000, '2013-06-18 17:29:04', '2194575089', 'Completed', 'register', '+', 'creditcard', 1),
+	(6, 11, 26, 0.0000, 5.0000, '2013-06-18 17:29:04', NULL, 'Completed', 'refere', '+', 'system', 0);
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 
@@ -243,15 +252,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `usertype` int(11) DEFAULT NULL,
   `withdrawal_date` date DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
--- Dumping data for table multi_level.user: ~0 rows (approximately)
+-- Dumping data for table multi_level.user: ~4 rows (approximately)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`user_id`, `main_user_id`, `acount_number`, `usertype`, `withdrawal_date`) VALUES
 	(1, 1, '', -1, NULL),
-	(2, 16, 'G1371546347', 2, NULL),
-	(3, 16, 'S1371546521', 1, NULL);
+	(9, 26, 'G1371551193', 2, NULL),
+	(10, 27, 'G1371551234', 2, NULL),
+	(11, 26, 'S1371551234', 1, NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 
@@ -301,22 +311,23 @@ CREATE TABLE IF NOT EXISTS `user_main` (
   `email` varchar(200) NOT NULL,
   `password` varchar(200) NOT NULL,
   `address` text,
-  `referring` varchar(200) DEFAULT NULL,
+  `referring` int(10) DEFAULT NULL,
   `phone` varchar(100) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `forgotten_password_code` varchar(300) DEFAULT NULL,
   `created_on` datetime NOT NULL,
   `permission` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`main_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.user_main: ~1 rows (approximately)
+-- Dumping data for table multi_level.user_main: ~3 rows (approximately)
 DELETE FROM `user_main`;
 /*!40000 ALTER TABLE `user_main` DISABLE KEYS */;
 INSERT INTO `user_main` (`main_id`, `firstname`, `lastname`, `email`, `password`, `address`, `referring`, `phone`, `status`, `forgotten_password_code`, `created_on`, `permission`) VALUES
 	(1, 'admn', 'admin', 'admin@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, 1, NULL, '0000-00-00 00:00:00', 'administrator'),
-	(16, 'Khiem', 'Pham', 'rongandat@gmail.com', '7fc8593aa207389a1e9d961de0b3fd10', 'Ha Noi', NULL, '01694046627', 1, NULL, '2013-06-18 16:05:47', NULL),
-	(17, 'Khiemu', 'Pham', 'khiemktqd@gmail.com', '80a10dc9f421340b59274738ab3a666b', 'Ha Noi', NULL, '01694046627', 1, NULL, '2013-06-18 16:08:41', NULL);
+	(26, 'Khiemu', 'Pham', 'rongandat@gmail.com', '68c8d853531ef53cfdb2b549b9eb90dc', 'Ha Noi', NULL, '01694046627', 1, NULL, '2013-06-18 17:26:33', NULL),
+	(27, 'Khiemu', 'Pham', 'rongand4at@gmail.com', '5dd075517b102590ffb39cbd590beeea', 'Ha Noi', 26, '01694046627', 1, NULL, '2013-06-18 17:27:14', NULL),
+	(28, 'Khiemu', 'Pham', 'rongand4sat@gmail.com', '860ac72675691831132ec91933fa65b3', 'Ha Noi', 26, '01694046627', 1, NULL, '2013-06-18 17:29:04', NULL);
 /*!40000 ALTER TABLE `user_main` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

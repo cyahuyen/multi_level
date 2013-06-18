@@ -291,7 +291,7 @@ class Register extends MY_Controller {
                 'acount_number' => 'G' . time(),
             );
             $gold_user_id = $this->user->createGoldAcount($dataGoldAcount);
-            $this->activity->addActivity($main_user_id, 'Created acount number ' . $dataGoldAcount['acount_number']);
+            $this->activity->addActivity($main_user_id, 'Created gold account number ' . $dataGoldAcount['acount_number']);
 //      Update Balance 
             $this->balance->updateAdminBalance($money, '+');
             $dataBalanceUpdate = array(
@@ -331,8 +331,10 @@ class Register extends MY_Controller {
                     'acount_number' => 'S' . time(),
                 );
                 $rsilver_user_id = $this->user->createSilverAcount($dataSilverAcount);
-                $this->activity->addActivity($mainUser->main_id, 'Created acount number ' . $dataSilverAcount['acount_number']);
+                $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
+                $this->activity->addActivity($mainUser->main_id, 'Created silver account number ' . $userSilverReffering->acount_number);
             }
+            $this->user->updateMainAcount($main_user_id, array('referring' => $mainUser->main_id));
         } else {
             $referringUserConfig = $this->config_data['default_referral_user'];
             $mainUser = $this->user->getMainUserByEmail($referringUserConfig);
@@ -344,32 +346,30 @@ class Register extends MY_Controller {
                         'acount_number' => 'S' . time(),
                     );
                     $rsilver_user_id = $this->user->createSilverAcount($dataSilverAcount);
-                    $this->activity->addActivity($mainUser->main_id, 'Created acount number ' . $dataSilverAcount['acount_number']);
-                    
+                    $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
+                    $this->activity->addActivity($mainUser->main_id, 'Created silver account number ' . $userSilverReffering->acount_number);
                 }
+                $this->user->updateMainAcount($main_user_id, array('referring' => $mainUser->main_id));
             }
         }
 
-        if (!empty($rsilver_user_id)) {
-            $userReffering = $this->user->getUserByMainId($rsilver_user_id, 1);
-        }
-
-        if (!empty($userReffering)) {
+      
+        if (!empty($userSilverReffering)) {
 
 //      BOF Update Balance
             $this->balance->updateAdminBalance($this->config_data['referral_fees'], '-');
 
-            $dataBalanceUpdate = array(
-                'user_id' => $userReffering->user_id,
+            $dataBalanceSilverReferralUpdate = array(
+                'user_id' => $userSilverReffering->user_id,
                 'balance' => $this->config_data['referral_fees'],
             );
-            $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
-            $this->activity->addActivity($userReffering->main_id, 'Add refere fees your acount ' . $userReffering->acount_number . ' with amount : $' . ($this->config_data['referral_fees']), '+', $this->config_data['referral_fees']);
+            $dataTransaction = $this->balance->updateBalance($dataBalanceSilverReferralUpdate);
+            $this->activity->addActivity($userSilverReffering->main_id, 'Add refere fees your acount ' . $userSilverReffering->acount_number . ' with amount : $' . ($this->config_data['referral_fees']), '+', $this->config_data['referral_fees']);
 //      EOF Update Balance
 //      BOF Update Transaction
             $dataTransactionUpdate = array(
-                'user_id' => $userReffering->user_id,
-                'main_user_id' => $userReffering->main_id,
+                'user_id' => $userSilverReffering->user_id,
+                'main_user_id' => $userSilverReffering->main_id,
                 'fees' => 0,
                 'total' => $this->config_data['referral_fees'],
                 'payment_status' => 'Completed',
@@ -381,6 +381,38 @@ class Register extends MY_Controller {
             $this->transaction->upadateTransaction($dataTransactionUpdate);
 
 //      EOF Update Transaction
+        }
+
+        if (!empty($gold_user_id) && !empty($mainUser)) {
+            $userGoldReffering = $this->user->getUserByEmail($postsData['referring'], 2);
+            if (!empty($userGoldReffering)) {
+                $refereFees = $dataBalanceUpdate['balance'] * $this->config_data['percentage_gold'] / 100;
+                //      BOF Update Balance
+                $this->balance->updateAdminBalance($refereFees, '-');
+
+                $dataBalanceGoldRefferingUpdate = array(
+                    'user_id' => $userGoldReffering->user_id,
+                    'balance' => $refereFees,
+                );
+                $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
+                $this->activity->addActivity($userGoldReffering->main_id, 'Add refere fees your acount ' . $userGoldReffering->acount_number . ' with amount : $' . ($refereFees), '+', $refereFees);
+                //      EOF Update Balance
+                //      BOF Update Transaction
+                $dataTransactionUpdate = array(
+                    'user_id' => $userGoldReffering->user_id,
+                    'main_user_id' => $userGoldReffering->main_id,
+                    'fees' => 0,
+                    'total' => $refereFees,
+                    'payment_status' => 'Completed',
+                    'transaction_type' => 'refere',
+                    'transaction_text' => '+',
+                    'transaction_source' => 'system',
+                    'status' => '0',
+                );
+                $this->transaction->upadateTransaction($dataTransactionUpdate);
+
+                //      EOF Update Transaction
+            }
         }
 
 

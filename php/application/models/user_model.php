@@ -12,6 +12,11 @@ class User_model extends CI_Model {
         $this->db->insert('user_main', $data);
         return $this->db->insert_id();
     }
+    
+    public function updateMainAcount($id,$data){
+        $this->db->where('main_id',$id);
+        return $this->db->update('user_main', $data);
+    }
 
     /**
      * Function createGoldAcount
@@ -36,11 +41,27 @@ class User_model extends CI_Model {
     }
 
     /**
-     * Function getUserById
-     * Get User By Id.
+     * Function getUserByMainId
+     * Get User By MainId.
      * @param int $id.
      */
     public function getUserByMainId($id, $userType) {
+        $this->db->select("*");
+        $this->db->from("user");
+        $this->db->join("user_main", "user_main.main_id = user.main_user_id");
+        $this->db->where('user_main.main_id', $id);
+        $this->db->where('user.usertype', $userType);
+        $query = $this->db->get();
+        $result = $query->result();
+        return !empty($result[0]) ? $result[0] : array();
+    }
+    
+    /**
+     * Function getMainUserById
+     * Get User By Id.
+     * @param int $id.
+     */
+    public function getMainUserById($id) {
         $this->db->select("*");
         $this->db->from("user");
         $this->db->join("user_main", "user_main.main_id = user.main_user_id");
@@ -133,5 +154,7 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+    
+    
 
 }
