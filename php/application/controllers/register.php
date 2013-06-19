@@ -297,15 +297,16 @@ class Register extends MY_Controller {
 //      BOF Check/Create Gold Account
         $min_enrolment_entry_amount = $this->config_data['min_enrolment_entry_amount'] + $this->config_data['open_fee'] + $this->config_data['transaction_fee'];
         $open_fees = $this->config_data['open_fee'];
-        if (($posts['mc_gross'] >= $min_enrolment_entry_amount)) {
+        $dataGoldAcount = array(
+            'main_user_id' => $main_user_id,
+            'acount_number' => 'G' . time(),
+        );
+        $gold_user_id = $this->user->createGoldAcount($dataGoldAcount);
+        $this->activity->addActivity($main_user_id, 'Created gold account number ' . $dataGoldAcount['acount_number']);
 
+        if (($posts['mc_gross'] >= $min_enrolment_entry_amount)) {
             $open_fees += $this->config_data['transaction_fee'];
-            $dataGoldAcount = array(
-                'main_user_id' => $main_user_id,
-                'acount_number' => 'G' . time(),
-            );
-            $gold_user_id = $this->user->createGoldAcount($dataGoldAcount);
-            $this->activity->addActivity($main_user_id, 'Created gold account number ' . $dataGoldAcount['acount_number']);
+
 //      Update Balance 
             $balance_user_amount = $posts['mc_gross'] - ($this->config_data['open_fee'] + $this->config_data['transaction_fee']);
             $dataBalanceUpdate = array(
@@ -523,13 +524,15 @@ class Register extends MY_Controller {
         $this->balance->updateAdminBalance($money, '+');
 
 //      BOF Check/Create Gold Account
+        $dataGoldAcount = array(
+            'main_user_id' => $main_user_id,
+            'acount_number' => 'G' . time(),
+        );
+        $gold_user_id = $this->user->createGoldAcount($dataGoldAcount);
+        $this->activity->addActivity($main_user_id, 'Created gold account number ' . $dataGoldAcount['acount_number']);
+
         if (($posts['entry_amount'] >= $this->config_data['min_enrolment_entry_amount'])) {
-            $dataGoldAcount = array(
-                'main_user_id' => $main_user_id,
-                'acount_number' => 'G' . time(),
-            );
-            $gold_user_id = $this->user->createGoldAcount($dataGoldAcount);
-            $this->activity->addActivity($main_user_id, 'Created gold account number ' . $dataGoldAcount['acount_number']);
+
 //      Update Balance 
 
             $dataBalanceUpdate = array(

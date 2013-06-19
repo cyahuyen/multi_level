@@ -5,7 +5,7 @@
         <input type="radio"  name="payment" id="payment" value="paypal"/> Paypal
         <input type="hidden" name="cmd" value="_xclick">
         <input type="hidden" name="business" value="<?php echo $config['business'] ?>">
-        <input type="hidden" name="amount" id="amount" value="">           
+        <input type="hidden" name="amount" id="amount" value="<?php echo !empty($paypal_amount) ? $paypal_amount : '' ?>">           
         <input type="hidden" name="item_name" value="<?php echo $title ?>">
         <input type="hidden" name="currency_code" value="<?php echo $config['currency_code'] ?>">
         <input type="hidden" name="no_shipping" value="2">

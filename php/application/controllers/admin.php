@@ -10,7 +10,6 @@ if (!defined('BASEPATH'))
  */
 class Admin extends MY_Controller {
 
-    private $data;
     var $navstack = null;
 
     public function __construct() {

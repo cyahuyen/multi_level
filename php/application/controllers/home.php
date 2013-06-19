@@ -10,7 +10,7 @@ if (!defined('BASEPATH'))
  */
 class Home extends MY_Controller {
 
-    private $data;
+   
     var $navstack = null;
 
     public function __construct() {

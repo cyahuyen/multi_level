@@ -10,8 +10,6 @@ if (!defined('BASEPATH'))
  */
 class Adminmodule extends MY_Controller {
 
-    private $data;
-   
     var $navstack = null;
     var $paypal = 'Paypal';
     var $credit_card = 'Credit Cart Payment';

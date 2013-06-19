@@ -53,9 +53,10 @@ class Authentication extends MY_Controller {
                     $validationErrors["email"] = "Sign-in name / password could not be verified";
                 } else {
                     $data = array(
-                        'main_user_id' => $usersForCreds['main_user_id'],
+                        'main_id' => $usersForCreds['main_id'],
+                        'firstname' => $usersForCreds['firstname'],
+                        'lastname' => $usersForCreds['lastname'],
                         'email' => $usersForCreds['email'],
-                        'usertype' => $usersForCreds['usertype'],
                         'status' => $usersForCreds['status'],
                         'permission' => $usersForCreds['permission'],
                     );

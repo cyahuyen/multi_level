@@ -10,8 +10,6 @@ if (!defined('BASEPATH'))
  */
 class Adminwithdrawal extends MY_Controller {
 
-    private $data;
-    var $navstack = null;
     var $wallists = 'Withdrawal Config';
 
     public function __construct() {

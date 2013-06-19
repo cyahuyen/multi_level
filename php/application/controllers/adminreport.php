@@ -12,7 +12,6 @@
  */
 class Adminreport extends MY_Controller {
 
-    private $data;
     var $navstack = null;
     var $usertype = array('0' => 'Member', '1' => 'Silver', '2' => 'Gold');
 

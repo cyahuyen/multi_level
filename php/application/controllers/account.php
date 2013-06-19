@@ -385,36 +385,34 @@ class Account extends MY_Controller {
             'href' => site_url('account/transaction'),
             'separator' => ' :: '
         );
+
+        $msg = $this->session->flashdata('usermessage');
+        if ($msg) {
+            $this->data['usermessage'] = $msg;
+        }
+
+        $fielderrors = $this->session->flashdata('field_errors');
+        if ($msg) {
+            $this->data['fielderrors'] = $fielderrors;
+        }
+
+        $this->data['post_data'] = $this->session->flashdata('posts');
+
         $user_session = $this->session->userdata('user');
-        $id = $user_session['user_id'];
+        $main_id = $user_session['main_id'];
         $this->load->model('user_model', 'user');
         $this->load->model('transaction_model', 'transaction');
-        $this->load->model('config_model', 'configs');
-        $user = $this->user->getUserById($id);
-        $this->data['user'] = $user;
-        $transaction_config = $this->configs->getConfigs('transaction_fees');
-        $this->data['transaction_fees'] = $transaction_config;
+        $acounts = $this->user->getAllAcountByMainId($main_id);
+        $this->data['acounts'] = $acounts;
 
         $dataConfig['return'] = site_url('account/paypal_return');
         $dataConfig['cancel_return'] = site_url('account/cancel_return');
         $dataConfig['notify_url'] = site_url('home');
         $dataConfig['title'] = 'Deposite';
 
-        $payments = $this->configs->listActivepayment();
         $startdate = date('Y-m-d h:i:s', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'));
         $enddate = date('Y-m-d h:i:s', strtotime('-1 second', strtotime('+1 month', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'))));
-        //get transaction
-        $transactions = $this->transaction->getTransactionNotExpiration($id, $startdate, $enddate);
 
-        $max_entry_amount = $transaction_config['max_enrolment_entry_amount'];
-        $totalTransaction = 0;
-        if (!empty($transactions)) {
-            foreach ($transactions as $transaction) {
-                $totalTransaction += $transaction->total - $transaction->fees;
-            }
-        }
-        $this->data['max_entry_amount'] = $max_entry_amount - $totalTransaction;
-        $this->data['total_transaction'] = $totalTransaction;
 
         $payments = $this->configs->listActivepayment();
         $data['payments'] = array();
@@ -424,29 +422,152 @@ class Account extends MY_Controller {
             $this->data['payments'][$code] = $this->load->view('payment/' . $code, $dataConfig, true);
         }
 
-        $this->data['refereds'] = $this->user_model->getRefereds($id);
+//        $this->data['refereds'] = $this->user_model->getRefereds($id);
         $this->data['main_content'] = 'account/transaction';
         $this->load->view('home', $this->data);
+    }
+
+    public function confirm_transaction() {
+        $posts = $this->input->post();
+        $validationErrors = array();
+        $this->data['posts'] = $posts;
+
+        if (empty($posts['user_id'])) {
+            $validationErrors['user_id'] = "You haven\'t yet selected acountnumber";
+        }
+        $entry_amount = (int) $posts['entry_amount'];
+        if (empty($entry_amount)) {
+            $validationErrors['entry_amount'] = "You haven\'t yet add deposit amout";
+        }
+
+        if (empty($posts['payment'])) {
+            $validationErrors['payment'] = "You haven\'t yet select payment mothod";
+        }
+
+        $this->load->model('transaction_model', 'transaction');
+        $this->load->model('user_model', 'user');
+
+        $user = $this->user->getUserById($posts['user_id']);
+        $this->data['user'] = $user;
+        if (empty($user)) {
+            $validationErrors['user_id'] = "Acount has been deleted";
+        } else {
+            $startdate = date('Y-m-d h:i:s', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'));
+            $enddate = date('Y-m-d h:i:s', strtotime('-1 second', strtotime('+1 month', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'))));
+
+            $transactions = $this->transaction->getTransactionNotExpiration($posts['user_id'], $startdate, $enddate);
+
+
+            if ($user->usertype == 1)
+                $max_entry_amount = $this->config_data['max_enrolment_silver_amount'];
+            if ($user->usertype == 2)
+                $max_entry_amount = $this->config_data['max_enrolment_entry_amount'];
+
+            $totalTransaction = 0;
+            if (!empty($transactions)) {
+                foreach ($transactions as $transaction) {
+                    $totalTransaction += $transaction->total - $transaction->fees;
+                }
+            }
+
+            $max_amount = $max_entry_amount - $totalTransaction;
+
+            if ($max_amount < $entry_amount) {
+                $validationErrors['entry_amount'] = "deposit amout greater than max transaction amount";
+            } elseif (($user->usertype == 1) && ($entry_amount % 10 != 0)) {
+                $validationErrors['entry_amount'] = "deposit amout divisible for 10";
+            } elseif (($user->usertype == 2) && ($entry_amount % 100 != 0)) {
+                $validationErrors['entry_amount'] = "deposit amout divisible for 100";
+            }
+        }
+
+        if (!empty($validationErrors)) {
+            $error = array('error', 'darkred', 'Validation errors found', 'Please see below');
+            $this->session->set_flashdata(array('usermessage' => $error));
+            $this->session->set_flashdata('usermessage', $error);
+            $this->session->set_flashdata('field_errors', $validationErrors);
+            $this->session->set_flashdata('posts', $posts);
+            redirect('account/transaction');
+        }
+
+        $dataConfig['return'] = site_url('account/paypal_return');
+        $dataConfig['cancel_return'] = site_url('account/cancel_return');
+        $dataConfig['notify_url'] = site_url('home');
+        $dataConfig['title'] = 'Deposite';
+
+        $payments = $this->configs->listActivepayment();
+        $data_config['config'] = $payments[$posts['payment']];
+        $data_config['return'] = site_url('account/paypal_return');
+        $data_config['cancel_return'] = site_url('account/cancel_return');
+        $data_config['notify_url'] = site_url('home');
+        $data_config['title'] = 'Deposite';
+        $data_config['title'] = 'Deposite';
+        $data_config['paypal_amount'] = $entry_amount + $this->config_data['transaction_fee'];
+        $this->data['payment'] = $this->load->view('payment/' . $posts['payment'], $data_config, true);
+        if ($posts['payment'] == 'paypal') {
+            if ($payments['paypal']['sandbox'] == 1)
+                $this->data['href_link'] = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+            else
+                $this->data['href_link'] = 'https://www.paypal.com/cgi-bin/webscr';
+        }
+
+        if ($posts['payment'] == 'creditcard')
+            $this->data['href_link'] = site_url('account/creditcard');
+        $this->data['main_content'] = 'account/confirm_transaction';
+        $this->load->view('home', $this->data);
+    }
+
+    public function ajax_transaction($user_id = 0) {
+        //get transaction
+        $this->load->model('transaction_model', 'transaction');
+        $this->load->model('user_model', 'user');
+        $user = $this->user->getUserById($user_id);
+
+        $json = array();
+        $json['max_entry_amount'] = 0;
+        $json['total_transaction'] = 0;
+        if (!empty($user)) {
+            $startdate = date('Y-m-d h:i:s', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'));
+            $enddate = date('Y-m-d h:i:s', strtotime('-1 second', strtotime('+1 month', strtotime(date('m') . '/01/' . date('Y') . ' 00:00:00'))));
+
+            $transactions = $this->transaction->getTransactionNotExpiration($user_id, $startdate, $enddate);
+
+            if ($user->usertype == 1)
+                $max_entry_amount = $this->config_data['max_enrolment_silver_amount'];
+            if ($user->usertype == 2)
+                $max_entry_amount = $this->config_data['max_enrolment_entry_amount'];
+
+            $totalTransaction = 0;
+            if (!empty($transactions)) {
+                foreach ($transactions as $transaction) {
+                    $totalTransaction += $transaction->total - $transaction->fees;
+                }
+            }
+            $json['max_entry_amount'] = $max_entry_amount - $totalTransaction;
+            $json['total_transaction'] = $totalTransaction;
+        }
+        echo json_encode($json);
     }
 
     public function paypal_return() {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
             redirect('account/transaction');
 
+        $posts = $this->input->post();
         $user_session = $this->session->userdata('user');
-
-        $id = $user_session['user_id'];
+        $post_data_list = explode('|', $posts['custom']);
+        $post_data = array();
+        foreach ($post_data_list as $list) {
+            $list_arr = explode('=', $list);
+            if (!empty($list_arr[1]))
+                $post_data[$list_arr[0]] = $list_arr[1];
+        }
+        $id = $post_data['user_id'];
         $this->load->model('user_model', 'user');
         $this->load->model('transaction_model', 'transaction');
         $this->load->model('config_model', 'configs');
         $this->load->model('balance_model', 'balance');
         $user = $this->user->getUserById($id);
-        $transaction_config = $this->configs->getConfigs('transaction_fees');
-        $this->data['transaction_fees'] = $transaction_config;
-
-        $this->load->model('config_model', 'configs');
-        $transaction_fees = $this->configs->getConfigs('transaction_fees');
-        $paypal = $this->configs->getConfigs('paypal');
 
         $payments = $this->configs->listActivepayment();
 
@@ -455,7 +576,7 @@ class Account extends MY_Controller {
         //get transaction
         $transactions = $this->transaction->getTransactionNotExpiration($id, $startdate, $enddate);
 
-        $max_entry_amount = $transaction_config['max_enrolment_entry_amount'];
+        $max_entry_amount = $this->config_data['max_enrolment_entry_amount'];
         $totalTransaction = 0;
         if (!empty($transactions)) {
             foreach ($transactions as $transaction) {
@@ -472,51 +593,72 @@ class Account extends MY_Controller {
             $this->session->set_flashdata(array('usermessage' => $error));
             redirect('register');
         } else {
-            $posts = $this->input->post();
-            $dataTransaction['user_id'] = $id;
-            $dataTransaction['fees'] = $transaction_fees['transaction_fee'];
-            $dataTransaction['total'] = $posts['mc_gross'];
-            $dataTransaction['transaction_id'] = $posts['txn_id'];
-            $dataTransaction['payment_status'] = $posts['payment_status'];
-            $dataTransaction['transaction_source'] = 'paypal';
-            $dataTransaction['transaction_type'] = 'deposit';
+
+
             if ($this->transaction->checkTransactionExists($posts['txn_id'])) {
                 $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
                 $this->session->set_flashdata('usermessage', $data['usermessage']);
                 redirect('account/transaction');
             }
 
-            $current_fees = $posts['mc_gross'] - $transaction_fees['transaction_fee'];
 
-            $totalInMonth = $current_fees + $totalTransaction;
+            //      BOF Update Balance
+            $this->balance->updateAdminBalance($posts['mc_gross'], '+');
 
-            $this->transaction->insert($dataTransaction);
-            $balance_amount = !empty($balance_user) ? $balance_user->balance : 0;
-            $balance_amount = $balance_amount + $current_fees;
-            $this->balance->updateBalanceByUserId($id, $balance_amount);
+            $deposit_amount = $posts['mc_gross'] - $this->config_data['transaction_fee'];
+            $dataBalanceUpdate = array(
+                'user_id' => $user->user_id,
+                'balance' => $deposit_amount,
+            );
+            $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
+            $this->activity->addActivity($user->main_id, 'Add deposit amount your acount ' . $user->acount_number . ' with amount : $' . ($deposit_amount), '+', $deposit_amount);
+//      EOF Update Balance
+//      BOF Update Transaction
+            $dataTransactionUpdate = array(
+                'user_id' => $user->user_id,
+                'main_user_id' => $user->main_id,
+                'fees' => $this->config_data['transaction_fee'],
+                'total' => $posts['mc_gross'],
+                'payment_status' => 'Completed',
+                'transaction_type' => 'deposit',
+                'transaction_text' => '+',
+                'transaction_source' => 'paypal',
+                'transaction_id' => $posts['txn_id'],
+                'status' => '1',
+            );
+            $this->transaction->upadateTransaction($dataTransactionUpdate);
 
-            $this->user->updateTransaction($id, $current_fees);
+//      EOF Update Transaction
 
-            $referral_config = $this->configs->getConfigs('referral');
-            //referral fee
-            $referring = 0;
-            $user_refferral = $this->user->getUserByReferral($user->referring);
+            $userGoldReffering = $this->user->getUserByMainId($user->referring, 2);
+            if (!empty($userGoldReffering)) {
+                $refereFees = $dataBalanceUpdate['balance'] * $this->config_data['percentage_gold'] / 100;
+                //      BOF Update Balance
+                $this->balance->updateAdminBalance($refereFees, '-');
 
-            if ($user_refferral) {
-                if ($user_refferral->usertype == 2 && $current_fees >= 100) {
-                    $referring = $referral_config['percentage_gold'] * $current_fees / 100;
-                    $this->transaction->updateRefereFees($user->referring, $referring);
-                    $this->balance->updateBalance($user->referring, $referring);
+                $dataBalanceGoldRefferingUpdate = array(
+                    'user_id' => $userGoldReffering->user_id,
+                    'balance' => $refereFees,
+                );
+                $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
+                $this->activity->addActivity($userGoldReffering->main_id, 'Add refere fees your acount ' . $userGoldReffering->acount_number . ' with amount : $' . ($refereFees), '+', $refereFees);
+                //      EOF Update Balance
+                //      BOF Update Transaction
+                $dataTransactionUpdate = array(
+                    'user_id' => $userGoldReffering->user_id,
+                    'main_user_id' => $userGoldReffering->main_id,
+                    'fees' => 0,
+                    'total' => $refereFees,
+                    'payment_status' => 'Completed',
+                    'transaction_type' => 'refere',
+                    'transaction_text' => '+',
+                    'transaction_source' => 'system',
+                    'status' => '0',
+                );
+                $this->transaction->upadateTransaction($dataTransactionUpdate);
 
-                    $referringEmaildata['fullname'] = $user_refferral->firstname . ' ' . $user_refferral->lastname;
-                    $referringEmaildata['user_fullname'] = $user->firstname . ' ' . $user->lastname;
-                    $referringEmaildata['amount'] = $referring;
-                    sendmailform($user_refferral->email, 'referring_deposit', $referringEmaildata);
-                }
+                //      EOF Update Transaction
             }
-
-            $admin_amount = $posts['mc_gross'] - $referring;
-            $this->balance->updateAdminBalance($admin_amount);
 
 
             $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
@@ -639,29 +781,20 @@ class Account extends MY_Controller {
     public function creditcard() {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
             redirect('account/transaction');
+        $posts = $this->input->post();
         $this->load->helper('authorize');
         $user_session = $this->session->userdata('user');
-        $id = $user_session['user_id'];
+        $id = $posts['user_id'];
         $this->load->model('user_model', 'user');
         $this->load->model('transaction_model', 'transaction');
-        $this->load->model('config_model', 'configs');
         $this->load->model('balance_model', 'balance');
         $user = $this->user->getUserById($id);
-
-
-        $transaction_config = $this->configs->getConfigs('transaction_fees');
-        $this->data['transaction_fees'] = $transaction_config;
-
-        $posts = $this->input->post();
 
         if ($posts['entry_amount'] < 0) {
             $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter 0');
             $this->session->set_flashdata(array('usermessage' => $error));
             redirect('account/transaction');
         }
-
-        $this->load->model('config_model', 'configs');
-        $transaction_fees = $this->configs->getConfigs('transaction_fees');
 
         $payments = $this->configs->listActivepayment();
 
@@ -670,8 +803,7 @@ class Account extends MY_Controller {
         //get transaction
         $transactions = $this->transaction->getTransactionNotExpiration($id, $startdate, $enddate);
 
-
-        $max_entry_amount = $transaction_config['max_enrolment_entry_amount'];
+        $max_entry_amount = $this->config_data['max_enrolment_entry_amount'];
         $totalTransaction = 0;
         if (!empty($transactions)) {
             foreach ($transactions as $transaction) {
@@ -680,17 +812,15 @@ class Account extends MY_Controller {
         }
         $this->data['max_entry_amount'] = $max_entry_amount - $totalTransaction;
 
-
-
-        $money = $transaction_fees['transaction_fee'] + $posts['entry_amount'];
+        $money = $this->config_data['transaction_fee'] + $posts['entry_amount'];
 
         $totalInMonth = $posts['entry_amount'] + $totalTransaction;
         if ($user->usertype == 1) {
-            if (($posts['entry_amount'] < $transaction_config['max_enrolment_silver_amount']) && ($totalInMonth % 10 != 0)) {
+            if (($posts['entry_amount'] < $this->config_data['max_enrolment_silver_amount']) && ($totalInMonth % 10 != 0)) {
                 $error = array('error', 'darkred', 'Payment errors', 'Deposite Amount litter than $' . $transaction_config['max_enrolment_silver_amount'] . ' and divisible for 10 or greater than $' . $transaction_config['min_enrolment_entry_amount'] . ' and divisible for 100');
                 $this->session->set_flashdata(array('usermessage' => $error));
                 redirect('account/transaction');
-            } elseif ($posts['entry_amount'] > $transaction_config['max_enrolment_silver_amount'] && ($posts['entry_amount'] < $transaction_config['min_enrolment_entry_amount'] || ($totalInMonth > $this->data['max_entry_amount']) || ($posts['entry_amount'] % 100 != 0))) {
+            } elseif ($posts['entry_amount'] > $this->config_data['max_enrolment_silver_amount'] && ($posts['entry_amount'] < $this->config_data['min_enrolment_entry_amount'] || ($totalInMonth > $this->config_data['max_entry_amount']) || ($posts['entry_amount'] % 100 != 0))) {
                 $error = array('error', 'darkred', 'Payment errors', 'Deposite Amount litter than $' . $this->data['max_entry_amount'] . ', greater than $' . $transaction_config['min_enrolment_entry_amount'] . ' and divisible for 100');
                 $this->session->set_flashdata(array('usermessage' => $error));
                 redirect('account/transaction');
@@ -713,42 +843,64 @@ class Account extends MY_Controller {
             redirect('account/transaction');
         }
 
-        $dataTransaction['user_id'] = $id;
-        $dataTransaction['fees'] = $transaction_fees['transaction_fee'];
-        $dataTransaction['total'] = $money;
-        $dataTransaction['transaction_id'] = $payment_status['transaction_id'];
-        $dataTransaction['payment_status'] = 'Completed';
-        $dataTransaction['transaction_source'] = 'creditcard';
-        $dataTransaction['transaction_type'] = 'deposit';
 
-        $current_fees = $posts['entry_amount'];
-        $this->transaction->insert($dataTransaction);
-        $balance_user = $this->balance->getBalance($id);
-        $balance_amount = !empty($balance_user) ? $balance_user->balance : 0;
-        $balance_amount = $balance_amount + $current_fees;
-        $this->balance->updateBalanceByUserId($id, $balance_amount);
 
-        $this->user->updateTransaction($id, $posts['entry_amount']);
+//      BOF Update Balance
+        $this->balance->updateAdminBalance($money, '+');
 
-        $referral_config = $this->configs->getConfigs('referral');
-        //referral fee
-        $referring = 0;
-        $user_refferral = $this->user->getUserByReferral($user->referring);
-        $user->fullname = $user->firstname . ' ' . $user->lastname;
-        if ($user_refferral) {
-            if ($user_refferral->usertype == 2 && $posts['entry_amount'] >= 100) {
-                $referring = $referral_config['percentage_gold'] * $current_fees / 100;
-                $this->transaction->updateRefereFees($user->referring, $referring);
-                $this->balance->updateBalance($user->referring, $referring);
+        $dataBalanceUpdate = array(
+            'user_id' => $user->user_id,
+            'balance' => $posts['entry_amount'],
+        );
+        $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
+        $this->activity->addActivity($user->main_id, 'Add deposit amount your acount ' . $user->acount_number . ' with amount : $' . ($dataBalanceUpdate['balance']), '+', $dataBalanceUpdate['balance']);
+//      EOF Update Balance
+//      BOF Update Transaction
+        $dataTransactionUpdate = array(
+            'user_id' => $user->user_id,
+            'main_user_id' => $user->main_id,
+            'fees' => $this->config_data['transaction_fee'],
+            'total' => $money,
+            'payment_status' => 'Completed',
+            'transaction_type' => 'deposit',
+            'transaction_text' => '+',
+            'transaction_source' => 'creditcard',
+            'transaction_id' => $payment_status['transaction_id'],
+            'status' => '1',
+        );
+        $this->transaction->upadateTransaction($dataTransactionUpdate);
 
-                $referringEmaildata['fullname'] = $user_refferral->fullname;
-                $referringEmaildata['user_fullname'] = $user->fullname;
-                $referringEmaildata['amount'] = $referring;
-                sendmailform($user_refferral->email, 'referring_deposit', $referringEmaildata);
-            }
+//      EOF Update Transaction
+
+        $userGoldReffering = $this->user->getUserByMainId($user->referring, 2);
+        if (!empty($userGoldReffering)) {
+            $refereFees = $dataBalanceUpdate['balance'] * $this->config_data['percentage_gold'] / 100;
+            //      BOF Update Balance
+            $this->balance->updateAdminBalance($refereFees, '-');
+
+            $dataBalanceGoldRefferingUpdate = array(
+                'user_id' => $userGoldReffering->user_id,
+                'balance' => $refereFees,
+            );
+            $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
+            $this->activity->addActivity($userGoldReffering->main_id, 'Add refere fees your acount ' . $userGoldReffering->acount_number . ' with amount : $' . ($refereFees), '+', $refereFees);
+            //      EOF Update Balance
+            //      BOF Update Transaction
+            $dataTransactionUpdate = array(
+                'user_id' => $userGoldReffering->user_id,
+                'main_user_id' => $userGoldReffering->main_id,
+                'fees' => 0,
+                'total' => $refereFees,
+                'payment_status' => 'Completed',
+                'transaction_type' => 'refere',
+                'transaction_text' => '+',
+                'transaction_source' => 'system',
+                'status' => '0',
+            );
+            $this->transaction->upadateTransaction($dataTransactionUpdate);
+
+            //      EOF Update Transaction
         }
-        $admin_amount = $money - $referring;
-        $this->balance->updateAdminBalance($admin_amount);
 
         $data['usermessage'] = array('success', 'green', 'Deposite Success', '');
         $this->session->set_flashdata('usermessage', $data['usermessage']);
@@ -759,10 +911,6 @@ class Account extends MY_Controller {
         $adminEmaildata['email'] = $user->email;
         $adminEmaildata['amount'] = $money;
         sendmailform(null, 'deposite', $adminEmaildata);
-
-
-        redirect('account/transaction');
-
 
         redirect('account/transaction');
     }

@@ -8,8 +8,6 @@
  */
 class Adminemail extends MY_Controller{
     
-    private $data;
-    
     var $navstack = null;
     var $emails = 'Email Config';
     

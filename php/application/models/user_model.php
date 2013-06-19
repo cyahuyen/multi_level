@@ -74,7 +74,8 @@ class User_model extends CI_Model {
     public function getUserById($id) {
         $this->db->select("*");
         $this->db->from("user");
-        $this->db->where('user_id', $id);
+        $this->db->join("user_main", "user_main.main_id = user.main_user_id");
+        $this->db->where('user.user_id', $id);
 
         $query = $this->db->get();
         $result = $query->result();
@@ -106,6 +107,13 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         $result = $query->result();
         return !empty($result[0]) ? $result[0] : array();
+    }
+
+    public function getAllAcountByMainId($main_id){
+        $this->db->select("*");
+        $this->db->from("user");
+        $this->db->where('main_user_id', $main_id);
+        return $this->db->get()->result();
     }
 
     /**

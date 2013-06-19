@@ -13,7 +13,7 @@
                 </tr>
             </table>
             <?php
-            if (isset($fielderrors)) {
+            if (!empty($fielderrors)) {
                 foreach (array_keys($fielderrors) as $fieldid) {
                     echo '<input type="hidden" id="cmsg' . $fieldid . '" value="' . $fielderrors[$fieldid] . '"/>';
                 }
