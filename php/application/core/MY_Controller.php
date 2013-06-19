@@ -6,8 +6,8 @@ if (!defined('BASEPATH'))
 /**
  * A base controller for all controllers, here we set various variables and tasks to avoid redundantly doing it throughout codebase
  *
- * @author 		Dean Gleeson <dean.gleeson@pragmaticsystems.com.au>
- * @date 		14/12/2012
+ * @author 		Khiem Pham<khiemktqd@gmail.com>
+ * @date 		01/06/2013
  */
 class MY_Controller extends CI_Controller {
 
@@ -33,6 +33,7 @@ class MY_Controller extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('config_model', 'configs');
+        $this->load->model('activity_model', 'activity');
         $this->config_data = $this->configs->getAllConfigs();
     }
 
