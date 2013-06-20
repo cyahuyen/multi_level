@@ -5,7 +5,7 @@ if (!defined('BASEPATH'))
 
 /**
  * Home page controller
- * @author	Dean Gleeson <dean.gleeson@pragmaticsystems.com.au>
+ * @author	Khiem Pham <khiemktqd@gmail.com>
  * @date	21/04/2013
  */
 class Home extends MY_Controller {

@@ -11,7 +11,8 @@
                 <li><a class="<?php echo $menu_config[2] ?>" href="<?php echo site_url('account/history') ?>">History</a></li>
                 <li><a class="<?php echo $menu_config[3] ?>" href="<?php echo site_url('account/transaction') ?>">Deposite</a></li>
                 <li><a class="<?php echo $menu_config[4] ?>" href="<?php echo site_url('account/withdrawal') ?>">Withdrawal</a></li>
-                <li><a class="<?php echo $menu_config[5] ?>" href="<?php echo site_url('authentication/signout') ?>">Log Out</a></li>
+                <li><a class="<?php echo $menu_config[5] ?>" href="<?php echo site_url('faq/question') ?>">Question</a></li>
+                <li><a class="<?php echo $menu_config[14] ?>" href="<?php echo site_url('authentication/signout') ?>">Log Out</a></li>
                 
             </ul>
             <div class="clearer"></div>

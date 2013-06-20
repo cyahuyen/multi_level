@@ -24,7 +24,6 @@
                             <td align="center" style="text-align: center"><span><?php echo $activity->status; ?></span></td>
                             <td align="center" style="text-align: center"><span><?php echo!empty($activity->amount) ? '$' . $activity->amount : ''; ?></span></td>
                             <td ><span><?php echo $activity->description; ?></span></td>
-
                         </tr>
                     <?php } ?>
                 </tbody>

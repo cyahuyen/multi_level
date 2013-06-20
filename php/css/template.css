@@ -696,3 +696,87 @@ table.datatable tr td span.currency{
     float: left;
     margin-right: 5px;
 }
+
+
+.questions li {
+    border-bottom: 1px solid #EAEAEA;
+    float: left;
+    overflow: hidden;
+    padding: 11px 0;
+}
+
+.questions li h3 {
+    font-size: 130%;
+    font-weight: bold;
+    line-height: 1.3;
+    margin-bottom: 5px;
+}
+
+.questions li .excerpt {
+    line-height: 1.2;
+    margin: 0;
+    padding: 0 0 5px;
+}
+.clb{
+    clear: both;
+}
+
+.edit-question a{
+    background-color: #E0EAF1;
+    border-bottom: 1px solid #B3CEE1;
+    border-right: 1px solid #B3CEE1;
+    color: #3E6D8E;
+    font-size: 90%;
+    line-height: 2.4;
+    margin: 2px 2px 2px 0;
+    padding: 3px 4px;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+
+#question-header {
+    border-bottom: 1px solid #CCCCCC;
+    margin-bottom: 20px;
+}
+
+
+#question-header h1 {
+    font-size: 180%;
+    font-weight: bold;
+    line-height: 1.3;
+    margin-bottom: 7px;
+    clear: both;
+}
+
+
+#question-header a {
+    color: #000000;
+    font-weight: bold;
+}
+
+
+.post-text {
+    font-size: 107%;
+    line-height: 130%;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+
+#answers .subheader {
+    margin: 25px 0 15px;
+    border-bottom: 1px solid #CCCCCC;
+    clear: both;
+    height: 34px;
+}
+
+
+.subheader h1, .subheader h2 {
+    color: #231F20;
+    float: left;
+    font-size: 18px;
+    line-height: 34px;
+    margin-bottom: 0;
+}
