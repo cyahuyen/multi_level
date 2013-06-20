@@ -101,7 +101,7 @@
             </div>
 
             <div class="datalist-navigation" >
-
+                <?php echo $links ?>
             </div>
 
 
