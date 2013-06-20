@@ -12,10 +12,34 @@ class User_model extends CI_Model {
         $this->db->insert('user_main', $data);
         return $this->db->insert_id();
     }
-    
-    public function updateMainAcount($id,$data){
-        $this->db->where('main_id',$id);
+
+    /**
+     * Function updateMainAcount
+     * Create main user.
+     * @param mixed $data.
+     */
+    public function updateMainAcount($id, $data) {
+        $this->db->where('main_id', $id);
         return $this->db->update('user_main', $data);
+    }
+
+    /**
+     * Function checkEmailExists
+     * Check Email exists in main user
+     * @param string $email.
+     * @param int $id
+     */
+    public function checkEmailExists($email, $id = 0) {
+        $this->db->select("*");
+        $this->db->from("user_main");
+        $this->db->where('email', $email);
+        if (!empty($id)) {
+            $this->db->where('main_id != ', $id);
+        }
+        $query = $this->db->get();
+        if ($query->result())
+            return TRUE;
+        return FALSE;
     }
 
     /**
@@ -55,7 +79,21 @@ class User_model extends CI_Model {
         $result = $query->result();
         return !empty($result[0]) ? $result[0] : array();
     }
-    
+
+    /**
+     * Function getMainUserByMainId
+     * Get Main User By MainId.
+     * @param int $id.
+     */
+    public function getMainUserByMainId($id) {
+        $this->db->select("*");
+        $this->db->from("user_main");
+        $this->db->where('main_id', $id);
+        $query = $this->db->get();
+        $result = $query->result();
+        return !empty($result[0]) ? $result[0] : array();
+    }
+
     /**
      * Function getMainUserById
      * Get User By Id.
@@ -100,6 +138,42 @@ class User_model extends CI_Model {
         return !empty($result[0]) ? $result[0] : array();
     }
 
+    public function totalRefered($id, $dataWhere = array()) {
+        $this->db->select("*");
+        $this->db->from('user_main');
+        $this->db->where('referring', $id);
+        if (!empty($dataWhere['search'])) {
+            $where = "( firstname LIKE '%" . $dataWhere['search'] . "%' OR lastname LIKE '%" . $dataWhere['search'] . "%' OR email LIKE '%" . $dataWhere['search'] . "%' )";
+            $this->db->where($where);
+        }
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function getRefereds($id, $dataWhere = array(), $limit = null, $start = null) {
+        $this->db->select("*");
+        $this->db->from('user_main');
+
+        if ($id) {
+            $this->db->where('referring', $id);
+        }
+
+        if (!empty($dataWhere['search'])) {
+            $where = "( firstname LIKE '%" . $dataWhere['search'] . "%' OR lastname LIKE '%" . $dataWhere['search'] . "%' OR email LIKE '%" . $dataWhere['search'] . "%' )";
+            $this->db->where($where);
+        }
+        if ($limit)
+            $this->db->limit((int) $limit);
+
+        if ($limit && $start) {
+            $this->db->limit((int) $limit, (int) $start);
+        }
+        $this->db->order_by('main_id', 'DESC');
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function getMainUserByEmail($email) {
         $this->db->select("*");
         $this->db->from("user_main");
@@ -109,7 +183,7 @@ class User_model extends CI_Model {
         return !empty($result[0]) ? $result[0] : array();
     }
 
-    public function getAllAcountByMainId($main_id){
+    public function getAllAcountByMainId($main_id) {
         $this->db->select("*");
         $this->db->from("user");
         $this->db->where('main_user_id', $main_id);
@@ -131,7 +205,7 @@ class User_model extends CI_Model {
         $data = $this->db->query($sql)->result_array();
         return !empty($data) ? $data[0] : array();
     }
-    
+
     /**
      * Function getAdmin
      * Get User Acount
@@ -147,7 +221,7 @@ class User_model extends CI_Model {
         $result = $query->result();
         return !empty($result[0]) ? $result[0] : array();
     }
-    
+
     /**
      * Function searchUser
      * Search user
@@ -158,11 +232,18 @@ class User_model extends CI_Model {
         $this->db->from("user_main");
         $where = "( email LIKE '%" . $path . "%')";
         $this->db->where($where);
-       
+
         $query = $this->db->get();
         return $query->result();
     }
     
-    
+    function getEmmail($email) {
+        $results = $this->db->get_where('user_main', array('email' => $email))->result();
+        if ($results) {
+            return $results[0];
+        }
+        else
+            return false;
+    }
 
 }

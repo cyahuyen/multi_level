@@ -11,22 +11,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php if ($inforcheck->usertype == 2 || $inforcheck->usertype == 1) { ?>
-            <tr>
-                <td><div style="font-weight: bold;color: #000;">User Type: </div></td>
-                <td><div style="font-weight: bold;color: red;padding-left: 50px;padding-top: 5px;"><?php echo $usertype; ?></div></td>
-                <td><div style="font-weight: bold;color: #000;">Amount: </div></td>
-                <td><div style="font-weight: bold;color: red;padding-left: 50px;padding-top: 5px;">$<?php echo number_format($amout, 2, '.', ','); ?> </div></td>
-            </tr>
-            
-        <?php } else { ?>
-            <tr>
-                <td><div style="font-weight: bold;color: #000;">UserType: </div></td>
-                <td><div style="font-weight: bold;color: red;padding-left: 50px;padding-top: 5px;"><?php echo $usertype; ?></div></td>
-                <td></td>
-                <td></td>
-            </tr>
-        <?php } ?>
+        
         <tr>
             <td colspan="2"><div><a href="<?php echo site_url('account/edit') ?>">Edit Account</a> </div></td>
             <td colspan="2"></td>

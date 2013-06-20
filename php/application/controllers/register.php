@@ -697,7 +697,9 @@ class Register extends MY_Controller {
     }
 
     public function forgot() {
-
+        
+        $this->load->model('user_model', 'user');
+        
         $this->data['title'] = 'Forgot password';
         $step = 0 + $this->input->post('step', TRUE);
         if ($step <= 1) {
@@ -710,44 +712,47 @@ class Register extends MY_Controller {
                 $this->load->view('home', $this->data);
             } else {
                 $email_to = $this->input->post('email', TRUE);
-                $user_email = $this->register_model->getEmmail($email_to);
+                $user_email = $this->user->getEmmail($email_to);
                 $this->data['email'] = $email_to;
-                $id = $user_email->user_id;
+                $id = $user_email->main_id;
                 $this->data['forget_code'] = random_string('numeric', 10);
                 $this->session->set_flashdata('step', 2);
                 $this->data['main_content'] = 'register/reset_pass_step2.php';
-                $this->register_model->update($id, array('forgotten_password_code' => $this->data['forget_code']));
+                $this->user->updateMainAcount($id, array('forgotten_password_code' => $this->data['forget_code']));
                 //======================= Send Email ====================================
                 $contentEmail['forget_code'] = $this->data['forget_code'];
-                sendmailform($email_to, $contentEmail, 'forgot_password', 'admin@website.com', 'Admin Manager', 'html');
+                sendmailform($email_to, 'forgot_password', $contentEmail,  'admin@website.com', 'Admin Manager', 'html');
                 $this->load->view('home', $this->data);
                 //==========================End send mail====================
             }
         } else if ($step == 2) {
+            
             $email = $this->input->post('email', TRUE);
             $this->email = $email;
-            $user_email = $this->register_model->getEmmail($email);
-            $id = $user_email->user_id;
+            $user_email = $this->user->getEmmail($email);
+            $id = $user_email->main_id;
             $fp = $user_email->forgotten_password_code;
             if ($this->input->post('email')) {
                 $this->data['email'] = $this->input->post('email');
             } else {
                 $this->data['email'] = "";
             }
+            
             $this->form_validation->set_rules('reset_code', 'Reset Code', 'required|trim|xss_clean|numeric|exact_length[10]|callback_checkResetcode');
-            if ($this->form_validation->run() == FALSE) {
+            if (($this->email != $this->input->post('email')) || ($fp != $this->input->post('reset_code'))) {
                 $this->data['main_content'] = 'register/reset_pass_step2.php';
                 $this->load->view('home', $this->data);
             } else {
                 $this->data['main_content'] = 'register/reset_pass_step3.php';
                 $this->load->view('home', $this->data);
             }
+           
         } else if ($step == 3) {
 
             $this->data['email'] = $this->input->post('email', TRUE);
             $this->email = $this->data['email'];
-            $email_user = $this->register_model->getEmmail($this->data['email']);
-            $id = $email_user->user_id;
+            $email_user = $this->user->getEmmail($this->data['email']);
+            $id = $email_user->main_id;
             $this->form_validation->set_rules('password', 'Password', 'required|trim|xss_clean|min_length[6]');
             $this->form_validation->set_rules('repassword', 'Second Password', 'required|trim|matches[password]');
             if ($this->form_validation->run() == FALSE) {
@@ -755,9 +760,10 @@ class Register extends MY_Controller {
                 $this->load->view('home', $this->data);
             } else {
                 $new_pass = $this->input->post('password', TRUE);
+                
                 $password = md5($new_pass);
                 $update_data = array('password' => $password);
-                $this->register_model->update($id, $update_data);
+                $this->user->updateMainAcount($id, $update_data);
                 redirect('authentication/');
             }
         }

@@ -25,7 +25,8 @@ class Account extends MY_Controller {
         $this->load->helper('form');
         $this->load->library('recaptcha');
         $this->lang->load('recaptcha');
-        $this->load->model('user_model', '', TRUE);
+        $this->load->model('user_model', 'user', TRUE);
+        $this->load->model('transaction_model', 'transaction', TRUE);
         $this->data['menu_config'] = $this->menu_config_user_home;
 
 
@@ -59,22 +60,7 @@ class Account extends MY_Controller {
             'href' => site_url('account/index'),
             'separator' => ' :: '
         );
-        $user_session = $this->session->userdata('user');
-        $id = $user_session['user_id'];
-        $infors = $this->user_model->getAccount($id);
-        $this->data['inforcheck'] = $infors;
-        $this->data['amout'] = $this->user_model->getBalance($id);
-        if ($infors) {
-            if ($infors->usertype == 2) {
-                $this->data['usertype'] = "Gold";
-            } elseif ($infors->usertype == 1) {
-                $this->data['usertype'] = "Silver";
-            } else {
-                $this->data['usertype'] = "Member";
-            }
-            $this->data['transaction_start'] = $infors->transaction_start;
-            $this->data['transaction_finish'] = $infors->transaction_finish;
-        }
+
         $this->data['main_content'] = 'account/index';
         $this->load->view('home', $this->data);
     }
@@ -99,8 +85,8 @@ class Account extends MY_Controller {
         );
         $this->data['title'] = 'Edit Account';
         $user_session = $this->session->userdata('user');
-        $id = $user_session['user_id'];
-        $this->data['userdata'] = $this->user_model->getAccount($id);
+        $id = $user_session['main_id'];
+        $this->data['userdata'] = $this->user->getMainUserByMainId($id);
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {
             $this->data['usermessage'] = $msg;
@@ -118,7 +104,7 @@ class Account extends MY_Controller {
             }
             if ($posts['email'] == '') {
                 $validationErrors['email'] = "Email cannot be blank";
-            } elseif ($this->user_model->checkEmailExists($posts['email'], $id) == true) {
+            } elseif ($this->user->checkEmailExists($posts['email'], $id) == true) {
                 $validationErrors['email'] = "Email is exists";
             }
 
@@ -136,9 +122,13 @@ class Account extends MY_Controller {
                     'lastname' => $posts['lastname'],
                     'phone' => $posts['phone'],
                     'email' => $posts['email'],
+                    'address' => $posts['address'],
                 );
-                if ($this->user_model->update($id, $data))
+                if ($this->user->updateMainAcount($id, $data)){
+                    $this->activity->addActivity($id, 'Update profile');
                     $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
+                }
+                    
                 else
                     $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');
                 $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
@@ -170,7 +160,7 @@ class Account extends MY_Controller {
             'separator' => ' :: '
         );
         $user_session = $this->session->userdata('user');
-        $id = $user_session['user_id'];
+        $id = $user_session['main_id'];
 
 
         $msg = $this->session->flashdata('usermessage');
@@ -182,7 +172,7 @@ class Account extends MY_Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validationErrors = array();
             if (!empty($id) && empty($posts['password'])) {
-                if (strlen($posts['password']) < 6) {
+                if (strlen(trim($posts['password'])) < 6) {
                     $validationErrors['password'] = "Password must greater than 6 characters";
                 }
 
@@ -208,9 +198,11 @@ class Account extends MY_Controller {
             } else {
                 unset($posts['save-btn']);
                 unset($posts['repassword']);
-                $data = array('password' => md5($posts['password']));
-                if ($this->user_model->updatePassword($id, $data))
+                $data = array('password' => md5(trim($posts['password'])));
+                if ($this->user->updateMainAcount($id, $data)) {
+                    $this->activity->addActivity($id, 'Change password');
                     $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
+                }
                 else
                     $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');
                 $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
@@ -246,14 +238,14 @@ class Account extends MY_Controller {
         }
 
         $user_session = $this->session->userdata('user');
-        $id = $user_session['user_id'];
+        $id = $user_session['main_id'];
         $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         //       Begin pagination
         $this->load->library("pagination");
         $config = array();
-        $user = $this->user_model->getUserById($id);
-        $config["total_rows"] = $this->user_model->totalRefered($user->username, $dataWhere);
+        $user = $this->user->getMainUserByMainId($id);
+        $config["total_rows"] = $this->user->totalRefered($id, $dataWhere);
         $config["base_url"] = site_url('account/refered');
         $config["per_page"] = $limit;
         $page = $start;
@@ -279,7 +271,7 @@ class Account extends MY_Controller {
         $this->pagination->initialize($config);
         $this->data["links"] = $this->pagination->create_links();
         //       End pagination
-        $this->data['refereds'] = $this->user_model->getRefereds($user->username, $dataWhere, $limit, $start);
+        $this->data['refereds'] = $this->user->getRefereds($id, $dataWhere, $limit, $start);
         $this->data['main_content'] = 'account/refered';
         $this->load->view('home', $this->data);
     }
@@ -301,7 +293,7 @@ class Account extends MY_Controller {
             'separator' => ' :: '
         );
         $user_session = $this->session->userdata('user');
-        $id = $user_session['user_id'];
+        $id = $user_session['main_id'];
 
         $limit = $this->config->item('limit_page', 'my_config');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
@@ -309,7 +301,10 @@ class Account extends MY_Controller {
         //       Begin pagination
         $this->load->library("pagination");
         $config = array();
-        $config["total_rows"] = $this->user_model->totalHistory($id, $this->input->get('search'));
+        if($this->input->get('search')){
+            $search['transaction_type'] = $this->input->get('search');
+        }
+        $config["total_rows"] = $this->transaction->totalHistory($id, $search);
         $config["base_url"] = site_url('account/history');
         $config["per_page"] = $limit;
         $page = $start;
@@ -335,7 +330,7 @@ class Account extends MY_Controller {
         $this->pagination->initialize($config);
         $this->data["links"] = $this->pagination->create_links();
         //       End pagination
-        $this->data['historys'] = $this->user_model->getHistorys($id, $this->input->get('search'), $limit, $start);
+        $this->data['historys'] = $this->transaction->getHistorys($id, $search, $limit, $start);
         $this->data['main_content'] = 'account/history';
         $this->load->view('home', $this->data);
     }

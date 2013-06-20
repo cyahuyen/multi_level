@@ -27,7 +27,6 @@
                 <table>
                     <tbody>
                         <tr class="heading">
-                            <td style="width:35px"><div>Acount Number</div></td>
                             <td style="width:120px"><div>Full Name</div></td>
                             <td style="width:120px"><div>Referred Date</div></td>
                             <td style="width:80px"><div>Email</div></td>
@@ -36,7 +35,6 @@
                         <?php if ($refereds) { ?>
                             <?php foreach ($refereds as $refered) { ?>
                                 <tr class="row">
-                                    <td><div><?php echo $refered->username; ?></div></td>
                                     <td><div><?php echo $refered->firstname . ' ' . $refered->lastname; ?></div></td>
                                     <td><div><?php echo $refered->created_on; ?></div></td>
                                     <td><div><?php echo $refered->email; ?></div></td>
