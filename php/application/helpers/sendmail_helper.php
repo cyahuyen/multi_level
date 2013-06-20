@@ -59,7 +59,7 @@ if (!function_exists('sendmail')) {
 
 if (!function_exists('sendmailform')) {
 
-    function sendmailform($emailTo, $code, $data, $emailFrom = null, $name = null, $mailtype = 'html') {
+    function sendmailform($emailTo = null, $code, $data, $emailFrom = null, $name = null, $mailtype = 'html') {
         $CI = & get_instance();
         $CI->load->model('emailtemplate_model', 'emailtemplate');
 

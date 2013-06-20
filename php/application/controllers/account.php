@@ -301,6 +301,7 @@ class Account extends MY_Controller {
         //       Begin pagination
         $this->load->library("pagination");
         $config = array();
+        $search = array();
         if($this->input->get('search')){
             $search['transaction_type'] = $this->input->get('search');
         }

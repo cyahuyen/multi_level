@@ -29,7 +29,7 @@ class Activity_model extends CI_Model {
         if ($limit && $start) {
             $this->db->limit((int) $limit, (int) $start);
         }
-        $this->db->order_by('created', 'DESC');
+        $this->db->order_by('id', 'ASC');
 
         $query = $this->db->get();
         return $query->result();

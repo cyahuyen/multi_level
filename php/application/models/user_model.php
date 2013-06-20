@@ -245,5 +245,14 @@ class User_model extends CI_Model {
         else
             return false;
     }
+    
+    public function listUserByType($userType){
+        $this->db->select("*");
+        $this->db->from("user_main");
+        $this->db->join("user", "user_main.main_id = user.main_user_id");
+        $this->db->where('user.usertype', $userType);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
 }
