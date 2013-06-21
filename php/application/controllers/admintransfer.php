@@ -87,7 +87,7 @@ class Admintransfer extends MY_Controller {
         $this->data['transfers'] = array();
         foreach ($transfers as $transfer) {
             $this->data['transfers'][] = array(
-                'username' => $transfer->username,
+                'username' => $transfer->acount_number,
                 'fees' => $transfer->fees,
                 'total' => $transfer->total,
                 'transaction_type' => $transfer->transaction_type,

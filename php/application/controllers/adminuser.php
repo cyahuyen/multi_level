@@ -19,7 +19,7 @@ class Adminuser extends MY_Controller {
         $this->load->model('user_model', 'user');
         $this->data['menu_config'] = $this->menu_config_2;
         $user_session = $this->session->userdata('user');
-        
+
         if (empty($user_session) || $user_session['permission'] != 'administrator') {
             redirect(site_url('home'));
         }
@@ -43,8 +43,8 @@ class Adminuser extends MY_Controller {
         if ($posts['status'] != 'all')
             $dataWhere['status'] = $posts['status'];
         $dataWhere['searchby'] = $posts['searchby'];
-        
-        if(isset($posts['usertype']) && $posts['usertype'] != 'all'){
+
+        if (isset($posts['usertype']) && $posts['usertype'] != 'all') {
             $dataWhere['usertype'] = $posts['usertype'];
         }
         $limit = $this->config->item('limit_page', 'my_config');
@@ -57,7 +57,7 @@ class Adminuser extends MY_Controller {
 //       Begin pagination
         $this->load->library("pagination");
         $config = array();
-        $config["total_rows"] = $this->user->totalUser($dataWhere);
+        $config["total_rows"] = $this->user->totalMainUser($dataWhere);
         $config["base_url"] = site_url('user/userlist');
         $config["per_page"] = $limit;
         $page = $start;
@@ -84,7 +84,7 @@ class Adminuser extends MY_Controller {
         $json["links"] = $this->pagination->create_links();
 //       End pagination
 
-        $this->data['users'] = $this->user->listUser($dataWhere, $limit, $start, $sort);
+        $this->data['users'] = $this->user->listMainUser($dataWhere, $limit, $start, $sort);
         $json['users'] = $this->load->view('adminuser/userlist', $this->data, true);
         echo json_encode($json);
     }
@@ -92,7 +92,7 @@ class Adminuser extends MY_Controller {
     public function profile($id = 0) {
         $this->data['title'] = 'Manager User';
         if (!empty($id))
-            $this->data['userdata'] = $this->user->getUserById($id);
+            $this->data['userdata'] = $this->user->getMainUserByMainId($id);
         $this->data['usertype'] = $this->usertype;
 
         $msg = $this->session->flashdata('usermessage');
@@ -125,24 +125,39 @@ class Adminuser extends MY_Controller {
             } else {
                 $posts['status'] = 1;
                 unset($posts['save-btn']);
-
+                $postsData = $posts;
                 $id = (int) $id;
                 if (empty($id)) {
-                    $posts['usertype'] = 0;
-                    $posts['username'] = 'U' . time();
-                    $pass = hash_hmac('crc32b', $postsData['username'] . $this->config->item('prefix_key'), 'secret');
-                    $posts['password'] = md5($pass);
-                    $id = $this->user->insert($posts);
+//      BOF Create Main Account
+                    $password = hash_hmac('crc32b', time() . $this->config->item('prefix_key'), 'secret');
+                    $dataMainUser = array(
+                        'firstname' => $postsData['firstname'],
+                        'lastname' => $postsData['lastname'],
+                        'email' => $postsData['email'],
+                        'password' => md5($password),
+                        'phone' => $postsData['phone'],
+                        'address' => $postsData['address'],
+                    );
+                    $id = $this->user->createMainAcount($dataMainUser);
+                    $this->activity->addActivity($id, 'Registed');
+//      EOF Create Main Account
+//      BOF Check/Create Gold Account
+                    $dataGoldAcount = array(
+                        'main_user_id' => $id,
+                        'acount_number' => 'G' . time(),
+                    );
+                    $gold_user_id = $this->user->createGoldAcount($dataGoldAcount);
+                    $this->activity->addActivity($id, 'Created gold account number ' . $dataGoldAcount['acount_number']);
+
+//      EOF Check/Create Gold Account
                     if (!empty($id)) {
-                        $this->data['usermessage'] = array('success', 'green', 'Successfully saved ', '');
-                        
-                        $userEmailData['user_type'] = $this->usertype[$posts['usertype']];
-                        $userEmailData['entry_amount'] = $posts['entry_amount'];
-                        $userEmailData['username'] = $posts['username'];
-                        $userEmailData['password'] = $pass;
-                        
-                        sendmailform($posts['email'], 'register', $userEmailData, null, 'Admin Manager', 'html');
+                        $userEmailData['entry_amount'] = 0;
+                        $userEmailData['fees'] = 0;
+                        $userEmailData['password'] = $password;
+                        $userEmailData['email'] = $postsData['email'];
+                        sendmailform($dataMainUser['email'], 'register', $userEmailData);
                     }
+
 
                     else
                         $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');
@@ -150,7 +165,7 @@ class Adminuser extends MY_Controller {
                     redirect(site_url('adminuser/profile/' . $id));
                 } else {
 
-                    if ($this->user->update($id, $posts))
+                    if ($this->user->updateMainAcount($id, $posts))
                         $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
                     else
                         $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');

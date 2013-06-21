@@ -80,6 +80,55 @@ class Transaction_model extends CI_Model {
         return $query->result();
     }
 
+    public function totalTransfer($data) {
+        $this->db->select("*");
+        $this->db->from("transaction");
+        $this->db->join("user", 'user.user_id = transaction.user_id');
+        if (!empty($data)) {
+            foreach ($data as $key => $val) {
+                if ($key == 'searchby') {
+                    $where = "( user.acount_number LIKE '%" . $val . "%')";
+                    $this->db->where($where);
+                }
+                else
+                    $this->db->where($key, $val);
+            }
+        }
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    
+    public function getTransfers($data, $limit = null, $start = null, $sort = null) {
+        $this->db->select("*");
+        $this->db->from("transaction");
+        $this->db->join("user", 'user.user_id = transaction.user_id');
+        if (!empty($data)) {
+            foreach ($data as $key => $val) {
+                if ($key == 'searchby') {
+                    $where = "( user.acount_number LIKE '%" . $val . "%')";
+                    $this->db->where($where);
+                }
+                else
+                    $this->db->where($key, $val);
+            }
+        }
+
+        if ($limit)
+            $this->db->limit((int) $limit);
+
+        if ($limit && $start)
+            $this->db->limit((int) $limit, (int) $start);
+
+        if (!empty($sort)) {
+            foreach ($sort as $key => $value) {
+                $this->db->order_by($key, $value);
+            }
+        }
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 }
 
 ?>

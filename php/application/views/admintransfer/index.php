@@ -36,7 +36,7 @@
             <div class="datalist-sort">
                 <span>Order by<span style="padding:50px">
                         <select onchange="search()" id="datalist-sort-order"> 
-                            <option value="user.username">Acount Number</option>
+                            <option value="user.acount_number">Acount Number</option>
                             <option value="transaction.created">Date</option>
                         </select>
                         <span>

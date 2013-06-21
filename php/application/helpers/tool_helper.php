@@ -14,6 +14,15 @@ if (!function_exists('getStartAndEndDate')) {
     }
 
 }
+if (!function_exists('getUserByMainId')) {
+
+    function getMainUserByMainId($id) {
+        $CI = & get_instance();
+        $CI->load->model('user_model', 'user');
+        return $CI->user->getMainUserByMainId($id);
+    }
+
+}
 if (!function_exists('getStartAndEndDateByMonth')) {
 
     function getStartAndEndDateByMonth($month, $year) {
