@@ -1,9 +1,8 @@
 <?php
 
-class Question_model extends CI_Model {
+class Answer_model extends CI_Model {
 
-    public function addQuestion($data) {
-        $this->db->set('created', 'NOW()', FALSE);
+    public function addAnswer($data) {
         $this->db->insert('answer', $data);
         return $this->db->insert_id();
     }
@@ -15,6 +14,11 @@ class Question_model extends CI_Model {
         
         $results = $this->db->get()->result();
         return $results;
+    }
+    
+    public function updateAnswer($id,$data){
+        $this->db->where('question_id', $id);
+        return $this->db->update('answer', $data);
     }
 
 }

@@ -700,8 +700,7 @@ table.datatable tr td span.currency{
 
 .questions li {
     border-bottom: 1px solid #EAEAEA;
-    float: left;
-    overflow: hidden;
+    list-style-type: none;
     padding: 11px 0;
 }
 

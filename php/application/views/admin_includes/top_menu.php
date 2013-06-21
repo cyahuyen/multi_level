@@ -57,6 +57,7 @@
                     </li>
                 </ul>
             </li>
+            <li class="<?php echo $menu_config[9] ?>"><a href="<?php echo site_url('adminfaq') ?>">Faq</a></li>
         </ul>
         <div class="clearer"></div>
     </div>

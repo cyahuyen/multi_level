@@ -58,7 +58,7 @@ class Adminuser extends MY_Controller {
         $this->load->library("pagination");
         $config = array();
         $config["total_rows"] = $this->user->totalUser($dataWhere);
-        $config["base_url"] = site_url('user/manage');
+        $config["base_url"] = site_url('user/userlist');
         $config["per_page"] = $limit;
         $page = $start;
         $config["uri_segment"] = 3;

@@ -13,14 +13,14 @@
                     <tr>
                         <td>Question</td>
                         <td>
-                            <input type="text" style="width:240px" class="mandatory" value="" name="question" id="question"><img class="mandatory" src="http://multilevel.lc//img/sev/required.jpg" title="This is a required value">
+                            <input type="text" style="width:240px" class="mandatory" value="<?php echo!empty($question->title) ? $question->title : '' ?>" name="title" id="title"><img class="mandatory" src="http://multilevel.lc//img/sev/required.jpg" title="This is a required value">
                         </td>
                     </tr>
 
                     <tr>
                         <td>Content</td>
                         <td>
-                            <textarea name="content" id="content"></textarea>
+                            <textarea name="content" id="content"><?php echo!empty($question->content) ? $question->content : '' ?></textarea>
                         </td>
                     </tr>
                     <tr>
@@ -40,19 +40,14 @@
         </div>
         <br><br>
         <ul class="questions">
-            <li>
-                <h3><a href="#" class="question-hyperlink">The Definitive C++ Book Guide and List</a></h3>
-                <div class="excerpt">
-                    This question attempts to collect the few pearls among the dozens of bad C++ books that are released every year.
 
-                    Unlike many other programming languages, which are often picked up on the go from ...
-                </div>
-                <div class="edit-question">
-                    <a href="/questions/tagged/html">Edit</a>
-                    <a href="/questions/tagged/regex">View Answer</a> 
-                </div>
-            </li>
         </ul>
+
+        <div class="clb"></div>
+
+        <div class="datalist-navigation" >
+
+        </div>
         <div class="clb"></div>
     </div>
 </div>
@@ -65,4 +60,24 @@
         height: "200"
 	
     });
+    
+    $(document).ready(function(){
+        load_question();                    
+    })
+    
+    function load_question(page){
+        if(page == undefined){
+            page= 0;
+        }
+        $.ajax({
+            url: "<?php echo site_url('faq/list_question') ?>/"+page,
+            dataType: 'json',
+            type: "post",
+            success: function(json) {
+                console.debug(json.question);
+                $('.questions').html(json.questions)
+                $(".datalist-navigation").html(json.links);
+            }
+        });
+    }
 </script>
