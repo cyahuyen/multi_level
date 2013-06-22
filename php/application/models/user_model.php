@@ -306,5 +306,11 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+    
+     public function updateWithdrawalDate($id) {
+        $this->db->where('user_id', $id);
+        $this->db->set('withdrawal_date', 'NOW()', FALSE);
+        return $this->db->update('user');
+    }
 
 }

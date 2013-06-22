@@ -20,7 +20,7 @@
                     <option value="">-- Select --</option>
                     <?php if (!empty($acounts)) { ?>
                         <?php foreach ($acounts as $acount) { ?>
-                    <option <?php echo (!empty($post_data['user_id']) && $post_data['user_id'] == $acount->user_id)?'selected':'' ?> value="<?php echo $acount->user_id ?>"><?php echo $acount->acount_number ?></option>
+                            <option <?php echo (!empty($post_data['user_id']) && $post_data['user_id'] == $acount->user_id) ? 'selected' : '' ?> value="<?php echo $acount->user_id ?>"><?php echo $acount->acount_number ?></option>
                         <?php } ?>
                     <?php } ?>
                 </select>
@@ -29,7 +29,7 @@
         <tr>
             <td><div>Deposite Amount: </div></td>
             <td>
-                <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="<?php echo (!empty($post_data['entry_amount']))?$post_data['entry_amount']:'' ?>" />
+                <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="<?php echo (!empty($post_data['entry_amount'])) ? $post_data['entry_amount'] : '' ?>" />
             </td>
         </tr>
 
@@ -91,7 +91,6 @@
             url: "<?php echo site_url('account/ajax_transaction') ?>/" + $('#user_id').val(),
             dataType: 'json',
             success: function(json) {
-                console.debug(json)
                 $('#max_transaction').text('$'+json.max_entry_amount)
                 $('#total_fees').text('$'+json.total_transaction)
             }

@@ -128,6 +128,14 @@ class Transaction_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+    
+    public function insertHistory($data) {
+        $this->db->set('created', 'NOW()', FALSE);
+        $this->db->insert('payment_history', $data);
+
+        $id = $this->db->insert_id();
+        return $id;
+    }
 
 }
 

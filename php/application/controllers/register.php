@@ -315,6 +315,8 @@ class Register extends MY_Controller {
             );
             $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
             $this->activity->addActivity($main_user_id, 'Add Deposit to your acount ' . $dataGoldAcount['acount_number'] . ' with amount : $' . ($dataBalanceUpdate['balance']), '+', $posts['balance']);
+//      Update Widthdraw date
+            $this->user->updateWithdrawalDate($gold_user_id);
         }
 //      EOF Check/Create Gold Account
 //      BOF Update Transaction
@@ -394,38 +396,48 @@ class Register extends MY_Controller {
             );
             $this->transaction->upadateTransaction($dataTransactionUpdate);
 
+//      Update Widthdraw date
+            if (empty($userSilverReffering->withdrawal_date)) {
+                $this->user->updateWithdrawalDate($userSilverReffering->user_id);
+            }
+
 //      EOF Update Transaction
         }
 
         if (!empty($gold_user_id) && !empty($mainUser)) {
             $userGoldReffering = $this->user->getUserByEmail($postsData['referring'], 2);
             if (!empty($userGoldReffering)) {
-                $refereFees = $dataBalanceUpdate['balance'] * $this->config_data['percentage_gold'] / 100;
-                //      BOF Update Balance
-                $this->balance->updateAdminBalance($refereFees, '-');
 
-                $dataBalanceGoldRefferingUpdate = array(
-                    'user_id' => $userGoldReffering->user_id,
-                    'balance' => $refereFees,
-                );
-                $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
-                $this->activity->addActivity($userGoldReffering->main_id, 'Add refere fees your acount ' . $userGoldReffering->acount_number . ' with amount : $' . ($refereFees), '+', $refereFees);
-                //      EOF Update Balance
-                //      BOF Update Transaction
-                $dataTransactionUpdate = array(
-                    'user_id' => $userGoldReffering->user_id,
-                    'main_user_id' => $userGoldReffering->main_id,
-                    'fees' => 0,
-                    'total' => $refereFees,
-                    'payment_status' => 'Completed',
-                    'transaction_type' => 'refere',
-                    'transaction_text' => '+',
-                    'transaction_source' => 'system',
-                    'status' => '0',
-                );
-                $this->transaction->upadateTransaction($dataTransactionUpdate);
+                //              get banlane gold account
+                $balanceGoldAcount = $this->balance->getBalance($userGoldReffering->user_id);
+                if (!empty($balanceGoldAcount->balance) && $balanceGoldAcount->balance > 0 && ($posts['entry_amount'] >= $this->config_data['min_enrolment_entry_amount'])) {
+                    $refereFees = $dataBalanceUpdate['balance'] * $this->config_data['percentage_gold'] / 100;
+                    //      BOF Update Balance
+                    $this->balance->updateAdminBalance($refereFees, '-');
 
-                //      EOF Update Transaction
+                    $dataBalanceGoldRefferingUpdate = array(
+                        'user_id' => $userGoldReffering->user_id,
+                        'balance' => $refereFees,
+                    );
+                    $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
+                    $this->activity->addActivity($userGoldReffering->main_id, 'Add refere fees your acount ' . $userGoldReffering->acount_number . ' with amount : $' . ($refereFees), '+', $refereFees);
+                    //      EOF Update Balance
+                    //      BOF Update Transaction
+                    $dataTransactionUpdate = array(
+                        'user_id' => $userGoldReffering->user_id,
+                        'main_user_id' => $userGoldReffering->main_id,
+                        'fees' => 0,
+                        'total' => $refereFees,
+                        'payment_status' => 'Completed',
+                        'transaction_type' => 'refere',
+                        'transaction_text' => '+',
+                        'transaction_source' => 'system',
+                        'status' => '0',
+                    );
+                    $this->transaction->upadateTransaction($dataTransactionUpdate);
+
+                    //      EOF Update Transaction
+                }
             }
         }
 
@@ -534,7 +546,6 @@ class Register extends MY_Controller {
         if (($posts['entry_amount'] >= $this->config_data['min_enrolment_entry_amount'])) {
 
 //      Update Balance 
-
             $dataBalanceUpdate = array(
                 'user_id' => $gold_user_id,
                 'balance' => $posts['entry_amount'],
@@ -557,7 +568,8 @@ class Register extends MY_Controller {
             'status' => '1',
         );
         $this->transaction->upadateTransaction($dataTransactionUpdate);
-
+//      Update Widthdraw date
+        $this->user->updateWithdrawalDate($gold_user_id);
 //      EOF Update Transaction
 //      BOF Check Reffering Member
         $postsData = $posts;
@@ -621,37 +633,46 @@ class Register extends MY_Controller {
             );
             $this->transaction->upadateTransaction($dataTransactionUpdate);
 
+            //      Update Widthdraw date
+            if (empty($userSilverReffering->withdrawal_date)) {
+                $this->user->updateWithdrawalDate($userSilverReffering->user_id);
+            }
+
 //      EOF Update Transaction
         }
 
         if (!empty($gold_user_id) && !empty($mainUser)) {
             $userGoldReffering = $this->user->getUserByEmail($postsData['referring'], 2);
             if (!empty($userGoldReffering)) {
-                $refereFees = $dataBalanceUpdate['balance'] * $this->config_data['percentage_gold'] / 100;
-                //      BOF Update Balance
-                $this->balance->updateAdminBalance($refereFees, '-');
 
-                $dataBalanceGoldRefferingUpdate = array(
-                    'user_id' => $userGoldReffering->user_id,
-                    'balance' => $refereFees,
-                );
-                $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
-                $this->activity->addActivity($userGoldReffering->main_id, 'Add refere fees your acount ' . $userGoldReffering->acount_number . ' with amount : $' . ($refereFees), '+', $refereFees);
-                //      EOF Update Balance
-                //      BOF Update Transaction
-                $dataTransactionUpdate = array(
-                    'user_id' => $userGoldReffering->user_id,
-                    'main_user_id' => $userGoldReffering->main_id,
-                    'fees' => 0,
-                    'total' => $refereFees,
-                    'payment_status' => 'Completed',
-                    'transaction_type' => 'refere',
-                    'transaction_text' => '+',
-                    'transaction_source' => 'system',
-                    'status' => '0',
-                );
-                $this->transaction->upadateTransaction($dataTransactionUpdate);
+//              get banlane gold account
+                $balanceGoldAcount = $this->balance->getBalance($userGoldReffering->user_id);
+                if (!empty($balanceGoldAcount->balance) && $balanceGoldAcount->balance > 0 && ($posts['entry_amount'] >= $this->config_data['min_enrolment_entry_amount'])) {
+                    $refereFees = $dataBalanceUpdate['balance'] * $this->config_data['percentage_gold'] / 100;
+                    //      BOF Update Balance
+                    $this->balance->updateAdminBalance($refereFees, '-');
 
+                    $dataBalanceGoldRefferingUpdate = array(
+                        'user_id' => $userGoldReffering->user_id,
+                        'balance' => $refereFees,
+                    );
+                    $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
+                    $this->activity->addActivity($userGoldReffering->main_id, 'Add refere fees your acount ' . $userGoldReffering->acount_number . ' with amount : $' . ($refereFees), '+', $refereFees);
+                    //      EOF Update Balance
+                    //      BOF Update Transaction
+                    $dataTransactionUpdate = array(
+                        'user_id' => $userGoldReffering->user_id,
+                        'main_user_id' => $userGoldReffering->main_id,
+                        'fees' => 0,
+                        'total' => $refereFees,
+                        'payment_status' => 'Completed',
+                        'transaction_type' => 'refere',
+                        'transaction_text' => '+',
+                        'transaction_source' => 'system',
+                        'status' => '0',
+                    );
+                    $this->transaction->upadateTransaction($dataTransactionUpdate);
+                }
                 //      EOF Update Transaction
             }
         }
@@ -697,9 +718,9 @@ class Register extends MY_Controller {
     }
 
     public function forgot() {
-        
+
         $this->load->model('user_model', 'user');
-        
+
         $this->data['title'] = 'Forgot password';
         $step = 0 + $this->input->post('step', TRUE);
         if ($step <= 1) {
@@ -721,12 +742,12 @@ class Register extends MY_Controller {
                 $this->user->updateMainAcount($id, array('forgotten_password_code' => $this->data['forget_code']));
                 //======================= Send Email ====================================
                 $contentEmail['forget_code'] = $this->data['forget_code'];
-                sendmailform($email_to, 'forgot_password', $contentEmail,  'admin@website.com', 'Admin Manager', 'html');
+                sendmailform($email_to, 'forgot_password', $contentEmail, 'admin@website.com', 'Admin Manager', 'html');
                 $this->load->view('home', $this->data);
                 //==========================End send mail====================
             }
         } else if ($step == 2) {
-            
+
             $email = $this->input->post('email', TRUE);
             $this->email = $email;
             $user_email = $this->user->getEmmail($email);
@@ -737,7 +758,7 @@ class Register extends MY_Controller {
             } else {
                 $this->data['email'] = "";
             }
-            
+
             $this->form_validation->set_rules('reset_code', 'Reset Code', 'required|trim|xss_clean|numeric|exact_length[10]|callback_checkResetcode');
             if (($this->email != $this->input->post('email')) || ($fp != $this->input->post('reset_code'))) {
                 $this->data['main_content'] = 'register/reset_pass_step2.php';
@@ -746,7 +767,6 @@ class Register extends MY_Controller {
                 $this->data['main_content'] = 'register/reset_pass_step3.php';
                 $this->load->view('home', $this->data);
             }
-           
         } else if ($step == 3) {
 
             $this->data['email'] = $this->input->post('email', TRUE);
@@ -760,7 +780,7 @@ class Register extends MY_Controller {
                 $this->load->view('home', $this->data);
             } else {
                 $new_pass = $this->input->post('password', TRUE);
-                
+
                 $password = md5($new_pass);
                 $update_data = array('password' => $password);
                 $this->user->updateMainAcount($id, $update_data);

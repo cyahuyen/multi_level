@@ -124,11 +124,11 @@ class Account extends MY_Controller {
                     'email' => $posts['email'],
                     'address' => $posts['address'],
                 );
-                if ($this->user->updateMainAcount($id, $data)){
+                if ($this->user->updateMainAcount($id, $data)) {
                     $this->activity->addActivity($id, 'Update profile');
                     $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
                 }
-                    
+
                 else
                     $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');
                 $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
@@ -302,7 +302,7 @@ class Account extends MY_Controller {
         $this->load->library("pagination");
         $config = array();
         $search = array();
-        if($this->input->get('search')){
+        if ($this->input->get('search')) {
             $search['transaction_type'] = $this->input->get('search');
         }
         $config["total_rows"] = $this->transaction->totalHistory($id, $search);
@@ -682,43 +682,47 @@ class Account extends MY_Controller {
         $this->load->model('config_model', 'configs');
         $this->load->model('balance_model', 'balance');
 
-        $balance_info = $this->balance->getBalance($user_session['user_id']);
-        $user = $this->user->getUserById($user_session['user_id']);
-        $this->data['user'] = $user;
-
-
-        $balance = !empty($balance_info->balance) ? $balance_info->balance : 0;
-
-        $withdrawal_config = $this->configs->getConfigs('withdrawal');
-        $withdrawal_min_amount = 0;
-        $withdrawal_days = 0;
-        if ($user->usertype == 1) {
-            $withdrawal_min_amount = $withdrawal_config['min_of_silver'];
-            $withdrawal_days = $withdrawal_config['days_space_silver'];
-        }
-
-        if ($user->usertype == 2) {
-            $withdrawal_min_amount = $withdrawal_config['min_of_gold'];
-            $withdrawal_days = $withdrawal_config['days_space_gold'];
-        }
-
-        if (!empty($user->withdrawal_date)) {
-            $withdrawal_date = date("Y-m-d", strtotime("+ {$withdrawal_days} day", strtotime($user->withdrawal_date)));
-            $this->data['withdrawal_date'] = $withdrawal_date;
-        }
-
-        $transaction_config = $this->configs->getConfigs('transaction_fees');
-        $fees = $transaction_config['transaction_fee'];
-        $this->data['fees'] = $fees;
-
-        $max_balance = $balance - $withdrawal_min_amount;
-        $this->data['max_balance'] = $max_balance;
-        $this->data['balance'] = $balance;
-
+        $this->data['acounts'] = $this->user->getAllAcountByMainId($user_session['main_id']);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $posts = $this->input->post();
+
+            
+            $user_id = $posts['user_id'];
+            $balance_info = $this->balance->getBalance($user_id);
+            $balance = !empty($balance_info->balance) ? $balance_info->balance : 0;
+
+            $withdrawal_min_amount = 0;
+            $withdrawal_days = 0;
+            
+            $user = $this->user->getUserById($user_id);
+            
+            if ($user->usertype == 1) {
+                $withdrawal_min_amount = $this->config_data['min_of_silver'];
+                $withdrawal_days = $this->config_data['days_space_silver'];
+            }
+
+            if ($user->usertype == 2) {
+                $withdrawal_min_amount = $this->config_data['min_of_gold'];
+                $withdrawal_days = $this->config_data['days_space_gold'];
+            }
+
+            if (!empty($user->withdrawal_date)) {
+                $withdrawal_date = date("Y-m-d", strtotime("+ {$withdrawal_days} day", strtotime($user->withdrawal_date)));
+                $jsons['withdrawal_date'] = $withdrawal_date;
+            }
+
+            $fees = $this->config_data['transaction_fee'];
+            $jsons['fees'] = $fees;
+            $max_balance = $balance - $withdrawal_min_amount;
+            $jsons['max_balance'] = ($max_balance > 0) ? $max_balance : 0;
+            $jsons['balance'] = $balance;
+
             $amount = $this->input->post('entry_amount');
             $total = $amount + $fees;
+
+
             $validationErrors = array();
             if (floatval($total) > $max_balance) {
                 $validationErrors['entry_amount'] = "Amount litter than max amount";
@@ -743,11 +747,12 @@ class Account extends MY_Controller {
                 $data['email_paypal'] = $this->input->post('email_paypal');
                 $data['total'] = $total;
                 $data['fees'] = $fees;
-                $data['user_id'] = $user_session['user_id'];
+                $data['user_id'] = $posts['user_id'];
 
-                $user = $this->user->getUserById($user_session['user_id']);
+
+                $user = $this->user->getUserById($posts['user_id']);
                 $this->transaction->insertHistory($data);
-                $this->user->updateWithdrawalDate($user_session['user_id']);
+                $this->user->updateWithdrawalDate($posts['user_id']);
 
                 $adminEmaildata['fullname'] = $user->firstname . ' ' . $user->lastname;
                 $adminEmaildata['username'] = $user->username;
@@ -772,6 +777,46 @@ class Account extends MY_Controller {
 
         $this->data['main_content'] = 'account/withdrawal';
         $this->load->view('home', $this->data);
+    }
+
+    public function ajax_withdraw($user_id = 0) {
+        $user_session = $this->data['user_session'];
+        $jsons = array();
+        $this->load->model('user_model', 'user');
+        $this->load->model('transaction_model', 'transaction');
+        $this->load->model('config_model', 'configs');
+        $this->load->model('balance_model', 'balance');
+
+
+        $user = $this->user->getUserById($user_id);
+        if (!empty($user)) {
+            $balance_info = $this->balance->getBalance($user_id);
+            $balance = !empty($balance_info->balance) ? $balance_info->balance : 0;
+
+            $withdrawal_min_amount = 0;
+            $withdrawal_days = 0;
+            if ($user->usertype == 1) {
+                $withdrawal_min_amount = $this->config_data['min_of_silver'];
+                $withdrawal_days = $this->config_data['days_space_silver'];
+            }
+
+            if ($user->usertype == 2) {
+                $withdrawal_min_amount = $this->config_data['min_of_gold'];
+                $withdrawal_days = $this->config_data['days_space_gold'];
+            }
+
+            if (!empty($user->withdrawal_date)) {
+                $withdrawal_date = date("Y-m-d", strtotime("+ {$withdrawal_days} day", strtotime($user->withdrawal_date)));
+                $jsons['withdrawal_date'] = $withdrawal_date;
+            }
+
+            $fees = $this->config_data['transaction_fee'];
+            $jsons['fees'] = $fees;
+            $max_balance = $balance - $withdrawal_min_amount;
+            $jsons['max_balance'] = ($max_balance > 0) ? $max_balance : 0;
+            $jsons['balance'] = $balance;
+        }
+        echo json_encode($jsons);
     }
 
     public function creditcard() {

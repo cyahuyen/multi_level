@@ -1,5 +1,6 @@
 
 <?php echo form_open('', array('id' => 'withdrawal-form')); ?>
+
 <table class="datatable">
     <thead>
         <tr>
@@ -8,27 +9,40 @@
     </thead>
     <tbody>
         <tr>
+            <td><div>Select Acount Number: </div></td>
+            <td>
+                <select name="user_id" id="user_id">
+                    <option value="">-- Select --</option>
+                    <?php if (!empty($acounts)) { ?>
+                        <?php foreach ($acounts as $acount) { ?>
+                            <option <?php echo ($this->input->post('user_id') == $acount->user_id) ? 'selected' : '' ?> value="<?php echo $acount->user_id ?>"><?php echo $acount->acount_number ?></option>
+                        <?php } ?>
+                    <?php } ?>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td><div>My Balance: </div></td>
             <td>
-                <span class="currency">$<?php echo (($balance) > 0) ? number_format($balance, 2, '.', ' ') : 0; ?></span>
+                <span id="my_balance" class="currency">$0</span>
             </td>
         </tr>
         <tr>
             <td><div>Max Withdrawal Amount: </div></td>
             <td>
-                <span class="currency">$<?php echo (($max_balance-$fees) > 0) ? number_format($max_balance-$fees, 2, '.', ' ') : 0; ?></span>
+                <span id="max_transaction" class="currency">$0</span>
             </td>
         </tr>
         <tr>
             <td><div>Withdrawal Fee: </div></td>
             <td>
-                <span class="currency">$<?php echo number_format($fees, 2, '.', ' '); ?></span>
+                <span id="withdrawal_fees" class="currency">$0</span>
             </td>
         </tr>
         <tr>
             <td><div>Avaiable Date Of Withdrawal: </div></td>
             <td>
-                <span class="date"><?php echo!empty($withdrawal_date) ? $withdrawal_date : ''; ?></span>
+                <span id="withdrawal_date" class="date"><?php echo!empty($withdrawal_date) ? $withdrawal_date : ''; ?></span>
             </td>
         </tr>
         <tr>
@@ -55,3 +69,31 @@
     </tbody>
 </table>
 <?php echo form_close(); ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        get_acount();
+        $('#user_id').live('change',function(){
+            get_acount()
+        });
+    });
+    
+    function get_acount(){
+        $.ajax({
+            url: "<?php echo site_url('account/ajax_withdraw') ?>/" + $('#user_id').val(),
+            dataType: 'json',
+            success: function(json) {
+                if(json.max_balance != undefined)
+                    $('#max_transaction').text('$'+json.max_balance)
+                if(json.fees != undefined)
+                    $('#withdrawal_fees').text('$'+json.fees)
+                if(json.total_transaction != undefined)
+                    $('#withdrawal_date').text('$'+json.total_transaction)
+                if(json.balance != undefined)
+                    $('#my_balance').text('$'+json.balance)
+                if(json.withdrawal_date != undefined)
+                    $('#withdrawal_date').text(json.withdrawal_date)
+            }
+        });
+    }
+    
+</script>
