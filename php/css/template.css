@@ -778,3 +778,8 @@ table.datatable tr td span.currency{
     line-height: 34px;
     margin-bottom: 0;
 }
+
+.toogger .description{
+    display: none;
+    padding: 5px 0 10px;
+}

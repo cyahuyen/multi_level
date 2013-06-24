@@ -57,7 +57,7 @@ class Account extends MY_Controller {
         );
         $user_session = $this->session->userdata('user');
         $this->data['acounts'] = $this->user->getAllbalanceAcountByMainId($user_session['main_id']);
-        
+
         $user_session = $this->session->userdata('user');
         $this->data['breadcrumbs'][] = array(
             'text' => 'My Account',
@@ -391,12 +391,12 @@ class Account extends MY_Controller {
             $this->data['usermessage'] = $msg;
         }
 
-        $fielderrors = $this->session->flashdata('field_errors');
+        $fielderrors = ($this->session->flashdata('field_errors'));
         if ($msg) {
-            $this->data['fielderrors'] = $fielderrors;
+            $this->data['fielderrors'] = (array) json_decode($fielderrors);
         }
 
-        $this->data['post_data'] = $this->session->flashdata('posts');
+        $this->data['post_data'] = (array) json_decode($this->session->flashdata('posts'));
 
         $user_session = $this->session->userdata('user');
         $main_id = $user_session['main_id'];
@@ -480,13 +480,12 @@ class Account extends MY_Controller {
                 $validationErrors['entry_amount'] = "deposit amout divisible for 100";
             }
         }
-
         if (!empty($validationErrors)) {
             $error = array('error', 'darkred', 'Validation errors found', 'Please see below');
             $this->session->set_flashdata(array('usermessage' => $error));
             $this->session->set_flashdata('usermessage', $error);
-            $this->session->set_flashdata('field_errors', $validationErrors);
-            $this->session->set_flashdata('posts', $posts);
+            $this->session->set_flashdata('field_errors', json_encode($validationErrors));
+            $this->session->set_flashdata('posts', json_encode($posts));
             redirect('account/transaction');
         }
 
@@ -693,93 +692,97 @@ class Account extends MY_Controller {
 
             $posts = $this->input->post();
 
-            
+
             $user_id = $posts['user_id'];
-            $balance_info = $this->balance->getBalance($user_id);
-            $balance = !empty($balance_info->balance) ? $balance_info->balance : 0;
-
-            $withdrawal_min_amount = 0;
-            $withdrawal_days = 0;
-            
             $user = $this->user->getUserById($user_id);
-            
-            if ($user->usertype == 1) {
-                $withdrawal_min_amount = $this->config_data['min_of_silver'];
-                $withdrawal_days = $this->config_data['days_space_silver'];
-            }
-
-            if ($user->usertype == 2) {
-                $withdrawal_min_amount = $this->config_data['min_of_gold'];
-                $withdrawal_days = $this->config_data['days_space_gold'];
-            }
-
-            if (!empty($user->withdrawal_date)) {
-                $withdrawal_date = date("Y-m-d", strtotime("+ {$withdrawal_days} day", strtotime($user->withdrawal_date)));
-                $jsons['withdrawal_date'] = $withdrawal_date;
-            }
-
-            $fees = $this->config_data['transaction_fee'];
-            $jsons['fees'] = $fees;
-            $max_balance = $balance - $withdrawal_min_amount;
-            $jsons['max_balance'] = ($max_balance > 0) ? $max_balance : 0;
-            $jsons['balance'] = $balance;
-
-            $amount = $this->input->post('entry_amount');
-            $total = $amount + $fees;
-
-
             $validationErrors = array();
-            if (floatval($total) > $max_balance) {
-                $validationErrors['entry_amount'] = "Amount litter than max amount";
-            } elseif (floatval($amount) < 0) {
-                $validationErrors['entry_amount'] = "Amount greater than 0";
-            }
-
-            $this->load->helper('email');
-            $email = $this->input->post('email_paypal');
-            if (!valid_email($email)) {
-                $validationErrors['email_paypal'] = "email is not valid";
-            }
-
-
-            if (count($validationErrors) != 0) {
-                $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
+            if (empty($user)) {
+                $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'You haven\'t yet select acount number');
                 $this->data['fielderrors'] = $validationErrors;
-            } elseif (empty($withdrawal_date) || (!empty($withdrawal_date) && ($withdrawal_date > date('Y-m-d')))) {
-                $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'You don\'t to the date of withdrawal');
-                $this->data['fielderrors'] = array();
             } else {
-                $data['email_paypal'] = $this->input->post('email_paypal');
-                $data['total'] = $total;
-                $data['fees'] = $fees;
-                $data['user_id'] = $posts['user_id'];
+                $balance_info = $this->balance->getBalance($user_id);
+                $balance = !empty($balance_info->balance) ? $balance_info->balance : 0;
+
+                $withdrawal_min_amount = 0;
+                $withdrawal_days = 0;
 
 
-                $user = $this->user->getUserById($posts['user_id']);
-                $this->transaction->insertHistory($data);
-                $this->user->updateWithdrawalDate($posts['user_id']);
 
-                $adminEmaildata['fullname'] = $user->firstname . ' ' . $user->lastname;
-                $adminEmaildata['username'] = $user->username;
-                $adminEmaildata['email'] = $user->email;
-                $adminEmaildata['email_paypal'] = $data['email_paypal'];
-                $adminEmaildata['amount'] = $total;
-                sendmailform(null, 'admin_withdrawal', $adminEmaildata);
+                if ($user->usertype == 1) {
+                    $withdrawal_min_amount = $this->config_data['min_of_silver'];
+                    $withdrawal_days = $this->config_data['days_space_silver'];
+                }
 
-                $userEmaildata['fullname'] = $user->firstname . ' ' . $user->lastname;
-                $userEmaildata['email'] = $user->email;
-                $userEmaildata['email_paypal'] = $data['email_paypal'];
-                $userEmaildata['amount'] = $total - $fees;
-                $userEmaildata['fees'] = $fees;
-                $userEmaildata['total'] = $total;
-                sendmailform($user->email, 'user_withdrawal', $userEmaildata);
+                if ($user->usertype == 2) {
+                    $withdrawal_min_amount = $this->config_data['min_of_gold'];
+                    $withdrawal_days = $this->config_data['days_space_gold'];
+                }
 
-                $this->data['usermessage'] = array('success', 'green', 'Withdrawal Request Success', '');
-                $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
-                redirect('account/withdrawal');
+                if (!empty($user->withdrawal_date)) {
+                    $withdrawal_date = date("Y-m-d", strtotime("+ {$withdrawal_days} day", strtotime($user->withdrawal_date)));
+                    $jsons['withdrawal_date'] = $withdrawal_date;
+                }
+
+                $fees = $this->config_data['transaction_fee'];
+                $jsons['fees'] = $fees;
+                $max_balance = $balance - $withdrawal_min_amount;
+                $jsons['max_balance'] = ($max_balance > 0) ? $max_balance : 0;
+                $jsons['balance'] = $balance;
+
+                $amount = $this->input->post('entry_amount');
+                $total = $amount + $fees;
+
+
+                if (floatval($total) > $max_balance) {
+                    $validationErrors['entry_amount'] = "Amount litter than max amount";
+                } elseif (floatval($amount) < 0) {
+                    $validationErrors['entry_amount'] = "Amount greater than 0";
+                }
+
+                $this->load->helper('email');
+                $email = $this->input->post('email_paypal');
+                if (!valid_email($email)) {
+                    $validationErrors['email_paypal'] = "email is not valid";
+                }
+
+                if (count($validationErrors) != 0) {
+                    $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
+                    $this->data['fielderrors'] = $validationErrors;
+                } elseif (empty($withdrawal_date) || (!empty($withdrawal_date) && ($withdrawal_date > date('Y-m-d')))) {
+                    $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'You don\'t to the date of withdrawal');
+                    $this->data['fielderrors'] = array();
+                } else {
+                    $data['email_paypal'] = $this->input->post('email_paypal');
+                    $data['total'] = $total;
+                    $data['fees'] = $fees;
+                    $data['user_id'] = $posts['user_id'];
+
+
+                    $user = $this->user->getUserById($posts['user_id']);
+                    $this->transaction->insertHistory($data);
+                    $this->user->updateWithdrawalDate($posts['user_id']);
+
+                    $adminEmaildata['fullname'] = $user->firstname . ' ' . $user->lastname;
+                    $adminEmaildata['username'] = $user->username;
+                    $adminEmaildata['email'] = $user->email;
+                    $adminEmaildata['email_paypal'] = $data['email_paypal'];
+                    $adminEmaildata['amount'] = $total;
+                    sendmailform(null, 'admin_withdrawal', $adminEmaildata);
+
+                    $userEmaildata['fullname'] = $user->firstname . ' ' . $user->lastname;
+                    $userEmaildata['email'] = $user->email;
+                    $userEmaildata['email_paypal'] = $data['email_paypal'];
+                    $userEmaildata['amount'] = $total - $fees;
+                    $userEmaildata['fees'] = $fees;
+                    $userEmaildata['total'] = $total;
+                    sendmailform($user->email, 'user_withdrawal', $userEmaildata);
+
+                    $this->data['usermessage'] = array('success', 'green', 'Withdrawal Request Success', '');
+                    $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
+                    redirect('account/withdrawal');
+                }
             }
         }
-
         $this->data['main_content'] = 'account/withdrawal';
         $this->load->view('home', $this->data);
     }

@@ -266,7 +266,6 @@ class User_model extends CI_Model {
     public function totalMainUser($data) {
         $this->db->select("*");
         $this->db->from("user_main");
-
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 if ($key == 'searchby') {
