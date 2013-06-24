@@ -42,7 +42,7 @@ class Adminfaq extends MY_Controller {
         if ($posts) {
             $dataWhere = array();
             $sort = array();
-            if (isset($posts['status'])) {
+            if (isset($posts['status']) && $posts['status'] != 'all') {
                 $dataWhere['admin_status'] = $posts['status'];
             }
             $limit = $this->config->item('limit_page', 'my_config');

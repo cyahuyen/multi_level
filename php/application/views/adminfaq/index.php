@@ -14,6 +14,7 @@
             <div class="datalist-search">
                 <div style="float:left">
                     <select id="datalist-type" onchange="search()">
+                        <option value="all">All</option>
                         <option value="0" <?php echo (isset($faqlist['admin_status']) && $faqlist['admin_status'] == '0') ? 'selected' : '' ?>>Unanswered</option>
                         <option value="1" <?php echo (isset($faqlist['admin_status']) && $faqlist['admin_status'] == '1') ? 'selected' : '' ?> >Answered</option>
                     </select>

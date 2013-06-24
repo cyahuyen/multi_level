@@ -9,7 +9,6 @@
             <?php } ?>
         </div>
         <div class="edit-question">
-            <a href="<?php echo site_url('faq/question/' . $question->id) ?>">Edit</a>
             <?php if ($question->admin_status == 0) { ?>
                 <a href="#">Waiting answer</a> 
             <?php } else { ?>
