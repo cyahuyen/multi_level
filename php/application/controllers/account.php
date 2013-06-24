@@ -129,7 +129,7 @@ class Account extends MY_Controller {
                     'address' => $posts['address'],
                 );
                 if ($this->user->updateMainAcount($id, $data)) {
-                    $this->activity->addActivity($id, 'Update profile');
+                    $this->activity->addActivity($id, 'Updated profile');
                     $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
                 }
 
@@ -204,7 +204,7 @@ class Account extends MY_Controller {
                 unset($posts['repassword']);
                 $data = array('password' => md5(trim($posts['password'])));
                 if ($this->user->updateMainAcount($id, $data)) {
-                    $this->activity->addActivity($id, 'Change password');
+                    $this->activity->addActivity($id, 'Changed password');
                     $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
                 }
                 else
@@ -611,7 +611,7 @@ class Account extends MY_Controller {
                 'balance' => $deposit_amount,
             );
             $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
-            $this->activity->addActivity($user->main_id, 'Add deposit amount your acount ' . $user->acount_number . ' with amount : $' . ($deposit_amount), '+', $deposit_amount);
+            $this->activity->addActivity($user->main_id, 'Deposited to the account ' . $user->acount_number . ' with amount : $' . ($deposit_amount), '+', $deposit_amount);
 //      EOF Update Balance
 //      BOF Update Transaction
             $dataTransactionUpdate = array(
@@ -641,7 +641,7 @@ class Account extends MY_Controller {
                     'balance' => $refereFees,
                 );
                 $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
-                $this->activity->addActivity($userGoldReffering->main_id, 'Add refere fees your acount ' . $userGoldReffering->acount_number . ' with amount : $' . ($refereFees), '+', $refereFees);
+                $this->activity->addActivity($userGoldReffering->main_id, 'Your account' . $userGoldReffering->acount_number . ' received a referral fee with amount : $' . ($refereFees), '+', $refereFees);
                 //      EOF Update Balance
                 //      BOF Update Transaction
                 $dataTransactionUpdate = array(
@@ -899,7 +899,7 @@ class Account extends MY_Controller {
             'balance' => $posts['entry_amount'],
         );
         $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
-        $this->activity->addActivity($user->main_id, 'Add deposit amount your acount ' . $user->acount_number . ' with amount : $' . ($dataBalanceUpdate['balance']), '+', $dataBalanceUpdate['balance']);
+        $this->activity->addActivity($user->main_id, 'Deposited to the account ' . $user->acount_number . ' with amount : $' . ($dataBalanceUpdate['balance']), '+', $dataBalanceUpdate['balance']);
 //      EOF Update Balance
 //      BOF Update Transaction
         $dataTransactionUpdate = array(
@@ -929,7 +929,7 @@ class Account extends MY_Controller {
                 'balance' => $refereFees,
             );
             $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
-            $this->activity->addActivity($userGoldReffering->main_id, 'Add refere fees your acount ' . $userGoldReffering->acount_number . ' with amount : $' . ($refereFees), '+', $refereFees);
+            $this->activity->addActivity($userGoldReffering->main_id, 'The account ' . $userGoldReffering->acount_number . ' received a referral fee with amount : $' . ($refereFees), '+', $refereFees);
             //      EOF Update Balance
             //      BOF Update Transaction
             $dataTransactionUpdate = array(

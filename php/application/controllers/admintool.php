@@ -24,7 +24,7 @@ class Admintool extends MY_Controller {
     }
 
     public function sent_mail() {
-        $this->data['title'] = 'Sent Mail';
+        $this->data['title'] = 'Send Message';
         $this->data['main_content'] = 'admintool/sent_mail';
         
 
@@ -61,7 +61,7 @@ class Admintool extends MY_Controller {
                                 $content = replace_data($content, array('fullname' => $user->firstname . ' ' . $user->lastname));
                                 sendmail($user->email, $subject, $content);
                             }
-                            $this->data['usermessage'] = array('success', 'green', 'Sent mail Success', '');
+                            $this->data['usermessage'] = array('success', 'green', 'Mail was sent', '');
                             break;
                         case 'gold':
                             $data_where = array(
@@ -72,7 +72,7 @@ class Admintool extends MY_Controller {
                                 $content = replace_data($content, array('fullname' => $user->firstname . ' ' . $user->lastname));
                                 sendmail($user->email, $subject, $content);
                             }
-                            $this->data['usermessage'] = array('success', 'green', 'Sent mail Success', '');
+                            $this->data['usermessage'] = array('success', 'green', 'Mail was sent', '');
                             break;
                         case 'silver':
                             $data_where = array(
@@ -83,14 +83,14 @@ class Admintool extends MY_Controller {
                                 $content = replace_data($content, array('fullname' => $user->firstname . ' ' . $user->lastname));
                                 sendmail($user->email, $subject, $content);
                             }
-                            $this->data['usermessage'] = array('success', 'green', 'Sent mail Success', '');
+                            $this->data['usermessage'] = array('success', 'green', 'Mail was sent', '');
                             break;
 
                         default:
                             $user = $this->user->getUserByReferral($user);
                             $content = replace_data($content, array('fullname' => $user->firstname . ' ' . $user->lastname));
                             sendmail($user->email, $subject, $content);
-                            $this->data['usermessage'] = array('success', 'green', 'Sent mail Success', '');
+                            $this->data['usermessage'] = array('success', 'green', 'Mail was sent', '');
                             break;
                     }
                 }

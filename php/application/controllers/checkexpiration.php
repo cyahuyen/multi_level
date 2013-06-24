@@ -60,7 +60,7 @@ class CheckExpiration extends MY_Controller {
                     'balance' => $bonus_amount,
                 );
                 $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
-                $this->activity->addActivity($user->main_id, 'Add bonus amount your acount ' . $user->acount_number . ' with amount : $' . ($dataBalanceUpdate['balance']), '+', $dataBalanceUpdate['balance']);
+                $this->activity->addActivity($user->main_id, 'The account ' . $user->acount_number . ' received a bonus with amount : $' . ($dataBalanceUpdate['balance']), '+', $dataBalanceUpdate['balance']);
 //      EOF Update Balance
 //      BOF Update Transaction
                 $dataTransactionUpdate = array(
@@ -124,7 +124,7 @@ class CheckExpiration extends MY_Controller {
                     'balance' => $bonus_amount,
                 );
                 $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
-                $this->activity->addActivity($user->main_id, 'Add bonus amount your acount ' . $user->acount_number . ' with amount : $' . ($dataBalanceUpdate['balance']), '+', $dataBalanceUpdate['balance']);
+                $this->activity->addActivity($user->main_id, 'The account ' . $user->acount_number . ' received a bonus amount with amount : $' . ($dataBalanceUpdate['balance']), '+', $dataBalanceUpdate['balance']);
 //      EOF Update Balance
 //      BOF Update Transaction
                 $dataTransactionUpdate = array(

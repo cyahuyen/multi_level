@@ -72,7 +72,7 @@ class Adminwithdrawal extends MY_Controller {
                 'balance' => $balance_user_amount,
             );
             $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
-            $this->activity->addActivity($history->main_id, 'Except withdrawal to your acount ' . $history->acount_number . ' with amount : $' . ($dataBalanceUpdate['balance']), '-', $dataBalanceUpdate['balance']);
+            $this->activity->addActivity($history->main_id, 'Withdrawal from the acount ' . $history->acount_number . ' with amount : $' . ($dataBalanceUpdate['balance']), '-', $dataBalanceUpdate['balance']);
 
 //      EOF Check/Create Gold Account
 //      BOF Update Transaction

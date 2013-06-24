@@ -1,10 +1,10 @@
 <form action="" method="post">
     <div class="content-header">
         <div class="content-title">
-            <h1>Sent Mail</h1>
+            <h1>Send Message</h1>
         </div>
         <div class="content-actions">
-            <input type="submit" value="Save" class="button" name="save-btn" id="save-btn">
+            <input type="submit" value="Send" class="button" name="save-btn" id="save-btn">
             <a class="button checkdirty" href="<?php echo site_url('adminemail/manager') ?>">Cancel</a>
         </div>
     </div>

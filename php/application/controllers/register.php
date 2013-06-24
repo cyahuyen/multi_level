@@ -187,7 +187,7 @@ class Register extends MY_Controller {
                 'balance' => $balance_user_amount,
             );
             $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
-            $this->activity->addActivity($main_user_id, 'Add Deposit to your acount ' . $dataGoldAcount['acount_number'] . ' with amount : $' . ($dataBalanceUpdate['balance']), '+', $posts['balance']);
+            $this->activity->addActivity($main_user_id, 'Deposited to the acount ' . $dataGoldAcount['acount_number'] . ' with amount : $' . ($dataBalanceUpdate['balance']), '+', $posts['balance']);
 //      Update Widthdraw date
             $this->user->updateWithdrawalDate($gold_user_id);
         }
@@ -253,7 +253,7 @@ class Register extends MY_Controller {
                 'balance' => $this->config_data['referral_fees'],
             );
             $dataTransaction = $this->balance->updateBalance($dataBalanceSilverReferralUpdate);
-            $this->activity->addActivity($userSilverReffering->main_id, 'Add refere fees your acount ' . $userSilverReffering->acount_number . ' with amount : $' . ($this->config_data['referral_fees']), '+', $this->config_data['referral_fees']);
+            $this->activity->addActivity($userSilverReffering->main_id, 'Your Silver account ' . $userSilverReffering->acount_number . '  received a referral fee with amount : $' . ($this->config_data['referral_fees']), '+', $this->config_data['referral_fees']);
 //      EOF Update Balance
 //      BOF Update Transaction
             $dataTransactionUpdate = array(
@@ -294,7 +294,7 @@ class Register extends MY_Controller {
                         'balance' => $refereFees,
                     );
                     $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
-                    $this->activity->addActivity($userGoldReffering->main_id, 'Add refere fees your acount ' . $userGoldReffering->acount_number . ' with amount : $' . ($refereFees), '+', $refereFees);
+                    $this->activity->addActivity($userGoldReffering->main_id, 'Your Gold account ' . $userSilverReffering->acount_number . '  received a referral fee with amount: $' . ($refereFees), '+', $refereFees);
                     //      EOF Update Balance
                     //      BOF Update Transaction
                     $dataTransactionUpdate = array(
@@ -426,7 +426,7 @@ class Register extends MY_Controller {
                 'balance' => $posts['entry_amount'],
             );
             $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
-            $this->activity->addActivity($main_user_id, 'Add Deposit to your acount ' . $dataGoldAcount['acount_number'] . ' with amount : $' . ($posts['entry_amount']), '+', $posts['entry_amount']);
+            $this->activity->addActivity($main_user_id, 'Deposited to your acount ' . $dataGoldAcount['acount_number'] . ' with amount : $' . ($posts['entry_amount']), '+', $posts['entry_amount']);
         }
 //      EOF Check/Create Gold Account
 //      BOF Update Transaction
@@ -492,7 +492,7 @@ class Register extends MY_Controller {
                 'balance' => $this->config_data['referral_fees'],
             );
             $dataTransaction = $this->balance->updateBalance($dataBalanceSilverReferralUpdate);
-            $this->activity->addActivity($userSilverReffering->main_id, 'Add refere fees your acount ' . $userSilverReffering->acount_number . ' with amount : $' . ($this->config_data['referral_fees']), '+', $this->config_data['referral_fees']);
+            $this->activity->addActivity($userSilverReffering->main_id, 'Your Silver account ' . $userSilverReffering->acount_number . ' receiced a referral fee with amount : $' . ($this->config_data['referral_fees']), '+', $this->config_data['referral_fees']);
 //      EOF Update Balance
 //      BOF Update Transaction
             $dataTransactionUpdate = array(
@@ -533,7 +533,7 @@ class Register extends MY_Controller {
                         'balance' => $refereFees,
                     );
                     $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
-                    $this->activity->addActivity($userGoldReffering->main_id, 'Add refere fees your acount ' . $userGoldReffering->acount_number . ' with amount : $' . ($refereFees), '+', $refereFees);
+                    $this->activity->addActivity($userGoldReffering->main_id, 'Your Gold Account ' . $userGoldReffering->acount_number . ' received a  referral fee with amount : $' . ($refereFees), '+', $refereFees);
                     //      EOF Update Balance
                     //      BOF Update Transaction
                     $dataTransactionUpdate = array(

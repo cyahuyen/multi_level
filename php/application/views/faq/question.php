@@ -3,7 +3,7 @@
         <form action="" method="post">
             <div class="content-header">
                 <div class="content-title">
-                    <h1>Add/Edit Questions</h1>
+                    <h1>Add Question</h1>
                 </div>
             </div>
             <br><br>
@@ -26,7 +26,7 @@
                     <tr>
                         <td></td>
                         <td>
-                            <input class="button" type="submit" value="Question"/>
+                            <input class="button" type="submit" value="Send"/>
                         </td>
                     </tr>
                 </tbody>
@@ -35,7 +35,7 @@
         <br><br>
         <div class="content-header">
             <div class="content-title">
-                <h1>Questions</h1>
+                <h1>List Of Questions</h1>
             </div>
         </div>
         <br><br>

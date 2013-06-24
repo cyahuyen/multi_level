@@ -56,7 +56,7 @@
                 <a href="#">Tools</a>
                 <ul>
                     <li>
-                        <a href="<?php echo site_url('admintool/sent_mail') ?>">Sent Mail</a>
+                        <a href="<?php echo site_url('admintool/sent_mail') ?>">Send Message</a>
                     </li>
                 </ul>
             </li>

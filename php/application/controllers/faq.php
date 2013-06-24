@@ -58,7 +58,7 @@ class Faq extends MY_Controller {
             } else {
                 if ($question) {
                     if ($this->question->updateQuestion($id, $dataUpdate)) {
-                        $this->activity->addActivity($user_session['main_id'], 'Update question "' . $dataUpdate['title'] . '"');
+                        $this->activity->addActivity($user_session['main_id'], 'Updated question "' . $dataUpdate['title'] . '"');
                         $dataUserMail = array(
                             'fullname' => $user_session['firstname'] . ' ' . $user_session['lastname'],
                             'question' => $dataUpdate['title'],
@@ -70,7 +70,7 @@ class Faq extends MY_Controller {
                     $dataUpdate['main_user_id'] = $user_session['main_id'];
                     $id = $this->question->addQuestion($dataUpdate);
                     if ($id) {
-                        $this->activity->addActivity($user_session['main_id'], 'Add question "' . $dataUpdate['title'] . '"');
+                        $this->activity->addActivity($user_session['main_id'], 'Sent a question: "' . $dataUpdate['title'] . '"');
                         $dataUserMail = array(
                             'fullname' => $user_session['firstname'] . ' ' . $user_session['lastname'],
                             'question' => $dataUpdate['title'],
