@@ -16,6 +16,15 @@ if (!function_exists('getStartAndEndDate')) {
 }
 if (!function_exists('getUserByMainId')) {
 
+    function getUserByMainId($id) {
+        $CI = & get_instance();
+        $CI->load->model('user_model', 'user');
+        return $CI->user->getUserByMainId($id);
+    }
+
+}
+if (!function_exists('getMainUserByMainId')) {
+
     function getMainUserByMainId($id) {
         $CI = & get_instance();
         $CI->load->model('user_model', 'user');

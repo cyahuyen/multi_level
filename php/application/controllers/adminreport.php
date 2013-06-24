@@ -42,82 +42,102 @@ class Adminreport extends MY_Controller {
             $date = date('Y-m-d', time());
         $date_week = getStartAndEndDateByWeek(date('W', strtotime($date)), date('Y', strtotime($date)));
         $date_month = getStartAndEndDateByMonth(date('m', strtotime($date)), date('Y', strtotime($date)));
+        $day_of_last_week = date('Y-m-d h:i:s', strtotime('-1 second', strtotime($date_week[0])));
+        $last_week = getStartAndEndDateByWeek(date('W', strtotime($day_of_last_week)), date('Y', strtotime($day_of_last_week)));
         $this->data['date'] = $date;
-        $data_month = array(
-            'created_on >=' => $date_month[0],
-            'created_on <=' => $date_month[1]
+
+        $dataWhereUserMonth = array(
+            'user_main.created_on >=' => $date_month[0],
+            'user_main.created_on <=' => $date_month[1],
+        );
+        $this->data['totalUserByMonth'] = $this->user->totalUser($dataWhereUserMonth);
+
+        $dataWhereUserWeek = array(
+            'user_main.created_on >=' => $date_week[0],
+            'user_main.created_on <=' => $date_week[1],
+        );
+        $this->data['totalUserByWeek'] = $this->user->totalUser($dataWhereUserWeek);
+        
+        $dataWhereListUserWeek = array(
+            'user_main.created_on >=' => $date_week[0],
+            'user_main.created_on <=' => $date_week[1],
+        );
+        $this->data['listUserByWeek'] = $this->user->listReferes($dataWhereListUserWeek);
+
+        $dataWhereTransactionGoldMonth = array(
+            'transaction.created >=' => $date_month[0],
+            'transaction.created <=' => $date_month[1],
+            'user.usertype' => 2,
+            'transaction.transaction_type IN("register","refere","bonus","deposit")' => null,
+        );
+        $this->data['totalTransactionGoldMonth'] = $this->transaction->totalAmountTransfer($dataWhereTransactionGoldMonth);
+
+
+        $dataWhereTransactionGoldWeek = array(
+            'transaction.created >=' => $date_week[0],
+            'transaction.created <=' => $date_week[1],
+            'user.usertype' => 2,
+            'transaction.transaction_type IN("register","refere","deposit")' => null,
+        );
+        $this->data['totalTransactionGoldWeek'] = $this->transaction->totalAmountTransfer($dataWhereTransactionGoldWeek);
+
+        $dataWhereTransactionSilverMonth = array(
+            'transaction.created >=' => $date_month[0],
+            'transaction.created <=' => $date_month[1],
+            'user.usertype' => 1,
+            'transaction.transaction_type IN("register","refere","bonus","deposit")' => null,
+        );
+        $this->data['totalTransactionSilverMonth'] = $this->transaction->totalAmountTransfer($dataWhereTransactionSilverMonth);
+
+        $dataWhereTransactionSilverWeek = array(
+            'transaction.created >=' => $date_week[0],
+            'transaction.created <=' => $date_week[1],
+            'user.usertype' => 1,
+            'transaction.transaction_type IN("register","refere","deposit")' => null,
+        );
+        $this->data['totalTransactionSilverWeek'] = $this->transaction->totalAmountTransfer($dataWhereTransactionSilverWeek);
+
+        $dataWhereTransactionRefereMonth = array(
+            'transaction.created >=' => $date_month[0],
+            'transaction.created <=' => $date_month[1],
+            'transaction.transaction_type' => 'refere',
+        );
+        $this->data['totalTransactionRefereMonth'] = $this->transaction->totalAmountTransfer($dataWhereTransactionRefereMonth);
+
+        $dataWhereTransactionRefereWeek = array(
+            'transaction.created >=' => $date_week[0],
+            'transaction.created <=' => $date_week[1],
+            'transaction.transaction_type' => 'refere',
         );
 
-        $dataSilverMonth = array_merge($data_month, array('usertype' => 1));
-        $dataGoldMonth = array_merge($data_month, array('usertype' => 2));
-        $dataUserMonth = array_merge($data_month, array('usertype' => 0));
+        $dataWhereTransactionAmountMemberMonth = array(
+            'transaction.created >=' => $date_month[0],
+            'transaction.created <=' => $date_month[1],
+            'transaction.transaction_type IN("register","refere","bonus","deposit")' => null,
+        );
+        $this->data['totalTransactionAmountMemberMonth'] = $this->transaction->totalAmountTransfer($dataWhereTransactionAmountMemberMonth);
 
-        $dataSilverTotalPaidMonth = array(
-            'start_date' => $date_month[0],
-            'end_date' => $date_month[1],
-            'transaction_type' => array('refere', 'bonus'),
-            'usertype' => 1,
+        $dataWhereTransactionAmountMemberWeek = array(
+            'transaction.created >=' => $date_week[0],
+            'transaction.created <=' => $date_week[1],
+            'transaction.transaction_type' => 'refere',
+            'transaction.transaction_type IN("register","refere","deposit")' => null,
         );
-        $dataGoldTotalPaidMonth = array(
-            'start_date' => $date_month[0],
-            'end_date' => $date_month[1],
-            'transaction_type' => array('refere', 'bonus'),
-            'usertype' => 1,
-        );
-        $dataTotalDividendsPaidMonth = array(
-            'start_date' => $date_month[0],
-            'end_date' => $date_month[1],
-            'transaction_type' => array('refere', 'bonus'),
-        );
-        $dataTotalReferralpaid = array(
-            'start_date' => $date_month[0],
-            'end_date' => $date_month[1],
-            'transaction_type' => array('refere'),
-        );
+        $this->data['totalTransactionAmountMemberWeek'] = $this->transaction->totalAmountTransfer($dataWhereTransactionAmountMemberWeek);
 
-        $this->data['user_count_month'] = $this->user->totalUser($data_month);
-        $this->data['silver_count_month'] = $this->user->totalUser($dataSilverMonth);
-        $this->data['gold_count_month'] = $this->user->totalUser($dataGoldMonth);
-        $this->data['silver_total_paid_amount'] = $this->transaction->getTotalAmountPaid($dataSilverTotalPaidMonth);
-        $this->data['gold_total_paid_amount'] = $this->transaction->getTotalAmountPaid($dataGoldTotalPaidMonth);
-        $this->data['total_dividends_paid_amount'] = $this->transaction->getTotalAmountPaid($dataTotalDividendsPaidMonth);
-        $this->data['total_referral_paid'] = $this->transaction->getTotalAmountPaid($dataTotalReferralpaid);
-
-        
-        
-        
-        
-        $data_week = array(
-            'created_on >=' => $date_week[0],
-            'created_on <=' => $date_week[1]
+        $dataWhereTransactionAmountMemberLastWeek = array(
+            'transaction.created >=' => $last_week[0],
+            'transaction.created <=' => $last_week[1],
+            'transaction.transaction_type' => 'refere',
+            'transaction.transaction_type IN("register","refere","deposit")' => null,
         );
+        $this->data['totalTransactionAmountMemberLastWeek'] = $this->transaction->totalAmountTransfer($dataWhereTransactionAmountMemberLastWeek);
 
-        $dataSilverWeek = array_merge($date_week, array('usertype' => 1));
-        $dataGoldWeek = array_merge($date_week, array('usertype' => 2));
-        $dataUserWeek = array_merge($date_week, array('usertype' => 0));
-        
-        $dataSilverTotalPaidWeek = array(
-            'start_date' => $date_week[0],
-            'end_date' => $date_week[1],
-            'transaction_type' => array('refere'),
-            'usertype' => 1,
-        );
-        $dataGoldTotalPaidWeek = array(
-            'start_date' => $date_week[0],
-            'end_date' => $date_week[1],
-            'transaction_type' => array('refere', 'bonus'),
-            'usertype' => 1,
-        );
-        
+        $totalWeek = !empty($this->data['totalTransactionAmountMemberLastWeek']) ? $this->data['totalTransactionAmountMemberLastWeek'] : 1;
+        $this->data['percenter'] = ($this->data['totalTransactionAmountMemberWeek'] - $this->data['totalTransactionAmountMemberLastWeek']) / $totalWeek * 100;
 
-        $this->data['user_count_week'] = $this->user->totalUser($dataUserWeek);
-        $this->data['silver_count_week'] = $this->user->totalUser($dataSilverWeek);
-        $this->data['gold_count_week'] = $this->user->totalUser($dataGoldWeek);
-        $this->data['silver_total_paid_amount_week'] = $this->transaction->getTotalAmountPaid($dataSilverTotalPaidWeek);
-        $this->data['gold_total_paid_amount_week'] = $this->transaction->getTotalAmountPaid($dataGoldTotalPaidWeek);
 
-        
-        
+
         $this->data['main_content'] = 'adminreport/index';
         $this->load->view('administrator', $this->data);
     }

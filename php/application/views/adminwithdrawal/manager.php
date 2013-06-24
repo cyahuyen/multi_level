@@ -107,7 +107,7 @@
                 <div class="datalist-sort">
                     <span>Order by<span style="padding:4px">
                             <select id="datalist-sort-order"  onchange="search()"> 
-                                <option value="user.username">Account number</option>
+                                <option value="user.acount_number">Account number</option>
                                 <option value="payment_history.created">Created</option>
                             </select>
                             <span>

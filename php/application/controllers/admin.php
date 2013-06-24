@@ -28,7 +28,7 @@ class Admin extends MY_Controller {
     }
 
     public function index() {
-        $this->data['main_content'] = 'includes/main_content.php';
+        $this->data['main_content'] = 'admin_includes/main_content.php';
         $this->data['title'] = 'Multi Level Marketing';
         $this->load->View('administrator', $this->data);
     }

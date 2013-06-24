@@ -17,7 +17,7 @@
     <tbody>
         <?php foreach ($wallists as $wallist) { ?>
             <tr class="row" id="row_<?php echo $wallist->id; ?>"> 
-                <td ><div><?php echo $wallist->username; ?></div></td>
+                <td ><div><?php echo $wallist->acount_number; ?></div></td>
                 <td><div><?php echo $wallist->email; ?></div></td>
 
                 <td><div><?php echo $wallist->firstname . ' ' . $wallist->lastname; ?></div></td>

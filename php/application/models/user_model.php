@@ -236,7 +236,7 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
-    
+
     function getEmmail($email) {
         $results = $this->db->get_where('user_main', array('email' => $email))->result();
         if ($results) {
@@ -245,8 +245,8 @@ class User_model extends CI_Model {
         else
             return false;
     }
-    
-    public function listUserByType($userType){
+
+    public function listUserByType($userType) {
         $this->db->select("*");
         $this->db->from("user_main");
         $this->db->join("user", "user_main.main_id = user.main_user_id");
@@ -254,7 +254,7 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
-    
+
     public function totalMainUser($data) {
         $this->db->select("*");
         $this->db->from("user_main");
@@ -273,7 +273,8 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->num_rows();
     }
-    
+
+  
     public function listMainUser($data, $limit = null, $start = null, $sort = null) {
         $this->db->select("*");
         $this->db->from("user_main");
@@ -302,15 +303,50 @@ class User_model extends CI_Model {
                 $this->db->order_by($key, $value);
             }
         }
+        
+        
 
         $query = $this->db->get();
+                
         return $query->result();
     }
-    
-     public function updateWithdrawalDate($id) {
+
+    public function updateWithdrawalDate($id) {
         $this->db->where('user_id', $id);
         $this->db->set('withdrawal_date', 'NOW()', FALSE);
         return $this->db->update('user');
+    }
+    
+      public function totalUser($data) {
+        $this->db->select("*");
+        $this->db->from("user");
+        $this->db->join("user_main",'user.main_user_id = user_main.main_id');
+
+        if (!empty($data)) {
+            foreach ($data as $key => $val) {
+                $this->db->where($key, $val);
+            }
+        }
+
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function listReferes($data){
+        $this->db->select("referring ,COUNT(main_id) as total_user");
+        $this->db->from("user_main");
+        
+        if (!empty($data)) {
+            foreach ($data as $key => $val) {
+                $this->db->where($key, $val);
+            }
+        }
+        
+        $this->db->group_by('referring');
+
+
+        $query = $this->db->get();
+        return $query->result();
     }
 
 }

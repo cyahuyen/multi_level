@@ -42,28 +42,55 @@ class Adminwithdrawal extends MY_Controller {
     public function payment_sucess($id = 0) {
         if ($this->transaction->updateHistory(array('payment_status' => 1), $id)) {
             $history = $this->transaction->getHistoryById($id);
-            $data['total'] = $history->total;
-            $data['fees'] = $history->fees;
-            $data['user_id'] = $history->user_id;
-            $data['payment_status'] = 'Completed';
-            $data['transaction_type'] = 'withdrawal';
-            $data['transaction_text'] = '-';
-            $data['transaction_source'] = 'system';
-            $data['status'] = 0;
+//            $data['total'] = $history->total;
+//            $data['fees'] = $history->fees;
+//            $data['user_id'] = $history->user_id;
+//            $data['payment_status'] = 'Completed';
+//            $data['transaction_type'] = 'withdrawal';
+//            $data['transaction_text'] = '-';
+//            $data['transaction_source'] = 'system';
+//            $data['status'] = 0;
+//
+//            $this->transaction->insert($data);
+//
+//            $balance_info = $this->balance->getBalance($history->user_id);
+//            $amount_current = !empty($balance_info->balance) ? $balance_info->balance : 0;
+//
+//            $balance = $amount_current - $history->total;
+//
+//            $this->balance->updateBalanceByUserId($history->user_id, $balance);
+//
+//            $adminBalance = $history->fees - $history->total;
+//
+//            $this->balance->updateAdminBalance($adminBalance);
+            
+//      Update Balance 
+            $balance_user_amount = $history->total - $history->fees;
+            $this->balance->updateAdminBalance($balance_user_amount, '-');
+            $dataBalanceUpdate = array(
+                'user_id' => $history->user_id,
+                'balance' => $balance_user_amount,
+            );
+            $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
+            $this->activity->addActivity($history->main_id, 'Except withdrawal to your acount ' . $history->acount_number . ' with amount : $' . ($dataBalanceUpdate['balance']), '-', $dataBalanceUpdate['balance']);
 
-            $this->transaction->insert($data);
+//      EOF Check/Create Gold Account
+//      BOF Update Transaction
+            $dataTransactionUpdate = array(
+                'user_id' => !empty($history->user_id) ? $history->user_id : NULL,
+                'main_user_id' => $history->main_id,
+                'fees' => $history->fees,
+                'total' => $history->total,
+                'transaction_id' => '',
+                'payment_status' => 'Completed',
+                'transaction_type' => 'withdrawal',
+                'transaction_text' => '-',
+                'transaction_source' => '',
+                'status' => '0',
+            );
+            $this->transaction->upadateTransaction($dataTransactionUpdate);
 
-            $balance_info = $this->balance->getBalance($history->user_id);
-            $amount_current = !empty($balance_info->balance) ? $balance_info->balance : 0;
-
-            $balance = $amount_current - $history->total;
-
-            $this->balance->updateBalanceByUserId($history->user_id, $balance);
-
-            $adminBalance = $history->fees - $history->total;
-
-            $this->balance->updateAdminBalance($adminBalance);
-
+//      EOF Update Transaction
             $email['amount'] = $history->total - $history->fees;
             $email['fullname'] = $history->firstname . ' ' . $history->lastname;
 

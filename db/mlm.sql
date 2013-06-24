@@ -3,7 +3,7 @@
 -- Server version:               5.5.16 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2013-06-18 17:29:39
+-- Date/time:                    2013-06-24 11:20:13
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,24 +26,43 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `amount` float(10,2) DEFAULT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.activity: ~0 rows (approximately)
+-- Dumping data for table multi_level.activity: ~13 rows (approximately)
 DELETE FROM `activity`;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
 INSERT INTO `activity` (`id`, `main_user_id`, `created`, `status`, `amount`, `description`) VALUES
-	(1, 26, '2013-06-18 17:26:33', NULL, NULL, 'Registed'),
-	(2, 26, '2013-06-18 17:26:33', NULL, NULL, 'Created gold account number G1371551193'),
-	(3, 26, '2013-06-18 17:26:33', '+', 400.00, 'Add Deposit to your acount G1371551193 with amount : $400'),
-	(4, 27, '2013-06-18 17:27:14', NULL, NULL, 'Registed'),
-	(5, 27, '2013-06-18 17:27:14', NULL, NULL, 'Created gold account number G1371551234'),
-	(6, 27, '2013-06-18 17:27:14', '+', 200.00, 'Add Deposit to your acount G1371551234 with amount : $200'),
-	(7, 26, '2013-06-18 17:27:14', NULL, NULL, 'Created silver account number S1371551234'),
-	(8, 26, '2013-06-18 17:27:15', '+', 5.00, 'Add refere fees your acount S1371551234 with amount : $5'),
-	(9, 26, '2013-06-18 17:27:15', '+', 10.00, 'Add refere fees your acount G1371551193 with amount : $10'),
-	(10, 28, '2013-06-18 17:29:04', NULL, NULL, 'Registed'),
-	(11, 26, '2013-06-18 17:29:04', '+', 5.00, 'Add refere fees your acount S1371551234 with amount : $5');
+	(1, 39, '2013-06-22 10:16:57', NULL, NULL, 'Registed'),
+	(2, 39, '2013-06-22 10:16:57', NULL, NULL, 'Created gold account number G1371871017'),
+	(3, 39, '2013-06-22 10:16:57', '+', 300.00, 'Add Deposit to your acount G1371871017 with amount : $300'),
+	(4, 40, '2013-06-22 10:26:44', NULL, NULL, 'Registed'),
+	(5, 40, '2013-06-22 10:26:44', NULL, NULL, 'Created gold account number G1371871604'),
+	(6, 39, '2013-06-22 10:26:45', NULL, NULL, 'Created silver account number S1371871604'),
+	(7, 39, '2013-06-22 10:26:45', '+', 5.00, 'Add refere fees your acount S1371871604 with amount : $5'),
+	(8, 39, '2013-06-22 10:26:45', '+', 0.00, 'Add refere fees your acount G1371871017 with amount : $0'),
+	(9, 41, '2013-06-22 10:49:07', NULL, NULL, 'Registed'),
+	(10, 41, '2013-06-22 10:49:07', NULL, NULL, 'Created gold account number G1371872947'),
+	(11, 41, '2013-06-22 10:49:07', '+', 200.00, 'Add Deposit to your acount G1371872947 with amount : $200'),
+	(12, 39, '2013-06-22 10:49:07', '+', 5.00, 'Add refere fees your acount S1371871604 with amount : $5'),
+	(13, 39, '2013-06-22 10:49:07', '+', 10.00, 'Add refere fees your acount G1371871017 with amount : $10'),
+	(14, 39, '2013-06-24 09:38:45', '-', 200.00, 'Except withdrawal to your acount G1371871017 with amount : $200');
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
+
+
+-- Dumping structure for table multi_level.answer
+DROP TABLE IF EXISTS `answer`;
+CREATE TABLE IF NOT EXISTS `answer` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `question_id` int(10) NOT NULL,
+  `answer_content` text NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table multi_level.answer: ~0 rows (approximately)
+DELETE FROM `answer`;
+/*!40000 ALTER TABLE `answer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `answer` ENABLE KEYS */;
 
 
 -- Dumping structure for table multi_level.balance
@@ -55,14 +74,14 @@ CREATE TABLE IF NOT EXISTS `balance` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.balance: ~0 rows (approximately)
+-- Dumping data for table multi_level.balance: ~4 rows (approximately)
 DELETE FROM `balance`;
 /*!40000 ALTER TABLE `balance` DISABLE KEYS */;
 INSERT INTO `balance` (`id`, `user_id`, `balance`) VALUES
-	(1, 1, 650.00),
-	(2, 9, 410.00),
-	(3, 10, 200.00),
-	(4, 11, 10.00);
+	(1, 1, 175.00),
+	(2, 21, 710.00),
+	(3, 23, 10.00),
+	(4, 24, 200.00);
 /*!40000 ALTER TABLE `balance` ENABLE KEYS */;
 
 
@@ -92,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `config` (
   `value` text,
   `serialized` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=247 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=252 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table multi_level.config: ~37 rows (approximately)
 DELETE FROM `config`;
@@ -112,11 +131,6 @@ INSERT INTO `config` (`id`, `group`, `code`, `key`, `value`, `serialized`) VALUE
 	(209, 'config', 'emails', 'smtp_timeout', '30', 0),
 	(210, 'config', 'emails', 'email_admin', 'admin@gmail.com', 0),
 	(211, 'config', 'emails', 'group', 'config', 0),
-	(218, 'config', 'withdrawal', 'days_space_gold', '365', 0),
-	(219, 'config', 'withdrawal', 'days_space_silver', '60', 0),
-	(220, 'config', 'withdrawal', 'min_of_gold', '100', 0),
-	(221, 'config', 'withdrawal', 'min_of_silver', '20', 0),
-	(222, 'config', 'withdrawal', 'group', 'config', 0),
 	(223, 'payment', 'creditcard', 'login_id', '6Z2Kgs6W7m', 0),
 	(224, 'payment', 'creditcard', 'transaction', '49yh68ESgd4Sd2Mw', 0),
 	(225, 'payment', 'creditcard', 'authorizenet_aim_method', 'authorization', 0),
@@ -126,7 +140,7 @@ INSERT INTO `config` (`id`, `group`, `code`, `key`, `value`, `serialized`) VALUE
 	(229, 'config', 'transaction_fees', 'transaction_fee', '10', 0),
 	(230, 'config', 'transaction_fees', 'min_enrolment_entry_amount', '100', 0),
 	(231, 'config', 'transaction_fees', 'max_enrolment_entry_amount', '500', 0),
-	(232, 'config', 'transaction_fees', 'max_enrolment_silver_amount', '100', 0),
+	(232, 'config', 'transaction_fees', 'max_enrolment_silver_amount', '90', 0),
 	(233, 'config', 'transaction_fees', 'group', 'config', 0),
 	(234, 'config', 'referraldefault', 'default_referral_user', 'U1369627271', 0),
 	(235, 'config', 'timeconfig', 'time_format', '30', 0),
@@ -134,7 +148,12 @@ INSERT INTO `config` (`id`, `group`, `code`, `key`, `value`, `serialized`) VALUE
 	(243, 'config', 'referral', 'percentage_gold', '5', 0),
 	(244, 'config', 'referral', 'bonus_percentage_silver', '2', 0),
 	(245, 'config', 'referral', 'bonus_percentage_gold', '5', 0),
-	(246, 'config', 'referral', 'referral_fees', '5', 0);
+	(246, 'config', 'referral', 'referral_fees', '5', 0),
+	(247, 'config', 'withdrawal', 'days_space_gold', '365', 0),
+	(248, 'config', 'withdrawal', 'days_space_silver', '60', 0),
+	(249, 'config', 'withdrawal', 'min_of_gold', '50', 0),
+	(250, 'config', 'withdrawal', 'min_of_silver', '20', 0),
+	(251, 'config', 'withdrawal', 'group', 'config', 0);
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 
 
@@ -147,9 +166,9 @@ CREATE TABLE IF NOT EXISTS `email_template` (
   `content` text NOT NULL,
   `slug` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.email_template: ~23 rows (approximately)
+-- Dumping data for table multi_level.email_template: ~33 rows (approximately)
 DELETE FROM `email_template`;
 /*!40000 ALTER TABLE `email_template` DISABLE KEYS */;
 INSERT INTO `email_template` (`id`, `code`, `subject`, `content`, `slug`) VALUES
@@ -160,12 +179,17 @@ INSERT INTO `email_template` (`id`, `code`, `subject`, `content`, `slug`) VALUES
 	(5, 'forgot_password', 'Forgot Password', '<p>Code forget Password: {{forget_code}}</p>', '<p>{{forget_code}} : Code</p>'),
 	(6, 'user_expiration', 'Users Expiration!', '<p>Gold account {{fullname}}&nbsp; has expired.</p>', '<p>{{fullname}} : Fullname</p>'),
 	(7, 'acount_expiration', 'Account Expiration!', '<p>Your Gold account has expired. Your current account type is {{user_type}}. Please log in and deposite to be Gold again.</p>', '<p>{{user_type}} : User Type</p>'),
-	(8, 'profit', 'Profit month {{month}}', '<p>You have just received: {{blance_fees}} month {{month}}</p>', '<p>{{month}}: month</p>\r\n<p>{{blance_fees}}: Blance Fees</p>'),
+	(8, 'profit', 'Profit month {{month}}', '<p>You have just received: {{blance_fees}} month {{month}}</p>\r\n<p>Acount number: {{acount_number}}</p>', '<p>{{month}}: month</p>\r\n<p>{{blance_fees}}: Blance Fees</p>\r\n<p>{{acount_number}}: acount number</p>'),
 	(9, 'admin_withdrawal', 'Withdrawal', '<p><strong>Fullname:&nbsp;</strong>{{fullname}}</p>\r\n<p><strong>AcountNumber:&nbsp;</strong>{{username}}</p>\r\n<p><strong>Email:&nbsp;</strong>{{email}}</p>\r\n<p><strong>Email paypal:&nbsp;</strong>{{email_paypal}}</p>\r\n<p><strong>Amount:&nbsp;</strong>{{amount}}</p>', '<p>{{fullname}} : Fullname</p>\r\n<p>{{username}}: AcountNumber</p>\r\n<p>{{email}}: Email</p>\r\n<p>{{email_paypal}}: Email paypal</p>\r\n<p>{{amount}}: Amount</p>'),
 	(10, 'payment_sucess', 'Payment Success', '<p>Hi {{fullname}}</p>\r\n<p>Amount: {{amount}}</p>', '<p>{{amount}}: Amount</p>\r\n<p>{{fullname}}: Fullname</p>'),
 	(11, 'referring_deposit', 'You have just referring deposit', '<p>hi {{fullname}}!</p>\r\n<p>You have just ${{amount}} from {{user_fullname}}</p>', '<p>{{fullname}} : Fullname referring user</p>\r\n<p>{{user_fullname}} : Deposit user</p>'),
 	(12, 'user_withdrawal', 'Withdrawal', '<p>Hi<strong>&nbsp;</strong>{{fullname}}!</p>\r\n<p><strong>Email paypal:&nbsp;</strong>{{email_paypal}}</p>\r\n<p><strong>Amount: $</strong>{{amount}}</p>\r\n<p><strong>Fees</strong>: ${{fees}}</p>\r\n<p><strong>Total</strong>: ${{total}}</p>', '<p>{{email_paypal}}: Email paypal</p>\r\n<p>{{amount}}: Amount</p>\r\n<p>{{fees}}:Fees</p>\r\n<p>{{total}} : Total</p>'),
-	(13, 'payment_cancel', 'Withdrawal Cancel', '<p><strong><br /></strong>Hi {{fullname}}!</p>\r\n<p><strong>Amount</strong> :{{amount}}</p>', '<p>{{fullname}}:Full name</p>\r\n<p>{{amount}} : Amount</p>');
+	(13, 'payment_cancel', 'Withdrawal Cancel', '<p><strong><br /></strong>Hi {{fullname}}!</p>\r\n<p><strong>Amount</strong> :{{amount}}</p>', '<p>{{fullname}}:Full name</p>\r\n<p>{{amount}} : Amount</p>'),
+	(14, 'admin_profit', 'Profit', '<p>{{content}}</p>', '<p>{{content}} :Content Email</p>'),
+	(15, 'update_question', 'Update Question', '<p>Hi {{fullname}}!</p>\r\n<p>You have just updated question "{{question}}"</p>', '<p>{{fullname}} : Fullname</p>\r\n<p>{{question}} : Question name</p>'),
+	(16, 'add_question', 'Add question', '<p>Hi {{fullname}}!</p>\r\n<p>You have just add question "{{question}}"</p>\r\n<p>We will reply you as soon as possible</p>', '<p>{{fullname}} : Fullname</p>\r\n<p>{{question}} : Question name</p>'),
+	(17, 'admin_add_question', 'Question "{{question}}"', '<p>{{fullname}} have just sent you a question "{{question}}"</p>', '<p>{{fullname}} : Fullname</p>\r\n<p>{{question}} : Question name</p>'),
+	(18, 'add_answer_admin', 'Answer of question {{question}}', '<p>hi {{fullname}}</p>\r\n<p>Admin answered "{{question}}"</p>\r\n<p>&nbsp;</p>', '<p>{{fullname}} : Fullname</p>\r\n<p>{{question}}: Question</p>');
 /*!40000 ALTER TABLE `email_template` ENABLE KEYS */;
 
 
@@ -204,12 +228,34 @@ CREATE TABLE IF NOT EXISTS `payment_history` (
   `created` datetime NOT NULL,
   `confirm_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.payment_history: ~0 rows (approximately)
+-- Dumping data for table multi_level.payment_history: ~1 rows (approximately)
 DELETE FROM `payment_history`;
 /*!40000 ALTER TABLE `payment_history` DISABLE KEYS */;
+INSERT INTO `payment_history` (`id`, `user_id`, `total`, `fees`, `email_paypal`, `payment_status`, `created`, `confirm_date`) VALUES
+	(1, 21, 210.0000, 10.0000, 'rongandat@gmail.com', 1, '2013-06-22 11:08:27', '2013-06-24 09:38:45');
 /*!40000 ALTER TABLE `payment_history` ENABLE KEYS */;
+
+
+-- Dumping structure for table multi_level.question
+DROP TABLE IF EXISTS `question`;
+CREATE TABLE IF NOT EXISTS `question` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `main_user_id` int(10) NOT NULL,
+  `title` varchar(300) NOT NULL,
+  `content` text NOT NULL,
+  `created` datetime NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `admin_status` tinyint(4) NOT NULL DEFAULT '0',
+  `user_status` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table multi_level.question: ~0 rows (approximately)
+DELETE FROM `question`;
+/*!40000 ALTER TABLE `question` DISABLE KEYS */;
+/*!40000 ALTER TABLE `question` ENABLE KEYS */;
 
 
 -- Dumping structure for table multi_level.transaction
@@ -228,18 +274,19 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `transaction_source` varchar(100) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.transaction: ~0 rows (approximately)
+-- Dumping data for table multi_level.transaction: ~6 rows (approximately)
 DELETE FROM `transaction`;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `user_id`, `main_user_id`, `fees`, `total`, `created`, `transaction_id`, `payment_status`, `transaction_type`, `transaction_text`, `transaction_source`, `status`) VALUES
-	(1, 9, 26, 35.0000, 435.0000, '2013-06-18 17:26:33', '2194575055', 'Completed', 'register', '+', 'creditcard', 1),
-	(2, 10, 27, 35.0000, 235.0000, '2013-06-18 17:27:14', '2194575064', 'Completed', 'register', '+', 'creditcard', 1),
-	(3, 11, 26, 0.0000, 5.0000, '2013-06-18 17:27:15', NULL, 'Completed', 'refere', '+', 'system', 0),
-	(4, 9, 26, 0.0000, 10.0000, '2013-06-18 17:27:15', NULL, 'Completed', 'refere', '+', 'system', 0),
-	(5, NULL, 28, 25.0000, 25.0000, '2013-06-18 17:29:04', '2194575089', 'Completed', 'register', '+', 'creditcard', 1),
-	(6, 11, 26, 0.0000, 5.0000, '2013-06-18 17:29:04', NULL, 'Completed', 'refere', '+', 'system', 0);
+	(1, 21, 39, 35.0000, 335.0000, '2013-06-22 10:16:57', '2194751371', 'Completed', 'register', '+', 'creditcard', 1),
+	(2, 22, 40, 25.0000, 25.0000, '2013-06-22 10:26:44', '2194751487', 'Completed', 'register', '+', 'creditcard', 1),
+	(3, 23, 39, 0.0000, 5.0000, '2013-06-22 10:26:45', NULL, 'Completed', 'refere', '+', 'system', 0),
+	(5, 24, 41, 35.0000, 235.0000, '2013-06-22 10:49:07', '2194751644', 'Completed', 'register', '+', 'creditcard', 1),
+	(6, 23, 39, 0.0000, 5.0000, '2013-06-22 10:49:07', NULL, 'Completed', 'refere', '+', 'system', 0),
+	(7, 21, 39, 0.0000, 10.0000, '2013-06-22 10:49:07', NULL, 'Completed', 'refere', '+', 'system', 0),
+	(8, 21, 39, 10.0000, 210.0000, '2013-06-24 09:38:45', '', 'Completed', 'withdrawal', '-', '', 0);
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 
@@ -252,16 +299,17 @@ CREATE TABLE IF NOT EXISTS `user` (
   `usertype` int(11) DEFAULT NULL,
   `withdrawal_date` date DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
--- Dumping data for table multi_level.user: ~4 rows (approximately)
+-- Dumping data for table multi_level.user: ~5 rows (approximately)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`user_id`, `main_user_id`, `acount_number`, `usertype`, `withdrawal_date`) VALUES
 	(1, 1, '', -1, NULL),
-	(9, 26, 'G1371551193', 2, NULL),
-	(10, 27, 'G1371551234', 2, NULL),
-	(11, 26, 'S1371551234', 1, NULL);
+	(21, 39, 'G1371871017', 2, '2013-06-24'),
+	(22, 40, 'G1371871604', 2, '2013-06-22'),
+	(23, 39, 'S1371871604', 1, '2013-06-22'),
+	(24, 41, 'G1371872947', 2, '2013-06-22');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 
@@ -318,16 +366,16 @@ CREATE TABLE IF NOT EXISTS `user_main` (
   `created_on` datetime NOT NULL,
   `permission` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`main_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.user_main: ~3 rows (approximately)
+-- Dumping data for table multi_level.user_main: ~4 rows (approximately)
 DELETE FROM `user_main`;
 /*!40000 ALTER TABLE `user_main` DISABLE KEYS */;
 INSERT INTO `user_main` (`main_id`, `firstname`, `lastname`, `email`, `password`, `address`, `referring`, `phone`, `status`, `forgotten_password_code`, `created_on`, `permission`) VALUES
 	(1, 'admn', 'admin', 'admin@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, 1, NULL, '0000-00-00 00:00:00', 'administrator'),
-	(26, 'Khiemu', 'Pham', 'rongandat@gmail.com', '68c8d853531ef53cfdb2b549b9eb90dc', 'Ha Noi', NULL, '01694046627', 1, NULL, '2013-06-18 17:26:33', NULL),
-	(27, 'Khiemu', 'Pham', 'rongand4at@gmail.com', '5dd075517b102590ffb39cbd590beeea', 'Ha Noi', 26, '01694046627', 1, NULL, '2013-06-18 17:27:14', NULL),
-	(28, 'Khiemu', 'Pham', 'rongand4sat@gmail.com', '860ac72675691831132ec91933fa65b3', 'Ha Noi', 26, '01694046627', 1, NULL, '2013-06-18 17:29:04', NULL);
+	(39, 'Khiem', 'Pham', 'khiemktqd@gmail.com', '8b58c99e45f48a43aa6b0a3cbfb51903', 'Ha Noi', NULL, '01694046627', 1, NULL, '2013-06-22 10:16:57', NULL),
+	(40, 'Khiem', 'Pham', 'rongandat@gmail.com', '70abfe1ebb2423810743b642b41340e1', 'Ha Noi', 39, '01694046627', 1, NULL, '2013-06-22 10:26:44', NULL),
+	(41, 'Khiem', 'Pham', 'khisemktqd@gmail.com', '2cae955f3a147027b8c2b98cf048702b', 'Ha Noi', 39, '01694046627', 1, NULL, '2013-06-22 10:49:07', NULL);
 /*!40000 ALTER TABLE `user_main` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
