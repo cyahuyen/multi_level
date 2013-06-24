@@ -1,7 +1,7 @@
 
 <div class="entry"> 
     <div style="clear: both;text-align: center;width: 60%;margin: 0px auto;">
-        <h2 style="padding-bottom: 20px;color: #017AC3">Welcome to MLM-cya.com</h2>
+        <h2 style="padding-bottom: 20px;color: #017AC3">Welcome to www.safeco-op.com</h2>
         <div style="text-align: left;">
             <?php echo form_open('authentication'); ?>
             <table class="datatable" style="text-align: center;" >

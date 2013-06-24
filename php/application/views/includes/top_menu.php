@@ -1,6 +1,6 @@
 <div class="top">
     <div class="logo">
-        MULTI LEVEL MARKETING
+        <img src="<?php echo base_url().'/img/sc_png_200px_wide.png' ?>"/>
     </div>
     <div class="clearer" style="height:1px; background-color:#fff"></div>
     <?php if ($this->session->userdata('user')) { ?>

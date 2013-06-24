@@ -1,4 +1,7 @@
 <div class="top">
+     <div class="logo">
+        <img src="<?php echo base_url().'/img/sc_png_200px_wide.png' ?>"/>
+    </div>
     <div class="topright">
         <div class="usermenu">
             <ul>
