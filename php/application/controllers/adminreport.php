@@ -109,7 +109,7 @@ class Adminreport extends MY_Controller {
             'transaction.transaction_type' => 'refere',
         );
         $this->data['totalTransactionRefereMonth'] = $this->transaction->totalAmountTransfer($dataWhereTransactionRefereMonth);
-        $this->data['listTransactionSilverMonth'] = $this->transaction->getTransfers($dataWhereTransactionRefereMonth);
+        $this->data['listTransactionRefereMonth'] = $this->transaction->getTransfers($dataWhereTransactionRefereMonth);
         
         
         

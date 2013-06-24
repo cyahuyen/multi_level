@@ -149,8 +149,8 @@
                 <strong>Percentage of increase from previous week: </strong><?php echo $percenter ?>%<br>
             </a>
             <div class="description">
-                <strong>Amount paid into currentweek: </strong>$<?php echo !empty($totalTransactionAmountMemberWeek)?$totalTransactionAmountMemberWeek:0 ?><br>
-                <strong>Amount paid into previous week: </strong>$<?php echo !empty($totalTransactionAmountMemberLastWeek)?$totalTransactionAmountMemberLastWeek:0 ?><br>
+                Amount paid into currentweek: $<?php echo!empty($totalTransactionAmountMemberWeek) ? $totalTransactionAmountMemberWeek : 0 ?><br>
+                Amount paid into previous week: $<?php echo!empty($totalTransactionAmountMemberLastWeek) ? $totalTransactionAmountMemberLastWeek : 0 ?><br>
             </div>
         </div>
         <div class="toogger">
@@ -190,7 +190,7 @@
             <a href="javascript:void(0)">
                 <strong>List of referring members with number referred: </strong>
             </a>
-            
+
 
         </div>
         <?php if (!empty($listAllUserByMonth)) { ?>
@@ -289,7 +289,32 @@
                 <strong>Total amount paid into Silver accounts: </strong>$<?php echo!empty($totalTransactionSilverMonth) ? $totalTransactionSilverMonth : 0 ?><br>
             </a>
             <div class="description">
+                <div class="datalist">
+                    <table id="userdata">
+                        <thead>
+                            <tr class="heading">
+                                <td style="width:110px"><div>Acount Number</div></td>
+                                <td style="width:200px"><div>Fees</div></td>
+                                <td style="width:80px"><div>Total</div></td>
+                                <td style="width:80px"><div>Created</div></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($listTransactionSilverMonth as $transaction) { ?>
 
+                                <?php if (!empty($user->referring)) { ?>
+
+                                    <tr class="row"> 
+                                        <td ><div><?php echo $transaction->acount_number; ?></div></td>
+                                        <td><div>$<?php echo $transaction->fees ?></div></td>
+                                        <td><div>$<?php echo $transaction->total; ?></div></td>
+                                        <td><div><?php echo $transaction->created; ?></div></td>
+                                    </tr>
+                                <?php } ?>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>  
             </div>
         </div>
         <div class="toogger">
@@ -327,39 +352,40 @@
         </div>
         <div class="toogger">
             <a href="javascript:void(0)">
-                <strong>Total referral commission paid to referring members: </strong>$<?php echo!empty($totalTransactionRefereMonth) ? $totalTransactionRefereMonth : 0 ?><br>
-                <div class="description">
-                    <div class="datalist">
-                        <table id="userdata">
-                            <thead>
-                                <tr class="heading">
-                                    <td style="width:110px"><div>Acount Number</div></td>
-                                    <td style="width:200px"><div>Fees</div></td>
-                                    <td style="width:80px"><div>Total</div></td>
-                                    <td style="width:80px"><div>Created</div></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($listTransactionRefereMonth as $transaction) { ?>
+                <strong>Total referral commission paid to referring members: </strong>$<?php echo!empty($totalTransactionRefereMonth) ? $totalTransactionRefereMonth : 0 ?>
+            </a>
+            <div class="description">
+                <div class="datalist">
+                    <table id="userdata">
+                        <thead>
+                            <tr class="heading">
+                                <td style="width:110px"><div>Acount Number</div></td>
+                                <td style="width:200px"><div>Fees</div></td>
+                                <td style="width:80px"><div>Total</div></td>
+                                <td style="width:80px"><div>Created</div></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($listTransactionRefereMonth as $transaction) { ?>
 
-                                    <?php if (!empty($user->referring)) { ?>
+                                <?php if (!empty($user->referring)) { ?>
 
-                                        <tr class="row"> 
-                                            <td ><div><?php echo $transaction->acount_number; ?></div></td>
-                                            <td><div>$<?php echo $transaction->fees ?></div></td>
-                                            <td><div>$<?php echo $transaction->total; ?></div></td>
-                                            <td><div><?php echo $transaction->created; ?></div></td>
-                                        </tr>
-                                    <?php } ?>
+                                    <tr class="row"> 
+                                        <td ><div><?php echo $transaction->acount_number; ?></div></td>
+                                        <td><div>$<?php echo $transaction->fees ?></div></td>
+                                        <td><div>$<?php echo $transaction->total; ?></div></td>
+                                        <td><div><?php echo $transaction->created; ?></div></td>
+                                    </tr>
                                 <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
+                            <?php } ?>
+                        </tbody>
+                    </table>
                 </div>
+            </div>
         </div>
         <div class="toogger">
             <a href="javascript:void(0)">
-                <strong>Total commission paid on referred members dividend: </strong><?php // echo $silver_count                                  ?><br>
+                <strong>Total commission paid on referred members dividend: </strong><?php // echo $silver_count                                    ?><br>
                 <div class="description">
 
                 </div>
