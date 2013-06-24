@@ -55,6 +55,10 @@ class Account extends MY_Controller {
             'href' => site_url('account'),
             'separator' => false
         );
+        $user_session = $this->session->userdata('user');
+        $this->data['acounts'] = $this->user->getAllbalanceAcountByMainId($user_session['main_id']);
+        
+        $user_session = $this->session->userdata('user');
         $this->data['breadcrumbs'][] = array(
             'text' => 'My Account',
             'href' => site_url('account/index'),
@@ -650,6 +654,7 @@ class Account extends MY_Controller {
                     'transaction_text' => '+',
                     'transaction_source' => 'system',
                     'status' => '0',
+                    'description' => 'The user "' . $userGoldReffering->firstname . ' ' . $userGoldReffering->last_name . '" deposited $100'
                 );
                 $this->transaction->upadateTransaction($dataTransactionUpdate);
 
@@ -937,6 +942,7 @@ class Account extends MY_Controller {
                 'transaction_text' => '+',
                 'transaction_source' => 'system',
                 'status' => '0',
+                'description' => 'The user "' . $userGoldReffering->firstname . ' ' . $userGoldReffering->last_name . '" deposited $100'
             );
             $this->transaction->upadateTransaction($dataTransactionUpdate);
 

@@ -107,133 +107,6 @@ class Register extends MY_Controller {
         $this->load->view('home', $this->data);
     }
 
-    public function paypal_return_old() {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST')
-            redirect('register');
-        $this->load->model('config_model', 'configs');
-        $this->load->model('user_model', 'user');
-        $this->load->model('balance_model', 'balance');
-        $transaction_fees = $this->configs->getConfigs('transaction_fees');
-        $paypal = $this->configs->getConfigs('paypal');
-
-        $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-        $url_parsed = parse_url($url);
-        $fp = fsockopen($url_parsed['host'], "80", $err_num, $err_str, 30);
-        if (!$fp) {
-            $error = array('error', 'darkred', 'Register errors', 'Connection to ' . $url_parsed['host'] . " failed.fsockopen error no. $errnum: $errstr");
-            $this->session->set_flashdata(array('usermessage' => $error));
-            redirect('register');
-        } else {
-            $posts = $this->input->post();
-            if ($posts['mc_gross'] < $transaction_fees['open_fee']) {
-                $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter than open fees');
-                $this->session->set_flashdata(array('usermessage' => $error));
-                redirect('register');
-            }
-
-            $custom = $posts['custom'];
-            $custom_list = explode('|', $custom);
-            $postsData = array();
-            foreach ($custom_list as $val) {
-                $custom_post = explode('=', $val);
-                $postsData[$custom_post[0]] = $custom_post[1];
-            }
-            if ($posts['business'] != $paypal['business']) {
-                $error = array('error', 'darkred', 'Register errors', 'Transaction email error');
-                $this->session->set_flashdata(array('usermessage' => $error));
-                redirect('register');
-            }
-
-            if ($this->transaction->checkTransactionExists($posts['txn_id'])) {
-                $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
-                $this->session->set_flashdata('usermessage', $data['usermessage']);
-                redirect('home');
-            }
-
-            if ($posts['mc_gross'] > $transaction_fees['open_fee'])
-                $postsData['usertype'] = 2;
-//                $postsData['transaction_start'] = 2;
-            else
-                $postsData['usertype'] = 0;
-
-            if (!empty($postsData['referring'])) {
-                $userReferring = $this->user->getUserByReferral($postsData['referring']);
-                if (!$userReferring) {
-                    unset($postsData['referring']);
-                }
-            }
-
-            $reffing_default_config = $this->configs->getConfigs('referraldefault');
-            $postsData['username'] = 'U' . time();
-            $postsData['password'] = hash_hmac('crc32b', $postsData['username'] . $this->config->item('prefix_key'), 'secret');
-            $dataUserInsert = $postsData;
-            if (empty($dataUserInsert['referring'])) {
-                $dataUserInsert['referring'] = !empty($reffing_default_config['default_referral_user']) ? $reffing_default_config['default_referral_user'] : 0;
-            }
-
-            $user_id = $this->user->save($dataUserInsert);
-
-            $open_fees = $transaction_fees['open_fee'];
-            if ($posts['mc_gross'] > $open_fees) {
-                $open_fees += $transaction_fees['transaction_fee'];
-            }
-
-            $dataTransaction['user_id'] = $user_id;
-            $dataTransaction['fees'] = $open_fees;
-            $dataTransaction['total'] = $posts['mc_gross'];
-            $dataTransaction['transaction_id'] = $posts['txn_id'];
-            $dataTransaction['payment_status'] = $posts['payment_status'];
-            $dataTransaction['transaction_source'] = 'paypal';
-            $dataTransaction['transaction_type'] = 'register';
-            $this->transaction->insert($dataTransaction);
-
-            $current_fees = $dataTransaction['total'] - $open_fees;
-            $this->balance->updateBalanceByUserId($user_id, $current_fees);
-
-            $adminBalance = $dataTransaction['total'];
-            if ($posts['mc_gross'] > $open_fees) {
-                $this->user->updateTransaction($user_id, $adminBalance);
-            }
-
-            $userHtml = '
-                Thank you for registering <br>
-                You just sign up at. Please login to check your account';
-            $userHtml .= 'Acount Type: ' . $this->usertype[$postsData['usertype']] . '<br>';
-            if ($posts['mc_gross'] > $open_fees) {
-                $userHtml .= 'Payment :' . $posts['mc_gross'] - $open_fees . '<br>';
-            }
-
-            $userEmailData['user_type'] = $this->usertype[$postsData['usertype']];
-            $userEmailData['entry_amount'] = $posts['mc_gross'];
-            $userEmailData['username'] = $postsData['username'];
-            $userEmailData['password'] = $postsData['password'];
-            sendmailform($postsData['email'], 'register', $userEmailData, null, 'Admin Manager', 'html');
-
-            $adminEmailData = array(
-                'full_name' => $postsData['firstname'] . ' ' . $postsData['lastname'],
-                'address' => $postsData['address'],
-                'phone' => $postsData['phone'],
-                'email' => $postsData['email'],
-                'payment' => $posts['mc_gross'],
-                'user_type' => $this->usertype[$postsData['usertype']],
-            );
-
-            sendmailform(null, 'new_member', $adminEmailData);
-
-            if (empty($postsData['referring'])) {
-                $postsData['referring'] = $reffing_default_config['default_referral_user'];
-            }
-
-            $adminBalance = $this->updateReffering($postsData, $posts['mc_gross']);
-
-            $this->balance->updateAdminBalance($adminBalance);
-
-            $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
-            $this->session->set_flashdata('usermessage', $data['usermessage']);
-        }
-        redirect('home');
-    }
-
     public function paypal_return() {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
             redirect('register');
@@ -393,6 +266,7 @@ class Register extends MY_Controller {
                 'transaction_text' => '+',
                 'transaction_source' => 'system',
                 'status' => '0',
+                'description' => 'User reffered the user "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['last_name'] . '" succesfull'
             );
             $this->transaction->upadateTransaction($dataTransactionUpdate);
 
@@ -433,6 +307,7 @@ class Register extends MY_Controller {
                         'transaction_text' => '+',
                         'transaction_source' => 'system',
                         'status' => '0',
+                        'description' => 'The user "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['last_name'] . '" deposited $100'
                     );
                     $this->transaction->upadateTransaction($dataTransactionUpdate);
 
@@ -630,6 +505,7 @@ class Register extends MY_Controller {
                 'transaction_text' => '+',
                 'transaction_source' => 'system',
                 'status' => '0',
+                'description' => 'User reffered the user "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['last_name'] . '" succesfull'
             );
             $this->transaction->upadateTransaction($dataTransactionUpdate);
 
@@ -670,6 +546,7 @@ class Register extends MY_Controller {
                         'transaction_text' => '+',
                         'transaction_source' => 'system',
                         'status' => '0',
+                        'description' => 'The user "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['last_name'] . '" deposited $100'
                     );
                     $this->transaction->upadateTransaction($dataTransactionUpdate);
                 }

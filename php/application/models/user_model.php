@@ -189,6 +189,14 @@ class User_model extends CI_Model {
         $this->db->where('main_user_id', $main_id);
         return $this->db->get()->result();
     }
+    
+    public function getAllbalanceAcountByMainId($main_id){
+        $this->db->select("*");
+        $this->db->from("user");
+        $this->db->join("balance","user.user_id = balance.user_id","left");
+        $this->db->where('main_user_id', $main_id);
+        return $this->db->get()->result();
+    }
 
     /**
      * Function verifySignin

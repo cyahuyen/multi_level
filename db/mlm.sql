@@ -3,7 +3,7 @@
 -- Server version:               5.5.16 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2013-06-24 11:39:52
+-- Date/time:                    2013-06-24 14:24:04
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,11 +26,23 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `amount` float(10,2) DEFAULT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table multi_level.activity: ~0 rows (approximately)
 DELETE FROM `activity`;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
+INSERT INTO `activity` (`id`, `main_user_id`, `created`, `status`, `amount`, `description`) VALUES
+	(1, 43, '2013-06-24 14:10:43', NULL, NULL, 'Registed'),
+	(2, 43, '2013-06-24 14:10:43', NULL, NULL, 'Created gold account number G1372057843'),
+	(3, 43, '2013-06-24 14:10:43', '+', 100.00, 'Add Deposit to your acount G1372057843 with amount : $100'),
+	(4, 44, '2013-06-24 14:11:34', NULL, NULL, 'Registed'),
+	(5, 44, '2013-06-24 14:11:34', NULL, NULL, 'Created gold account number G1372057894'),
+	(6, 44, '2013-06-24 14:11:34', '+', 300.00, 'Add Deposit to your acount G1372057894 with amount : $300'),
+	(7, 43, '2013-06-24 14:11:34', NULL, NULL, 'Created silver account number S1372057894'),
+	(8, 43, '2013-06-24 14:11:34', '+', 5.00, 'Add refere fees your acount S1372057894 with amount : $5'),
+	(9, 43, '2013-06-24 14:11:34', '+', 15.00, 'Add refere fees your acount G1372057843 with amount : $15'),
+	(10, 44, '2013-06-24 14:16:06', '+', 200.00, 'Add deposit amount your acount G1372057894 with amount : $200'),
+	(11, 43, '2013-06-24 14:16:06', '+', 10.00, 'Add refere fees your acount G1372057843 with amount : $10');
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
 
 
@@ -57,11 +69,16 @@ CREATE TABLE IF NOT EXISTS `balance` (
   `user_id` int(10) NOT NULL,
   `balance` double(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table multi_level.balance: ~0 rows (approximately)
 DELETE FROM `balance`;
 /*!40000 ALTER TABLE `balance` DISABLE KEYS */;
+INSERT INTO `balance` (`id`, `user_id`, `balance`) VALUES
+	(1, 1, 650.00),
+	(2, 26, 125.00),
+	(3, 27, 500.00),
+	(4, 28, 5.00);
 /*!40000 ALTER TABLE `balance` ENABLE KEYS */;
 
 
@@ -251,12 +268,20 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `transaction_text` varchar(5) DEFAULT '+',
   `transaction_source` varchar(100) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
+  `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table multi_level.transaction: ~0 rows (approximately)
 DELETE FROM `transaction`;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
+INSERT INTO `transaction` (`id`, `user_id`, `main_user_id`, `fees`, `total`, `created`, `transaction_id`, `payment_status`, `transaction_type`, `transaction_text`, `transaction_source`, `status`, `description`) VALUES
+	(1, 26, 43, 35.0000, 135.0000, '2013-06-24 14:10:43', '2194793156', 'Completed', 'register', '+', 'creditcard', 1, ''),
+	(2, 27, 44, 35.0000, 335.0000, '2013-06-24 14:11:34', '2194793172', 'Completed', 'register', '+', 'creditcard', 1, ''),
+	(3, 28, 43, 0.0000, 5.0000, '2013-06-24 14:11:34', NULL, 'Completed', 'refere', '+', 'system', 0, 'User reffered the user "Khiem " succesfull'),
+	(4, 26, 43, 0.0000, 15.0000, '2013-06-24 14:11:34', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100'),
+	(5, 27, 44, 10.0000, 210.0000, '2013-06-24 14:16:06', '2194793236', 'Completed', 'deposit', '+', 'creditcard', 1, ''),
+	(6, 26, 43, 0.0000, 10.0000, '2013-06-24 14:16:06', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 
@@ -269,13 +294,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `usertype` int(11) DEFAULT NULL,
   `withdrawal_date` date DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
 -- Dumping data for table multi_level.user: ~1 rows (approximately)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`user_id`, `main_user_id`, `acount_number`, `usertype`, `withdrawal_date`) VALUES
-	(1, 1, '', -1, NULL);
+	(1, 1, '', -1, NULL),
+	(26, 43, 'G1372057843', 2, '2013-06-24'),
+	(27, 44, 'G1372057894', 2, '2013-06-24'),
+	(28, 43, 'S1372057894', 1, '2013-06-24');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 
@@ -332,13 +360,15 @@ CREATE TABLE IF NOT EXISTS `user_main` (
   `created_on` datetime NOT NULL,
   `permission` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`main_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table multi_level.user_main: ~1 rows (approximately)
 DELETE FROM `user_main`;
 /*!40000 ALTER TABLE `user_main` DISABLE KEYS */;
 INSERT INTO `user_main` (`main_id`, `firstname`, `lastname`, `email`, `password`, `address`, `referring`, `phone`, `status`, `forgotten_password_code`, `created_on`, `permission`) VALUES
-	(1, 'admn', 'admin', 'admin@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, 1, NULL, '0000-00-00 00:00:00', 'administrator');
+	(1, 'admn', 'admin', 'admin@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, 1, NULL, '0000-00-00 00:00:00', 'administrator'),
+	(43, 'Khiem', 'Pham', 'khiemktqd@gmail.com', 'f0d15c5b747bd80cbaffd9ab3b85b8f9', 'Ha Noi', NULL, '01694046627', 1, NULL, '2013-06-24 14:10:42', NULL),
+	(44, 'Khiem', 'Pham', 'rongandat@gmail.com', '747586ad523aa1d79c7a350ba0f5e946', '', 43, '', 1, NULL, '2013-06-24 14:11:34', NULL);
 /*!40000 ALTER TABLE `user_main` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
