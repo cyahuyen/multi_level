@@ -149,7 +149,8 @@
                 <strong>Percentage of increase from previous week: </strong><?php echo $percenter ?>%<br>
             </a>
             <div class="description">
-
+                <strong>Amount paid into currentweek: </strong>$<?php echo !empty($totalTransactionAmountMemberWeek)?$totalTransactionAmountMemberWeek:0 ?><br>
+                <strong>Amount paid into previous week: </strong>$<?php echo !empty($totalTransactionAmountMemberLastWeek)?$totalTransactionAmountMemberLastWeek:0 ?><br>
             </div>
         </div>
         <div class="toogger">
@@ -189,9 +190,8 @@
             <a href="javascript:void(0)">
                 <strong>List of referring members with number referred: </strong>
             </a>
-            <div class="description">
+            
 
-            </div>
         </div>
         <?php if (!empty($listAllUserByMonth)) { ?>
             <div class="datalist">
