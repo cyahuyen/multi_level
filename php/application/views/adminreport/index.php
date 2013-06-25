@@ -55,7 +55,7 @@
     <div id="tabs-1">
         <h2> From <?php echo $date_week[0] .' TO '. $date_week[1]; ?></h2>
         <div class="toogger">
-            <a href="javascript:void(0)"><strong>Number of new members enrolled: </strong><?php echo!empty($totalUserByMonth) ? $totalUserByMonth : 0 ?><br></a>
+            <a href="javascript:void(0)"><strong>Number of new members enrolled: </strong><?php echo!empty($totalUserByWeek) ? $totalUserByWeek : 0 ?><br></a>
             <div class="description">
                 <div class="datalist">
                     <table id="userdata">

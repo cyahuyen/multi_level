@@ -22,12 +22,7 @@
     <table class="datatable">
         <tbody>
 
-            <tr>
-                <td>Profit percentage of Silver</td>
-                <td>
-                    <input type="text" id="percentage_silver" class="" name="percentage_silver" value="<?php echo!empty($data_configs['percentage_silver']) ? $data_configs['percentage_silver'] : '' ?>" class="" style="width:240px">% (When an additional deposit is made to the silver account)
-                </td>
-            </tr>
+            
             <tr>
                 <td>Profit percentage of Gold</td>
                 <td>

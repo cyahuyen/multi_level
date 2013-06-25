@@ -45,7 +45,7 @@ class Adminuser extends MY_Controller {
         $dataWhere['searchby'] = $posts['searchby'];
 
         if (isset($posts['usertype']) && $posts['usertype'] != 'all') {
-            $dataWhere['usertype'] = $posts['usertype'];
+            $dataWhere['user.usertype'] = $posts['usertype'];
         }
         $limit = $this->config->item('limit_page');
         if (!empty($posts['asc'])) {

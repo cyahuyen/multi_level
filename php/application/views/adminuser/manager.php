@@ -109,14 +109,7 @@
                             <option value="0" <?php echo (isset($userlist['status'])) ? 'selected' : '' ?>>Inactive users only</option>
                         </select>
                     </div>
-                    <div style="float:left;padding-right:6px">
-                        <select id="datalist-usertype">
-                            <option value="all" <?php echo (isset($userlist['usertype']) && $userlist['usertype'] == 'all') ? 'selected' : '' ?>>All</option>
-                            <option value="0" <?php echo (isset($userlist['usertype']) && $userlist['usertype'] == '0') ? 'selected' : '' ?>>Member</option>
-                            <option value="1" <?php echo (isset($userlist['usertype']) && $userlist['usertype'] == '1') ? 'selected' : '' ?> >Silver</option>
-                            <option value="2" <?php echo (isset($userlist['usertype']) && $userlist['usertype'] == '2') ? 'selected' : '' ?>>Gold</option>
-                        </select>
-                    </div>
+                    
                 </div>
                 <div class="datalist-sort">
                     <span>Order by<span style="padding:4px">
