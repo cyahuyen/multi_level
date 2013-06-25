@@ -20,7 +20,6 @@
                 var obj = jQuery.parseJSON(data);
                 $('#datalist-renderarea').html(obj.users);
                 $(".datalist-navigation").html(obj.links);
-                console.debug(obj.links);
                 $(".datalist-navigation").show();
             }
         });
