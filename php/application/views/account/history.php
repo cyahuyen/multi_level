@@ -18,10 +18,10 @@
                         Type: &nbsp;
                         <select id="datalist-filter-type" name="search">
                             <option value="">-- Select All --</option>
-                            <option value="register" <?php echo ($search == 'register')?'selected':'' ?>>register</option>
-                            <option value="refere" <?php echo ($search == 'refere')?'selected':'' ?>>refere</option>
-                            <option value="deposit" <?php echo ($search == 'deposit')?'selected':'' ?>>deposit</option>
-                            <option value="bonus" <?php echo ($search == 'bonus')?'selected':'' ?>>bonus</option>
+                            <option value="register" <?php echo ($search == 'register') ? 'selected' : '' ?>>register</option>
+                            <option value="refere" <?php echo ($search == 'refere') ? 'selected' : '' ?>>refere</option>
+                            <option value="deposit" <?php echo ($search == 'deposit') ? 'selected' : '' ?>>deposit</option>
+                            <option value="bonus" <?php echo ($search == 'bonus') ? 'selected' : '' ?>>bonus</option>
                         </select>
                     </div>
                     <input type="submit" value="Search" class="button" id="Search">
@@ -60,6 +60,9 @@
                         <?php } ?>
                     </tbody>
                 </table>
+
+            </div>
+            <div class="datalist-navigation" >
                 <?php echo $links; ?>
             </div>
         </div>

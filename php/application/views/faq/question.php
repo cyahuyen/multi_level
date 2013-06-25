@@ -62,19 +62,23 @@
     });
     
     $(document).ready(function(){
-        load_question();                    
+        load_question();           
+        
+        $('.nav-page a,.nav-button a').live('click', function() {
+            search($(this).attr('href'));
+            return false;
+        })
     })
     
     function load_question(page){
         if(page == undefined){
-            page= 0;
+            page= "<?php echo site_url('faq/list_question') ?>";
         }
         $.ajax({
-            url: "<?php echo site_url('faq/list_question') ?>/"+page,
+            url: page,
             dataType: 'json',
             type: "post",
             success: function(json) {
-                console.debug(json.question);
                 $('.questions').html(json.questions)
                 $(".datalist-navigation").html(json.links);
             }
