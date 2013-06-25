@@ -32,6 +32,7 @@
         <form action="" method="GET">
             <div style="float:left;padding-right:6px" class="ui-widget">
                 <input type="text" class="searchresults" id="date" name="date" placeholder="Date" style="width:200px" value="<?php echo (!empty($date)) ? $date : '' ?>"/>
+                <input type="submit" value="Search" class="button"/> 
             </div>
 
         </form>
