@@ -32,6 +32,7 @@
                     <li><a href="<?php echo site_url('adminconfig/timeconfig') ?>">Date/Time</a></li>
                     <li><a href="<?php echo site_url('adminconfig/referraldefault') ?>">Referral Default</a></li>
                     <li><a href="<?php echo site_url('adminconfig/withdrawal') ?>">Withdrawal</a></li>
+                    <li><a href="<?php echo site_url('adminconfig/levelupdate') ?>">Level Update</a></li>
                 </ul>
             </li>
             <li class="<?php echo $menu_config[3] ?>">

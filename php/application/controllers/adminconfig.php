@@ -18,6 +18,7 @@ class Adminconfig extends MY_Controller {
     var $timeconfig = 'Time Config';
     var $referraldefault = 'Referral Default Config';
     var $withdrawal = 'Withdrawal Config';
+    var $levelupdate = 'Level Update Config';
 
     public function __construct() {
 
@@ -290,6 +291,44 @@ class Adminconfig extends MY_Controller {
         }
 
         $this->data['main_content'] = 'adminconfig/referraldefault';
+        $this->load->view('administrator', $this->data);
+    }
+    
+    public function levelupdate(){
+        $code = 'levelupdate';
+        $this->data['title'] = 'Level Update Config';
+        $this->data['breadcrumbs'] = array();
+
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Home',
+            'href' => site_url('account'),
+            'separator' => false
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Configuration',
+            'href' => site_url('adminconfig'),
+            'separator' => ' :: '
+        );
+        $this->data['breadcrumbs'][] = array(
+            'text' => 'Referral Default Config',
+            'href' => site_url('adminconfig/referraldefault'),
+            'separator' => ' :: '
+        );
+        $this->data['data_configs'] = $this->configs->getConfigs($code);
+        $msg = $this->session->flashdata('usermessage');
+        if ($msg) {
+            $this->data['usermessage'] = $msg;
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $posts = $this->input->post();
+            unset($posts['save-btn']);
+            $this->configs->editConfigs($code, 'config', $posts);
+            $data['usermessage'] = array('success', 'green', 'Successfully saved ', '');
+            $this->session->set_flashdata(array('usermessage' => $data['usermessage']));
+            redirect('adminconfig/' . $code);
+        }
+
+        $this->data['main_content'] = 'adminconfig/levelupdate';
         $this->load->view('administrator', $this->data);
     }
 

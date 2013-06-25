@@ -3,18 +3,12 @@
 -- Server version:               5.5.16 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2013-06-24 14:24:04
+-- Date/time:                    2013-06-25 09:31:34
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!40014 SET FOREIGN_KEY_CHECKS=0 */;
-
--- Dumping database structure for multi_level
-DROP DATABASE IF EXISTS `multi_level`;
-CREATE DATABASE IF NOT EXISTS `multi_level` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `multi_level`;
-
 
 -- Dumping structure for table multi_level.activity
 DROP TABLE IF EXISTS `activity`;
@@ -26,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `amount` float(10,2) DEFAULT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.activity: ~0 rows (approximately)
+-- Dumping data for table multi_level.activity: ~14 rows (approximately)
 DELETE FROM `activity`;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
 INSERT INTO `activity` (`id`, `main_user_id`, `created`, `status`, `amount`, `description`) VALUES
@@ -42,7 +36,10 @@ INSERT INTO `activity` (`id`, `main_user_id`, `created`, `status`, `amount`, `de
 	(8, 43, '2013-06-24 14:11:34', '+', 5.00, 'Add refere fees your acount S1372057894 with amount : $5'),
 	(9, 43, '2013-06-24 14:11:34', '+', 15.00, 'Add refere fees your acount G1372057843 with amount : $15'),
 	(10, 44, '2013-06-24 14:16:06', '+', 200.00, 'Add deposit amount your acount G1372057894 with amount : $200'),
-	(11, 43, '2013-06-24 14:16:06', '+', 10.00, 'Add refere fees your acount G1372057843 with amount : $10');
+	(11, 43, '2013-06-24 14:16:06', '+', 10.00, 'Add refere fees your acount G1372057843 with amount : $10'),
+	(12, 43, '2013-06-24 14:56:46', NULL, NULL, 'Sent a question: "Minimum and Maximum distance between any two occurrences of the word in the file"'),
+	(13, 43, '2013-06-24 14:57:07', NULL, NULL, 'Sent a question: "ambiguos variant and boost spirit x3"'),
+	(14, 43, '2013-06-24 14:57:27', NULL, NULL, 'Sent a question: "ambiguos variant and boost spirit x3"');
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
 
 
@@ -54,11 +51,13 @@ CREATE TABLE IF NOT EXISTS `answer` (
   `answer_content` text NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.answer: ~0 rows (approximately)
+-- Dumping data for table multi_level.answer: ~1 rows (approximately)
 DELETE FROM `answer`;
 /*!40000 ALTER TABLE `answer` DISABLE KEYS */;
+INSERT INTO `answer` (`id`, `question_id`, `answer_content`, `status`) VALUES
+	(1, 3, '<p>Now I have:</p>\r\n<p>1st word: This 2nd word: Overflow</p>\r\n<p>Now I want the Minimum Distance count to be displayed as 2 (Since there is \'is Stack\' in between) and the Maximum Distance count to be displayed as 5 (Since there is \'is Stack Overflow + Enter + Stack\' in between)</p>\r\n<p>Need this in Shell/ Bash.</p>', 0);
 /*!40000 ALTER TABLE `answer` ENABLE KEYS */;
 
 
@@ -71,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `balance` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.balance: ~0 rows (approximately)
+-- Dumping data for table multi_level.balance: ~4 rows (approximately)
 DELETE FROM `balance`;
 /*!40000 ALTER TABLE `balance` DISABLE KEYS */;
 INSERT INTO `balance` (`id`, `user_id`, `balance`) VALUES
@@ -245,11 +244,15 @@ CREATE TABLE IF NOT EXISTS `question` (
   `admin_status` tinyint(4) NOT NULL DEFAULT '0',
   `user_status` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.question: ~0 rows (approximately)
+-- Dumping data for table multi_level.question: ~3 rows (approximately)
 DELETE FROM `question`;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
+INSERT INTO `question` (`id`, `main_user_id`, `title`, `content`, `created`, `status`, `admin_status`, `user_status`) VALUES
+	(1, 43, 'Minimum and Maximum distance between any two occurrences of the word in the file', '<p>Now I have:</p>\r\n<p>1st word: This 2nd word: Overflow</p>\r\n<p>Now I want the Minimum Distance count to be displayed as 2 (Since there is \'is Stack\' in between) and the Maximum Distance count to be displayed as 5 (Since there is \'is Stack Overflow + Enter + Stack\' in between)</p>\r\n<p>Need this in Shell/ Bash.</p>', '2013-06-24 14:56:46', 0, 0, 0),
+	(2, 43, 'ambiguos variant and boost spirit x3', '<p>trying to tweak the boost spirit x3 calc example to parse functions that can take functions as arguments. however it does not compile.</p>', '2013-06-24 14:57:07', 0, 0, 0),
+	(3, 43, 'ambiguos variant and boost spirit x3', '<p>trying to tweak the boost spirit x3 calc example to parse functions that can take functions as arguments. however it does not compile.</p>', '2013-06-24 14:57:27', 0, 1, 0);
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 
 
@@ -259,8 +262,8 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) DEFAULT NULL,
   `main_user_id` int(10) NOT NULL,
-  `fees` double(10,4) NOT NULL DEFAULT '0.0000',
-  `total` double(10,4) NOT NULL DEFAULT '0.0000',
+  `fees` double(10,2) NOT NULL DEFAULT '0.00',
+  `total` double(10,2) NOT NULL DEFAULT '0.00',
   `created` datetime DEFAULT NULL,
   `transaction_id` varchar(50) DEFAULT NULL,
   `payment_status` varchar(50) DEFAULT NULL,
@@ -272,16 +275,16 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.transaction: ~0 rows (approximately)
+-- Dumping data for table multi_level.transaction: ~6 rows (approximately)
 DELETE FROM `transaction`;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `user_id`, `main_user_id`, `fees`, `total`, `created`, `transaction_id`, `payment_status`, `transaction_type`, `transaction_text`, `transaction_source`, `status`, `description`) VALUES
-	(1, 26, 43, 35.0000, 135.0000, '2013-06-24 14:10:43', '2194793156', 'Completed', 'register', '+', 'creditcard', 1, ''),
-	(2, 27, 44, 35.0000, 335.0000, '2013-06-24 14:11:34', '2194793172', 'Completed', 'register', '+', 'creditcard', 1, ''),
-	(3, 28, 43, 0.0000, 5.0000, '2013-06-24 14:11:34', NULL, 'Completed', 'refere', '+', 'system', 0, 'User reffered the user "Khiem " succesfull'),
-	(4, 26, 43, 0.0000, 15.0000, '2013-06-24 14:11:34', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100'),
-	(5, 27, 44, 10.0000, 210.0000, '2013-06-24 14:16:06', '2194793236', 'Completed', 'deposit', '+', 'creditcard', 1, ''),
-	(6, 26, 43, 0.0000, 10.0000, '2013-06-24 14:16:06', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100');
+	(1, 26, 43, 35.00, 135.00, '2013-06-24 14:10:43', '2194793156', 'Completed', 'register', '+', 'creditcard', 1, ''),
+	(2, 27, 44, 35.00, 335.00, '2013-06-24 14:11:34', '2194793172', 'Completed', 'register', '+', 'creditcard', 1, ''),
+	(3, 28, 43, 0.00, 5.00, '2013-06-24 14:11:34', NULL, 'Completed', 'refere', '+', 'system', 0, 'User reffered the user "Khiem " succesfull'),
+	(4, 26, 43, 0.00, 15.00, '2013-06-24 14:11:34', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100'),
+	(5, 27, 44, 10.00, 210.00, '2013-06-24 14:16:06', '2194793236', 'Completed', 'deposit', '+', 'creditcard', 1, ''),
+	(6, 26, 43, 0.00, 10.00, '2013-06-24 14:16:06', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 
@@ -296,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
--- Dumping data for table multi_level.user: ~1 rows (approximately)
+-- Dumping data for table multi_level.user: ~4 rows (approximately)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`user_id`, `main_user_id`, `acount_number`, `usertype`, `withdrawal_date`) VALUES
@@ -362,7 +365,7 @@ CREATE TABLE IF NOT EXISTS `user_main` (
   PRIMARY KEY (`main_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.user_main: ~1 rows (approximately)
+-- Dumping data for table multi_level.user_main: ~3 rows (approximately)
 DELETE FROM `user_main`;
 /*!40000 ALTER TABLE `user_main` DISABLE KEYS */;
 INSERT INTO `user_main` (`main_id`, `firstname`, `lastname`, `email`, `password`, `address`, `referring`, `phone`, `status`, `forgotten_password_code`, `created_on`, `permission`) VALUES
