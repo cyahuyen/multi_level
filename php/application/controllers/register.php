@@ -187,7 +187,7 @@ class Register extends MY_Controller {
                 'balance' => $balance_user_amount,
             );
             $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
-            $this->activity->addActivity($main_user_id, 'Deposited to the acount ' . $dataGoldAcount['acount_number'] . ' with amount : $' . ($dataBalanceUpdate['balance']), '+', $posts['balance']);
+            $this->activity->addActivity($main_user_id, 'Deposited to the acount ' . $dataGoldAcount['acount_number'] . ' with amount : $' . ($dataBalanceUpdate['balance']), '+', $dataBalanceUpdate['balance']);
 //      Update Widthdraw date
             $this->user->updateWithdrawalDate($gold_user_id);
         }
@@ -266,7 +266,7 @@ class Register extends MY_Controller {
                 'transaction_text' => '+',
                 'transaction_source' => 'system',
                 'status' => '0',
-                'description' => 'User reffered the user "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['last_name'] . '" succesfull'
+                'description' => 'User reffered the user "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['lastname'] . '" succesfull'
             );
             $this->transaction->upadateTransaction($dataTransactionUpdate);
 
@@ -284,7 +284,7 @@ class Register extends MY_Controller {
 
                 //              get banlane gold account
                 $balanceGoldAcount = $this->balance->getBalance($userGoldReffering->user_id);
-                if (!empty($balanceGoldAcount->balance) && $balanceGoldAcount->balance > 0 && ($posts['entry_amount'] >= $this->config_data['min_enrolment_entry_amount'])) {
+                if (!empty($balanceGoldAcount->balance) && $balanceGoldAcount->balance > 0 && ($balance_user_amount >= $this->config_data['min_enrolment_entry_amount'])) {
                     $refereFees = $dataBalanceUpdate['balance'] * $this->config_data['percentage_gold'] / 100;
                     //      BOF Update Balance
                     $this->balance->updateAdminBalance($refereFees, '-');

@@ -45,7 +45,7 @@ class Adminfaq extends MY_Controller {
             if (isset($posts['status']) && $posts['status'] != 'all') {
                 $dataWhere['admin_status'] = $posts['status'];
             }
-            $limit = $this->config->item('limit_page', 'my_config');
+            $limit = $this->config->item('limit_page');
             $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
             if (!empty($posts['asc'])) {
                 $sort[$posts['sort']] = 'ASC';

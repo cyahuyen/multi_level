@@ -40,7 +40,7 @@ class Adminemail extends MY_Controller{
         $this->config->load('cya_config', TRUE);
         
         $dataWhere['searchby'] = $posts['searchby'];
-        $limit = $this->config->item('limit_page', 'my_config');
+        $limit = $this->config->item('limit_page');
         
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         if (!empty($posts['asc'])) {
@@ -52,7 +52,7 @@ class Adminemail extends MY_Controller{
         $this->load->library("pagination");
         $config = array();
         $config["total_rows"] = $this->emailtemplate->totalEmail($dataWhere);
-        $config["base_url"] = site_url('user/manage');
+        $config["base_url"] = site_url('adminemail/emaillist');
         $config["per_page"] = $limit;
         $page = $start;
         $config["uri_segment"] = 3;

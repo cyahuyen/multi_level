@@ -42,6 +42,7 @@
                             <td style="width:80px"><div>Source</div></td>
                             <td style="width:80px"><div>Status</div></td>
                             <td style="width:120px"><div>Date</div></td>
+                            <td style="width:120px"><div>Description</div></td>
                         </tr>
                         <?php if ($historys) { ?>
                             <?php foreach ($historys as $history) { ?>
@@ -53,6 +54,7 @@
                                     <td><div><?php echo $history->transaction_source; ?></div></td>
                                     <td><div><?php echo $history->payment_status; ?></div></td>
                                     <td><div><?php echo $history->created; ?></div></td>
+                                    <td><div><?php echo $history->description; ?></div></td>
                                 </tr>
                             <?php } ?>
                         <?php } ?>

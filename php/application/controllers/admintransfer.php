@@ -46,7 +46,7 @@ class Admintransfer extends MY_Controller {
         if ($posts['type'] != '')
             $dataWhere['transaction.transaction_type'] = $posts['type'];
         $dataWhere['searchby'] = $posts['searchby'];
-        $limit = $this->config->item('limit_page', 'my_config');
+        $limit = $this->config->item('limit_page');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         $sort = array();
         if (!empty($posts['asc'])) {
@@ -59,7 +59,7 @@ class Admintransfer extends MY_Controller {
         $this->load->library("pagination");
         $config = array();
         $config["total_rows"] = $this->transfer->totalTransfer($dataWhere);
-        $config["base_url"] = site_url('admintransfer/index');
+        $config["base_url"] = site_url('admintransfer/listtransfer');
         $config["per_page"] = $limit;
         $page = $start;
         $config["uri_segment"] = 3;
@@ -94,6 +94,7 @@ class Admintransfer extends MY_Controller {
                 'transaction_source' => $transfer->transaction_source,
                 'payment_status' => $transfer->payment_status,
                 'created' => $transfer->created,
+                'description' => $transfer->description,
             );
         }
 

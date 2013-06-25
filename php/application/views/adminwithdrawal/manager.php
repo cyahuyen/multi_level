@@ -29,7 +29,7 @@
         });
     }
 
-    $('.nav-page a').live('click', function() {
+    $('.nav-page a,.nav-button a').live('click', function() {
         search($(this).text());
         return false;
     })

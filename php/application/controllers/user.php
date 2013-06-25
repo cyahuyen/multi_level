@@ -108,7 +108,7 @@ class User extends MY_Controller {
         $this->config->load('cya_config', TRUE);
         $dataWhere['status'] = 1;
         $dataWhere['searchby'] = $posts['searchby'];
-        $limit = $this->config->item('limit_page', 'my_config');
+        $limit = $this->config->item('limit_page');
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         if (!empty($posts['asc'])) {
             $sort[$posts['sort']] = 'ASC';

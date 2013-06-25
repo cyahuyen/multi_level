@@ -131,7 +131,7 @@ class Adminwithdrawal extends MY_Controller {
         $dataWhere['searchby'] = $posts['searchby'];
         if ($posts['payment_status'] != 'all')
             $dataWhere['payment_status'] = $posts['payment_status'];
-        $limit = $this->config->item('limit_page', 'my_config');
+        $limit = $this->config->item('limit_page');
 
         $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         if (!empty($posts['asc'])) {
