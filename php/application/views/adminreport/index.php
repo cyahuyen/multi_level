@@ -52,6 +52,7 @@
         <li><a href="#tabs-2">Month</a></li>
     </ul>
     <div id="tabs-1">
+        <h2> From <?php echo $date_week[0] .' TO '. $date_week[1]; ?></h2>
         <div class="toogger">
             <a href="javascript:void(0)"><strong>Number of new members enrolled: </strong><?php echo!empty($totalUserByMonth) ? $totalUserByMonth : 0 ?><br></a>
             <div class="description">
@@ -224,6 +225,7 @@
         <?php } ?>
     </div>
     <div id="tabs-2">
+         <h2> From <?php echo $date_month[0] .' TO '. $date_month[1]; ?></h2>
         <div class="toogger">
             <a href="javascript:void(0)">
                 <strong>Total monthly new members: </strong><?php echo!empty($totalUserByMonth) ? $totalUserByMonth : 0 ?><br>

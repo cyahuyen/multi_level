@@ -45,6 +45,8 @@ class Adminreport extends MY_Controller {
         $day_of_last_week = date('Y-m-d h:i:s', strtotime('-1 second', strtotime($date_week[0])));
         $last_week = getStartAndEndDateByWeek(date('W', strtotime($day_of_last_week)), date('Y', strtotime($day_of_last_week)));
         $this->data['date'] = $date;
+        $this->data['date_week'] = $date_week;
+        $this->data['date_month'] = $date_month;
 
         $dataWhereUserMonth = array(
             'user_main.created_on >=' => $date_month[0],
