@@ -36,7 +36,7 @@ class Adminuser extends MY_Controller {
         $this->load->view('administrator', $this->data);
     }
 
-    public function userlist($status = null) {
+    public function userlist($start = null) {
         $posts = $this->input->post();
         $this->config->load('cya_config', TRUE);
         $this->session->set_userdata(array('userlist' => $posts));
@@ -48,7 +48,6 @@ class Adminuser extends MY_Controller {
             $dataWhere['usertype'] = $posts['usertype'];
         }
         $limit = $this->config->item('limit_page');
-        $start = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         if (!empty($posts['asc'])) {
             $sort[$posts['sort']] = 'ASC';
         } else {
@@ -58,7 +57,7 @@ class Adminuser extends MY_Controller {
         $this->load->library("pagination");
         $config = array();
         $config["total_rows"] = $this->user->totalMainUser($dataWhere);
-        $config["base_url"] = site_url('user/userlist');
+        $config["base_url"] = site_url('adminuser/userlist');
         $config["per_page"] = $limit;
         $page = $start;
         $config["uri_segment"] = 3;

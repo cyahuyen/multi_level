@@ -29,7 +29,7 @@
     }
     
     $('.nav-page a,.nav-button a').live('click',function(){
-        search($(this).text());
+        search($(this).attr('href'));
         return false;
     })
     

@@ -1,16 +1,16 @@
 -- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               5.5.16 - MySQL Community Server (GPL)
--- Server OS:                    Win32
+-- Host:                         mlm.cyahost.com
+-- Server version:               5.5.23-55 - Percona Server (GPL), Release rel25.3, Revision 2
+-- Server OS:                    Linux
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2013-06-25 09:31:34
+-- Date/time:                    2013-06-25 11:27:04
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!40014 SET FOREIGN_KEY_CHECKS=0 */;
 
--- Dumping structure for table multi_level.activity
+-- Dumping structure for table mlmcyaho_mlm.activity
 DROP TABLE IF EXISTS `activity`;
 CREATE TABLE IF NOT EXISTS `activity` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `amount` float(10,2) DEFAULT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.activity: ~14 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.activity: ~39 rows (approximately)
 DELETE FROM `activity`;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
 INSERT INTO `activity` (`id`, `main_user_id`, `created`, `status`, `amount`, `description`) VALUES
@@ -39,11 +39,47 @@ INSERT INTO `activity` (`id`, `main_user_id`, `created`, `status`, `amount`, `de
 	(11, 43, '2013-06-24 14:16:06', '+', 10.00, 'Add refere fees your acount G1372057843 with amount : $10'),
 	(12, 43, '2013-06-24 14:56:46', NULL, NULL, 'Sent a question: "Minimum and Maximum distance between any two occurrences of the word in the file"'),
 	(13, 43, '2013-06-24 14:57:07', NULL, NULL, 'Sent a question: "ambiguos variant and boost spirit x3"'),
-	(14, 43, '2013-06-24 14:57:27', NULL, NULL, 'Sent a question: "ambiguos variant and boost spirit x3"');
+	(14, 43, '2013-06-24 14:57:27', NULL, NULL, 'Sent a question: "ambiguos variant and boost spirit x3"'),
+	(15, 45, '2013-06-24 22:14:52', NULL, NULL, 'Registed'),
+	(16, 45, '2013-06-24 22:14:52', NULL, NULL, 'Created gold account number G1372130092'),
+	(17, 45, '2013-06-24 22:14:52', '+', 100.00, 'Deposited to your acount G1372130092 with amount : $100'),
+	(18, 46, '2013-06-24 22:17:06', NULL, NULL, 'Registed'),
+	(19, 46, '2013-06-24 22:17:06', NULL, NULL, 'Created gold account number G1372130226'),
+	(20, 46, '2013-06-24 22:17:06', '+', NULL, 'Deposited to the acount G1372130226 with amount : $100'),
+	(21, 47, '2013-06-24 22:21:48', NULL, NULL, 'Registed'),
+	(22, 47, '2013-06-24 22:21:48', NULL, NULL, 'Created gold account number G1372130508'),
+	(23, 47, '2013-06-24 22:21:48', '+', 200.00, 'Deposited to the acount G1372130508 with amount : $200'),
+	(24, 43, '2013-06-24 22:21:48', '+', 5.00, 'Your Silver account S1372057894  received a referral fee with amount : $5'),
+	(25, 48, '2013-06-24 22:31:22', NULL, NULL, 'Registed'),
+	(26, 48, '2013-06-24 22:31:22', NULL, NULL, 'Created gold account number G1372131082'),
+	(27, 48, '2013-06-24 22:31:22', '+', 200.00, 'Deposited to the acount G1372131082 with amount : $200'),
+	(28, 43, '2013-06-24 22:31:22', '+', 5.00, 'Your Silver account S1372057894  received a referral fee with amount : $5'),
+	(29, 43, '2013-06-24 22:31:22', '+', 10.00, 'Your Gold account S1372057894  received a referral fee with amount: $10'),
+	(30, 49, '2013-06-24 22:35:09', NULL, NULL, 'Registed'),
+	(31, 49, '2013-06-24 22:35:09', NULL, NULL, 'Created gold account number G1372131309'),
+	(32, 49, '2013-06-24 22:35:09', '+', 200.00, 'Deposited to the acount G1372131309 with amount : $200'),
+	(33, 43, '2013-06-24 22:35:09', '+', 5.00, 'Your Silver account S1372057894  received a referral fee with amount : $5'),
+	(34, 43, '2013-06-24 22:35:09', '+', 10.00, 'Your Gold account S1372057894  received a referral fee with amount: $10'),
+	(35, 50, '2013-06-24 22:35:46', NULL, NULL, 'Registed'),
+	(36, 50, '2013-06-24 22:35:46', NULL, NULL, 'Created gold account number G1372131346'),
+	(37, 50, '2013-06-24 22:35:46', '+', 100.00, 'Deposited to your acount G1372131346 with amount : $100'),
+	(38, 43, '2013-06-24 22:35:47', '+', 5.00, 'Your Silver account S1372057894 receiced a referral fee with amount : $5'),
+	(39, 43, '2013-06-24 22:35:47', '+', 5.00, 'Your Gold Account G1372057843 received a  referral fee with amount : $5'),
+	(40, 51, '2013-06-24 22:39:46', NULL, NULL, 'Registed'),
+	(41, 51, '2013-06-24 22:39:46', NULL, NULL, 'Created gold account number G1372131586'),
+	(42, 51, '2013-06-24 22:39:46', '+', 200.00, 'Deposited to the acount G1372131586 with amount : $200'),
+	(43, 43, '2013-06-24 22:39:46', '+', 5.00, 'Your Silver account S1372057894  received a referral fee with amount : $5'),
+	(44, 43, '2013-06-24 22:39:46', '+', 10.00, 'Your Gold account S1372057894  received a referral fee with amount: $10'),
+	(45, 43, '2013-06-24 22:42:24', '+', 200.00, 'Deposited to the account G1372057843 with amount : $200'),
+	(46, 43, '2013-06-24 22:46:09', '+', 100.00, 'Deposited to the account G1372057843 with amount : $100'),
+	(47, 52, '2013-06-24 22:48:56', NULL, NULL, 'Registed'),
+	(48, 52, '2013-06-24 22:48:56', NULL, NULL, 'Created gold account number G1372132136'),
+	(49, 45, '2013-06-24 22:48:56', NULL, NULL, 'Created silver account number S1372132136'),
+	(50, 45, '2013-06-24 22:48:56', '+', 5.00, 'Your Silver account S1372132136 receiced a referral fee with amount : $5');
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.answer
+-- Dumping structure for table mlmcyaho_mlm.answer
 DROP TABLE IF EXISTS `answer`;
 CREATE TABLE IF NOT EXISTS `answer` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -53,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `answer` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.answer: ~1 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.answer: ~1 rows (approximately)
 DELETE FROM `answer`;
 /*!40000 ALTER TABLE `answer` DISABLE KEYS */;
 INSERT INTO `answer` (`id`, `question_id`, `answer_content`, `status`) VALUES
@@ -61,27 +97,35 @@ INSERT INTO `answer` (`id`, `question_id`, `answer_content`, `status`) VALUES
 /*!40000 ALTER TABLE `answer` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.balance
+-- Dumping structure for table mlmcyaho_mlm.balance
 DROP TABLE IF EXISTS `balance`;
 CREATE TABLE IF NOT EXISTS `balance` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) NOT NULL,
   `balance` double(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.balance: ~4 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.balance: ~10 rows (approximately)
 DELETE FROM `balance`;
 /*!40000 ALTER TABLE `balance` DISABLE KEYS */;
 INSERT INTO `balance` (`id`, `user_id`, `balance`) VALUES
-	(1, 1, 650.00),
-	(2, 26, 125.00),
+	(1, 1, 2275.00),
+	(2, 26, 460.00),
 	(3, 27, 500.00),
-	(4, 28, 5.00);
+	(4, 28, 30.00),
+	(5, 29, 100.00),
+	(6, 30, 100.00),
+	(7, 31, 200.00),
+	(8, 32, 200.00),
+	(9, 33, 200.00),
+	(10, 34, 100.00),
+	(11, 35, 200.00),
+	(12, 37, 5.00);
 /*!40000 ALTER TABLE `balance` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.balance_history
+-- Dumping structure for table mlmcyaho_mlm.balance_history
 DROP TABLE IF EXISTS `balance_history`;
 CREATE TABLE IF NOT EXISTS `balance_history` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -91,13 +135,13 @@ CREATE TABLE IF NOT EXISTS `balance_history` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.balance_history: ~0 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.balance_history: ~0 rows (approximately)
 DELETE FROM `balance_history`;
 /*!40000 ALTER TABLE `balance_history` DISABLE KEYS */;
 /*!40000 ALTER TABLE `balance_history` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.config
+-- Dumping structure for table mlmcyaho_mlm.config
 DROP TABLE IF EXISTS `config`;
 CREATE TABLE IF NOT EXISTS `config` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -107,9 +151,9 @@ CREATE TABLE IF NOT EXISTS `config` (
   `value` text,
   `serialized` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=252 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=263 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.config: ~37 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.config: ~38 rows (approximately)
 DELETE FROM `config`;
 /*!40000 ALTER TABLE `config` DISABLE KEYS */;
 INSERT INTO `config` (`id`, `group`, `code`, `key`, `value`, `serialized`) VALUES
@@ -118,15 +162,6 @@ INSERT INTO `config` (`id`, `group`, `code`, `key`, `value`, `serialized`) VALUE
 	(128, 'payment', 'paypal', 'currency_code', 'USD', 0),
 	(129, 'payment', 'paypal', 'sandbox', '1', 0),
 	(130, 'payment', 'paypal', 'active', '1', 0),
-	(203, 'config', 'emails', 'protocol', 'mail', 0),
-	(204, 'config', 'emails', 'mail_parameter', '', 0),
-	(205, 'config', 'emails', 'smtp_host', 'ssl://smtp.googlemail.com', 0),
-	(206, 'config', 'emails', 'smtp_user', 'rongandat@gmail.com', 0),
-	(207, 'config', 'emails', 'smtp_pass', 'anhyeuem123', 0),
-	(208, 'config', 'emails', 'smtp_port', '465', 0),
-	(209, 'config', 'emails', 'smtp_timeout', '30', 0),
-	(210, 'config', 'emails', 'email_admin', 'admin@gmail.com', 0),
-	(211, 'config', 'emails', 'group', 'config', 0),
 	(223, 'payment', 'creditcard', 'login_id', '6Z2Kgs6W7m', 0),
 	(224, 'payment', 'creditcard', 'transaction', '49yh68ESgd4Sd2Mw', 0),
 	(225, 'payment', 'creditcard', 'authorizenet_aim_method', 'authorization', 0),
@@ -149,11 +184,21 @@ INSERT INTO `config` (`id`, `group`, `code`, `key`, `value`, `serialized`) VALUE
 	(248, 'config', 'withdrawal', 'days_space_silver', '60', 0),
 	(249, 'config', 'withdrawal', 'min_of_gold', '50', 0),
 	(250, 'config', 'withdrawal', 'min_of_silver', '20', 0),
-	(251, 'config', 'withdrawal', 'group', 'config', 0);
+	(251, 'config', 'withdrawal', 'group', 'config', 0),
+	(252, 'config', 'emails', 'protocol', 'smtp', 0),
+	(253, 'config', 'emails', 'mail_parameter', '', 0),
+	(254, 'config', 'emails', 'smtp_host', 'ssl://smtp.googlemail.com', 0),
+	(255, 'config', 'emails', 'smtp_user', 'rongandat@gmail.com', 0),
+	(256, 'config', 'emails', 'smtp_pass', 'anhyeuem123', 0),
+	(257, 'config', 'emails', 'smtp_port', '465', 0),
+	(258, 'config', 'emails', 'smtp_timeout', '30', 0),
+	(259, 'config', 'emails', 'email_admin', 'admin@gmail.com', 0),
+	(260, 'config', 'emails', 'group', 'config', 0),
+	(262, 'config', 'levelupdate', 'level_update', '5', 0);
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.email_template
+-- Dumping structure for table mlmcyaho_mlm.email_template
 DROP TABLE IF EXISTS `email_template`;
 CREATE TABLE IF NOT EXISTS `email_template` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -164,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `email_template` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.email_template: ~33 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.email_template: ~15 rows (approximately)
 DELETE FROM `email_template`;
 /*!40000 ALTER TABLE `email_template` DISABLE KEYS */;
 INSERT INTO `email_template` (`id`, `code`, `subject`, `content`, `slug`) VALUES
@@ -189,7 +234,7 @@ INSERT INTO `email_template` (`id`, `code`, `subject`, `content`, `slug`) VALUES
 /*!40000 ALTER TABLE `email_template` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.multilevel_sessions
+-- Dumping structure for table mlmcyaho_mlm.multilevel_sessions
 DROP TABLE IF EXISTS `multilevel_sessions`;
 CREATE TABLE IF NOT EXISTS `multilevel_sessions` (
   `session_id` varchar(40) NOT NULL DEFAULT '0',
@@ -202,17 +247,36 @@ CREATE TABLE IF NOT EXISTS `multilevel_sessions` (
   KEY `last_activity_idx` (`last_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.multilevel_sessions: ~3 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.multilevel_sessions: ~13 rows (approximately)
 DELETE FROM `multilevel_sessions`;
 /*!40000 ALTER TABLE `multilevel_sessions` DISABLE KEYS */;
 INSERT INTO `multilevel_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`, `created`) VALUES
-	('1d9869b5fdc6e6a397e7f30c63f26279', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0 FirePHP/0.7.2', 1369799565, 'a:2:{s:9:"user_data";s:0:"";s:4:"user";a:5:{s:7:"user_id";s:1:"8";s:5:"email";s:19:"rongandat@gmail.com";s:8:"usertype";s:1:"1";s:6:"status";s:1:"1";s:10:"permission";N;}}', '0000-00-00 00:00:00'),
-	('cb50f26bc362c6fa8e0ef391252e6430', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0 FirePHP/0.7.2', 1369799455, 'a:2:{s:9:"user_data";s:0:"";s:4:"user";a:5:{s:7:"user_id";s:1:"8";s:5:"email";s:19:"rongandat@gmail.com";s:8:"usertype";s:1:"1";s:6:"status";s:1:"1";s:10:"permission";N;}}', '0000-00-00 00:00:00'),
-	('fb004ac14adf29da987df488fb45c457', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0', 1369799495, '', '0000-00-00 00:00:00');
+	('1dbde9b50f7b422f9b542e433172c4ef', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0', 1372132316, 'a:2:{s:9:"user_data";s:0:"";s:4:"user";a:6:{s:7:"main_id";s:1:"1";s:9:"firstname";s:4:"admn";s:8:"lastname";s:5:"admin";s:5:"email";s:15:"admin@gmail.com";s:6:"status";s:1:"1";s:10:"permission";s:13:"administrator";}}', '0000-00-00 00:00:00'),
+	('233b31964f9ee7b4044ead31a58126fd', '173.0.82.126', '0', 1372131701, '', '0000-00-00 00:00:00'),
+	('252db069f801f33a9f716475360d0305', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0 FirePHP/0.7.2', 1372131658, 'a:2:{s:9:"user_data";s:0:"";s:4:"user";a:6:{s:7:"main_id";s:2:"43";s:9:"firstname";s:5:"Khiem";s:8:"lastname";s:4:"Pham";s:5:"email";s:19:"khiemktqd@gmail.com";s:6:"status";s:1:"1";s:10:"permission";N;}}', '0000-00-00 00:00:00'),
+	('3153775cfb5dc62c0eb56277aca0da26', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0', 1372131586, 'a:2:{s:9:"user_data";s:0:"";s:21:"flash:old:usermessage";a:4:{i:0;s:7:"success";i:1;s:5:"green";i:2;s:26:"Thank you for registering!";i:3;s:0:"";}}', '0000-00-00 00:00:00'),
+	('3ae07cf6321133fca535e12b0c250b05', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0', 1372130508, 'a:2:{s:9:"user_data";s:0:"";s:21:"flash:new:usermessage";a:4:{i:0;s:7:"success";i:1;s:5:"green";i:2;s:26:"Thank you for registering!";i:3;s:0:"";}}', '0000-00-00 00:00:00'),
+	('4accff36f90ed60233aece10e7366271', '173.0.82.126', '0', 1372131583, '', '0000-00-00 00:00:00'),
+	('50e5c506a98a864bbc7262fc8608591f', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0 FirePHP/0.7.2', 1372131023, '', '0000-00-00 00:00:00'),
+	('5245ae53b4be6fa255c88ebb38718d43', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0 FirePHP/0.7.2', 1372131257, '', '0000-00-00 00:00:00'),
+	('533d2bb93bca9b1939efbe7e26bdcbd0', '173.0.82.126', '0', 1372131073, '', '0000-00-00 00:00:00'),
+	('8c9fc07c4c6fad9a8ae464d732fc6e01', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36', 1372132869, 'a:2:{s:9:"user_data";s:0:"";s:4:"user";a:6:{s:7:"main_id";s:1:"1";s:9:"firstname";s:4:"admn";s:8:"lastname";s:5:"admin";s:5:"email";s:15:"admin@gmail.com";s:6:"status";s:1:"1";s:10:"permission";s:13:"administrator";}}', '0000-00-00 00:00:00'),
+	('8fda5ca3a02353d6ead322bdd2e91a60', '173.0.82.126', '0', 1372131305, '', '0000-00-00 00:00:00'),
+	('93433433c9a8d90fac7af0ac28608a52', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0', 1372131309, 'a:2:{s:9:"user_data";s:0:"";s:21:"flash:old:usermessage";a:4:{i:0;s:7:"success";i:1;s:5:"green";i:2;s:26:"Thank you for registering!";i:3;s:0:"";}}', '0000-00-00 00:00:00'),
+	('93f3362add8d6ab9c52755ecf2309fad', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0', 1372131082, 'a:2:{s:9:"user_data";s:0:"";s:21:"flash:old:usermessage";a:4:{i:0;s:7:"success";i:1;s:5:"green";i:2;s:26:"Thank you for registering!";i:3;s:0:"";}}', '0000-00-00 00:00:00'),
+	('afc7032db2e3cc2a5a6b2412bed4f6b7', '173.0.82.126', '0', 1372130221, '', '0000-00-00 00:00:00'),
+	('b0bd4ef3cf7097d3173a286c022421ed', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0 FirePHP/0.7.2', 1372134113, 'a:3:{s:9:"user_data";s:0:"";s:4:"user";a:6:{s:7:"main_id";s:1:"1";s:9:"firstname";s:4:"admn";s:8:"lastname";s:5:"admin";s:5:"email";s:15:"admin@gmail.com";s:6:"status";s:1:"1";s:10:"permission";s:13:"administrator";}s:8:"userlist";b:0;}', '0000-00-00 00:00:00'),
+	('b222f02943280409b57b6d9991737345', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0 FirePHP/0.7.2', 1372130250, '', '0000-00-00 00:00:00'),
+	('c004d46ff3868c0bffafe46768ce2c53', '173.0.82.126', '0', 1372130504, '', '0000-00-00 00:00:00'),
+	('c30f770eb01a86d168e734c0fb9832e5', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36', 1372131934, 'a:2:{s:9:"user_data";s:0:"";s:4:"user";a:6:{s:7:"main_id";s:2:"45";s:9:"firstname";s:5:"huyen";s:8:"lastname";s:6:"nguyen";s:5:"email";s:22:"thuhuyen1142@gmail.com";s:6:"status";s:1:"1";s:10:"permission";N;}}', '0000-00-00 00:00:00'),
+	('c56d695962eabe5297f26bde7fb4eaab', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0', 1372128796, 'a:2:{s:9:"user_data";s:0:"";s:4:"user";a:6:{s:7:"main_id";s:2:"43";s:9:"firstname";s:5:"Khiem";s:8:"lastname";s:4:"Pham";s:5:"email";s:19:"khiemktqd@gmail.com";s:6:"status";s:1:"1";s:10:"permission";N;}}', '0000-00-00 00:00:00'),
+	('ea4b702729abd0b687d0c4fcb566bea3', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0', 1372131706, '', '0000-00-00 00:00:00'),
+	('ea5f61c146e1ea0d519c25884160e9c7', '173.0.82.126', '0', 1372131962, '', '0000-00-00 00:00:00'),
+	('f544e519eafadbe53b8bbc5edab58782', '117.6.79.96', 'Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20100101 Firefox/21.0 FirePHP/0.7.2', 1372131319, 'a:1:{s:9:"user_data";s:0:"";}', '0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `multilevel_sessions` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.payment_history
+-- Dumping structure for table mlmcyaho_mlm.payment_history
 DROP TABLE IF EXISTS `payment_history`;
 CREATE TABLE IF NOT EXISTS `payment_history` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -226,13 +290,13 @@ CREATE TABLE IF NOT EXISTS `payment_history` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.payment_history: ~0 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.payment_history: ~0 rows (approximately)
 DELETE FROM `payment_history`;
 /*!40000 ALTER TABLE `payment_history` DISABLE KEYS */;
 /*!40000 ALTER TABLE `payment_history` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.question
+-- Dumping structure for table mlmcyaho_mlm.question
 DROP TABLE IF EXISTS `question`;
 CREATE TABLE IF NOT EXISTS `question` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -246,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `question` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.question: ~3 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.question: ~3 rows (approximately)
 DELETE FROM `question`;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
 INSERT INTO `question` (`id`, `main_user_id`, `title`, `content`, `created`, `status`, `admin_status`, `user_status`) VALUES
@@ -256,7 +320,7 @@ INSERT INTO `question` (`id`, `main_user_id`, `title`, `content`, `created`, `st
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.transaction
+-- Dumping structure for table mlmcyaho_mlm.transaction
 DROP TABLE IF EXISTS `transaction`;
 CREATE TABLE IF NOT EXISTS `transaction` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -273,9 +337,9 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.transaction: ~6 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.transaction: ~19 rows (approximately)
 DELETE FROM `transaction`;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `user_id`, `main_user_id`, `fees`, `total`, `created`, `transaction_id`, `payment_status`, `transaction_type`, `transaction_text`, `transaction_source`, `status`, `description`) VALUES
@@ -284,11 +348,31 @@ INSERT INTO `transaction` (`id`, `user_id`, `main_user_id`, `fees`, `total`, `cr
 	(3, 28, 43, 0.00, 5.00, '2013-06-24 14:11:34', NULL, 'Completed', 'refere', '+', 'system', 0, 'User reffered the user "Khiem " succesfull'),
 	(4, 26, 43, 0.00, 15.00, '2013-06-24 14:11:34', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100'),
 	(5, 27, 44, 10.00, 210.00, '2013-06-24 14:16:06', '2194793236', 'Completed', 'deposit', '+', 'creditcard', 1, ''),
-	(6, 26, 43, 0.00, 10.00, '2013-06-24 14:16:06', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100');
+	(6, 26, 43, 0.00, 10.00, '2013-06-24 14:16:06', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100'),
+	(7, 29, 45, 35.00, 135.00, '2013-06-24 22:14:52', '2194828310', 'Completed', 'register', '+', 'creditcard', 1, ''),
+	(8, 30, 46, 35.00, 135.00, '2013-06-24 22:17:06', '5L4301449W871543A', 'Completed', 'register', '+', 'paypal', 1, ''),
+	(9, 31, 47, 35.00, 235.00, '2013-06-24 22:21:48', '40380914UV060072Y', 'Completed', 'register', '+', 'paypal', 1, ''),
+	(10, 28, 43, 0.00, 5.00, '2013-06-24 22:21:48', NULL, 'Completed', 'refere', '+', 'system', 0, 'User reffered the user "Khiem " succesfull'),
+	(11, 32, 48, 35.00, 235.00, '2013-06-24 22:31:22', '2R616074TE382740B', 'Completed', 'register', '+', 'paypal', 1, ''),
+	(12, 28, 43, 0.00, 5.00, '2013-06-24 22:31:22', NULL, 'Completed', 'refere', '+', 'system', 0, 'User reffered the user "Khiem Pham" succesfull'),
+	(13, 26, 43, 0.00, 10.00, '2013-06-24 22:31:22', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100'),
+	(14, 33, 49, 35.00, 235.00, '2013-06-24 22:35:09', '0RC1589710349920F', 'Completed', 'register', '+', 'paypal', 1, ''),
+	(15, 28, 43, 0.00, 5.00, '2013-06-24 22:35:09', NULL, 'Completed', 'refere', '+', 'system', 0, 'User reffered the user "Khiem Pham" succesfull'),
+	(16, 26, 43, 0.00, 10.00, '2013-06-24 22:35:09', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100'),
+	(17, 34, 50, 35.00, 135.00, '2013-06-24 22:35:46', '2194828611', 'Completed', 'register', '+', 'creditcard', 1, ''),
+	(18, 28, 43, 0.00, 5.00, '2013-06-24 22:35:47', NULL, 'Completed', 'refere', '+', 'system', 0, 'User reffered the user "Khiem " succesfull'),
+	(19, 26, 43, 0.00, 5.00, '2013-06-24 22:35:47', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100'),
+	(20, 35, 51, 35.00, 235.00, '2013-06-24 22:39:46', '7U81787110876431G', 'Completed', 'register', '+', 'paypal', 1, ''),
+	(21, 28, 43, 0.00, 5.00, '2013-06-24 22:39:46', NULL, 'Completed', 'refere', '+', 'system', 0, 'User reffered the user "Khiem Pham" succesfull'),
+	(22, 26, 43, 0.00, 10.00, '2013-06-24 22:39:46', NULL, 'Completed', 'refere', '+', 'system', 0, 'The user "Khiem " deposited $100'),
+	(23, 26, 43, 10.00, 210.00, '2013-06-24 22:42:24', '2194828739', 'Completed', 'deposit', '+', 'creditcard', 1, ''),
+	(24, 26, 43, 10.00, 110.00, '2013-06-24 22:46:09', '1X529083GT0129814', 'Completed', 'deposit', '+', 'paypal', 1, ''),
+	(25, 36, 52, 25.00, 25.00, '2013-06-24 22:48:56', '2194828929', 'Completed', 'register', '+', 'creditcard', 1, ''),
+	(26, 37, 45, 0.00, 5.00, '2013-06-24 22:48:56', NULL, 'Completed', 'refere', '+', 'system', 0, 'User reffered the user "huyen " succesfull');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.user
+-- Dumping structure for table mlmcyaho_mlm.user
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(10) NOT NULL AUTO_INCREMENT,
@@ -297,20 +381,28 @@ CREATE TABLE IF NOT EXISTS `user` (
   `usertype` int(11) DEFAULT NULL,
   `withdrawal_date` date DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
--- Dumping data for table multi_level.user: ~4 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.user: ~10 rows (approximately)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`user_id`, `main_user_id`, `acount_number`, `usertype`, `withdrawal_date`) VALUES
 	(1, 1, '', -1, NULL),
 	(26, 43, 'G1372057843', 2, '2013-06-24'),
-	(27, 44, 'G1372057894', 2, '2013-06-24'),
-	(28, 43, 'S1372057894', 1, '2013-06-24');
+	(28, 43, 'S1372057894', 1, '2013-06-24'),
+	(29, 45, 'G1372130092', 2, '2013-06-24'),
+	(30, 46, 'G1372130226', 2, '2013-06-24'),
+	(31, 47, 'G1372130508', 2, '2013-06-24'),
+	(32, 48, 'G1372131082', 2, '2013-06-24'),
+	(33, 49, 'G1372131309', 2, '2013-06-24'),
+	(34, 50, 'G1372131346', 2, '2013-06-24'),
+	(35, 51, 'G1372131586', 2, '2013-06-24'),
+	(36, 52, 'G1372132136', 2, '2013-06-24'),
+	(37, 45, 'S1372132136', 1, '2013-06-24');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.users_groups
+-- Dumping structure for table mlmcyaho_mlm.users_groups
 DROP TABLE IF EXISTS `users_groups`;
 CREATE TABLE IF NOT EXISTS `users_groups` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
@@ -319,7 +411,7 @@ CREATE TABLE IF NOT EXISTS `users_groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table multi_level.users_groups: ~3 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.users_groups: ~3 rows (approximately)
 DELETE FROM `users_groups`;
 /*!40000 ALTER TABLE `users_groups` DISABLE KEYS */;
 INSERT INTO `users_groups` (`id`, `user_id`, `permission_id`) VALUES
@@ -329,7 +421,7 @@ INSERT INTO `users_groups` (`id`, `user_id`, `permission_id`) VALUES
 /*!40000 ALTER TABLE `users_groups` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.users_permission
+-- Dumping structure for table mlmcyaho_mlm.users_permission
 DROP TABLE IF EXISTS `users_permission`;
 CREATE TABLE IF NOT EXISTS `users_permission` (
   `permission_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -338,7 +430,7 @@ CREATE TABLE IF NOT EXISTS `users_permission` (
   PRIMARY KEY (`permission_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table multi_level.users_permission: ~2 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.users_permission: ~2 rows (approximately)
 DELETE FROM `users_permission`;
 /*!40000 ALTER TABLE `users_permission` DISABLE KEYS */;
 INSERT INTO `users_permission` (`permission_id`, `name`, `description`) VALUES
@@ -347,7 +439,7 @@ INSERT INTO `users_permission` (`permission_id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `users_permission` ENABLE KEYS */;
 
 
--- Dumping structure for table multi_level.user_main
+-- Dumping structure for table mlmcyaho_mlm.user_main
 DROP TABLE IF EXISTS `user_main`;
 CREATE TABLE IF NOT EXISTS `user_main` (
   `main_id` int(10) NOT NULL AUTO_INCREMENT,
@@ -363,15 +455,22 @@ CREATE TABLE IF NOT EXISTS `user_main` (
   `created_on` datetime NOT NULL,
   `permission` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`main_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
--- Dumping data for table multi_level.user_main: ~3 rows (approximately)
+-- Dumping data for table mlmcyaho_mlm.user_main: ~9 rows (approximately)
 DELETE FROM `user_main`;
 /*!40000 ALTER TABLE `user_main` DISABLE KEYS */;
 INSERT INTO `user_main` (`main_id`, `firstname`, `lastname`, `email`, `password`, `address`, `referring`, `phone`, `status`, `forgotten_password_code`, `created_on`, `permission`) VALUES
 	(1, 'admn', 'admin', 'admin@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, 1, NULL, '0000-00-00 00:00:00', 'administrator'),
 	(43, 'Khiem', 'Pham', 'khiemktqd@gmail.com', 'f0d15c5b747bd80cbaffd9ab3b85b8f9', 'Ha Noi', NULL, '01694046627', 1, NULL, '2013-06-24 14:10:42', NULL),
-	(44, 'Khiem', 'Pham', 'rongandat@gmail.com', '747586ad523aa1d79c7a350ba0f5e946', '', 43, '', 1, NULL, '2013-06-24 14:11:34', NULL);
+	(45, 'huyen', 'nguyen', 'thuhuyen1142@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'fhdsjfhs', NULL, '84942600100', 1, NULL, '2013-06-24 22:14:52', NULL),
+	(46, 'huyen', '1', 'thuhuyen.k@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '', NULL, '', 1, NULL, '2013-06-24 22:17:06', NULL),
+	(47, 'Khiem', 'Pham', 'khiesmktqd@gmail.com', 'cca36ce7fecd30e65744af60658e3615', 'Ha Noi', 43, '01694046627', 1, NULL, '2013-06-24 22:21:48', NULL),
+	(48, 'Khiem', 'Pham', 'ronganldat@gmail.com', 'a125df34b9672894c18f220202d1164f', 'Ha Noi', 43, '32423', 1, NULL, '2013-06-24 22:31:22', NULL),
+	(49, 'Khiem', 'Pham', 'ronfsfsgandat@gmail.com', 'ed03e1b15dcce2ff5b1ebddf27695fc4', 'Ha Noi', 43, '01694046627', 1, NULL, '2013-06-24 22:35:09', NULL),
+	(50, 'Khiem', 'Pham', 'khiedmktqd@gmail.com', '1f1a12242dc581a47aee7024a20afc14', 'Ha Noi', 43, '01694046627', 1, NULL, '2013-06-24 22:35:46', NULL),
+	(51, 'Khiem', 'Pham', 'rongandat@gmail.com', '2e0486addec269c0b3ffed69aa28dfb8', 'Ha Noi', 43, '01694046627', 1, NULL, '2013-06-24 22:39:46', NULL),
+	(52, 'huyen', '2', 'huyen2@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '', 45, '', 1, NULL, '2013-06-24 22:48:56', NULL);
 /*!40000 ALTER TABLE `user_main` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

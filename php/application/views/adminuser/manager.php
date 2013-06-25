@@ -10,27 +10,24 @@
         var asc = $('#datalist-sort-asc:checked').val();
         var usertype = $('#datalist-usertype').val();
         if (isEmpty(page)) {
-            var page = 0;
+            var page = "<?php echo site_url('adminuser/userlist') ?>";
         }
         $.ajax({
             type: "post",
             data: {searchby: search, sort: sort, asc: asc, page: page, status: status,usertype:usertype},
-            url: "<?php echo site_url('adminuser/userlist') ?>/" + page,
+            url: page,
             success: function(data) {
                 var obj = jQuery.parseJSON(data);
                 $('#datalist-renderarea').html(obj.users);
                 $(".datalist-navigation").html(obj.links);
-
+                console.debug(obj.links);
                 $(".datalist-navigation").show();
-
-
-                ;
             }
         });
     }
 
     $('.nav-page a,.nav-button a').live('click', function() {
-        search($(this).text());
+        search($(this).attr('href'));
         return false;
     })
     $('#datalist-usertype').live('click', function() {
