@@ -222,7 +222,9 @@ class Register extends MY_Controller {
                 $rsilver_user_id = $this->user->createSilverAcount($dataSilverAcount);
                 $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
                 $this->activity->addActivity($mainUser->main_id, 'Created silver account number ' . $userSilverReffering->acount_number);
+                
             }
+            $this->activity->addActivity($mainUser->main_id, 'You referred a new member "'. $dataMainUser['firstname'] . ' ' .$dataMainUser['lastname'] .'"');
             $this->user->updateMainAcount($main_user_id, array('referring' => $mainUser->main_id));
         } else {
             $referringUserConfig = $this->config_data['default_referral_user'];
@@ -238,6 +240,7 @@ class Register extends MY_Controller {
                     $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
                     $this->activity->addActivity($mainUser->main_id, 'Created silver account number ' . $userSilverReffering->acount_number);
                 }
+                $this->activity->addActivity($mainUser->main_id, 'You referred a new member "'. $dataMainUser['firstname'] . ' ' .$dataMainUser['lastname'] .'"');
                 $this->user->updateMainAcount($main_user_id, array('referring' => $mainUser->main_id));
             }
         }
@@ -462,6 +465,7 @@ class Register extends MY_Controller {
                 $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
                 $this->activity->addActivity($mainUser->main_id, 'Created silver account number ' . $userSilverReffering->acount_number);
             }
+            $this->activity->addActivity($mainUser->main_id, 'You referred a new member "'. $dataMainUser['firstname'] . ' ' .$dataMainUser['lastname'] .'"');
             $this->user->updateMainAcount($main_user_id, array('referring' => $mainUser->main_id));
         } else {
             $referringUserConfig = $this->config_data['default_referral_user'];
@@ -477,6 +481,7 @@ class Register extends MY_Controller {
                     $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
                     $this->activity->addActivity($mainUser->main_id, 'Created silver account number ' . $userSilverReffering->acount_number);
                 }
+                $this->activity->addActivity($mainUser->main_id, 'You referred a new member "'. $dataMainUser['firstname'] . ' ' .$dataMainUser['lastname'] .'"');
                 $this->user->updateMainAcount($main_user_id, array('referring' => $mainUser->main_id));
             }
         }

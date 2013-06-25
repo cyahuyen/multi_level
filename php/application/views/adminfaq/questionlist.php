@@ -16,7 +16,7 @@
                 <td ><div><?php echo $question->firstname . ' ' . $question->lastname; ?></div></td>
                 <td ><div><?php echo ($question->admin_status == 0) ? 'Unanswered' : 'Answered' ?></div></td>
                 <td >
-                    <a href="<?php echo site_url('adminfaq/answer/' . $question->id) ?>">Answer</a>
+                    <a href="<?php echo site_url('adminfaq/answer/' . $question->id) ?>"><?php echo ($question->admin_status == 0) ? 'Answer' : 'View/Edit' ?></a>
                 </td>
             </tr>
         <?php } ?>
