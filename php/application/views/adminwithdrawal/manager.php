@@ -10,12 +10,12 @@
         var asc = $('#datalist-sort-asc:checked').val();
 
         if (isEmpty(page)) {
-            var page = 0;
+            var page = "<?php echo site_url('adminwithdrawal/withdrawallist') ?>";
         }
         $.ajax({
             type: "post",
             data: {searchby: search, sort: sort, asc: asc, page: page,  payment_status:payment_status},
-            url: "<?php echo site_url('adminwithdrawal/withdrawallist') ?>/" + page,
+            url: page,
             success: function(data) {
                 var obj = jQuery.parseJSON(data);
                 $('#datalist-renderarea').html(obj.wallists);
@@ -30,7 +30,7 @@
     }
 
     $('.nav-page a,.nav-button a').live('click', function() {
-        search($(this).text());
+        search($(this).attr('href'));
         return false;
     })
 

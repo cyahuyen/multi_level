@@ -9,13 +9,13 @@
         var sort = $('#datalist-sort-order').val();
         var asc = $('#datalist-sort-asc:checked').val();
 
-        if (isEmpty(page)) {
-            var page = 0;
+         if (isEmpty(page)) {
+            var page = "<?php echo site_url('adminemail/emaillist') ?>";
         }
         $.ajax({
             type: "post",
             data: {searchby: search, sort: sort, asc: asc, page: page, status: status},
-            url: "<?php echo site_url('adminemail/emaillist') ?>/" + page,
+            url: page,
             success: function(data) {
                 var obj = jQuery.parseJSON(data);
                 $('#datalist-renderarea').html(obj.emails);
@@ -30,7 +30,7 @@
     }
 
     $('.nav-page a,.nav-button a').live('click', function() {
-        search($(this).text());
+         search($(this).attr('href'));
         return false;
     })
 

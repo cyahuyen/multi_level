@@ -63,12 +63,13 @@
         var sort = $('#datalist-sort-order').val();
         var asc = $('#datalist-sort-asc:checked').val();
         if (isEmpty(page)) {
-            var page = 0;
+            var page = "<?php echo site_url('adminfaq/questionlist') ?>";
         }
+        
         $.ajax({
             type: "post",
             data: {sort: sort, asc: asc, page: page, status: status},
-            url: "<?php echo site_url('adminfaq/questionlist') ?>/" + page,
+            url: page,
             dataType: 'json',
             success: function(obj) {
                 $('#datalist-renderarea').html(obj.questions);
@@ -76,14 +77,12 @@
 
                 $(".datalist-navigation").show();
 
-
-                ;
             }
         });
     }
 
     $('.nav-page a,.nav-button a').live('click', function() {
-        search($(this).text());
+        search($(this).attr('href'));
         return false;
     })
    
