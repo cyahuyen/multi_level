@@ -5,13 +5,6 @@ if (!defined('BASEPATH'))
 
 class Register extends MY_Controller {
 
-    var $menu_config_0 = array('', '', '', '', '', '');
-    var $menu_config_1 = array('active', '', '', '', '', '');
-    var $menu_config_2 = array('', 'active', '', '', '', '');
-    var $menu_config_3 = array('', '', 'active', '', '', '');
-    var $menu_config_4 = array('', '', '', 'active', '', '');
-    var $menu_config_5 = array('', '', '', '', 'active', '');
-    var $menu_config_6 = array('', '', '', '', '', 'active');
     var $usertype = array('0' => 'Member', '1' => 'Silver', '2' => 'Gold');
 
     function __construct() {
@@ -122,27 +115,7 @@ class Register extends MY_Controller {
             $this->session->set_flashdata(array('usermessage' => $error));
             redirect('register');
         }
-//        $post_string = '';
-//        foreach ($_POST as $field => $value) {
-//            $this->ipn_data["$field"] = $value;
-//            $post_string .= $field . '=' . urlencode(stripslashes($value)) . '&';
-//        }
-//        
-//        // Post the data back to paypal
-//        fputs($fp, "POST {$url_parsed['path']} HTTP/1.1\r\n");
-//        fputs($fp, "Host: {$url_parsed['host']}\r\n");
-//        fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
-//        fputs($fp, "Content-length: " . strlen($post_string) . "\r\n");
-//        fputs($fp, "Connection: close\r\n\r\n");
-//        fputs($fp, $post_string . "\r\n\r\n");
-//        // loop through the response from the server and append to variable
-//        while (!feof($fp)) {
-//            $this->ipn_response .= fgets($fp, 1024);
-//        }
-//        fclose($fp); // close connection
-//        var_dump($this->ipn_response);
-//        var_dump(eregi("VERIFIED", $this->ipn_response));
-//        die;
+        
         $posts = $this->input->post();
         if ($posts['mc_gross'] < $this->config_data['open_fee']) {
             $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter than open fees');
@@ -173,11 +146,13 @@ class Register extends MY_Controller {
 
 //      BOF Create Main Account
         $password = hash_hmac('crc32b', time() . $this->config->item('prefix_key'), 'secret');
+        $acount_number = generate_account_number();
         $dataMainUser = array(
             'firstname' => $postsData['firstname'],
             'lastname' => $postsData['lastname'],
             'email' => $postsData['email'],
             'password' => md5($password),
+            'main_account_number' => $acount_number,
             'phone' => $postsData['phone'],
             'address' => $postsData['address'],
         );
@@ -192,7 +167,7 @@ class Register extends MY_Controller {
         $open_fees = $this->config_data['open_fee'];
         $dataGoldAcount = array(
             'main_user_id' => $main_user_id,
-            'acount_number' => 'G' . time(),
+            'acount_number' => 'G' . $acount_number,
         );
         $gold_user_id = $this->user->createGoldAcount($dataGoldAcount);
         $this->activity->addActivity($main_user_id, 'Created gold account number ' . $dataGoldAcount['acount_number']);
@@ -237,7 +212,7 @@ class Register extends MY_Controller {
             if (empty($userSilverReffering)) {
                 $dataSilverAcount = array(
                     'main_user_id' => $mainUser->main_id,
-                    'acount_number' => 'S' . time(),
+                    'acount_number' => 'S' . $mainUser->main_account_number,
                 );
                 $rsilver_user_id = $this->user->createSilverAcount($dataSilverAcount);
                 $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
@@ -253,7 +228,7 @@ class Register extends MY_Controller {
                 if (empty($userSilverReffering)) {
                     $dataSilverAcount = array(
                         'main_user_id' => $mainUser->main_id,
-                        'acount_number' => 'S' . time(),
+                        'acount_number' => 'S' . $mainUser->main_account_number,
                     );
                     $rsilver_user_id = $this->user->createSilverAcount($dataSilverAcount);
                     $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
@@ -418,11 +393,13 @@ class Register extends MY_Controller {
 //      EOF Transaction
 //      BOF Create Main Account
         $password = hash_hmac('crc32b', time() . $this->config->item('prefix_key'), 'secret');
+        $account_number = generate_account_number();
         $dataMainUser = array(
             'firstname' => $posts['firstname'],
             'lastname' => $posts['lastname'],
             'email' => $posts['email'],
             'password' => md5($password),
+            'main_account_number' => $account_number,
             'phone' => $posts['phone'],
             'address' => $posts['address'],
         );
@@ -431,11 +408,12 @@ class Register extends MY_Controller {
 //      EOF Create Main Account
 //      Update Admin Balance
         $this->balance->updateAdminBalance($money, '+');
+        
 
 //      BOF Check/Create Gold Account
         $dataGoldAcount = array(
             'main_user_id' => $main_user_id,
-            'acount_number' => 'G' . time(),
+            'acount_number' => 'G' . $account_number,
         );
         $gold_user_id = $this->user->createGoldAcount($dataGoldAcount);
         $this->activity->addActivity($main_user_id, 'Created gold account number ' . $dataGoldAcount['acount_number']);
@@ -478,7 +456,7 @@ class Register extends MY_Controller {
             if (empty($userSilverReffering)) {
                 $dataSilverAcount = array(
                     'main_user_id' => $mainUser->main_id,
-                    'acount_number' => 'S' . time(),
+                    'acount_number' => 'S' . $mainUser->main_account_number,
                 );
                 $rsilver_user_id = $this->user->createSilverAcount($dataSilverAcount);
                 $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
@@ -494,7 +472,7 @@ class Register extends MY_Controller {
                 if (empty($userSilverReffering)) {
                     $dataSilverAcount = array(
                         'main_user_id' => $mainUser->main_id,
-                        'acount_number' => 'S' . time(),
+                        'acount_number' => 'S' . $mainUser->main_account_number,
                     );
                     $rsilver_user_id = $this->user->createSilverAcount($dataSilverAcount);
                     $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);

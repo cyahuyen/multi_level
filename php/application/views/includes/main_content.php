@@ -32,8 +32,8 @@
             </table>
             <?php echo form_close(); ?>
 
-            You came to the right place for authoritative answers to your questions and reliable guidance in making decisions about MLM participation and/or help with recovery. This information is based on the most extensive research ever done on MLM compensation plans and profitability, on distinguishing characteristics separating legitimate direct selling from pyramid or chain selling, and on the deceptions used to sell recruitment-driven MLMs, or product-based pyramid schemes.
+            <!--You came to the right place for authoritative answers to your questions and reliable guidance in making decisions about MLM participation and/or help with recovery. This information is based on the most extensive research ever done on MLM compensation plans and profitability, on distinguishing characteristics separating legitimate direct selling from pyramid or chain selling, and on the deceptions used to sell recruitment-driven MLMs, or product-based pyramid schemes.-->
         </div>
-        <div><img src="<?php echo base_url() ?>/img/how-to-mlm.png" title="How to mlm"/></div>
+        <!--<div><img src="<?php echo base_url() ?>/img/how-to-mlm.png" title="How to mlm"/></div>-->
     </div>
 </div>

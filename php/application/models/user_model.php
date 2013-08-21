@@ -189,11 +189,11 @@ class User_model extends CI_Model {
         $this->db->where('main_user_id', $main_id);
         return $this->db->get()->result();
     }
-    
-    public function getAllbalanceAcountByMainId($main_id){
+
+    public function getAllbalanceAcountByMainId($main_id) {
         $this->db->select("*");
         $this->db->from("user");
-        $this->db->join("balance","user.user_id = balance.user_id","left");
+        $this->db->join("balance", "user.user_id = balance.user_id", "left");
         $this->db->where('main_user_id', $main_id);
         return $this->db->get()->result();
     }
@@ -281,7 +281,6 @@ class User_model extends CI_Model {
         return $query->num_rows();
     }
 
-  
     public function listMainUser($data, $limit = null, $start = null, $sort = null) {
         $this->db->select("*");
         $this->db->from("user_main");
@@ -291,7 +290,7 @@ class User_model extends CI_Model {
                     $where = "( firstname LIKE '%" . $val . "%' OR lastname LIKE '%" . $val . "%' OR email LIKE '%" . $val . "%' OR phone LIKE '%" . $val . "%' )";
                     $this->db->where($where);
                 } elseif ($key == 'term') {
-                    $where = "( email LIKE '%" . $val . "%' OR username LIKE '%" . $val . "%' )";
+                    $where = "( email LIKE '%" . $val . "%')";
                     $this->db->where($where);
                 }
                 else
@@ -310,8 +309,8 @@ class User_model extends CI_Model {
                 $this->db->order_by($key, $value);
             }
         }
-        
-        
+
+
 
         $query = $this->db->get();
         return $query->result();
@@ -322,11 +321,11 @@ class User_model extends CI_Model {
         $this->db->set('withdrawal_date', 'NOW()', FALSE);
         return $this->db->update('user');
     }
-    
-      public function totalUser($data) {
+
+    public function totalUser($data) {
         $this->db->select("*");
         $this->db->from("user");
-        $this->db->join("user_main",'user.main_user_id = user_main.main_id');
+        $this->db->join("user_main", 'user.main_user_id = user_main.main_id');
 
         if (!empty($data)) {
             foreach ($data as $key => $val) {
@@ -338,21 +337,32 @@ class User_model extends CI_Model {
         return $query->num_rows();
     }
 
-    public function listReferes($data){
+    public function listReferes($data) {
         $this->db->select("referring ,COUNT(main_id) as total_user");
         $this->db->from("user_main");
-        
+
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 $this->db->where($key, $val);
             }
         }
-        
+
         $this->db->group_by('referring');
 
 
         $query = $this->db->get();
         return $query->result();
+    }
+
+    public function checkAccountNumberExists($acountNumber) {
+        $this->db->select("*");
+        $this->db->from("user");
+        $this->db->where("SUBSTR(acount_number, 2) = ",$acountNumber, FALSE);
+
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+            return TRUE;
+        return FALSE;
     }
 
 }

@@ -8,11 +8,93 @@ if (!function_exists('getStartAndEndDate')) {
         $date_string = $year . 'W' . sprintf('%02d', $week);
 
         $return[0] = date('Y-m-d H:i:s', strtotime($date_string . '0'));
-        $return[1] = date('Y-m-d H:i:s', strtotime('-1 second',strtotime($date_string . '7')));
+        $return[1] = date('Y-m-d H:i:s', strtotime('-1 second', strtotime($date_string . '7')));
         return $return;
     }
 
 }
+
+if (!function_exists('tep_create_random_value')) {
+
+    function tep_create_random_value($length, $type = 'mixed') {
+        if (($type != 'mixed') && ($type != 'chars') && ($type != 'digits'))
+            return false;
+
+        $rand_value = '';
+        while (strlen($rand_value) < $length) {
+            if ($type == 'digits') {
+                $char = tep_rand(0, 9);
+            } else {
+                $char = chr(tep_rand(0, 255));
+            }
+            if ($type == 'mixed') {
+                if (preg_match('/^[a-z0-9]$/i', $char))
+                    $rand_value .= $char;
+            } elseif ($type == 'chars') {
+                if (preg_match('/^[a-z]$/i', $char))
+                    $rand_value .= $char;
+            } elseif ($type == 'digits') {
+                if (preg_match('/^[0-9]$/', $char))
+                    $rand_value .= $char;
+            }
+        }
+
+
+        return $rand_value;
+    }
+
+}
+
+
+
+if (!function_exists('tep_rand')) {
+
+// Return a random value
+    function tep_rand($min = null, $max = null) {
+        static $seeded;
+
+        if (!isset($seeded)) {
+            mt_srand((double) microtime() * 1000000);
+            $seeded = true;
+        }
+
+        if (isset($min) && isset($max)) {
+            if ($min >= $max) {
+                return $min;
+            } else {
+                return mt_rand($min, $max);
+            }
+        } else {
+            return mt_rand();
+        }
+    }
+
+}
+if (!function_exists('generate_account_number')) {
+
+    function generate_account_number() {
+        $CI = & get_instance();
+        $CI->load->model('user_model', 'user');
+        while (true) {
+            $new_account_number = tep_create_random_value(5, 'digits');
+            //check if the account number is existed
+            $acountExists = $CI->user->checkAccountNumberExists($new_account_number);
+            if (!$acountExists)
+                return $new_account_number;
+        }
+    }
+
+}
+
+if (!function_exists('admin_url')) {
+
+    function admin_url($uri = '') {
+        $CI = & get_instance();
+        return $CI->config->site_url('admin/'.$uri);
+    }
+
+}
+
 if (!function_exists('getUserByMainId')) {
 
     function getUserByMainId($id) {

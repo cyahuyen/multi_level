@@ -27,7 +27,7 @@ class Faq extends MY_Controller {
         $this->data['user_session'] = $this->session->userdata('user');
         $user_session = $this->session->userdata('user');
         if (!empty($user_session) && $user_session['permission'] == 'administrator') {
-            redirect(site_url('admin'));
+            redirect(admin_url('admin'));
         }
     }
 

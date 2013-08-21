@@ -39,4 +39,9 @@ class MY_Controller extends CI_Controller {
         $this->data['config_data'] = $this->config_data;
     }
 
+    public function view($view, $template = 'default') {
+        $this->data['body_html'] = $this->load->view($view, $this->data,true);
+        $this->load->view('templates/' . $template, $this->data);
+    }
+
 }

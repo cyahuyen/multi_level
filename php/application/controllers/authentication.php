@@ -26,8 +26,9 @@ class Authentication extends MY_Controller {
         if (!empty($user_session) && $user_session['permission'] != 'administrator') {
             redirect(site_url('home'));
         } elseif (!empty($user_session) && $user_session['permission'] == 'administrator') {
-            redirect(site_url('admin'));
+            redirect(admin_url('admin'));
         }
+        
         $this->data['title'] = 'Sign-in';
         $this->data['main_content'] = 'authentication/index';
 
@@ -62,7 +63,7 @@ class Authentication extends MY_Controller {
                     );
                     $this->session->set_userdata(array('user' => $data));
                     if ($usersForCreds['permission'] == 'administrator')
-                        redirect(site_url('admin'));
+                        redirect(admin_url('admin'));
                     redirect(site_url('home'));
                 }
             }
