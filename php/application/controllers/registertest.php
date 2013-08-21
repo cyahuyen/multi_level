@@ -122,27 +122,26 @@ class Register extends MY_Controller {
             $this->session->set_flashdata(array('usermessage' => $error));
             redirect('register');
         }
-//        $post_string = '';
-//        foreach ($_POST as $field => $value) {
-//            $this->ipn_data["$field"] = $value;
-//            $post_string .= $field . '=' . urlencode(stripslashes($value)) . '&';
-//        }
-//        
-//        // Post the data back to paypal
-//        fputs($fp, "POST {$url_parsed['path']} HTTP/1.1\r\n");
-//        fputs($fp, "Host: {$url_parsed['host']}\r\n");
-//        fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
-//        fputs($fp, "Content-length: " . strlen($post_string) . "\r\n");
-//        fputs($fp, "Connection: close\r\n\r\n");
-//        fputs($fp, $post_string . "\r\n\r\n");
-//        // loop through the response from the server and append to variable
-//        while (!feof($fp)) {
-//            $this->ipn_response .= fgets($fp, 1024);
-//        }
-//        fclose($fp); // close connection
-//        var_dump($this->ipn_response);
-//        var_dump(eregi("VERIFIED", $this->ipn_response));
-//        die;
+        $post_string = '';
+        foreach ($_POST as $field => $value) {
+            $this->ipn_data["$field"] = $value;
+            $post_string .= $field . '=' . urlencode(stripslashes($value)) . '&';
+        }
+        
+        // Post the data back to paypal
+        fputs($fp, "POST {$url_parsed['path']} HTTP/1.1\r\n");
+        fputs($fp, "Host: {$url_parsed['host']}\r\n");
+        fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
+        fputs($fp, "Content-length: " . strlen($post_string) . "\r\n");
+        fputs($fp, "Connection: close\r\n\r\n");
+        fputs($fp, $post_string . "\r\n\r\n");
+        // loop through the response from the server and append to variable
+        while (!feof($fp)) {
+            $this->ipn_response .= fgets($fp, 1024);
+        }
+        fclose($fp); // close connection
+        var_dump(eregi("VERIFIED", $this->ipn_response));
+        die;
         $posts = $this->input->post();
         if ($posts['mc_gross'] < $this->config_data['open_fee']) {
             $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter than open fees');

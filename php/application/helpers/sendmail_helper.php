@@ -6,10 +6,6 @@ if (!function_exists('sendmail')) {
 
     function sendmail($emailTo, $subject, $content, $emailFrom = null, $name = null, $mailtype = 'html') {
         $CI = & get_instance();
-
-
-
-
         $CI->load->library('email');
         $CI->load->model('config_model', 'configs');
         $CI->email->clear();
