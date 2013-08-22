@@ -10,6 +10,27 @@
             <td><a href="<?php echo site_url('register/forgot') ?>">(if you forgot password ?)</a></td>
         </tr>
         <tr>
+            <td><div>Username: </div></td>
+            <td>
+                <input type="text" name="username" class="mandatory"  id="username" value="<?php echo set_value('username', $username); ?>" style="width:300px">
+                <span class="fr-error"><?php echo form_error('username'); ?></span>
+            </td>
+        </tr>
+        <tr>
+            <td><div>Password: </div></td>
+            <td>
+                <input type="password" name="password" class="mandatory"  id="password" value="" style="width:300px">
+                <span class="fr-error"><?php echo form_error('password'); ?></span>
+            </td>
+        </tr>
+        <tr>
+            <td><div>RePassword: </div></td>
+            <td>
+                <input type="password" name="repassword" class="mandatory"  id="repassword" value="" style="width:300px">
+                <span class="fr-error"><?php echo form_error('repassword'); ?></span>
+            </td>
+        </tr>
+        <tr>
             <td><div>FirstName: </div></td>
             <td>
                 <input type="text" name="firstname" class="mandatory"  id="firstname" value="<?php echo set_value('firstname', $firstname); ?>" style="width:300px">
@@ -146,6 +167,9 @@
         var min_enrolment_entry_amount = '<?php echo $transaction_fees['min_enrolment_entry_amount']; ?>';
         var max_enrolment_entry_amount = '<?php echo $transaction_fees['max_enrolment_entry_amount']; ?>';
         e = $(this);
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var repassword = $('#repassword').val();
         var firstname = $('#firstname').val();
         var lastname = $('#lastname').val();
         var email = $('#email').val();
@@ -156,7 +180,7 @@
         var deposite = '<?php echo $transaction_fees['transaction_fee'] ?>';
        
         var referring = $('#referring').val();
-        $('#custom').val('firstname=' + firstname + '|lastname=' + lastname + '|email=' + email + '|entry_amount=' + entry_amount + '|address=' + address + '|phone=' + phone + '|referring=' + referring + '|entry_amount=' + entry_amount)
+        $('#custom').val('firstname=' + firstname + '|username=' + username + '|password=' + password + '|lastname=' + lastname + '|email=' + email + '|entry_amount=' + entry_amount + '|address=' + address + '|phone=' + phone + '|referring=' + referring + '|entry_amount=' + entry_amount)
         if (!isNaN(entry_amount) && entry_amount > 0) {
             if (entry_amount.length == 0)
                 entry_amount = 0
@@ -167,6 +191,18 @@
         }
         var flag = true;
         removeCompMsgs();
+        if (username.length == 0) {
+            $('#msgContainer').append('<input type="hidden" id="cmsgusername" value="Username is not null"/>');
+            flag = false;
+        }
+        if (password.length < 6) {
+            $('#msgContainer').append('<input type="hidden" id="cmsgpassword" value="Password greater than 6 character"/>');
+            flag = false;
+        }
+        if (password != repassword) {
+            $('#msgContainer').append('<input type="hidden" id="cmsgpassword" value="Re-password does not macth"/>');
+            flag = false;
+        }
         if (firstname.length == 0) {
             $('#msgContainer').append('<input type="hidden" id="cmsgfirstname" value="Firstname is not null"/>');
             flag = false;
@@ -188,6 +224,7 @@
             $('#msgContainer').append('<input type="hidden" id="cmsgpayment" value="Payment method not null"/>');
             flag = false;
         }
+     
         
         if(payment == 'creditcard'){
             var card_num = $('#card_num').val();
@@ -207,14 +244,14 @@
             return false;
         } else {
             $.ajax({
-                data: 'email=' + email,
-                url: "<?php echo site_url('register/checkEmail') ?>",
+                data: 'username=' + username,
+                url: "<?php echo site_url('register/checkUser') ?>",
                 success: function(data) {
                     if ($.trim(data) == 'true') {
                         $('#sign-up-form').submit();
                     }
                     else {
-                        $('#msgContainer').append('<input type="hidden" id="cmsgemail" value="Email is already registered in our system. Please use a different one."/>');
+                        $('#msgContainer').append('<input type="hidden" id="cmsgusername" value="Username is already registered in our system. Please use a different one."/>');
                         showmessage('error', 'Validation errors found', 'Please see below');
                         showCompMsgs();
                     }

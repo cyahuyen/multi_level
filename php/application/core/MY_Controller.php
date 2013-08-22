@@ -40,8 +40,33 @@ class MY_Controller extends CI_Controller {
     }
 
     public function view($view, $template = 'default') {
-        $this->data['body_html'] = $this->load->view($view, $this->data,true);
+        $this->data['body_html'] = $this->load->view($view, $this->data, true);
         $this->load->view('templates/' . $template, $this->data);
+    }
+
+    public function getRefereAmount($amount, $main_id) {
+        $referral_bonus = $this->config_data['referral_bonus'];
+        $totalReferal = $this->user->totalRefered($main_id);
+
+        $percent = 0;
+        foreach ($referral_bonus as $referral) {
+            $min = !empty($referral['min']) ? $referral['min'] : 0;
+            $max = !empty($referral['max']) ? $referral['max'] : 0;
+
+            if ($referral) {
+                if (empty($max)) {
+                    if ($totalReferal > $min) {
+                        $percent = !empty($referral['refere']) ? $referral['refere'] : 0;
+                    }
+                } else {
+                    if ($totalReferal >= $min && $totalReferal <= $max) {
+                        $percent = !empty($referral['refere']) ? $referral['refere'] : 0;
+                    }
+                }
+            }
+        }
+
+        return ($percent * $amount / 100);
     }
 
 }

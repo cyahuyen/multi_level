@@ -53,6 +53,11 @@ class Register extends MY_Controller {
             $this->data['success'] = '';
         }
 
+        if (isset($posts['username'])) {
+            $this->data['username'] = $posts['username'];
+        } else {
+            $this->data['username'] = '';
+        }
         if (isset($posts['firstname'])) {
             $this->data['firstname'] = $posts['firstname'];
         } else {
@@ -115,7 +120,7 @@ class Register extends MY_Controller {
             $this->session->set_flashdata(array('usermessage' => $error));
             redirect('register');
         }
-        
+
         $posts = $this->input->post();
         if ($posts['mc_gross'] < $this->config_data['open_fee']) {
             $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter than open fees');
@@ -384,17 +389,18 @@ class Register extends MY_Controller {
             redirect(site_url('register'));
         }
 
-//      Duplicate transaction  
-        if ($this->transaction->checkTransactionExists($payment_status['transaction_id'])) {
-            $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
-            $this->session->set_flashdata('usermessage', $data['usermessage']);
-            redirect('home');
-        }
+////      Duplicate transaction  
+//        if ($this->transaction->checkTransactionExists($payment_status['transaction_id'])) {
+//            $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
+//            $this->session->set_flashdata('usermessage', $data['usermessage']);
+//            redirect('home');
+//        }
 //      EOF Transaction
 //      BOF Create Main Account
-        $password = hash_hmac('crc32b', time() . $this->config->item('prefix_key'), 'secret');
+        $password = $posts['password'];
         $account_number = generate_account_number();
         $dataMainUser = array(
+            'username' => $posts['username'],
             'firstname' => $posts['firstname'],
             'lastname' => $posts['lastname'],
             'email' => $posts['email'],
@@ -408,7 +414,7 @@ class Register extends MY_Controller {
 //      EOF Create Main Account
 //      Update Admin Balance
         $this->balance->updateAdminBalance($money, '+');
-        
+
 
 //      BOF Check/Create Gold Account
         $dataGoldAcount = array(
@@ -449,10 +455,14 @@ class Register extends MY_Controller {
 //      BOF Check Reffering Member
         $postsData = $posts;
         if ($postsData['referring']) {
-            $mainUser = $this->user->getMainUserByEmail($postsData['referring']);
+            $mainUser = $this->user->getMainUserByUsername($postsData['referring']);
+        } else {
+            $referringUserConfig = $this->config_data['default_referral_user'];
+            $mainUser = $this->user->getMainUserByUsername($referringUserConfig);
         }
+
         if (!empty($mainUser)) {
-            $userSilverReffering = $this->user->getUserByEmail($postsData['referring'], 1);
+            $userSilverReffering = $this->user->getUserByMainId($mainUser->main_id, 1);
             if (empty($userSilverReffering)) {
                 $dataSilverAcount = array(
                     'main_user_id' => $mainUser->main_id,
@@ -462,46 +472,26 @@ class Register extends MY_Controller {
                 $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
                 $this->activity->addActivity($mainUser->main_id, 'Created silver account number ' . $userSilverReffering->acount_number);
             }
-            $this->activity->addActivity($mainUser->main_id, 'You referred a new member "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['lastname'] . '"');
+
             $this->user->updateMainAcount($main_user_id, array('referring' => $mainUser->main_id));
-        } else {
-            $referringUserConfig = $this->config_data['default_referral_user'];
-            $mainUser = $this->user->getMainUserByEmail($referringUserConfig);
-            if (!empty($mainUser)) {
-                $userSilverReffering = $this->user->getUserByEmail($this->config_data['default_referral_user'], 1);
-                if (empty($userSilverReffering)) {
-                    $dataSilverAcount = array(
-                        'main_user_id' => $mainUser->main_id,
-                        'acount_number' => 'S' . $mainUser->main_account_number,
-                    );
-                    $rsilver_user_id = $this->user->createSilverAcount($dataSilverAcount);
-                    $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
-                    $this->activity->addActivity($mainUser->main_id, 'Created silver account number ' . $userSilverReffering->acount_number);
-                }
-                $this->activity->addActivity($mainUser->main_id, 'You referred a new member "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['lastname'] . '"');
-                $this->user->updateMainAcount($main_user_id, array('referring' => $mainUser->main_id));
-            }
-        }
 
-
-        if (!empty($userSilverReffering)) {
-
-//      BOF Update Balance
-            $this->balance->updateAdminBalance($this->config_data['referral_fees'], '-');
-
+//            $referral_fees = $this->config_data['referral_fees'] * $posts['entry_amount'] / 100;
+            $referral_fees = $this->config_data['referral_fees'];
+            //      BOF Update Balance
+            $this->balance->updateAdminBalance($referral_fees, '-');
             $dataBalanceSilverReferralUpdate = array(
                 'user_id' => $userSilverReffering->user_id,
-                'balance' => $this->config_data['referral_fees'],
+                'balance' => $referral_fees,
             );
             $dataTransaction = $this->balance->updateBalance($dataBalanceSilverReferralUpdate);
-            $this->activity->addActivity($userSilverReffering->main_id, 'Your Silver account ' . $userSilverReffering->acount_number . ' receiced a referral fee with amount : $' . ($this->config_data['referral_fees']), '+', $this->config_data['referral_fees']);
-//      EOF Update Balance
+            $this->activity->addActivity($mainUser->main_id, 'You referred a new member "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['lastname'] . '"', '+', $referral_fees);
+            //      EOF Update Balance
 //      BOF Update Transaction
             $dataTransactionUpdate = array(
                 'user_id' => $userSilverReffering->user_id,
                 'main_user_id' => $userSilverReffering->main_id,
                 'fees' => 0,
-                'total' => $this->config_data['referral_fees'],
+                'total' => $referral_fees,
                 'payment_status' => 'Completed',
                 'transaction_type' => 'refere',
                 'transaction_text' => '+',
@@ -511,7 +501,7 @@ class Register extends MY_Controller {
             );
             $this->transaction->upadateTransaction($dataTransactionUpdate);
 
-            //      Update Widthdraw date
+            //Update Widthdraw date
             if (empty($userSilverReffering->withdrawal_date)) {
                 $this->user->updateWithdrawalDate($userSilverReffering->user_id);
             }
@@ -519,14 +509,14 @@ class Register extends MY_Controller {
 //      EOF Update Transaction
         }
 
-        if (!empty($gold_user_id) && !empty($mainUser)) {
-            $userGoldReffering = $this->user->getUserByEmail($postsData['referring'], 2);
-            if (!empty($userGoldReffering)) {
 
+        if (!empty($gold_user_id) && !empty($mainUser)) {
+            $userGoldReffering = $this->user->getUserByMainId($mainUser->main_id, 2);
+            if (!empty($userGoldReffering)) {
 //              get banlane gold account
                 $balanceGoldAcount = $this->balance->getBalance($userGoldReffering->user_id);
-                if (!empty($balanceGoldAcount->balance) && $balanceGoldAcount->balance > 0 && ($posts['entry_amount'] >= $this->config_data['min_enrolment_entry_amount'])) {
-                    $refereFees = $dataBalanceUpdate['balance'] * $this->config_data['percentage_gold'] / 100;
+                $refereFees = $this->getRefereAmount($posts['entry_amount'], $mainUser->main_id);
+                if (!empty($balanceGoldAcount->balance) && $balanceGoldAcount->balance >= $this->config_data['min_enrolment_entry_amount'] && ($posts['entry_amount'] >= $this->config_data['min_enrolment_entry_amount'])) {
                     //      BOF Update Balance
                     $this->balance->updateAdminBalance($refereFees, '-');
 
@@ -597,7 +587,6 @@ class Register extends MY_Controller {
     }
 
     public function forgot() {
-
         $this->load->model('user_model', 'user');
 
         $this->data['title'] = 'Forgot password';
@@ -681,6 +670,18 @@ class Register extends MY_Controller {
         }
     }
 
+    public function checkUser() {
+        $this->load->model('user_model', 'user');
+        $user_name = $this->input->get('username');
+        $user = $this->user->getMainUserByUsername($user_name);
+        if (empty($user)) {
+            echo 'true';
+            exit();
+        }
+        echo 'false';
+        exit();
+    }
+
     public function check_email($email) {
         if (!$this->register_model->checkEmail($email)) {
             $this->form_validation->set_message('check_email', 'This e-mail is Not registered in our system. Please use a different one.');
@@ -732,7 +733,7 @@ class Register extends MY_Controller {
 
         $results = array();
         foreach ($data as $sub) {
-            $results[$sub->email] = $sub->email;
+            $results[$sub->username] = $sub->username;
         }
         echo json_encode($results);
     }

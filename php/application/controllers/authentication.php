@@ -33,13 +33,13 @@ class Authentication extends MY_Controller {
         $this->data['main_content'] = 'authentication/index';
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $email = $this->input->post('email');
+            $username = $this->input->post('username');
             $password = $this->input->post('password');
             $validationErrors = array();
 
             /* check email val */
-            if ($email == null || trim($email) == "")
-                $validationErrors["email"] = "Sign-in Email is required for sign-in authentication";
+            if ($username == null || trim($username) == "")
+                $validationErrors["username"] = "Sign-in name is required for sign-in authentication";
 
             /* check password val */
             if ($password == null || trim($password) == "") {
@@ -48,7 +48,7 @@ class Authentication extends MY_Controller {
             }
 
             if (count($validationErrors) == 0) {
-                $usersForCreds = $this->user->verifySignin($email, $password);
+                $usersForCreds = $this->user->verifySignin($username, $password);
                 if (empty($usersForCreds)) {
                     $this->data['usermessage'] = array('error', 'darkred', 'Sign-in name / password could not be verified', 'Please see below');
                     $validationErrors["email"] = "Sign-in name / password could not be verified";

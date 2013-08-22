@@ -1,13 +1,8 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- * Description of reansaction_model
- *
+ * Description of Transaction_model
  * @author ngoalongkt
  */
 class Transaction_model extends CI_Model {

@@ -6,9 +6,9 @@
         </tr>
     </thead>
     <tr>
-        <td><div>Sign-in Email: </div></td>
+        <td><div>Sign-in name: </div></td>
         <td>
-            <input type="text" id="email" name="email" value="" style="width:200px"/>
+            <input type="text" id="email" name="username" value="" style="width:200px"/>
         </td>
     </tr>
     <tr>

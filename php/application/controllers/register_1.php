@@ -107,7 +107,7 @@ class Register extends MY_Controller {
         $this->load->view('home', $this->data);
     }
 
-    public function paypal_return() {
+    public function paypal_return_old() {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
             redirect('register');
         $this->load->model('config_model', 'configs');
@@ -152,7 +152,6 @@ class Register extends MY_Controller {
 
             if ($posts['mc_gross'] > $transaction_fees['open_fee'])
                 $postsData['usertype'] = 2;
-//                $postsData['transaction_start'] = 2;
             else
                 $postsData['usertype'] = 0;
 
@@ -234,12 +233,46 @@ class Register extends MY_Controller {
         redirect('home');
     }
 
+    public function paypal_return() {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST')
+            redirect('register');
+        $this->load->model('config_model', 'configs');
+        $this->load->model('user_model', 'user');
+        $this->load->model('balance_model', 'balance');
+        $transaction_fees = $this->configs->getConfigs('transaction_fees');
+        $paypal = $this->configs->getConfigs('paypal');
+
+        $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+        $url_parsed = parse_url($url);
+        $fp = fsockopen($url_parsed['host'], "80", $err_num, $err_str, 30);
+        if (!$fp) {
+            $error = array('error', 'darkred', 'Register errors', 'Connection to ' . $url_parsed['host'] . " failed.fsockopen error no. $errnum: $errstr");
+            $this->session->set_flashdata(array('usermessage' => $error));
+            redirect('register');
+        }
+
+        $posts = $this->input->post();
+        if ($posts['mc_gross'] < $transaction_fees['open_fee']) {
+            $error = array('error', 'darkred', 'Register errors', 'Transaction fees litter than open fees');
+            $this->session->set_flashdata(array('usermessage' => $error));
+            redirect('register');
+        }
+
+        $custom = $posts['custom'];
+        $custom_list = explode('|', $custom);
+        $postsData = array();
+        foreach ($custom_list as $val) {
+            $custom_post = explode('=', $val);
+            $postsData[$custom_post[0]] = $custom_post[1];
+        }
+    }
+
     public function creditcard() {
         $posts = $this->input->post();
 
         $this->load->model('user_model', 'user');
         $this->load->model('balance_model', 'balance');
-        $this->load->model('activity_model', 'activity');
+
 
         if (!$posts) {
             redirect(site_url('register'));
@@ -353,7 +386,7 @@ class Register extends MY_Controller {
             }
         }
 
-      
+
         if (!empty($userSilverReffering)) {
 
 //      BOF Update Balance

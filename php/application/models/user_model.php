@@ -42,6 +42,14 @@ class User_model extends CI_Model {
         return FALSE;
     }
 
+    public function getMainUserByUsername($username) {
+        $this->db->select("*");
+        $this->db->from("user_main");
+        $this->db->where('username', $username);
+        $results = $this->db->get()->result();
+        return !empty($results) ? $results[0] : array();
+    }
+
     /**
      * Function createGoldAcount
      * Create gold account.
@@ -205,11 +213,11 @@ class User_model extends CI_Model {
      * @param string $password
      * return array $result
      */
-    function verifySignin($email, $password) {
+    function verifySignin($username, $password) {
         $this->load->database();
-        $email = strtolower(trim($email));
+        $username = strtolower(trim($username));
         $password = md5($password);
-        $sql = "select * from user_main where email = '$email' and password = '$password' and status = 1";
+        $sql = "select * from user_main where username = '$username' and password = '$password' and status = 1";
         $data = $this->db->query($sql)->result_array();
         return !empty($data) ? $data[0] : array();
     }
@@ -238,8 +246,9 @@ class User_model extends CI_Model {
     public function searchUser($path) {
         $this->db->select("*");
         $this->db->from("user_main");
-        $where = "( email LIKE '%" . $path . "%')";
+        $where = "( username LIKE '%" . $path . "%')";
         $this->db->where($where);
+        $this->db->where("main_id != ", 1);
 
         $query = $this->db->get();
         return $query->result();
@@ -357,10 +366,10 @@ class User_model extends CI_Model {
     public function checkAccountNumberExists($acountNumber) {
         $this->db->select("*");
         $this->db->from("user");
-        $this->db->where("SUBSTR(acount_number, 2) = ",$acountNumber, FALSE);
+        $this->db->where("SUBSTR(acount_number, 2) = ", $acountNumber, FALSE);
 
         $query = $this->db->get();
-        if($query->num_rows() > 0)
+        if ($query->num_rows() > 0)
             return TRUE;
         return FALSE;
     }

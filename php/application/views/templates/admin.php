@@ -185,7 +185,7 @@ if (isset($usermessage)) {
                             <ul>
                                 <li><a href="#" target="_blank">Help</a></li>
                                 <li><a href="#" target="_blank">Support</a></li>
-                                <li><a href="<?php echo admin_url('authentication/signout') ?>">Log Out</a></li>
+                                <li><a href="<?php echo site_url('authentication/signout') ?>">Log Out</a></li>
                             </ul>
                             <div class="clearer"></div>
                         </div>
