@@ -24,21 +24,51 @@ class Transaction_model extends CI_Model {
         return TRUE;
     }
 
-    function getTransactionNotExpiration($user_id, $start_date = null, $end_date = null) {
-        if (!empty($start_date) || !empty($end_date)) {
-            $this->db->select("*");
-            $this->db->from("transaction");
-            $this->db->where("user_id", $user_id);
+    public function checkExistsDeposit($user_id) {
+        $this->db->select("*");
+        $this->db->from("transaction");
+        $this->db->where("user_id", $user_id);
+        $this->db->where("transaction_type", 'deposit');
 
+        $query = $this->db->get();
+        $result = $query->result();
+        if (empty($result))
+            return FALSE;
+        return TRUE;
+    }
 
-            $this->db->where("created >=", $start_date);
-            $this->db->where("created <=", $end_date);
-            $this->db->where("status", 1);
-            $query = $this->db->get();
-            return $query->result();
-        } else {
-            return array();
+    public function getGoldDepositAmount($user_id) {
+        $this->db->select("(SUM(total)-SUM(fees)) as total");
+        $this->db->from("transaction");
+        $this->db->where("user_id", $user_id);
+        $this->db->where("transaction_type", 'deposit');
+        $results = $this->db->get()->result();
+        echo $this->db->last_query();
+        return $results[0]->total;
+    }
+
+    public function getAllBalanceByReferedDeposit($user_id) {
+        $this->load->model('user_model');
+        $userRefereds = $this->user_model->getReferedsGold($user_id);
+        $total = 0;
+        foreach ($userRefereds as $userRefered) {
+            $total += $this->getGoldDepositAmount($userRefered->user_id);
         }
+        return $total;
+    }
+
+    function getTransactionNotExpiration($user_id, $start_date = null, $end_date = null) {
+        $this->db->select("*");
+        $this->db->from("transaction");
+        $this->db->where("user_id", $user_id);
+
+        if ($start_date)
+            $this->db->where("created >=", $start_date);
+        if ($end_date)
+            $this->db->where("created <=", $end_date);
+        $this->db->where("status", 1);
+        $query = $this->db->get();
+        return $query->result();
     }
 
     public function totalHistory($id, $search = null) {
@@ -53,6 +83,10 @@ class Transaction_model extends CI_Model {
         $this->db->where('transaction.main_user_id', $id);
         $query = $this->db->get();
         return $query->num_rows();
+    }
+
+    public function getTotalTransactionByReferringUser($main_id, $type) {
+        $users = $this->user->getUserByMainId($user->referring, 2);
     }
 
     public function getHistorys($id, $search = null, $limit = null, $start = null) {
@@ -98,7 +132,7 @@ class Transaction_model extends CI_Model {
         $query = $this->db->get();
         return $query->num_rows();
     }
-    
+
     public function totalAmountTransfer($data) {
         $this->db->select("(SUM(transaction.total) - SUM(transaction.fees)) as amount");
         $this->db->from("transaction");
@@ -106,7 +140,7 @@ class Transaction_model extends CI_Model {
         $this->db->join("user_main", 'user.main_user_id = user_main.main_id');
         if (!empty($data)) {
             foreach ($data as $key => $val) {
-                    $this->db->where($key, $val);
+                $this->db->where($key, $val);
             }
         }
         $query = $this->db->get()->result();
@@ -209,7 +243,7 @@ class Transaction_model extends CI_Model {
         $this->db->set('confirm_date', 'NOW()', FALSE);
         return $this->db->update('payment_history', $data);
     }
-    
+
     public function getHistoryById($id) {
         $this->db->select("*");
         $this->db->from("payment_history");

@@ -17,6 +17,12 @@
     <table class="datatable">
         <tbody>
             <tr>
+                <td>Title</td>
+                <td>
+                    <input type="text" id="title" class="mandatory" name="title" value="<?php echo!empty($data_configs['title']) ? $data_configs['title'] : '' ?>" class="" style="width:240px">
+                </td>
+            </tr>
+            <tr>
                 <td>API Login ID</td>
                 <td>
                     <input type="text" id="login_id" class="mandatory" name="login_id" value="<?php echo!empty($data_configs['login_id']) ? $data_configs['login_id'] : '' ?>" class="" style="width:240px">

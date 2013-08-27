@@ -49,7 +49,7 @@ class Module extends MY_Controller {
         $this->data['list_payment'] = $this->configs->listPayment();
 
         $this->data['main_content'] = 'module/payment';
-        $this->load->view('administrator', $this->data);
+        $this->view('admin/module/payment', 'admin');
     }
 
     public function paypal() {
@@ -82,6 +82,7 @@ class Module extends MY_Controller {
             redirect(admin_url('module/paypal'));
         }
         $this->view('admin/module/paypal', 'admin');
+        
     }
 
     public function creditcard() {
@@ -103,6 +104,27 @@ class Module extends MY_Controller {
         }
 
         $this->view('admin/module/credit_card', 'admin');
+    }
+    
+    public function aw_quickpay() {
+        $code = 'aw_quickpay';
+        $this->data['title'] = 'Allied Wallet QuickPay';
+        $this->data['data_configs'] = $this->configs->getConfigs($code);
+        $msg = $this->session->flashdata('usermessage');
+        if ($msg) {
+            $this->data['usermessage'] = $msg;
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $posts = $this->input->post();
+            unset($posts['save-btn']);
+
+            $this->configs->editConfigs($code, 'payment', $posts);
+            $data['usermessage'] = array('success', 'green', 'Successfully saved ', '');
+            $this->session->set_flashdata(array('usermessage' => $data['usermessage']));
+            redirect(admin_url('module/' . $code));
+        }
+
+        $this->view('admin/module/aw_quickpay', 'admin');
     }
 
 }

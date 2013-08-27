@@ -55,9 +55,15 @@
                     <input type="text" id="referral_fees" class="" name="referral_fees" value="<?php echo!empty($data_configs['referral_fees']) ? $data_configs['referral_fees'] : '' ?>" style="width:240px">$
                 </td>
             </tr>
+            <tr>
+                <td>Amount % of referral bonus default</td>
+                <td colspan="5">
+                    <input type="text" id="referral_bonus_default" class="" name="referral_bonus_default" value="<?php echo!empty($data_configs['referral_bonus_default']) ? $data_configs['referral_bonus_default'] : '' ?>" style="width:240px">$
+                </td>
+            </tr>
             <?php for ($i = 1; $i <= 6; $i++) { ?>
                 <tr>
-                    <td><?php echo ($i == 1) ? 'AMOUNT % OF REFERRAL BONUS' : '' ?></td>
+                    <td><?php echo ($i == 1) ? 'Amount % of referral bonus' : '' ?></td>
                     <td width="50">
                         <input type="text" id="" class="" name="referral_bonus[<?php echo $i ?>][min]" value="<?php echo!empty($data_configs['referral_bonus'][$i]['min']) ? $data_configs['referral_bonus'][$i]['min'] : '' ?>" style="width:75px">
                     </td>

@@ -57,6 +57,7 @@ class User_model extends CI_Model {
      */
     public function createGoldAcount($data) {
         $data['usertype'] = 2;
+        $this->db->set('created', 'NOW()', FALSE);
         $this->db->insert('user', $data);
         return $this->db->insert_id();
     }
@@ -68,6 +69,7 @@ class User_model extends CI_Model {
      */
     public function createSilverAcount($data) {
         $data['usertype'] = 1;
+        $this->db->set('created', 'NOW()', FALSE);
         $this->db->insert('user', $data);
         return $this->db->insert_id();
     }
@@ -178,6 +180,16 @@ class User_model extends CI_Model {
         }
         $this->db->order_by('main_id', 'DESC');
 
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getReferedsGold($id) {
+        $this->db->select("*");
+        $this->db->from("user_main");
+        $this->db->join("user", "user_main.main_id = user.main_user_id");
+        $this->db->where('user_main.referring', $id);
+        $this->db->where('user.usertype', 2);
         $query = $this->db->get();
         return $query->result();
     }

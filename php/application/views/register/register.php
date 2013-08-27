@@ -1,4 +1,4 @@
-<?php echo form_open('register/index', array('id' => 'sign-up-form')); ?>
+<?php echo form_open('', array('id' => 'sign-up-form')); ?>
 <table class="datatable">
     <thead>
         <tr>
@@ -12,75 +12,64 @@
         <tr>
             <td><div>Username: </div></td>
             <td>
-                <input type="text" name="username" class="mandatory"  id="username" value="<?php echo set_value('username', $username); ?>" style="width:300px">
-                <span class="fr-error"><?php echo form_error('username'); ?></span>
+                <input type="text" name="username" class="mandatory"  id="username" value="<?php echo!empty($posts['username']) ? $posts['username'] : '' ?>" style="width:300px">
             </td>
         </tr>
         <tr>
             <td><div>Password: </div></td>
             <td>
                 <input type="password" name="password" class="mandatory"  id="password" value="" style="width:300px">
-                <span class="fr-error"><?php echo form_error('password'); ?></span>
             </td>
         </tr>
         <tr>
             <td><div>RePassword: </div></td>
             <td>
                 <input type="password" name="repassword" class="mandatory"  id="repassword" value="" style="width:300px">
-                <span class="fr-error"><?php echo form_error('repassword'); ?></span>
             </td>
         </tr>
         <tr>
             <td><div>FirstName: </div></td>
             <td>
-                <input type="text" name="firstname" class="mandatory"  id="firstname" value="<?php echo set_value('firstname', $firstname); ?>" style="width:300px">
-                <span class="fr-error"><?php echo form_error('firstname'); ?></span>
+                <input type="text" name="firstname" class="mandatory"  id="firstname" value="<?php echo!empty($posts['firstname']) ? $posts['firstname'] : '' ?>" style="width:300px">
             </td>
         </tr>
         <tr>
             <td><div>LastName: </div></td>
             <td>
-                <input type="text" name="lastname" class="mandatory"  id="lastname" value="<?php echo set_value('lastname', $lastname); ?>" style="width:300px">
-                <span class="fr-error"><?php echo form_error('lastname'); ?></span>
+                <input type="text" name="lastname" class="mandatory"  id="lastname" value="<?php echo!empty($posts['lastname']) ? $posts['lastname'] : '' ?>" style="width:300px">
             </td>
         </tr>
-        
+
         <tr>
             <td><div>Address: </div></td>
             <td>
-                <input name="address" type="text" id="address" style="width:300px" value="<?php echo set_value('address', $address); ?>" />
-                <span class="fr-error"><?php echo form_error('address'); ?></span>
+                <input name="address" type="text" id="address" style="width:300px" value="<?php echo!empty($posts['address']) ? $posts['address'] : '' ?>" />
             </td>
         </tr>
         <tr>
             <td><div>Phone: </div></td>
             <td>
-                <input name="phone" type="text" id="phone" style="width:300px" value="<?php echo set_value('phone', $phone); ?>" />
-                <span class="fr-error"><?php echo form_error('phone'); ?></span>
+                <input name="phone" type="text" id="phone" style="width:300px" value="<?php echo!empty($posts['phone']) ? $posts['phone'] : '' ?>" />
             </td>
         </tr>
         <tr>
             <td><div>Email: </div></td>
             <td>
-                <input name="email" class="mandatory" type="text" id="email" style="width:300px" value="<?php echo set_value('email', $email); ?>" />
-                <span class="fr-error"><?php echo form_error('email'); ?></span>
+                <input name="email" class="mandatory" type="text" id="email" style="width:300px" value="<?php echo!empty($posts['email']) ? $posts['email'] : '' ?>" />
             </td>
         </tr>
-        
-        
+
+
         <tr>
             <td><div>Referring Member: </div></td>
             <td>
-                <input name="referring" type="text" id="referring" style="width:300px" value="<?php echo set_value('referring', $referring); ?>" />
-                <span class="fr-error"><?php echo form_error('referring'); ?></span>
+                <input name="referring" type="text" id="referring" style="width:300px" value="<?php echo!empty($posts['referring']) ? $posts['referring'] : '' ?>" />
             </td>
         </tr>
         <tr>
             <td><div>Enrolment Entry Amount: </div></td>
             <td>
-                <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="<?php echo set_value('entry_amount', $entry_amount); ?>" />
-                <span class="fr-error"><?php echo form_error('referring'); ?></span>
-                <input type="hidden" name="custom" id="custom" value="" />
+                <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="<?php echo!empty($posts['entry_amount']) ? $posts['entry_amount'] : '' ?>" />
             </td>
         </tr>
         <tr>
@@ -114,21 +103,25 @@
             </td>
         </tr>
         <?php if (!empty($payments)) { ?>
-            <?php foreach ($payments as $code => $data) { ?>
-                <?php echo $data ?>
-            <?php } ?>
+            <?php foreach ($payments as $code => $title) { ?>
+                <tr>
+                    <td><?php echo $title ?></td>
+                    <td><input type="radio" <?php echo (!empty($posts['payment']) && $posts['payment'] == $code) ? 'checked' : '' ?> name="payment" id="payment" value="<?php echo $code ?>"></td>
+                </tr>
+            
         <?php } ?>
-        <tr>
-            <td colspan="2">
-                <div style="padding-left: 130px;">
-                    <input type="submit" id="save-btn" name="save-btn" class="button" value="Save">
-                    <input type="reset" id="" name="" class="button" value="Reset">
-                </div>
-            </td>
-        </tr>
+    <?php } ?>
+    <tr>
+        <td colspan="2">
+            <div style="padding-left: 130px;">
+                <input type="submit" id="save-btn" name="save-btn" class="button" value="Save">
+                <input type="reset" id="" name="" class="button" value="Reset">
+            </div>
+        </td>
+    </tr>
 
 
-    </tbody>
+</tbody>
 </table>
 <?php echo form_close(); ?>
 <script type="text/javascript">
@@ -162,105 +155,7 @@
         totalfees()
         getAmount();
     });
-    $('#save-btn').live('click', function() {
-        var open_fee = '<?php echo $transaction_fees['open_fee']; ?>';
-        var min_enrolment_entry_amount = '<?php echo $transaction_fees['min_enrolment_entry_amount']; ?>';
-        var max_enrolment_entry_amount = '<?php echo $transaction_fees['max_enrolment_entry_amount']; ?>';
-        e = $(this);
-        var username = $('#username').val();
-        var password = $('#password').val();
-        var repassword = $('#repassword').val();
-        var firstname = $('#firstname').val();
-        var lastname = $('#lastname').val();
-        var email = $('#email').val();
-        var entry_amount = $('#entry_amount').val();
-        var payment = $('input[name=payment]:checked').val();
-        var address = $('#address').val();
-        var phone = $('#phone').val();
-        var deposite = '<?php echo $transaction_fees['transaction_fee'] ?>';
-       
-        var referring = $('#referring').val();
-        $('#custom').val('firstname=' + firstname + '|username=' + username + '|password=' + password + '|lastname=' + lastname + '|email=' + email + '|entry_amount=' + entry_amount + '|address=' + address + '|phone=' + phone + '|referring=' + referring + '|entry_amount=' + entry_amount)
-        if (!isNaN(entry_amount) && entry_amount > 0) {
-            if (entry_amount.length == 0)
-                entry_amount = 0
-            var total_fees = parseInt(open_fee) + parseInt(entry_amount) + parseInt(deposite);
-            $('#amount').val(total_fees);
-        } else {
-            $('#amount').val(open_fee);
-        }
-        var flag = true;
-        removeCompMsgs();
-        if (username.length == 0) {
-            $('#msgContainer').append('<input type="hidden" id="cmsgusername" value="Username is not null"/>');
-            flag = false;
-        }
-        if (password.length < 6) {
-            $('#msgContainer').append('<input type="hidden" id="cmsgpassword" value="Password greater than 6 character"/>');
-            flag = false;
-        }
-        if (password != repassword) {
-            $('#msgContainer').append('<input type="hidden" id="cmsgpassword" value="Re-password does not macth"/>');
-            flag = false;
-        }
-        if (firstname.length == 0) {
-            $('#msgContainer').append('<input type="hidden" id="cmsgfirstname" value="Firstname is not null"/>');
-            flag = false;
-        }
-        if (lastname.length == 0) {
-            $('#msgContainer').append('<input type="hidden" id="cmsglastname" value="Lastname is not null"/>');
-            flag = false;
-        }
-        
-        if (!validateEmail(email)) {
-            $('#msgContainer').append('<input type="hidden" id="cmsgemail" value="Email wrong"/>');
-            flag = false;
-        }
-        if (isNaN(entry_amount) || (entry_amount % 100 != 0) || ((entry_amount != '') && entry_amount < min_enrolment_entry_amount) || ((entry_amount != '') && entry_amount > max_enrolment_entry_amount)) {
-            $('#msgContainer').append('<input type="hidden" id="cmsgentry_amount" value="Enrolment Entry Amount is numberic , divisible to 100, greater than ' + min_enrolment_entry_amount + ' and litter than ' + max_enrolment_entry_amount + '"/>');
-            flag = false;
-        }
-        if (typeof(payment) == "undefined") {
-            $('#msgContainer').append('<input type="hidden" id="cmsgpayment" value="Payment method not null"/>');
-            flag = false;
-        }
-     
-        
-        if(payment == 'creditcard'){
-            var card_num = $('#card_num').val();
-            var exp_date = $('#exp_date').val();
-            if (card_num.length <= 0) {
-                $('#msgContainer').append('<input type="hidden" id="cmsgcard_num" value="Card Number is not null"/>');
-                flag = false;
-            }
-            if (exp_date.length <= 0) {
-                $('#msgContainer').append('<input type="hidden" id="cmsgexp_date" value="Exp Date is not null"/>');
-                flag = false;
-            }
-        }
-        if (flag == false) {
-            showmessage('error', 'Validation errors found', 'Please see below');
-            showCompMsgs();
-            return false;
-        } else {
-            $.ajax({
-                data: 'username=' + username,
-                url: "<?php echo site_url('register/checkUser') ?>",
-                success: function(data) {
-                    if ($.trim(data) == 'true') {
-                        $('#sign-up-form').submit();
-                    }
-                    else {
-                        $('#msgContainer').append('<input type="hidden" id="cmsgusername" value="Username is already registered in our system. Please use a different one."/>');
-                        showmessage('error', 'Validation errors found', 'Please see below');
-                        showCompMsgs();
-                    }
-
-                }
-            });
-            return false;
-        }
-    })
+    
 
     function validateEmail(x) {
         var email = document.getElementById('email');
@@ -286,14 +181,7 @@
         var payment = $('input[name=payment]:checked').val();
         var deposite = '<?php echo $transaction_fees['transaction_fee'] ?>';
         
-        $('.creditcard').hide();
-        if (payment == 'paypal') {
-            $('form').attr('action', 'https://www.<?php echo ($config['sandbox'] == 1) ? 'sandbox.' : '' ?>paypal.com/cgi-bin/webscr')
-        }else if (payment == 'creditcard'){
-            
-            $('form').attr('action', '<?php echo site_url('register/creditcard') ?>');
-            $('.creditcard').show();
-        }
+        
         var open_fee = <?php echo $transaction_fees['open_fee'] ?>;
         var entry_amount = $('#entry_amount').val();
         if (!isNaN(entry_amount) && entry_amount > 0) {

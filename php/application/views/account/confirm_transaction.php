@@ -1,4 +1,3 @@
-
 <?php echo form_open(!empty($href_link) ? $href_link : '', array('id' => 'transaction-form')); ?>
 <table class="datatable">
     <thead>

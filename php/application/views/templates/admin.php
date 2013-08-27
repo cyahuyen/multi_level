@@ -221,6 +221,7 @@ if (isset($usermessage)) {
                                         <ul>
                                             <li><a href="<?php echo admin_url('module/paypal') ?>">Paypal</a></li>
                                             <li><a href="<?php echo admin_url('module/creditcard') ?>">Credit Cart Payment</a></li>
+                                            <li><a href="<?php echo admin_url('module/aw_quickpay') ?>">Allied Wallet QuickPay</a></li>
                                         </ul>
                                     </li>
                                 </ul>
