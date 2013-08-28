@@ -87,7 +87,7 @@ class Register extends MY_Controller {
             }
 
             if (empty($posts['payment'])) {
-                $validationErrors['email'] = "You haven't yet payment method";
+                $validationErrors['payment'] = "You haven't yet payment method";
             }
 
             if (!empty($posts['referring'])) {
@@ -104,15 +104,15 @@ class Register extends MY_Controller {
                 }
             }
 
-
+           
             if (count($validationErrors) != 0) {
                 $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
                 $this->data['fielderrors'] = $validationErrors;
             } else {
                 $register_info = base64_encode(json_encode($posts));
                 $this->session->set_userdata('register_info', $register_info);
-
-                redirect('register/' . $code);
+                
+                redirect(site_url('register/' . $posts['payment']));
             }
         }
 
@@ -369,7 +369,7 @@ class Register extends MY_Controller {
     }
 
     public function aw_quickpay() {
-        $this->data['title'] = 'Creditcard';
+        $this->data['title'] = 'Allied Wallet';
         $register_info = $this->session->userdata('register_info');
         if (empty($register_info))
             redirect(site_url('register/index'));
@@ -416,7 +416,6 @@ class Register extends MY_Controller {
 
     public function aw_quickpay_process() {
         $posts = $this->input->post();
-        $this->write_log($posts);
         if (!$posts)
             return FALSE;
         $payments_config = $this->configs->getConfigs('aw_quickpay');
@@ -430,7 +429,6 @@ class Register extends MY_Controller {
         if ($posts['SiteName'] != $payments_config['site'] || $posts['SiteID'] != $payments_config['SiteID'])
             return FALSE;
         $register_info = json_decode(base64_decode($info['tmp_info']));
-        $this->write_log($register_info);
         if (!$register_info)
             return FALSE;
         $entry_amount = $register_info->entry_amount;
@@ -439,8 +437,6 @@ class Register extends MY_Controller {
         if ($entry_amount >= $this->config_data['min_enrolment_entry_amount'])
             $checkAmount += $this->config_data['transaction_fee'];
 
-        $this->write_log($money);
-        $this->write_log($checkAmount);
         if ($money != $checkAmount)
             return FALSE;
         
@@ -464,7 +460,6 @@ class Register extends MY_Controller {
             'address' => $register_info->address,
         );
         $main_user_id = $this->user->createMainAcount($dataMainUser);
-        $this->write_log($main_user_id);
         $this->activity->addActivity($main_user_id, 'Registed');
 //      EOF Create Main Account
 //      Update Admin Balance
@@ -503,7 +498,6 @@ class Register extends MY_Controller {
             'transaction_source' => 'creditcard',
             'status' => '1',
         );
-        $this->write_log($dataBalanceUpdate);
         $this->transaction->upadateTransaction($dataTransactionUpdate);
 
         if (($money - $this->config_data['open_fee']) > 0) {

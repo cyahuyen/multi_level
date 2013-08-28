@@ -8,7 +8,7 @@ $config['site_admin'] = 'dean.gleeson@pragmaticsystems.com.au';
 $config['system_mail'] = 'noreply@pragmaticsystems.com.au';
 
 $config["datalist_default_pagesize"] = 20;
-$config['limit_page'] = 5;
+$config['limit_page'] = 20;
 $config['prefix_key'] = '895738llnjdy8p';
 
 ?>

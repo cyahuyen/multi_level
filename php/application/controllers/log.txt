@@ -1,9 +1,9 @@
-<pre>Array
+<pre>64782364278</pre><pre>Array
 (
-    [Amount] => 135
-    [MerchantReference] => 8
-    [PayReferenceID] => d393f922-6c40-487f-aa98-9923a391eed4
-    [TransactionID] => 7350ceec-52da-44f3-8c97-2e5f265cbde5
+    [Amount] => 210
+    [MerchantReference] => 25
+    [PayReferenceID] => 11aa39e6-6f3b-4f78-aac9-2ce00cd71824
+    [TransactionID] => fc22c415-3904-4432-99be-872f7c2796d1
     [CardMask] => 4242-42XX-XXXX-XXXX
     [ShippingFirstName] => 
     [ShippingLastName] => 
@@ -31,22 +31,7 @@
 )
 </pre><pre>stdClass Object
 (
-    [username] => rongandat
-    [password] => anhyeuem
-    [repassword] => anhyeuem
-    [firstname] => Khim
-    [lastname] => Pham
-    [address] => 
-    [phone] => 
-    [email] => rongandat@gmail.com
-    [referring] => 
-    [entry_amount] => 100
-    [payment] => aw_quickpay
-    [save-btn] => Save
-)
-</pre><pre>135</pre><pre>135</pre><pre>2</pre><pre>Array
-(
     [user_id] => 2
-    [balance] => 100
+    [entry_amount] => 200
 )
-</pre>
+</pre><pre>210</pre><pre>10</pre>

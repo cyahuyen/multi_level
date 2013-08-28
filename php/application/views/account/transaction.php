@@ -4,7 +4,7 @@
     <?php } ?>
     <div style="clear:both;"></div>
 </div>
-<?php echo form_open(site_url('account/confirm_transaction'), array('id' => 'transaction-form')); ?>
+<?php echo form_open('', array('id' => 'transaction-form')); ?>
 <table class="datatable">
     <thead>
         <tr>
@@ -64,8 +64,12 @@
             </td>
         </tr>
         <?php if (!empty($payments)) { ?>
-            <?php foreach ($payments as $code => $data) { ?>
-                <?php echo $data ?>
+            <?php foreach ($payments as $code => $title) { ?>
+                <tr>
+                    <td><?php echo $title ?></td>
+                    <td><input type="radio" <?php echo (!empty($posts['payment']) && $posts['payment'] == $code) ? 'checked' : '' ?> name="payment" id="payment" value="<?php echo $code ?>"></td>
+                </tr>
+
             <?php } ?>
         <?php } ?>
         <tr>
