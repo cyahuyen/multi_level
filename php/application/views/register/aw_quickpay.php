@@ -2,7 +2,7 @@
 <table class="datatable">
     <thead>
         <tr>
-            <td colspan="2"><h1>Credit card</h1></td>
+            <td colspan="2"><h1>Allied Wallet QuickPay</h1></td>
         </tr>
     </thead>
     <tbody>
@@ -57,25 +57,47 @@
             </td>
         </tr>
 
-    <Input name = "MerchantID" type = "hidden"
-           value = "<?php echo $payments_config['MerchantID'] ?>" />
-    <Input name = "SiteID" type = "hidden"
-           value = "<?php echo $payments_config['SiteID'] ?>" />
-    <input name="AmountTotal" type=hidden value="<?php echo $register_info->entry_amount + $register_fees; ?>" />
-    <input name="CurrencyID" type=hidden value="USD" />
-    <input name="AmountShipping" type=hidden value="0" />
-    <input name="ShippingRequired" type=hidden value="1" />
-    <input name="ItemName[0]" type=hidden value="Register" />
-    <input name="ItemQuantity[0]" type=hidden value="1" />
-    <input name="ItemAmount[0]" type=hidden value="<?php echo $register_info->entry_amount + $register_fees ?>" />
-    <input name="ItemDesc[0]" type=hidden value="Register" />
-    <input name="NoMembership" type=hidden value="1" />
-    <Input name = "ReturnURL" type = "hidden"
-           value = "<?php echo site_url('home/index?success=1'); ?>" />
-    <Input name = "confirmurl" type = "hidden"
-           value = "<?php echo site_url('register/aw_quickpay_process'); ?>" />
+        <!--    <Input name = "MerchantID" type = "hidden"
+                   value = "<?php echo $payments_config['MerchantID'] ?>" />
+            <Input name = "SiteID" type = "hidden"
+                   value = "<?php echo $payments_config['SiteID'] ?>" />
+            <input name="AmountTotal" type=hidden value="<?php echo $register_info->entry_amount + $register_fees; ?>" />
+            <input name="CurrencyID" type=hidden value="USD" />
+            <input name="AmountShipping" type=hidden value="0" />
+            <input name="ShippingRequired" type=hidden value="1" />
+            <input name="ItemName[0]" type=hidden value="Register" />
+            <input name="ItemQuantity[0]" type=hidden value="1" />
+            <input name="ItemAmount[0]" type=hidden value="<?php echo $register_info->entry_amount + $register_fees ?>" />
+            <input name="ItemDesc[0]" type=hidden value="Register" />
+            <input name="NoMembership" type=hidden value="1" />
+            <Input name = "ReturnURL" type = "hidden"
+                   value = "<?php echo site_url('home/index?success=1'); ?>" />
+            <Input name = "confirmurl" type = "hidden"
+                   value = "<?php echo site_url('register/aw_quickpay_process'); ?>" />
+            
+            <input name="MerchantReference"  type="hidden" value="<?php echo $register_info_json ?>" />-->
+
+        <!-- *** Required fields for AlliedWallet -->
+    <input name="MerchantID" type="hidden"
+           value="<?php echo $payments_config['MerchantID'] ?>" />
+    <input name="SiteID" type="hidden"
+           value="<?php echo $payments_config['SiteID'] ?>" />
+    <input name="AmountTotal" type="hidden"  value="<?php echo $register_info->entry_amount + $register_fees; ?>" />
+    <input name="CurrencyID" type="hidden"  value="USD" />
+    <input name="AmountShipping" type="hidden"  value="0" />
+    <input name="ShippingRequired"  type="hidden" value="1" />
+    <input name="ItemName[0]" type="hidden"  value="Register" />
+    <input name="ItemQuantity[0]" type="hidden"  value="1" />
+    <input name="ItemAmount[0]" type="hidden"  value="<?php echo $register_info->entry_amount + $register_fees ?>" />
+    <input name="ItemDesc[0]" type="hidden"  value="Register" />
+    <input name="NoMembership" type="hidden"  value="1" />
+    <input name="ReturnURL" type="hidden"
+           value="<?php echo site_url('home/index?success=1'); ?>" />
+    <input name="ConfirmURL" type="hidden"
+           value="<?php echo site_url('register/aw_quickpay_process'); ?>" />
+    <!-- *** Optional fields for AlliedWallet -->
+    <input name="MerchantReference"  type="hidden" value="<?php echo $tmp_id ?>" />
     
-    <input name="MerchantReference"  type="hidden" value="<?php echo $register_info_json ?>" />
     <tr>
         <td colspan="2">
             <div style="padding-left: 130px;">

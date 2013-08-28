@@ -23,6 +23,12 @@
                 </td>
             </tr>
             <tr>
+                <td>Site</td>
+                <td>
+                    <input type="text" id="site" class="mandatory" name="site" value="<?php echo!empty($data_configs['site']) ? $data_configs['site'] : '' ?>" class="" style="width:240px">
+                </td>
+            </tr>
+            <tr>
                 <td>MerchantID</td>
                 <td>
                     <input type="text" id="MerchantID" class="mandatory" name="MerchantID" value="<?php echo!empty($data_configs['MerchantID']) ? $data_configs['MerchantID'] : '' ?>" class="" style="width:240px">

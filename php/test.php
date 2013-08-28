@@ -22,9 +22,9 @@
   <input name="ItemDesc[0]" type="hidden"  value="Our T-Shirt" />
   <input name="NoMembership" type="hidden"  value="1" />
   <input name="ReturnURL" type="hidden"
-  value="http://multilevel.lc/success.php" />
+  value="http://mlm.cyahost.com/success.php" />
   <input name="ConfirmURL" type="hidden"
-  value="http://multilevel.lc/confirm.php" />
+  value="http://mlm.cyahost.com/confirm.php" />
   <!-- *** Optional fields for AlliedWallet -->
   <input name="MerchantReference"  type="hidden" value="abc123" />
   <input name="submit" type="submit" />

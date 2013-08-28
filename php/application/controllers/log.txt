@@ -1,0 +1,52 @@
+<pre>Array
+(
+    [Amount] => 135
+    [MerchantReference] => 8
+    [PayReferenceID] => d393f922-6c40-487f-aa98-9923a391eed4
+    [TransactionID] => 7350ceec-52da-44f3-8c97-2e5f265cbde5
+    [CardMask] => 4242-42XX-XXXX-XXXX
+    [ShippingFirstName] => 
+    [ShippingLastName] => 
+    [ShippingAddress1] => 
+    [ShippingAddress2] => 
+    [ShippingCity] => 
+    [ShippingState] => 
+    [ShippingCountry] => 
+    [ShippingPostalCode] => 
+    [ShippingEmail] => 
+    [ShippingPhone] => 
+    [CustomerEmail] => rongandat@gmail.com
+    [CustomerFirstName] => 4242424242424242
+    [CustomerLastName] => 4242424242424242
+    [CustomerAddress1] => 4242424242424242
+    [CustomerAddress2] => 
+    [CustomerCity] => 4242424242424242
+    [CustomerState] => AL
+    [CustomerCountry] => US
+    [CustomerPostalCode] => 4242424242
+    [CustomerPhone] => 4242424242424242
+    [SiteName] => safeco-op.com
+    [SiteID] => a3d993b1-b997-4f66-90a5-79ff2240815f
+    [CouponCode] => 
+)
+</pre><pre>stdClass Object
+(
+    [username] => rongandat
+    [password] => anhyeuem
+    [repassword] => anhyeuem
+    [firstname] => Khim
+    [lastname] => Pham
+    [address] => 
+    [phone] => 
+    [email] => rongandat@gmail.com
+    [referring] => 
+    [entry_amount] => 100
+    [payment] => aw_quickpay
+    [save-btn] => Save
+)
+</pre><pre>135</pre><pre>135</pre><pre>2</pre><pre>Array
+(
+    [user_id] => 2
+    [balance] => 100
+)
+</pre>

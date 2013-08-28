@@ -1,5 +1,5 @@
 <?php
-#Vars - written at 2013-08-27
+#Vars - written at 2013-08-28
 $dbhost="localhost";
 $dbname="multi_level";
 $dbuser="root";

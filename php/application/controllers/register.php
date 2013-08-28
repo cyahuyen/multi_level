@@ -373,10 +373,14 @@ class Register extends MY_Controller {
         $register_info = $this->session->userdata('register_info');
         if (empty($register_info))
             redirect(site_url('register/index'));
+        $this->load->model('tmp_model');
+        $tmp_id = $this->tmp_model->insert(array('tmp_info' => $register_info));
+        $this->data['tmp_id'] = $tmp_id;
         $this->data['register_info_json'] = $register_info;
         $register_info = json_decode(base64_decode($register_info));
-        $this->data['register_info'] = $register_info;
 
+        $this->data['register_info'] = $register_info;
+        
         if ($register_info->entry_amount > 0) {
             $register_fees = $this->data['config_data']['transaction_fee'] + $this->data['config_data']['open_fee'];
         } else {
@@ -395,7 +399,7 @@ class Register extends MY_Controller {
     function write_log($str) {
         $url = realpath(dirname(__FILE__)) . '/log.txt';
         $out = fopen($url, "a");
-        fwrite($out, aprint($str));
+        fwrite($out, $this->aprint($str));
         fclose($out);
     }
 
@@ -413,6 +417,240 @@ class Register extends MY_Controller {
     public function aw_quickpay_process() {
         $posts = $this->input->post();
         $this->write_log($posts);
+        if (!$posts)
+            return FALSE;
+        $payments_config = $this->configs->getConfigs('aw_quickpay');
+        $money = $posts['Amount'];
+        $tmp_id = $posts['MerchantReference'];
+        $this->load->model('tmp_model');
+        $info = $this->tmp_model->getTmp($tmp_id);
+        $this->tmp_model->delete($tmp_id);
+        if (empty($info))
+            return FALSE;
+        if ($posts['SiteName'] != $payments_config['site'] || $posts['SiteID'] != $payments_config['SiteID'])
+            return FALSE;
+        $register_info = json_decode(base64_decode($info['tmp_info']));
+        $this->write_log($register_info);
+        if (!$register_info)
+            return FALSE;
+        $entry_amount = $register_info->entry_amount;
+        $checkAmount = $entry_amount + $this->config_data['open_fee'];
+        
+        if ($entry_amount >= $this->config_data['min_enrolment_entry_amount'])
+            $checkAmount += $this->config_data['transaction_fee'];
+
+        $this->write_log($money);
+        $this->write_log($checkAmount);
+        if ($money != $checkAmount)
+            return FALSE;
+        
+
+        $this->load->model('user_model', 'user');
+        $this->load->model('balance_model', 'balance');
+
+
+//        EOF Transaction
+//      BOF Create Main Account
+        $password = $register_info->password;
+        $account_number = generate_account_number();
+        $dataMainUser = array(
+            'username' => $register_info->username,
+            'firstname' => $register_info->firstname,
+            'lastname' => $register_info->lastname,
+            'email' => $register_info->email,
+            'password' => md5($password),
+            'main_account_number' => $account_number,
+            'phone' => $register_info->phone,
+            'address' => $register_info->address,
+        );
+        $main_user_id = $this->user->createMainAcount($dataMainUser);
+        $this->write_log($main_user_id);
+        $this->activity->addActivity($main_user_id, 'Registed');
+//      EOF Create Main Account
+//      Update Admin Balance
+        $this->balance->updateAdminBalance($money, '+');
+
+
+//      BOF Check/Create Gold Account
+        $dataGoldAcount = array(
+            'main_user_id' => $main_user_id,
+            'acount_number' => 'G' . $account_number,
+        );
+        $gold_user_id = $this->user->createGoldAcount($dataGoldAcount);
+        $this->activity->addActivity($main_user_id, 'Created gold account number ' . $dataGoldAcount['acount_number']);
+
+        if (($register_info->entry_amount >= $this->config_data['min_enrolment_entry_amount'])) {
+
+//      Update Balance 
+            $dataBalanceUpdate = array(
+                'user_id' => $gold_user_id,
+                'balance' => $register_info->entry_amount,
+            );
+            $dataTransaction = $this->balance->updateBalance($dataBalanceUpdate);
+            $this->activity->addActivity($main_user_id, 'Deposited to your acount ' . $dataGoldAcount['acount_number'] . ' with amount : $' . ($register_info->entry_amount), '+', $register_info->entry_amount);
+        }
+//      EOF Check/Create Gold Account
+//      BOF Update Transaction
+        $dataTransactionUpdate = array(
+            'user_id' => !empty($gold_user_id) ? $gold_user_id : NULL,
+            'main_user_id' => $main_user_id,
+            'fees' => $this->config_data['open_fee'],
+            'total' => $this->config_data['open_fee'],
+            'transaction_id' => $payment_status['transaction_id'],
+            'payment_status' => 'Completed',
+            'transaction_type' => 'register',
+            'transaction_text' => '+',
+            'transaction_source' => 'creditcard',
+            'status' => '1',
+        );
+        $this->write_log($dataBalanceUpdate);
+        $this->transaction->upadateTransaction($dataTransactionUpdate);
+
+        if (($money - $this->config_data['open_fee']) > 0) {
+            $dataDepositTransactionUpdate = array(
+                'user_id' => !empty($gold_user_id) ? $gold_user_id : NULL,
+                'main_user_id' => $main_user_id,
+                'fees' => $this->config_data['transaction_fee'],
+                'total' => $money - $this->config_data['open_fee'], //$money,
+                'transaction_id' => $payment_status['transaction_id'],
+                'payment_status' => 'Completed',
+                'transaction_type' => 'deposit',
+                'transaction_text' => '+',
+                'transaction_source' => 'creditcard',
+                'status' => '1',
+            );
+            $this->transaction->upadateTransaction($dataDepositTransactionUpdate);
+        }
+
+//      Update Widthdraw date
+        $this->user->updateWithdrawalDate($gold_user_id);
+//      EOF Update Transaction
+//      BOF Check Reffering Member
+        $postsData = $posts;
+        if ($register_info->referring) {
+            $mainUser = $this->user->getMainUserByUsername($register_info->referring);
+        } else {
+            $referringUserConfig = $this->config_data['default_referral_user'];
+            $mainUser = $this->user->getMainUserByUsername($referringUserConfig);
+        }
+
+        if (!empty($mainUser)) {
+            $userSilverReffering = $this->user->getUserByMainId($mainUser->main_id, 1);
+            if (empty($userSilverReffering)) {
+                $dataSilverAcount = array(
+                    'main_user_id' => $mainUser->main_id,
+                    'acount_number' => 'S' . $mainUser->main_account_number,
+                );
+                $rsilver_user_id = $this->user->createSilverAcount($dataSilverAcount);
+                $userSilverReffering = $this->user->getMainUserById($rsilver_user_id);
+                $this->activity->addActivity($mainUser->main_id, 'Created silver account number ' . $userSilverReffering->acount_number);
+            }
+
+            $this->user->updateMainAcount($main_user_id, array('referring' => $mainUser->main_id));
+
+//            $referral_fees = $this->config_data['referral_fees'] * $posts['entry_amount'] / 100;
+            $referral_fees = $this->config_data['referral_fees'];
+            //      BOF Update Balance
+            $this->balance->updateAdminBalance($referral_fees, '-');
+            $dataBalanceSilverReferralUpdate = array(
+                'user_id' => $userSilverReffering->user_id,
+                'balance' => $referral_fees,
+            );
+            $dataTransaction = $this->balance->updateBalance($dataBalanceSilverReferralUpdate);
+            $this->activity->addActivity($mainUser->main_id, 'You referred a new member "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['lastname'] . '"', '+', $referral_fees);
+            //      EOF Update Balance
+//      BOF Update Transaction
+            $dataRefereTransactionUpdate = array(
+                'user_id' => $userSilverReffering->user_id,
+                'main_user_id' => $userSilverReffering->main_id,
+                'fees' => 0,
+                'total' => $referral_fees,
+                'payment_status' => 'Completed',
+                'transaction_type' => 'refere',
+                'transaction_text' => '+',
+                'transaction_source' => 'system',
+                'status' => '0',
+                'description' => 'User reffered the user "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['last_name'] . '" succesfull'
+            );
+            $this->transaction->upadateTransaction($dataRefereTransactionUpdate);
+
+            //Update Widthdraw date
+            if (empty($userSilverReffering->withdrawal_date)) {
+                $this->user->updateWithdrawalDate($userSilverReffering->user_id);
+            }
+
+//      EOF Update Transaction
+        }
+        if (!empty($gold_user_id) && !empty($mainUser)) {
+            $userGoldReffering = $this->user->getUserByMainId($mainUser->main_id, 2);
+            if (!empty($userGoldReffering)) {
+//              get banlane gold account
+                $checkExistsDeposit = $this->transaction->checkExistsDeposit($userGoldReffering->user_id);
+
+                if ($checkExistsDeposit && $register_info->entry_amount > 0) {
+                    $refereFees = $this->getRefereAmount($register_info->entry_amount, $mainUser->main_id);
+                    //      BOF Update Balance
+                    $this->balance->updateAdminBalance($refereFees, '-');
+
+                    $dataBalanceGoldRefferingUpdate = array(
+                        'user_id' => $userGoldReffering->user_id,
+                        'balance' => $refereFees,
+                    );
+                    $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
+                    $this->balance->updateAdminBalance($refereFees, '-');
+                    $this->activity->addActivity($userGoldReffering->main_id, 'Your Gold Account ' . $userGoldReffering->acount_number . ' received a  referral fee with amount : $' . ($refereFees), '+', $refereFees);
+                    //      EOF Update Balance
+                    //      BOF Update Transaction
+                    $dataGoldTransactionUpdate = array(
+                        'user_id' => $userGoldReffering->user_id,
+                        'main_user_id' => $userGoldReffering->main_id,
+                        'fees' => 0,
+                        'total' => $refereFees,
+                        'payment_status' => 'Completed',
+                        'transaction_type' => 'refere',
+                        'transaction_text' => '+',
+                        'transaction_source' => 'system',
+                        'status' => '0',
+                        'description' => 'The user "' . $dataMainUser['firstname'] . ' ' . $dataMainUser['last_name'] . '" deposited $100'
+                    );
+                    $this->transaction->upadateTransaction($dataGoldTransactionUpdate);
+                }
+                //      EOF Update Transaction
+            }
+        }
+
+
+//      EOF Check Reffering Member
+//      BOF Send Mail
+
+        $userEmailData['entry_amount'] = !empty($register_info->entry_amount) ? $register_info->entry_amount : 0;
+        $userEmailData['fees'] = $register_fees;
+        $userEmailData['password'] = $password;
+        $userEmailData['email'] = $register_info->email;
+        sendmailform($register_info->email, 'register', $userEmailData, null, 'Admin Manager', 'html');
+
+
+        $adminEmailData = array(
+            'fullname' => $register_info->firstname . ' ' . $register_info->lastname,
+            'address' => $register_info->address,
+            'phone' => $register_info->phone,
+            'email' => $register_info->email,
+            'payment' => $money,
+        );
+        
+        sendmailform(null, 'admin_register', $adminEmailData);
+
+        if (!empty($userReffering)) {
+            $referringEmailData = array(
+                'fullname' => $register_info->firstname . ' ' . $register_info->lastname,
+                'email' => $register_info->email,
+            );
+            sendmailform($userReffering->email, 'referring', $referringEmailData);
+        }
+//      EOF Send Mail
+        $this->session->unset_userdata('register_info');
+        $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
+        $this->session->set_flashdata('usermessage', $data['usermessage']);
     }
 
     public function creditcard() {
@@ -658,6 +896,7 @@ class Register extends MY_Controller {
                 );
                 sendmailform($userReffering->email, 'referring', $referringEmailData);
             }
+            $this->session->unset_userdata('register_info');
 //      EOF Send Mail
             $data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');
             $this->session->set_flashdata('usermessage', $data['usermessage']);
