@@ -108,10 +108,12 @@ class Account extends MY_Controller {
             if ($posts['lastname'] == '') {
                 $validationErrors['firstname'] = "Your name is Lastnamr cannot be blank";
             }
+           
+            $this->load->helper('email');
             if ($posts['email'] == '') {
                 $validationErrors['email'] = "Email cannot be blank";
-            } elseif ($this->user->checkEmailExists($posts['email'], $id) == true) {
-                $validationErrors['email'] = "Email is exists";
+            } elseif (!valid_email($posts['email'])) {
+                $validationErrors['email'] = "Email incorrect";
             }
 
             $this->data['posts'] = $posts;

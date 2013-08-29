@@ -90,8 +90,11 @@ class User extends MY_Controller {
 
     public function profile($id = 0) {
         $this->data['title'] = 'Manager User';
-        if (!empty($id))
-            $this->data['userdata'] = $this->user->getMainUserByMainId($id);
+        if (!empty($id)) {
+            $userdata = $this->user->getMainUserByMainId($id);
+            $this->data['userdata'] = $userdata;
+        }
+
         $this->data['usertype'] = $this->usertype;
 
         $msg = $this->session->flashdata('usermessage');
@@ -102,22 +105,55 @@ class User extends MY_Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $posts = $this->input->post();
             $validationErrors = array();
+            if (strlen(trim($posts['username'])) < 6) {
+                $validationErrors['firstname'] = "Username greater than 6 character";
+            } else {
+                $dataCheck = array(
+                    'username' => $posts['username']
+                );
+                if (!empty($userdata->main_id)) {
+                    $dataCheck['main_id !='] = $userdata->main_id;
+                }
+                $userCheck = $this->user->getMainUser($dataCheck);
+                if ($userCheck) {
+                    $validationErrors['username'] = "Username is Exists";
+                }
+            }
             if ($posts['firstname'] == '') {
                 $validationErrors['firstname'] = "Your name is FirstName cannot be blank";
             }
+
             if ($posts['lastname'] == '') {
                 $validationErrors['firstname'] = "Your name is Lastnamr cannot be blank";
             }
+            $this->load->helper('email');
             if ($posts['email'] == '') {
                 $validationErrors['email'] = "Email cannot be blank";
-            } elseif ($this->user->checkEmailExists($posts['email'], $id) == true) {
-                $validationErrors['email'] = "Email is exists";
+            } elseif (!valid_email($posts['email'])) {
+                $validationErrors['email'] = "Email incorrect";
+            }
+            
+            if (empty($userdata->main_id)) {
+                if (strlen(trim($posts['password'])) < 6) {
+                    $validationErrors['password'] = "password greater than 6 character";
+                } elseif ($posts['password'] != $posts['repassword']) {
+                    $validationErrors['repassword'] = "Repassword incorect";
+                }
+            } else {
+                if (strlen(trim($posts['password'])) > 0) {
+                    if (strlen(trim($posts['password'])) < 6) {
+                        $validationErrors['password'] = "password greater than 6 character";
+                    } elseif ($posts['password'] != $posts['repassword']) {
+                        $validationErrors['repassword'] = "Repassword incorect";
+                    }
+                }
             }
 
             $this->data['posts'] = $posts;
             foreach ($posts as $key => $val) {
-                $this->data['userdata']->$key = $val;
+                $userdata->$key = $val;
             }
+            $this->data['userdata'] = $userdata;
             if (count($validationErrors) != 0) {
                 $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
                 $this->data['fielderrors'] = $validationErrors;
@@ -126,10 +162,11 @@ class User extends MY_Controller {
                 unset($posts['save-btn']);
                 $postsData = $posts;
                 $id = (int) $id;
-                if (empty($id)) {
+                if (empty($userdata->main_id)) {
 //      BOF Create Main Account
-                    $password = hash_hmac('crc32b', time() . $this->config->item('prefix_key'), 'secret');
+                    $password = $posts['password'];
                     $dataMainUser = array(
+                        'username' => $postsData['username'],
                         'firstname' => $postsData['firstname'],
                         'lastname' => $postsData['lastname'],
                         'email' => $postsData['email'],
@@ -163,8 +200,21 @@ class User extends MY_Controller {
                     $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
                     redirect(admin_url('user/profile/' . $id));
                 } else {
-
-                    if ($this->user->updateMainAcount($id, $posts))
+                    
+                    $dataMainUser = array(
+                        'username' => $posts['username'],
+                        'firstname' => $posts['firstname'],
+                        'lastname' => $posts['lastname'],
+                        'email' => $posts['email'],
+                        'phone' => $posts['phone'],
+                        'address' => $posts['address'],
+                    );
+                    if(!empty($posts['password'])){
+                        $password = $posts['password'];
+                        $dataMainUser['password'] = md5($password);
+                    }
+                    
+                    if ($this->user->updateMainAcount($userdata->main_id, $dataMainUser))
                         $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
                     else
                         $this->data['usermessage'] = array('error', 'darkred', 'Error saved', '');

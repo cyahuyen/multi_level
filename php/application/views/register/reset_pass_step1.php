@@ -8,10 +8,10 @@
     </thead>
     <tbody>
         <tr>
-            <td><div>Email: </div></td>
+            <td><div>Username: </div></td>
             <td>
-                <input name="email" type="text" id="password" style="width:300px" value="<?php echo set_value('email'); ?>" />
-                <span class="fr-error"><?php echo form_error('email'); ?></span>
+                <input name="username" type="text" id="username" style="width:300px" value="<?php echo !empty($posts['username'])?$posts['username']:''; ?>" />
+                <span class="fr-error"><?php echo form_error('username'); ?></span>
             </td>
         </tr>
         <tr>

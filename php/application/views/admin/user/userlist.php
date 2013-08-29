@@ -2,6 +2,7 @@
     <thead>
         <tr class="heading">
             <td style="width:20px;text-align: center;"><div>#</div></td>
+            <td style="width:110px"><div>Username</div></td>
             <td style="width:110px"><div>Full Name</div></td>
             <td style="width:110px"><div>Referred User</div></td>
             <td style="width:110px"><div>Email</div></td>
@@ -14,6 +15,7 @@
         <?php foreach ($users as $user) { ?>
             <?php
             $fullname = '';
+            $user_data = null;
             if (!empty($user->referring)) {
                 $user_data = getMainUserByMainId($user->referring);
                 $fullname = $user_data->firstname . ' ' . $user_data->lastname;
@@ -21,8 +23,9 @@
             ?>
             <tr class="row" id="row_<?php echo $user->main_id; ?>"> 
                 <td style="text-align: center;"><div><?php echo $user->main_id; ?></div></td>
-                <td onClick="window.location = '<?php echo site_url('adminuser/profile'); ?>/<?php echo $user->main_id; ?>'"><div><?php echo $user->firstname . ' ' . $user->lastname; ?></div></td>
-                <td onClick="window.location = '<?php echo site_url('adminuser/profile'); ?>/<?php echo $user->main_id; ?>'"><div><?php echo !empty($user->referring)?($user->referring . '(' . $fullname . ')'):'' ?></div></td>
+                <td onClick="window.location = '<?php echo site_url('admin/user/profile'); ?>/<?php echo $user->main_id; ?>'"><div><?php echo $user->firstname . ' ' . $user->lastname; ?></div></td>
+                <td onClick="window.location = '<?php echo site_url('admin/user/profile'); ?>/<?php echo $user->main_id; ?>'"><div><?php echo $user->username; ?></div></td>
+                <td onClick="window.location = '<?php echo site_url('admin/user/profile'); ?>/<?php echo $user->main_id; ?>'"><div><?php echo !empty($user_data)?($user_data->username . '(' . $fullname . ')'):'' ?></div></td>
                 <td><div><?php echo $user->email; ?></div></td>
                 <td><div><?php echo $user->phone; ?></div></td>
                 <td><div><?php echo!empty($user->status) ? 'Active' : 'De-active' ?></div></td>

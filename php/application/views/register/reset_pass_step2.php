@@ -8,9 +8,9 @@
     </thead>
     <tbody>
         <tr>
-            <td><div>Your Email: </div></td>
+            <td><div>Your Username: </div></td>
             <td>
-                <input name="email" type="text" id="password" style="width:300px" value="<?php echo set_value('email', $email); ?>" />
+                <input name="username" type="text" id="username" style="width:300px" value="<?php echo set_value('username', $username); ?>" />
                 <span class="fr-error"><?php echo form_error('email'); ?></span>
             </td>
         </tr>

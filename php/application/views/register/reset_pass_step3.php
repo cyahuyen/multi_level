@@ -1,6 +1,6 @@
 <?php echo form_open('register/forgot', array('id' => 'sign-up-form')); ?>
 <input type="hidden" name="step" value="3" />
-<input name="email" type="hidden" value="<?php echo $email; ?>" />
+<input name="email" type="hidden" value="<?php echo $username; ?>" />
 <table class="datatable">
     <thead>
         <tr>

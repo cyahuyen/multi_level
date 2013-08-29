@@ -50,6 +50,16 @@ class User_model extends CI_Model {
         return !empty($results) ? $results[0] : array();
     }
 
+    public function getMainUser($data) {
+        $this->db->select("*");
+        $this->db->from("user_main");
+        foreach ($data as $key => $val) {
+            $this->db->where($key, $val);
+        }
+        $results = $this->db->get()->result();
+        return !empty($results) ? $results[0] : array();
+    }
+
     /**
      * Function createGoldAcount
      * Create gold account.

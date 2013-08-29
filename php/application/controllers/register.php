@@ -920,16 +920,22 @@ class Register extends MY_Controller {
         $this->data['title'] = 'Forgot password';
         $step = 0 + $this->input->post('step', TRUE);
         if ($step <= 1) {
-            $this->form_validation->set_rules('email', 'E-mail', 'required|xss_clean|valid_email|max_length[64]|callback_check_email');
-            $this->form_validation->set_message('valid_email', 'The %s field must contain a valid email address.');
+            $this->form_validation->set_rules('username', 'Username', 'required|xss_clean|max_length[64]|callback_check_user');
+            $this->form_validation->set_message('valid_username', 'The %s field must contain a valid username.');
             $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
             $this->data['recaptcha'] = $this->recaptcha->get_html();
+           if ($this->input->post('username')) {
+                $this->data['username'] = $this->input->post('username');
+            } else {
+                $this->data['username'] = "";
+            }
             if ($this->form_validation->run() == FALSE) {
                 $this->data['main_content'] = 'register/reset_pass_step1.php';
                 $this->load->view('home', $this->data);
             } else {
-                $email_to = $this->input->post('email', TRUE);
-                $user_email = $this->user->getEmmail($email_to);
+                $username = $this->input->post('username');
+                $user_email = $this->user->getMainUser(array('username' => $username));
+                $email_to = $user_email->email;
                 $this->data['email'] = $email_to;
                 $id = $user_email->main_id;
                 $this->data['forget_code'] = random_string('numeric', 10);
@@ -944,19 +950,20 @@ class Register extends MY_Controller {
             }
         } else if ($step == 2) {
 
-            $email = $this->input->post('email', TRUE);
-            $this->email = $email;
-            $user_email = $this->user->getEmmail($email);
+            $username = $this->input->post('username', TRUE);
+            $user_email = $this->user->getMainUser(array('username' => $username));
+            $this->email = $user_email->email;
+            $this->username = $user_email->username;
             $id = $user_email->main_id;
             $fp = $user_email->forgotten_password_code;
-            if ($this->input->post('email')) {
-                $this->data['email'] = $this->input->post('email');
+            if ($this->input->post('username')) {
+                $this->data['username'] = $this->input->post('username');
             } else {
-                $this->data['email'] = "";
+                $this->data['username'] = "";
             }
 
             $this->form_validation->set_rules('reset_code', 'Reset Code', 'required|trim|xss_clean|numeric|exact_length[10]|callback_checkResetcode');
-            if (($this->email != $this->input->post('email')) || ($fp != $this->input->post('reset_code'))) {
+            if (($fp != $this->input->post('reset_code'))) {
                 $this->data['main_content'] = 'register/reset_pass_step2.php';
                 $this->load->view('home', $this->data);
             } else {
@@ -965,9 +972,9 @@ class Register extends MY_Controller {
             }
         } else if ($step == 3) {
 
-            $this->data['email'] = $this->input->post('email', TRUE);
-            $this->email = $this->data['email'];
-            $email_user = $this->user->getEmmail($this->data['email']);
+            $this->data['username'] = $this->input->post('username', TRUE);
+            $this->username = $this->data['username'];
+            $email_user = $this->user->getMainUser(array('username' => $this->data['username']));
             $id = $email_user->main_id;
             $this->form_validation->set_rules('password', 'Password', 'required|trim|xss_clean|min_length[6]');
             $this->form_validation->set_rules('repassword', 'Second Password', 'required|trim|matches[password]');
@@ -1010,9 +1017,11 @@ class Register extends MY_Controller {
         exit();
     }
 
-    public function check_email($email) {
-        if (!$this->register_model->checkEmail($email)) {
-            $this->form_validation->set_message('check_email', 'This e-mail is Not registered in our system. Please use a different one.');
+    public function check_username($username) {
+        $this->load->model('user_model', 'user');
+        $user = $this->user->getMainUser(array('username' => $username));
+        if (!$user) {
+            $this->form_validation->set_message('check_username', 'This User is Not registered in our system. Please use a different one.');
             return FALSE;
         } else {
             return TRUE;

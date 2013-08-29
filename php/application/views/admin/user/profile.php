@@ -35,7 +35,7 @@
 <form action="" method="post">
     <div class="content-header">
         <div class="content-title">
-            <?php if (!empty($userdata->user_id)) { ?>
+            <?php if (!empty($userdata->main_id)) { ?>
                 <h1>View/Edit User</h1>
             <?php } else { ?>
                 <h1>Add User</h1>
@@ -59,36 +59,33 @@
     <br><br>
     <table class="datatable">
         <tbody>
-            <?php if (!empty($userdata->user_id)) { ?>
-                <tr>
-                    <td>User Name</td>
-                    <td>
-                        <?php echo $userdata->username; ?>            
-                    </td>
-                </tr>
-                <tr>
-                    <td>User Type</td>
-                    <td>
-                        <?php
-                        if ($userdata->permission == 'administrator') {
-                            echo 'Administrator';
-                        } elseif ($userdata->usertype == 2) {
-                            echo 'Gold';
-                        } elseif ($userdata->usertype == 1) {
-                            echo 'Silver';
-                        } else {
-                            echo 'Member';
-                        }
-                        ?>
-                    </td>
-                </tr>
-            <?php } ?>
             <tr>
                 <td>Status</td>
                 <td>
                     <?php echo (isset($userdata->status) && $userdata->status == '0') ? 'Deactive' : 'Active'; ?>            
                 </td>
             </tr>
+            
+            <tr>
+                <td>UserName</td>
+                <td>     
+                    <input type="text" style="width:300px" value="<?php echo!empty($userdata->username) ? $userdata->username : '' ?>" id="username" class="mandatory" name="username"><img class="mandatory" src="http://multilevel.lc/img/sev/required.jpg" title="This is a required value">
+                </td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td>     
+                    <input type="password" style="width:300px" value="" id="password" class="mandatory" name="password">
+                </td>
+            </tr>
+            <tr>
+                <td>Re-Password</td>
+                <td>     
+                    <input type="password" style="width:300px" value="" id="repassword" class="mandatory" name="repassword">
+                </td>
+            </tr>
+
+            
             <tr>
                 <td>FirstName: </td>
                 <td>
