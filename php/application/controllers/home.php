@@ -20,6 +20,8 @@ class Home extends MY_Controller {
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {
             $this->data['usermessage'] = $msg;
+        }elseif($this->input->get('success') == 1){
+            $this->data['usermessage'] = array('success', 'green', 'Thank you for registering!', '');;
         }
 
         $this->data['user_session'] = $this->session->userdata('user');

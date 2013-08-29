@@ -6,7 +6,7 @@
             <?php echo form_open('authentication'); ?>
             <table class="datatable" style="text-align: center;" >
                 <tr>
-                    <td style="text-align: right; width: 165px;"><div>Sign-in Email: </div></td>
+                    <td style="text-align: right; width: 165px;"><div>Sign-in name: </div></td>
                     <td style="text-align: left">
                         <input type="text" id="username" name="username" value="" style="width:200px;"/>
                     </td>

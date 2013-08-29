@@ -43,11 +43,14 @@ class Account extends MY_Controller {
         if (!empty($user_session) && $user_session['permission'] == 'administrator') {
             redirect(admin_url('admin'));
         }
+
     }
 
     public function index() {
         $this->data['title'] = 'My Profile';
         $this->data['breadcrumbs'] = array();
+
+
 
         $this->data['breadcrumbs'][] = array(
             'text' => 'Home',
@@ -388,6 +391,9 @@ class Account extends MY_Controller {
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {
             $this->data['usermessage'] = $msg;
+        } elseif ($this->input->get('success') == 1) {
+            $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
+            ;
         }
 
         $fielderrors = ($this->session->flashdata('field_errors'));
@@ -595,7 +601,8 @@ class Account extends MY_Controller {
 
                 $from = new DateTime($user->created);
                 $to = new DateTime(date("y-m-d h:i:s", time()));
-                $totalMonth = $from->diff($to)->m + $from->diff($to)->y * 12 + 1;
+//                $totalMonth = $from->diff($to)->m + $from->diff($to)->y * 12 + 1;
+                $totalMonth = diffdate($user->created, date("y-m-d h:i:s", time()));
                 $max_entry_amount = $this->config_data['max_enrolment_silver_amount'] * $totalMonth;
                 $totalTransaction = 0;
 
@@ -907,6 +914,7 @@ class Account extends MY_Controller {
 
     public function aw_quickpay() {
         $this->data['title'] = 'Allied Wallet';
+        $this->data['menu_config'] = $this->menu_config_4;
         $deposit_info = $this->session->userdata['deposit_info'];
 
         if (!$deposit_info)
@@ -954,10 +962,9 @@ class Account extends MY_Controller {
             echo $wrap . $txt . '</pre>';
     }
 
-    
-
     public function creditcard() {
         $this->data['title'] = 'Creditcard';
+        $this->data['menu_config'] = $this->menu_config_4;
         $deposit_info = $this->session->userdata['deposit_info'];
 
         if (!$deposit_info)
@@ -1001,8 +1008,8 @@ class Account extends MY_Controller {
 
                 $from = new DateTime($user->created);
                 $to = new DateTime(date("y-m-d h:i:s", time()));
-                $totalMonth = $from->diff($to)->m + $from->diff($to)->y * 12 + 1;
-
+//                $totalMonth = $from->diff($to)->m + $from->diff($to)->y * 12 + 1;
+                $totalMonth = diffdate($user->created, date("y-m-d h:i:s", time()));
                 $totalTransaction = 0;
 
                 if (!empty($transactions)) {
@@ -1092,27 +1099,29 @@ class Account extends MY_Controller {
                 if (!empty($userReffering)) {
                     if ($checkExistsDeposit) {
                         $refereFees = $dataBalanceUpdate['balance'] * $this->config_data['percent_referral_fees'] / 100;
-                        $dataBalanceGoldRefferingUpdate = array(
-                            'user_id' => $userReffering->user_id,
-                            'balance' => $refereFees,
-                        );
-                        $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
-                        //      BOF Update Balance
-                        $this->balance->updateAdminBalance($refereFees, '-');
-                        $this->activity->addActivity($userReffering->main_id, 'The account ' . $userReffering->acount_number . ' received a referral fee with amount : $' . ($refereFees), '+', $refereFees);
+                        if ($refereFees > 0) {
+                            $dataBalanceGoldRefferingUpdate = array(
+                                'user_id' => $userReffering->user_id,
+                                'balance' => $refereFees,
+                            );
+                            $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
+                            //      BOF Update Balance
+                            $this->balance->updateAdminBalance($refereFees, '-');
+                            $this->activity->addActivity($userReffering->main_id, 'The account ' . $userReffering->acount_number . ' received a referral fee with amount : $' . ($refereFees), '+', $refereFees);
 
-                        $dataTransactionUpdate = array(
-                            'user_id' => $userReffering->user_id,
-                            'main_user_id' => $userReffering->main_id,
-                            'fees' => 0,
-                            'total' => $refereFees,
-                            'payment_status' => 'Completed',
-                            'transaction_type' => 'refere',
-                            'transaction_text' => '+',
-                            'transaction_source' => 'system',
-                            'status' => '0',
-                        );
-                        $this->transaction->upadateTransaction($dataTransactionUpdate);
+                            $dataTransactionUpdate = array(
+                                'user_id' => $userReffering->user_id,
+                                'main_user_id' => $userReffering->main_id,
+                                'fees' => 0,
+                                'total' => $refereFees,
+                                'payment_status' => 'Completed',
+                                'transaction_type' => 'refere',
+                                'transaction_text' => '+',
+                                'transaction_source' => 'system',
+                                'status' => '0',
+                            );
+                            $this->transaction->upadateTransaction($dataTransactionUpdate);
+                        }
                     }
                 }
             } else {
@@ -1120,29 +1129,30 @@ class Account extends MY_Controller {
                 if (!$checkExistsDeposit) {
                     $total = $this->transaction->getAllBalanceByReferedDeposit($user->main_id);
                     $referedAmount = $total * $this->config_data['referral_bonus_default'] / 100;
+                    if ($referedAmount > 0) {
+                        $dataBalanceGoldRefferingUpdate = array(
+                            'user_id' => $user->user_id,
+                            'balance' => $referedAmount,
+                        );
+                        $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
+                        //      BOF Update Balance
+                        $this->balance->updateAdminBalance($referedAmount, '-');
+                        $this->activity->addActivity($user->main_id, 'The account ' . $user->acount_number . ' received a referral fee with amount : $' . ($referedAmount), '+', $referedAmount);
 
-                    $dataBalanceGoldRefferingUpdate = array(
-                        'user_id' => $user->user_id,
-                        'balance' => $referedAmount,
-                    );
-                    $this->balance->updateBalance($dataBalanceGoldRefferingUpdate);
-                    //      BOF Update Balance
-                    $this->balance->updateAdminBalance($referedAmount, '-');
-                    $this->activity->addActivity($user->main_id, 'The account ' . $user->acount_number . ' received a referral fee with amount : $' . ($referedAmount), '+', $referedAmount);
-
-                    $dataTransactionUpdate = array(
-                        'user_id' => $user->user_id,
-                        'main_user_id' => $user->main_id,
-                        'fees' => 0,
-                        'total' => $referedAmount,
-                        'payment_status' => 'Completed',
-                        'transaction_type' => 'refere',
-                        'transaction_text' => '+',
-                        'transaction_source' => 'system',
-                        'status' => '0',
-                        'description' => 'The user "' . $user->firstname . ' ' . $user->last_name . '" deposited $' . $referedAmount
-                    );
-                    $this->transaction->upadateTransaction($dataTransactionUpdate);
+                        $dataTransactionUpdate = array(
+                            'user_id' => $user->user_id,
+                            'main_user_id' => $user->main_id,
+                            'fees' => 0,
+                            'total' => $referedAmount,
+                            'payment_status' => 'Completed',
+                            'transaction_type' => 'refere',
+                            'transaction_text' => '+',
+                            'transaction_source' => 'system',
+                            'status' => '0',
+                            'description' => 'The user "' . $user->firstname . ' ' . $user->last_name . '" deposited $' . $referedAmount
+                        );
+                        $this->transaction->upadateTransaction($dataTransactionUpdate);
+                    }
                 }
                 // EOF First deposit
 

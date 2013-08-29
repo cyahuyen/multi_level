@@ -13,7 +13,7 @@
     <tbody>
         <?php foreach ($acounts as $acount) { ?>
             <tr>
-                <td >Acount <?php echo $acount->acount_number ?> :</td>
+                <td >Account <?php echo $acount->acount_number ?> :</td>
                 <td colspan="3">$<?php echo!empty($acount->balance) ? $acount->balance : 0 ?></td>
             </tr>
         <?php } ?>

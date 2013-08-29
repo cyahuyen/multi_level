@@ -14,6 +14,21 @@ if (!function_exists('getStartAndEndDate')) {
 
 }
 
+if (!function_exists('diffdate')) {
+
+    function diffdate($date_from, $date_to) {
+        $year_from = date('Y',  strtotime($date_from));
+        $month_from = date('m',  strtotime($date_from));
+        $year_to = date('Y',  strtotime($date_to));
+        $month_to = date('m',  strtotime($date_to));
+        $month = $month_to - $month_from + 1;
+        if($year_from != $year_to){
+            $month = ($year_to - $year_from) * 12 + $month;
+        }
+        return $month;
+    }
+
+}
 if (!function_exists('curl_post')) {
 
     function curl_post($url, $fields) {
@@ -158,7 +173,7 @@ if (!function_exists('admin_url')) {
 
     function admin_url($uri = '') {
         $CI = & get_instance();
-        return $CI->config->site_url('admin/'.$uri);
+        return $CI->config->site_url('admin/' . $uri);
     }
 
 }

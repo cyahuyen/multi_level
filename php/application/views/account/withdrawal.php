@@ -51,14 +51,7 @@
                 <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="<?php echo $this->input->post('entry_amount') ?>" />
             </td>
         </tr>
-        <tr>
-            <td><div>Email paypal: </div></td>
-            <td>
-                <input name="email_paypal" type="text" id="email_paypal" style="width:300px" value="<?php echo $this->input->post('email_paypal') ?>" />
-            </td>
-        </tr>
-
-
+       
         <tr>
             <td colspan="2">
                 <div style="padding-left: 130px;">

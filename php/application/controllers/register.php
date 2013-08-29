@@ -104,14 +104,14 @@ class Register extends MY_Controller {
                 }
             }
 
-           
+
             if (count($validationErrors) != 0) {
                 $this->data['usermessage'] = array('error', 'darkred', 'Validation errors found', 'Please see below');
                 $this->data['fielderrors'] = $validationErrors;
             } else {
                 $register_info = base64_encode(json_encode($posts));
                 $this->session->set_userdata('register_info', $register_info);
-                
+
                 redirect(site_url('register/' . $posts['payment']));
             }
         }
@@ -380,7 +380,7 @@ class Register extends MY_Controller {
         $register_info = json_decode(base64_decode($register_info));
 
         $this->data['register_info'] = $register_info;
-        
+
         if ($register_info->entry_amount > 0) {
             $register_fees = $this->data['config_data']['transaction_fee'] + $this->data['config_data']['open_fee'];
         } else {
@@ -433,13 +433,13 @@ class Register extends MY_Controller {
             return FALSE;
         $entry_amount = $register_info->entry_amount;
         $checkAmount = $entry_amount + $this->config_data['open_fee'];
-        
+
         if ($entry_amount >= $this->config_data['min_enrolment_entry_amount'])
             $checkAmount += $this->config_data['transaction_fee'];
 
         if ($money != $checkAmount)
             return FALSE;
-        
+
 
         $this->load->model('user_model', 'user');
         $this->load->model('balance_model', 'balance');
@@ -491,11 +491,11 @@ class Register extends MY_Controller {
             'main_user_id' => $main_user_id,
             'fees' => $this->config_data['open_fee'],
             'total' => $this->config_data['open_fee'],
-            'transaction_id' => $payment_status['transaction_id'],
+            'transaction_id' => $posts['TransactionID'],
             'payment_status' => 'Completed',
             'transaction_type' => 'register',
             'transaction_text' => '+',
-            'transaction_source' => 'creditcard',
+            'transaction_source' => 'aw_quickpay',
             'status' => '1',
         );
         $this->transaction->upadateTransaction($dataTransactionUpdate);
@@ -506,11 +506,11 @@ class Register extends MY_Controller {
                 'main_user_id' => $main_user_id,
                 'fees' => $this->config_data['transaction_fee'],
                 'total' => $money - $this->config_data['open_fee'], //$money,
-                'transaction_id' => $payment_status['transaction_id'],
+                'transaction_id' => $posts['TransactionID'],
                 'payment_status' => 'Completed',
                 'transaction_type' => 'deposit',
                 'transaction_text' => '+',
-                'transaction_source' => 'creditcard',
+                'transaction_source' => 'aw_quickpay',
                 'status' => '1',
             );
             $this->transaction->upadateTransaction($dataDepositTransactionUpdate);
@@ -631,15 +631,18 @@ class Register extends MY_Controller {
             'email' => $register_info->email,
             'payment' => $money,
         );
-        
+
         sendmailform(null, 'admin_register', $adminEmailData);
 
-        if (!empty($userReffering)) {
+        if (!empty($mainUser)) {
             $referringEmailData = array(
-                'fullname' => $register_info->firstname . ' ' . $register_info->lastname,
-                'email' => $register_info->email,
+                'refere_fullname' => $mainUser->firstname . ' ' . $mainUser->lastname,
+                'register_fullname' => $register_info->firstname . ' ' . $register_info->lastname,
+                'register_account_number' => $account_number,
+                'register_username' => $register_info->username,
+                'register_amount' => $register_info->entry_amount,
             );
-            sendmailform($userReffering->email, 'referring', $referringEmailData);
+            sendmailform($mainUser->email, 'referring', $referringEmailData);
         }
 //      EOF Send Mail
         $this->session->unset_userdata('register_info');
@@ -883,12 +886,15 @@ class Register extends MY_Controller {
 
             sendmailform(null, 'admin_register', $adminEmailData);
 
-            if (!empty($userReffering)) {
+            if (!empty($mainUser)) {
                 $referringEmailData = array(
-                    'fullname' => $register_info->firstname . ' ' . $register_info->lastname,
-                    'email' => $register_info->email,
+                    'refere_fullname' => $mainUser->firstname . ' ' . $mainUser->lastname,
+                    'register_fullname' => $register_info->firstname . ' ' . $register_info->lastname,
+                    'register_account_number' => $account_number,
+                    'register_username' => $register_info->username,
+                    'register_amount' => $register_info->entry_amount,
                 );
-                sendmailform($userReffering->email, 'referring', $referringEmailData);
+                sendmailform($mainUser->email, 'referring', $referringEmailData);
             }
             $this->session->unset_userdata('register_info');
 //      EOF Send Mail
