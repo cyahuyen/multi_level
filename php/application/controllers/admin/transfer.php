@@ -86,7 +86,8 @@ class Transfer extends MY_Controller {
         $this->data['transfers'] = array();
         foreach ($transfers as $transfer) {
             $this->data['transfers'][] = array(
-                'username' => $transfer->acount_number,
+                'acount_number' => $transfer->acount_number,
+                'username' => $transfer->username,
                 'fees' => $transfer->fees,
                 'total' => $transfer->total,
                 'transaction_type' => $transfer->transaction_type,

@@ -151,6 +151,7 @@ class Transaction_model extends CI_Model {
         $this->db->select("*");
         $this->db->from("transaction");
         $this->db->join("user", 'user.user_id = transaction.user_id');
+        $this->db->join("user_main", 'user.main_user_id = user_main.main_id');
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 if ($key == 'searchby') {

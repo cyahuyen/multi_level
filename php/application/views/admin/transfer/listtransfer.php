@@ -2,6 +2,7 @@
     <tbody>
         <tr class="heading">
             <td style="width:140px"><div>Acount number</div></td>
+            <td style="width:140px"><div>User</div></td>
             <td style="width:80px"><div>Fee</div></td>
             <td style="width:80px"><div>Total</div></td>
             <td style="width:80px"><div>Type</div></td>
@@ -13,6 +14,7 @@
         <?php if ($transfers) { ?>
             <?php foreach ($transfers as $history) { ?>
                 <tr class="row">
+                    <td><div><?php echo $history['acount_number']; ?></div></td>
                     <td><div><?php echo $history['username']; ?></div></td>
                     <td style="text-align: right"><div><?php echo number_format($history['fees'], 2, '.', ','); ?></div></td>
                     <td style="text-align: right"><div><?php echo number_format($history['total'], 2, '.', ','); ?></div></td>

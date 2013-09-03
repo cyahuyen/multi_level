@@ -196,6 +196,17 @@ if (!function_exists('getMainUserByMainId')) {
     }
 
 }
+if (!function_exists('getAllAcountByMainId')) {
+
+    function getAllAcountByMainId($id) {
+        $CI = & get_instance();
+        $CI->load->model('user_model', 'user');
+        return $CI->user->getAllAcountByMainId($id);
+    }
+
+}
+
+
 if (!function_exists('getStartAndEndDateByMonth')) {
 
     function getStartAndEndDateByMonth($month, $year) {
