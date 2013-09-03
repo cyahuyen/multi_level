@@ -9,12 +9,13 @@
         var sort = $('#datalist-sort-order').val();
         var asc = $('#datalist-sort-asc:checked').val();
         var usertype = $('#datalist-usertype').val();
+        var referring_id = '<?php echo $referring_id ?>'
         if (isEmpty(page)) {
             var page = "<?php echo admin_url('user/userlist') ?>";
         }
         $.ajax({
             type: "post",
-            data: {searchby: search, sort: sort, asc: asc, page: page, status: status,usertype:usertype},
+            data: {searchby: search, sort: sort, asc: asc, page: page, status: status,usertype:usertype,referring_id:referring_id},
             url: page,
             success: function(data) {
                 var obj = jQuery.parseJSON(data);
@@ -81,6 +82,10 @@
     <div class="content-header">
         <div class="content-title">
             <h1>Manage Users</h1>
+            <?php if(!empty($user)){ ?>
+            <p>(Referring of user: <?php echo $user->username ?> )</p>
+            <?php } ?>
+            
         </div>
         <div class="content-actions">
             <div class="content-action">

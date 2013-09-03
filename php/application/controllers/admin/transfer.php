@@ -11,6 +11,7 @@ class Transfer extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('transaction_model', 'transfer');
+        $this->load->model('user_model', 'user');
         $this->data['menu_config'] = $this->menu_config_6;
         $user_session = $this->session->userdata('user');
         if (empty($user_session) || $user_session['permission'] != 'administrator') {
@@ -19,7 +20,7 @@ class Transfer extends MY_Controller {
         $this->data['user_session'] = $user_session;
     }
 
-    public function index() {
+    public function index($user_id = 0) {
         $this->data['title'] = 'Manager Transaction';
         $this->data['breadcrumbs'] = array();
 
@@ -33,6 +34,9 @@ class Transfer extends MY_Controller {
             'href' => admin_url('transfer/index'),
             'separator' => ' :: '
         );
+        $user = $this->user->getMainUserByMainId($user_id);
+        $this->data['user'] = $user;
+        $this->data['user_id'] = $user_id;
 
         $this->data['main_content'] = 'transfer/index';
         $this->view('admin/transfer/index', 'admin');
@@ -45,6 +49,9 @@ class Transfer extends MY_Controller {
         $dataWhere = array();
         if ($posts['type'] != '')
             $dataWhere['transaction.transaction_type'] = $posts['type'];
+        if(!empty($posts['user_id'])){
+            $dataWhere['transaction.main_user_id'] = $posts['user_id'];
+        }
         $dataWhere['searchby'] = $posts['searchby'];
         $limit = $this->config->item('limit_page');
         $sort = array();

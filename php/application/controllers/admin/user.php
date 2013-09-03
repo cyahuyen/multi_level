@@ -30,9 +30,13 @@ class User extends MY_Controller {
         
     }
 
-    public function manager() {
+    public function manager($referring_id = 0) {
         $this->data['title'] = 'Manager User';
         $this->data['main_content'] = 'user/manager';
+        $this->data['referring_id'] = $referring_id;
+        $user = $this->user->getMainUserByMainId($referring_id);
+        $this->data['user'] = $user;
+        
         $this->view('admin/user/manager', 'admin');
     }
 
@@ -52,6 +56,10 @@ class User extends MY_Controller {
             $sort[$posts['sort']] = 'ASC';
         } else {
             $sort[$posts['sort']] = 'DESC';
+        }
+        
+        if(!empty($posts['referring_id'])){
+            $dataWhere['referring'] = $posts['referring_id'];
         }
 //       Begin pagination
         $this->load->library("pagination");

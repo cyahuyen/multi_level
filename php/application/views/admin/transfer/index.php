@@ -9,6 +9,9 @@
 
         <div class="content-title">
             <h1>Transaction History</h1>
+            <?php if(!empty($user)){ ?>
+            <p>(Transaction History of user: <?php echo $user->username ?> )</p>
+            <?php } ?>
         </div>
 
 
@@ -67,13 +70,13 @@
         var type = $('#datalist-filter-type').val();
         var sort = $('#datalist-sort-order').val();
         var asc = $('#datalist-sort-asc:checked').val();
-        
+        var user_id = '<?php echo $user_id ?>'
         if(isEmpty(page)){
             var page = '<?php echo admin_url('transfer/listtransfer') ?>';
         }
         $.ajax({  
             type:"post",
-            data: {searchby: search,sort:sort,type:type,asc:asc,page:page},
+            data: {searchby: search,sort:sort,type:type,asc:asc,page:page,user_id:user_id},
             url: page,
             success: function(data){
                 var obj = jQuery.parseJSON(data);                                      
