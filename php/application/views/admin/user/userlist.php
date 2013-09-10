@@ -44,9 +44,9 @@
                 <td><div><?php echo!empty($user->status) ? 'Active' : 'De-active' ?></div></td>
                 <td width="100"><div>
                         <?php if ($user->status == 1) { ?>
-                            <a href="javascript:void(0);" class="activate" id="disable_<?php echo $user->main_id; ?>" rel="<?php echo $user->main_id; ?>"><img src='<?php echo base_url(); ?>img/actions/deactivate.png' alt='Activate' title='Activate'/></a>
+                            <a href="javascript:deactive_user('<?php echo $user->main_id; ?>');" class="activate" id="disable_<?php echo $user->main_id; ?>" rel="<?php echo $user->main_id; ?>"><img src='<?php echo base_url(); ?>img/actions/deactivate.png' alt='Activate' title='Activate'/></a>
                         <?php } else { ?>
-                            <a href="javascript:void(0);" class="deactivate" id="disable_<?php echo $user->main_id; ?>" rel="<?php echo $user->main_id; ?>"><img src='<?php echo base_url(); ?>img/actions/activate.png' alt='Deactivate' title='Deactivate'/></a>
+                            <a href="javascript:javascript:active_user('<?php echo $user->main_id; ?>');" class="deactivate" id="disable_<?php echo $user->main_id; ?>" rel="<?php echo $user->main_id; ?>"><img src='<?php echo base_url(); ?>img/actions/activate.png' alt='Deactivate' title='Deactivate'/></a>
                             <?php } ?>
                         <a href="<?php echo admin_url('user/manager/' . $user->main_id); ?>" rel="<?php echo $user->main_id; ?>"><img src='<?php echo base_url(); ?>img/actions/manager-icon.png' alt='Rerered User' title='Rerered User'/></a>
                         <a href="<?php echo admin_url('transfer/index/' . $user->main_id); ?>" rel="<?php echo $user->main_id; ?>"><img src='<?php echo base_url(); ?>img/actions/Money-icon.png' alt='Transfer history' title='Transfer history'/></a>
