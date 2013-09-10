@@ -70,14 +70,14 @@
                 <input name="email_repeat" class="mandatory" type="text" id="email_repeat" style="width:300px" value="<?php echo!empty($posts['email_repeat']) ? $posts['email_repeat'] : '' ?>" />
             </td>
         </tr>
-        
+
         <tr>
             <td><div>Country: </div></td>
             <td>
                 <select name="country" id="country" class="mandatory">
                     <option value="">-- Select --</option>
                     <?php foreach ($countries as $country) { ?>
-                        <option value="<?php echo $country->country_id ?>"><?php echo $country->name ?></option>
+                        <option value="<?php echo $country->country_id ?>" <?php echo ($country->country_id == $posts['country']) ? 'selected' : '' ?>><?php echo $country->name ?></option>
                     <?php } ?>
                 </select>
             </td>
@@ -114,7 +114,7 @@
                 <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="<?php echo!empty($posts['entry_amount']) ? $posts['entry_amount'] : '' ?>" />
             </td>
         </tr>
-        
+
         <tr>
             <td><div>Open Fees: </div></td>
             <td>
@@ -172,12 +172,16 @@
     
     function getState(country_id){
         var content = '<option value="">-- Select --</option>'
+        var state_id = '<?php echo $posts['state'] ?>'
         $.ajax({
             url: "<?php echo site_url('register/get_zones') ?>/" + country_id,
             dataType: 'json',
             success: function(json) {
                 $.each( json, function( key, value ) {
-                    content += '<option value="' + key + '">' + value + '</option>'
+                    if(state_id == key)
+                        content += '<option value="' + key + '" selected>' + value + '</option>'
+                    else
+                        content += '<option value="' + key + '">' + value + '</option>'
                 });
                 $('#state') .html(content);
             }

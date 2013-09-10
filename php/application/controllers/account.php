@@ -89,6 +89,10 @@ class Account extends MY_Controller {
             'href' => site_url('account/edit'),
             'separator' => ' :: '
         );
+        $this->load->model('country_model', 'country');
+        $this->load->model('zones_model', 'zones');
+        
+        $this->data['countries'] = $this->country->getCountries();
         $this->data['title'] = 'Edit Account';
         $user_session = $this->session->userdata('user');
         $id = $user_session['main_id'];
@@ -107,6 +111,16 @@ class Account extends MY_Controller {
             }
             if ($posts['lastname'] == '') {
                 $validationErrors['firstname'] = "Your name is Lastnamr cannot be blank";
+            }
+            
+            if(empty($posts['country'])){
+                $validationErrors['country'] = "Country is Lastnamr cannot be blank";
+            }
+            if(empty($posts['state'])){
+                $validationErrors['state'] = "State is Lastnamr cannot be blank";
+            }
+            if(empty($posts['zip_code'])){
+                $validationErrors['zip_code'] = "Zipcode is Lastnamr cannot be blank";
             }
            
             $this->load->helper('email');
@@ -131,6 +145,11 @@ class Account extends MY_Controller {
                     'phone' => $posts['phone'],
                     'email' => $posts['email'],
                     'address' => $posts['address'],
+                    'country_id' => $posts['country'],
+                    'state_id' => $posts['state'],
+                    'address2' => $posts['address2'],
+                    'zip_code' => $posts['zip_code'],
+                    'city' => $posts['city'],
                 );
                 if ($this->user->updateMainAcount($id, $data)) {
                     $this->activity->addActivity($id, 'Updated profile');
