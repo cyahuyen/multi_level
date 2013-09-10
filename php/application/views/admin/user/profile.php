@@ -65,7 +65,7 @@
                     <?php echo (isset($userdata->status) && $userdata->status == '0') ? 'Deactive' : 'Active'; ?>            
                 </td>
             </tr>
-            
+
             <tr>
                 <td>UserName</td>
                 <td>     
@@ -85,7 +85,7 @@
                 </td>
             </tr>
 
-            
+
             <tr>
                 <td>FirstName: </td>
                 <td>
@@ -108,6 +108,12 @@
                 </td>
             </tr>
             <tr>
+                <td><div>Address #2: </div></td>
+                <td>
+                    <input name="address2" type="text" id="address2" style="width:300px" value="<?php echo!empty($userdata->address2) ? $userdata->address2 : '' ?>" />
+                </td>
+            </tr>
+            <tr>
                 <td><div>Phone: </div></td>
                 <td>
                     <input type="text" value="<?php echo!empty($userdata->phone) ? $userdata->phone : '' ?>" style="width:300px" id="phone" name="phone">
@@ -121,6 +127,68 @@
                     <span class="fr-error"></span>
                 </td>
             </tr>
+            <tr>
+                <td><div>Country: </div></td>
+                <td>
+                    <select name="country" id="country" class="mandatory">
+                        <option value="">-- Select --</option>
+                        <?php foreach ($countries as $country) { ?>
+                            <option value="<?php echo $country->country_id ?>" <?php echo (!empty($userdata->country_id) && $country->country_id == $userdata->country_id) ? 'selected' : '' ?>><?php echo $country->name ?></option>
+                        <?php } ?>
+                    </select><img class="mandatory" src="http://multilevel.lc/img/sev/required.jpg" title="This is a required value">
+                </td>
+            </tr>
+            <tr>
+                <td><div>State/prov: </div></td>
+                <td>
+                    <select name="state" id="state" class="mandatory">
+                        <option value="">-- Select --</option>
+                    </select><img class="mandatory" src="http://multilevel.lc/img/sev/required.jpg" title="This is a required value">
+                </td>
+            </tr>
+            <tr>
+                <td><div>Postal/zip code: </div></td>
+                <td>
+                    <input name="zip_code" class="mandatory" type="text" id="zip_code" style="width:300px" value="<?php echo!empty($userdata->zip_code) ? $userdata->zip_code : '' ?>" /><img class="mandatory" src="http://multilevel.lc/img/sev/required.jpg" title="This is a required value">
+                </td>
+            </tr>
+            <tr>
+                <td><div>City: </div></td>
+                <td>
+                    <input name="city" class="" type="text" id="city" style="width:300px" value="<?php echo!empty($userdata->city) ? $userdata->city : '' ?>" />
+                </td>
+            </tr>
         </tbody>
     </table>
 </form>
+
+
+<script>
+    function getState(country_id){
+        var content = '<option value="">-- Select --</option>'
+        var state_id = '<?php echo!empty($userdata->state_id) ? $userdata->state_id : '' ?>'
+        $.ajax({
+            url: "<?php echo site_url('register/get_zones') ?>/" + country_id,
+            dataType: 'json',
+            success: function(json) {
+                $.each( json, function( key, value ) {
+                    if(state_id == key)
+                        content += '<option value="' + key + '" selected>' + value + '</option>'
+                    else
+                        content += '<option value="' + key + '">' + value + '</option>'
+                });
+                $('#state') .html(content);
+            }
+        });
+        
+    }
+    
+    $(document).ready(function() {
+        getState($('#country').val())
+        
+        $('#country').change(function(){
+            var country_id = $(this).val();
+            getState(country_id)
+        })
+    });
+</script>

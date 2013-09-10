@@ -36,7 +36,7 @@ class User extends MY_Controller {
         $this->data['referring_id'] = $referring_id;
         $user = $this->user->getMainUserByMainId($referring_id);
         $this->data['user'] = $user;
-        
+
         $this->view('admin/user/manager', 'admin');
     }
 
@@ -57,8 +57,8 @@ class User extends MY_Controller {
         } else {
             $sort[$posts['sort']] = 'DESC';
         }
-        
-        if(!empty($posts['referring_id'])){
+
+        if (!empty($posts['referring_id'])) {
             $dataWhere['referring'] = $posts['referring_id'];
         }
 //       Begin pagination
@@ -102,6 +102,10 @@ class User extends MY_Controller {
             $userdata = $this->user->getMainUserByMainId($id);
             $this->data['userdata'] = $userdata;
         }
+        $this->load->model('country_model', 'country');
+        $this->load->model('zones_model', 'zones');
+
+        $this->data['countries'] = $this->country->getCountries();
 
         $this->data['usertype'] = $this->usertype;
 
@@ -130,6 +134,15 @@ class User extends MY_Controller {
             if ($posts['firstname'] == '') {
                 $validationErrors['firstname'] = "Your name is FirstName cannot be blank";
             }
+            if (empty($posts['country'])) {
+                $validationErrors['country'] = "Country is FirstName cannot be blank";
+            }
+            if (empty($posts['state'])) {
+                $validationErrors['state'] = "State is FirstName cannot be blank";
+            }
+            if (empty($posts['zip_code'])) {
+                $validationErrors['zip_code'] = "Postal/zip code is FirstName cannot be blank";
+            }
 
             if ($posts['lastname'] == '') {
                 $validationErrors['firstname'] = "Your name is Lastnamr cannot be blank";
@@ -140,7 +153,7 @@ class User extends MY_Controller {
             } elseif (!valid_email($posts['email'])) {
                 $validationErrors['email'] = "Email incorrect";
             }
-            
+
             if (empty($userdata->main_id)) {
                 if (strlen(trim($posts['password'])) < 6) {
                     $validationErrors['password'] = "password greater than 6 character";
@@ -181,6 +194,11 @@ class User extends MY_Controller {
                         'password' => md5($password),
                         'phone' => $postsData['phone'],
                         'address' => $postsData['address'],
+                        'country_id' => $postsData['country'],
+                        'state_id' => $postsData['state'],
+                        'address2' => $postsData['address2'],
+                        'zip_code' => $postsData['zip_code'],
+                        'city' => $postsData['city'],
                     );
                     $id = $this->user->createMainAcount($dataMainUser);
                     $this->activity->addActivity($id, 'Registed');
@@ -208,7 +226,7 @@ class User extends MY_Controller {
                     $this->session->set_flashdata(array('usermessage' => $this->data['usermessage']));
                     redirect(admin_url('user/profile/' . $id));
                 } else {
-                    
+
                     $dataMainUser = array(
                         'username' => $posts['username'],
                         'firstname' => $posts['firstname'],
@@ -216,12 +234,17 @@ class User extends MY_Controller {
                         'email' => $posts['email'],
                         'phone' => $posts['phone'],
                         'address' => $posts['address'],
+                        'country_id' => $postsData['country'],
+                        'state_id' => $postsData['state'],
+                        'address2' => $postsData['address2'],
+                        'zip_code' => $postsData['zip_code'],
+                        'city' => $postsData['city'],
                     );
-                    if(!empty($posts['password'])){
+                    if (!empty($posts['password'])) {
                         $password = $posts['password'];
                         $dataMainUser['password'] = md5($password);
                     }
-                    
+
                     if ($this->user->updateMainAcount($userdata->main_id, $dataMainUser))
                         $this->data['usermessage'] = array('success', 'green', 'Successfully saved', '');
                     else
