@@ -47,6 +47,12 @@
             </td>
         </tr>
         <tr>
+            <td><div>Address #2: </div></td>
+            <td>
+                <input name="address2" type="text" id="address2" style="width:300px" value="<?php echo!empty($posts['address2']) ? $posts['address2'] : '' ?>" />
+            </td>
+        </tr>
+        <tr>
             <td><div>Phone: </div></td>
             <td>
                 <input name="phone" type="text" id="phone" style="width:300px" value="<?php echo!empty($posts['phone']) ? $posts['phone'] : '' ?>" />
@@ -58,12 +64,48 @@
                 <input name="email" class="mandatory" type="text" id="email" style="width:300px" value="<?php echo!empty($posts['email']) ? $posts['email'] : '' ?>" />
             </td>
         </tr>
-
-
+        <tr>
+            <td><div>Email address (repeat): </div></td>
+            <td>
+                <input name="email_repeat" class="mandatory" type="text" id="email_repeat" style="width:300px" value="<?php echo!empty($posts['email_repeat']) ? $posts['email_repeat'] : '' ?>" />
+            </td>
+        </tr>
+        
+        <tr>
+            <td><div>Country: </div></td>
+            <td>
+                <select name="country" id="country" class="mandatory">
+                    <option value="">-- Select --</option>
+                    <?php foreach ($countries as $country) { ?>
+                        <option value="<?php echo $country->country_id ?>"><?php echo $country->name ?></option>
+                    <?php } ?>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><div>State/prov: </div></td>
+            <td>
+                <select name="state" id="state" class="mandatory">
+                    <option value="">-- Select --</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><div>Postal/zip code: </div></td>
+            <td>
+                <input name="zip_code" class="mandatory" type="text" id="zip_code" style="width:300px" value="<?php echo!empty($posts['zip_code']) ? $posts['zip_code'] : '' ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td><div>City: </div></td>
+            <td>
+                <input name="city" class="" type="text" id="city" style="width:300px" value="<?php echo!empty($posts['city']) ? $posts['city'] : '' ?>" />
+            </td>
+        </tr>
         <tr>
             <td><div>Referring Member: </div></td>
             <td>
-                <input name="referring" type="text" id="referring" style="width:300px" value="<?php echo!empty($posts['referring']) ? $posts['referring'] : '' ?>" />
+                <input name="referring" class="mandatory" type="text" id="referring" style="width:300px" value="<?php echo!empty($posts['referring']) ? $posts['referring'] : '' ?>" />
             </td>
         </tr>
         <tr>
@@ -72,6 +114,7 @@
                 <input name="entry_amount" type="text" id="entry_amount" style="width:300px" value="<?php echo!empty($posts['entry_amount']) ? $posts['entry_amount'] : '' ?>" />
             </td>
         </tr>
+        
         <tr>
             <td><div>Open Fees: </div></td>
             <td>
@@ -108,28 +151,49 @@
                     <td><?php echo $title ?></td>
                     <td><input type="radio" <?php echo (!empty($posts['payment']) && $posts['payment'] == $code) ? 'checked' : '' ?> name="payment" id="payment" value="<?php echo $code ?>"></td>
                 </tr>
-            
+
+            <?php } ?>
         <?php } ?>
-    <?php } ?>
-    <tr>
-        <td colspan="2">
-            <div style="padding-left: 130px;">
-                <input type="submit" id="save-btn" name="save-btn" class="button" value="Save">
-                <input type="reset" id="" name="" class="button" value="Reset">
-            </div>
-        </td>
-    </tr>
+        <tr>
+            <td colspan="2">
+                <div style="padding-left: 130px;">
+                    <input type="submit" id="save-btn" name="save-btn" class="button" value="Save">
+                    <input type="reset" id="" name="" class="button" value="Reset">
+                </div>
+            </td>
+        </tr>
 
 
-</tbody>
+    </tbody>
 </table>
 <?php echo form_close(); ?>
 <script type="text/javascript">
     var open_fee = '<?php echo $transaction_fees['open_fee']; ?>';
+    
+    function getState(country_id){
+        var content = '<option value="">-- Select --</option>'
+        $.ajax({
+            url: "<?php echo site_url('register/get_zones') ?>/" + country_id,
+            dataType: 'json',
+            success: function(json) {
+                $.each( json, function( key, value ) {
+                    content += '<option value="' + key + '">' + value + '</option>'
+                });
+                $('#state') .html(content);
+            }
+        });
+        
+    }
     $(document).ready(function() {
+        getState($('#country').val())
         $("#referring").autocomplete({
             source: "<?php echo site_url('register/ajax_search') ?>"
         });
+        
+        $('#country').change(function(){
+            var country_id = $(this).val();
+            getState(country_id)
+        })
     });
     function totalfees() {
         var open_fee = '<?php echo $transaction_fees['open_fee']; ?>';

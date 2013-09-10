@@ -1,5 +1,5 @@
 <?php
-#Vars - written at 2013-08-28
+#Vars - written at 2013-09-10
 $dbhost="localhost";
 $dbname="multi_level";
 $dbuser="root";
@@ -22,10 +22,10 @@ $cronmailfrom="";
 $cron_use_sendmail=1;
 $cron_smtp="localhost";
 $cron_smtp_port="25";
-@cron_db_array=("amthuctrangia","buidypress","cdcol","code_ing","cyberexj_main","ddl","ddlnew","demo_earlysign","demoxhot","demozend","discountsignshop","docsookc_wp","earlysig","edocsupport","eglobal_main","eglobal_main_new","etin","fedex-","game","gameviet","giasoc","global","globalfu_globalfu","gogecko_portal","gogecko_portal_system","google","handbag","jobstreet","krsp_conduit","live","loud_plant","loudjob","magento","motorfiend","multi_level","mypham","myphamkorea","opc_test","osc","performance_schema","phpmyadmin","pmcart_main","prestashop","pyrocms","raovat","revfoods","rongdat","sanbox","scalaluxury","shop","shopsinhvien","shopsv","test","test1","thoitrang","thuysan","trangdung","trangia","uploadfile","webauth","webbancom","weorder","wordpress","wordpress12","xhot","zara","zodia");
-@cron_dbpraefix_array=("","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","");
-@cron_command_before_dump=("","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","");
-@cron_command_after_dump=("","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","");
+@cron_db_array=("amthuctrangia","buidypress","cdcol","code_ing","cyberexj_main","ddl","ddlnew","demo_earlysign","demoxhot","demozend","discountsignshop","docsookc_wp","earlysig","edocsupport","eglobal_main","eglobal_main_new","etin","fedex-","game","gameviet","giasoc","global","globalfu_globalfu","gogecko_portal","gogecko_portal_system","google","handbag","jobstreet","krsp_conduit","live","loud_plant","loudjob","magento","motorfiend","multi_level","mypham","myphamkorea","opc_test","osc","performance_schema","phpmyadmin","pmcart_main","prestashop","pyrocms","raovat","revfoods","rongdat","sanbox","scalaluxury","shop","shopsinhvien","shopsv","test","test1","thanhgio","thoitrang","thuysan","trangdung","trangia","uploadfile","vatfairfoot","webauth","webbancom","weorder","wordpress","wordpress12","xhot","zara","zodia");
+@cron_dbpraefix_array=("","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","");
+@cron_command_before_dump=("","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","");
+@cron_command_after_dump=("","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","");
 @ftp_server=("","","");
 @ftp_port=(21,21,21);
 @ftp_mode=(0,0,0);

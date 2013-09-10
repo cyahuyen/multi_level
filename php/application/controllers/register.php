@@ -21,6 +21,8 @@ class Register extends MY_Controller {
         $this->load->model('transaction_model', 'transaction', TRUE);
         $this->data['user_session'] = $this->session->userdata('user');
         $this->data['menu_config'] = $this->menu_config_2;
+        $this->load->model('country_model', 'country');
+        $this->load->model('zones_model', 'zones');
 
         $msg = $this->session->flashdata('usermessage');
         if ($msg) {
@@ -28,9 +30,22 @@ class Register extends MY_Controller {
         }
     }
 
+    public function get_zones($country_id = 0) {
+        $zones = $this->zones->getZones(array('country_id' => $country_id));
+        $json = array();
+        if ($zones) {
+            foreach ($zones as $zone) {
+                $json[$zone->zone_id] = $zone->name;
+            }
+        }
+
+        echo json_encode($json);
+    }
+
     public function index() {
         $this->load->model('user_model', 'user');
         $this->data['title'] = 'Sign Up';
+        $this->data['countries'] = $this->country->getCountries();
         $posts = $this->input->post();
         $this->load->model('config_model', 'configs');
         $dataConfig['return'] = site_url('register/paypal_return');
@@ -84,13 +99,26 @@ class Register extends MY_Controller {
                 $validationErrors['email'] = "Email cannot be blank";
             } elseif (!valid_email($posts['email'])) {
                 $validationErrors['email'] = "Email incorrect";
+            } elseif ($posts['email'] != $posts['email_repeat']) {
+                $validationErrors['email_repeat'] = "Email repeat incorrect";
+            }
+
+            if (empty($posts['country'])) {
+                $validationErrors['country'] = "Country cannot be blank";
+            }
+            if (empty($posts['state'])) {
+                $validationErrors['state'] = "State cannot be blank";
+            }
+            if (empty($posts['zip_code'])) {
+                $validationErrors['zip_code'] = "Postal/zip code cannot be blank";
             }
 
             if (empty($posts['payment'])) {
                 $validationErrors['payment'] = "You haven't yet payment method";
             }
-
-            if (!empty($posts['referring'])) {
+            if (empty($posts['referring'])) {
+                $validationErrors['referring'] = "Referring cannot be blank";
+            } else {
                 $referring = $this->user->getMainUserByUsername($posts['referring']);
                 if (!$referring) {
                     $validationErrors['referring'] = "Referring is not exists";
@@ -458,6 +486,11 @@ class Register extends MY_Controller {
             'main_account_number' => $account_number,
             'phone' => $register_info->phone,
             'address' => $register_info->address,
+            'address2' => $register_info->address2,
+            'country_id' => $register_info->country,
+            'state_id' => $register_info->state,
+            'zip_code' => $register_info->zip_code,
+            'city' => $register_info->city,
         );
         $main_user_id = $this->user->createMainAcount($dataMainUser);
         $this->activity->addActivity($main_user_id, 'Registed');
@@ -710,6 +743,11 @@ class Register extends MY_Controller {
                 'main_account_number' => $account_number,
                 'phone' => $register_info->phone,
                 'address' => $register_info->address,
+                'address2' => $register_info->address2,
+                'country_id' => $register_info->country,
+                'state_id' => $register_info->state,
+                'zip_code' => $register_info->zip_code,
+                'city' => $register_info->city,
             );
             $main_user_id = $this->user->createMainAcount($dataMainUser);
             $this->activity->addActivity($main_user_id, 'Registed');
@@ -924,7 +962,7 @@ class Register extends MY_Controller {
             $this->form_validation->set_message('valid_username', 'The %s field must contain a valid username.');
             $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
             $this->data['recaptcha'] = $this->recaptcha->get_html();
-           if ($this->input->post('username')) {
+            if ($this->input->post('username')) {
                 $this->data['username'] = $this->input->post('username');
             } else {
                 $this->data['username'] = "";
