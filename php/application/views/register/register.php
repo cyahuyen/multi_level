@@ -103,7 +103,7 @@
             </td>
         </tr>
         <tr>
-            <td><div>Referring Member: </div></td>
+            <td><div>Referring Member Number: </div></td>
             <td>
                 <input name="referring" class="mandatory" type="text" id="referring" style="width:300px" value="<?php echo!empty($posts['referring']) ? $posts['referring'] : '' ?>" />
             </td>

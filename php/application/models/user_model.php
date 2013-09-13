@@ -139,6 +139,17 @@ class User_model extends CI_Model {
         $result = $query->result();
         return !empty($result[0]) ? $result[0] : array();
     }
+    public function getUserByGoldAcount($acount_number) {
+        $this->db->select("*");
+        $this->db->from("user");
+        $this->db->join("user_main", "user_main.main_id = user.main_user_id");
+        $this->db->where('user.acount_number', $acount_number);
+        $this->db->where('user.usertype', 2);
+
+        $query = $this->db->get();
+        $result = $query->result();
+        return !empty($result[0]) ? $result[0] : array();
+    }
 
     /**
      * Function getUserByEmail
@@ -268,9 +279,12 @@ class User_model extends CI_Model {
     public function searchUser($path) {
         $this->db->select("*");
         $this->db->from("user_main");
-        $where = "( username LIKE '%" . $path . "%')";
+        $this->db->join("user", "user_main.main_id = user.main_user_id");
+        $where = "( user.acount_number LIKE '%" . $path . "%')";
         $this->db->where($where);
-        $this->db->where("main_id != ", 1);
+        $this->db->where("user.usertype", 2);
+        $this->db->where("user_main.status", 1);
+        $this->db->where("user_main.main_id != ", 1);
 
         $query = $this->db->get();
         return $query->result();

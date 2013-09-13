@@ -4,7 +4,8 @@ tinymce.init({
 	// General options
         mode: "textareas",
         width: "500",
-        height: "300"
+        height: "300",
+        plugins: "link"
 	
 });
 </script>

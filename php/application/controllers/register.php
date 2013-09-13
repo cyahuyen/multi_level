@@ -119,7 +119,7 @@ class Register extends MY_Controller {
             if (empty($posts['referring'])) {
                 $validationErrors['referring'] = "Referring cannot be blank";
             } else {
-                $referring = $this->user->getMainUserByUsername($posts['referring']);
+                $referring = $this->user->getUserByGoldAcount($posts['referring']);
                 if (!$referring) {
                     $validationErrors['referring'] = "Referring is not exists";
                 }
@@ -555,10 +555,10 @@ class Register extends MY_Controller {
 //      BOF Check Reffering Member
         $postsData = $posts;
         if ($register_info->referring) {
-            $mainUser = $this->user->getMainUserByUsername($register_info->referring);
+            $mainUser = $this->user->getUserByGoldAcount($register_info->referring);
         } else {
             $referringUserConfig = $this->config_data['default_referral_user'];
-            $mainUser = $this->user->getMainUserByUsername($referringUserConfig);
+            $mainUser = $this->user->getUserByGoldAcount($referringUserConfig);
         }
 
         if (!empty($mainUser)) {
@@ -649,12 +649,16 @@ class Register extends MY_Controller {
 
 //      EOF Check Reffering Member
 //      BOF Send Mail
-
-        $userEmailData['entry_amount'] = !empty($register_info->entry_amount) ? $register_info->entry_amount : 0;
-        $userEmailData['fees'] = $register_fees;
-        $userEmailData['password'] = $password;
-        $userEmailData['email'] = $register_info->email;
+        $userEmailData = array(
+            'fullname' => $register_info->firstname . ' ' . $register_info->lastname,
+            'gold_account_number' => $dataGoldAcount['acount_number'],
+            'refere_fullname' => $mainUser->firstname . ' ' . $mainUser->lastname,
+            'refere_account_number' => $register_info->referring,
+            'register_amount' => '$' . $entry_amount,
+            'login_url' => site_url('authentication')
+        );
         sendmailform($register_info->email, 'register', $userEmailData, null, 'Admin Manager', 'html');
+        sendmailform($register_info->email, 'register_letter_2', $userEmailData, null, 'Admin Manager', 'html');
 
 
         $adminEmailData = array(
@@ -662,18 +666,21 @@ class Register extends MY_Controller {
             'address' => $register_info->address,
             'phone' => $register_info->phone,
             'email' => $register_info->email,
-            'payment' => $money,
+            'payment' => '$' . $register_info->entry_amount,
+            'login_url' => site_url('authentication')
         );
 
         sendmailform(null, 'admin_register', $adminEmailData);
 
         if (!empty($mainUser)) {
+            
             $referringEmailData = array(
                 'refere_fullname' => $mainUser->firstname . ' ' . $mainUser->lastname,
                 'register_fullname' => $register_info->firstname . ' ' . $register_info->lastname,
-                'register_account_number' => $account_number,
+                'register_account_number' => $dataGoldAcount['acount_number'],
                 'register_username' => $register_info->username,
-                'register_amount' => $register_info->entry_amount,
+                'register_amount' => '$' . $register_info->entry_amount,
+                'login_url' => site_url('authentication')
             );
             sendmailform($mainUser->email, 'referring', $referringEmailData);
         }
@@ -712,8 +719,6 @@ class Register extends MY_Controller {
                 'amount' => $money,
                 'cc_cvv2' => $posts['cc_cvv2'],
             );
-
-
 
             $this->load->helper('authorize');
             $payment_status = payment_creditcard_authorize($dataTransactionFees);
@@ -812,10 +817,10 @@ class Register extends MY_Controller {
 //      BOF Check Reffering Member
             $postsData = $posts;
             if ($register_info->referring) {
-                $mainUser = $this->user->getMainUserByUsername($register_info->referring);
+                $mainUser = $this->user->getUserByGoldAcount($register_info->referring);
             } else {
                 $referringUserConfig = $this->config_data['default_referral_user'];
-                $mainUser = $this->user->getMainUserByUsername($referringUserConfig);
+                $mainUser = $this->user->getUserByGoldAcount($referringUserConfig);
             }
 
             if (!empty($mainUser)) {
@@ -907,11 +912,16 @@ class Register extends MY_Controller {
 //      EOF Check Reffering Member
 //      BOF Send Mail
 
-            $userEmailData['entry_amount'] = !empty($register_info->entry_amount) ? $register_info->entry_amount : 0;
-            $userEmailData['fees'] = $register_fees;
-            $userEmailData['password'] = $password;
-            $userEmailData['email'] = $register_info->email;
+            $userEmailData = array(
+                'fullname' => $register_info->firstname . ' ' . $register_info->lastname,
+                'gold_account_number' => $dataGoldAcount['acount_number'],
+                'refere_fullname' => $mainUser->firstname . ' ' . $mainUser->lastname,
+                'refere_account_number' => $register_info->referring,
+                'register_amount' => '$' . $money,
+                'login_url' => site_url('authentication')
+            );
             sendmailform($register_info->email, 'register', $userEmailData, null, 'Admin Manager', 'html');
+            sendmailform($register_info->email, 'register_letter_2', $userEmailData, null, 'Admin Manager', 'html');
 
 
             $adminEmailData = array(
@@ -919,7 +929,8 @@ class Register extends MY_Controller {
                 'address' => $register_info->address,
                 'phone' => $register_info->phone,
                 'email' => $register_info->email,
-                'payment' => $money,
+                'payment' => '$' . $money,
+                'login_url' => site_url('authentication')
             );
 
             sendmailform(null, 'admin_register', $adminEmailData);
@@ -928,9 +939,10 @@ class Register extends MY_Controller {
                 $referringEmailData = array(
                     'refere_fullname' => $mainUser->firstname . ' ' . $mainUser->lastname,
                     'register_fullname' => $register_info->firstname . ' ' . $register_info->lastname,
-                    'register_account_number' => $account_number,
+                    'register_account_number' => $dataGoldAcount['acount_number'],
                     'register_username' => $register_info->username,
-                    'register_amount' => $register_info->entry_amount,
+                    'register_amount' => '$' . $register_info->entry_amount,
+                    'login_url' => site_url('authentication')
                 );
                 sendmailform($mainUser->email, 'referring', $referringEmailData);
             }
@@ -1108,7 +1120,7 @@ class Register extends MY_Controller {
 
         $results = array();
         foreach ($data as $sub) {
-            $results[$sub->username] = $sub->username;
+            $results[$sub->acount_number] = $sub->acount_number;
         }
         echo json_encode($results);
     }
