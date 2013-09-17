@@ -128,6 +128,12 @@
                 </td>
             </tr>
             <tr>
+                <td>Safe Co-Op Card</td>
+                <td>
+                    <input type="text"  value="<?php echo!empty($userdata->safe_card) ? $userdata->safe_card : '' ?>" style="width:300px" name="safe_card" id="safe_card" >
+                </td>
+            </tr>
+            <tr>
                 <td><div>Country: </div></td>
                 <td>
                     <select name="country" id="country" class="mandatory">

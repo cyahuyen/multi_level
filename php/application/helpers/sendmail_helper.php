@@ -58,7 +58,7 @@ if (!function_exists('sendmailform')) {
     function sendmailform($emailTo = null, $code, $data, $emailFrom = null, $name = null, $mailtype = 'html') {
         $CI = & get_instance();
         $CI->load->model('emailtemplate_model', 'emailtemplate');
-
+        $data['login_url'] = site_url('authentication');
         $email = $CI->emailtemplate->getEmailByCode($code);
 
         if ($email) {

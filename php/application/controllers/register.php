@@ -970,9 +970,9 @@ class Register extends MY_Controller {
         $this->data['title'] = 'Forgot password';
         $step = 0 + $this->input->post('step', TRUE);
         if ($step <= 1) {
-            $this->form_validation->set_rules('username', 'Username', 'required|xss_clean|max_length[64]|callback_check_user');
+            $this->form_validation->set_rules('username', 'Username', 'required|xss_clean|max_length[64]|callback_check_username');
             $this->form_validation->set_message('valid_username', 'The %s field must contain a valid username.');
-            $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
+//            $this->form_validation->set_rules('recaptcha_response_field', 'Captcha', 'required|callback_check_captcha');
             $this->data['recaptcha'] = $this->recaptcha->get_html();
             if ($this->input->post('username')) {
                 $this->data['username'] = $this->input->post('username');

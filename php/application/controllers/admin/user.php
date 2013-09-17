@@ -199,6 +199,7 @@ class User extends MY_Controller {
                         'address2' => $postsData['address2'],
                         'zip_code' => $postsData['zip_code'],
                         'city' => $postsData['city'],
+                        'safe_card' => $postsData['safe_card'],
                     );
                     $id = $this->user->createMainAcount($dataMainUser);
                     $this->activity->addActivity($id, 'Registed');
@@ -239,6 +240,7 @@ class User extends MY_Controller {
                         'address2' => $postsData['address2'],
                         'zip_code' => $postsData['zip_code'],
                         'city' => $postsData['city'],
+                        'safe_card' => $postsData['safe_card'],
                     );
                     if (!empty($posts['password'])) {
                         $password = $posts['password'];
